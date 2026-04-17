@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Availability Analysis - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .formula-display {
+            text-align: center;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .formula-display .formula {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .formula-display .formula-vars {
+            font-size: 1rem;
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        .formula-display .formula-vars span {
+            white-space: nowrap;
+        }
+        .calculator {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        .calc-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .calc-input-group label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .calc-input-group .input-wrapper {
+            position: relative;
+        }
+        .calc-input-group input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            color: var(--dark-color);
+            outline: none;
+            transition: border-color 0.2s;
+            -moz-appearance: textfield;
+        }
+        .calc-input-group input:focus {
+            border-color: var(--primary-color);
+        }
+        .calc-input-group input::-webkit-outer-spin-button,
+        .calc-input-group input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .calc-input-group .unit {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+        .calc-result {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .calc-result label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+        .result-value.green { color: #059669; }
+        .result-value.yellow { color: #d97706; }
+        .result-value.red { color: #dc2626; }
+        .availability-bar {
+            width: 100%;
+            height: 16px;
+            background: #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 0.25rem;
+        }
+        .availability-bar-fill {
+            height: 100%;
+            border-radius: 8px;
+            transition: width 0.4s ease, background 0.3s;
+        }
+        .availability-bar-fill.green { background: linear-gradient(90deg, #059669, #10b981); }
+        .availability-bar-fill.yellow { background: linear-gradient(90deg, #d97706, #f59e0b); }
+        .availability-bar-fill.red { background: linear-gradient(90deg, #dc2626, #ef4444); }
+        .nines-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+        .example-section {
+            margin-top: 1.5rem;
+            padding: 1rem 1.5rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .example-section h4 {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        .example-section .example-calc {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            font-family: 'Fira Code', 'Consolas', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Availability Analysis</h2>
+        <div class="content-area">
+            <div class="formula-display">
+                <div class="formula">Availability = MBF / (MBF + MTR)</div>
+                <div class="formula-vars">
+                    <span><strong>MBF</strong> = Mean time Between Failures</span>
+                    <span><strong>MTR</strong> = Mean Time to Repair</span>
+                </div>
+            </div>
+
+            <div class="calculator">
+                <div class="calc-input-group">
+                    <label for="mbf-input">MBF (Mean time Between Failures)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="mbf-input" value="720" min="0" step="1" oninput="calculateAvailability()">
+                    </div>
+                    <span class="unit">hours</span>
+                </div>
+                <div class="calc-input-group">
+                    <label for="mtr-input">MTR (Mean Time to Repair)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="mtr-input" value="2" min="0" step="0.1" oninput="calculateAvailability()">
+                    </div>
+                    <span class="unit">hours</span>
+                </div>
+                <div class="calc-result">
+                    <label>Availability</label>
+                    <div class="result-value green" id="result-value">99.72%</div>
+                    <div class="availability-bar">
+                        <div class="availability-bar-fill green" id="result-bar" style="width: 99.72%;"></div>
+                    </div>
+                    <div class="nines-label" id="nines-label">Two nines (99%+)</div>
+                </div>
+            </div>
+
+            <div class="example-section">
+                <h4>Example Calculation</h4>
+                <div class="example-calc">MBF = 720h, MTR = 2h &rarr; A = 720 / (720 + 2) = <strong>99.72%</strong></div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">15 / 39</span>
+        </div>
+    </div>
+
+    <script>
+        function calculateAvailability() {
+            var mbfInput = document.getElementById('mbf-input');
+            var mtrInput = document.getElementById('mtr-input');
+            var resultValue = document.getElementById('result-value');
+            var resultBar = document.getElementById('result-bar');
+            var ninesLabel = document.getElementById('nines-label');
+
+            var mbf = parseFloat(mbfInput.value) || 0;
+            var mtr = parseFloat(mtrInput.value) || 0;
+
+            if (mbf + mtr === 0) {
+                resultValue.textContent = '--';
+                resultValue.className = 'result-value';
+                resultBar.style.width = '0%';
+                resultBar.className = 'availability-bar-fill';
+                ninesLabel.textContent = 'Enter values above';
+                return;
+            }
+
+            var availability = (mbf / (mbf + mtr)) * 100;
+            var colorClass;
+            var ninesText;
+
+            if (availability >= 99.999) {
+                colorClass = 'green';
+                ninesText = 'Five nines (99.999%+)';
+            } else if (availability >= 99.99) {
+                colorClass = 'green';
+                ninesText = 'Four nines (99.99%+)';
+            } else if (availability >= 99.9) {
+                colorClass = 'green';
+                ninesText = 'Three nines (99.9%+)';
+            } else if (availability >= 99) {
+                colorClass = 'yellow';
+                ninesText = 'Two nines (99%+)';
+            } else {
+                colorClass = 'red';
+                ninesText = 'Below two nines';
+            }
+
+            resultValue.textContent = availability.toFixed(2) + '%';
+            resultValue.className = 'result-value ' + colorClass;
+            resultBar.style.width = Math.min(availability, 100) + '%';
+            resultBar.className = 'availability-bar-fill ' + colorClass;
+            ninesLabel.textContent = ninesText;
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', calculateAvailability);
+    </script>
+
+    <script type="text/speaker-notes">
+        <p><strong>Availability Analysis:</strong></p>
+        <ul>
+            <li>Availability is often expressed as "nines" - 99.9% is "three nines", 99.99% is "four nines".</li>
+            <li>The formula shows that <em>reducing repair time is often more impactful than increasing time between failures</em>.</li>
+            <li><strong>Example:</strong> If MBF is 720 hours (about a month) and MTR is 2 hours, availability is 99.72%. To get to 99.9%, you could either increase MBF to 1998 hours (nearly 3 months without failure) OR reduce MTR to 0.72 hours (43 minutes). Which is more practical?</li>
+            <li>This is why investment in monitoring, automated recovery, and quick deployment pipelines often yields better availability than trying to build "perfect" systems.</li>
+        </ul>
+        <p><strong>Common targets:</strong> Web applications typically aim for 99.9% (three nines = ~8.7 hours downtime/year). Financial systems often require 99.99% or higher.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Sourcing</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .demo-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-top: 0.75rem;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .approach-panel {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+        }
+
+        .approach-panel.traditional {
+            border-color: #f59e0b;
+        }
+
+        .approach-panel.event-sourcing {
+            border-color: #10b981;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .panel-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .panel-header .badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+        }
+
+        .current-state {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 8px;
+            padding: 0.75rem;
+            text-align: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .current-state .label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .current-state .balance {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .current-state.success {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+        }
+
+        .current-state.success .balance {
+            color: var(--success-color);
+        }
+
+        .db-table {
+            width: 100%;
+            font-size: 0.8rem;
+            border-collapse: collapse;
+            margin-bottom: 0.5rem;
+        }
+
+        .db-table th {
+            background: var(--dark-color);
+            color: white;
+            padding: 0.4rem 0.5rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .db-table td {
+            padding: 0.4rem 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .db-table tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .db-table tr.highlight {
+            background: #fef3c7;
+            animation: rowFlash 0.5s ease;
+        }
+
+        .db-table tr.new-row {
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes rowFlash {
+            0%, 100% { background: #fef3c7; }
+            50% { background: #fde68a; }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .event-log {
+            max-height: 150px;
+            overflow-y: auto;
+            background: #1e293b;
+            border-radius: 6px;
+            padding: 0.5rem;
+        }
+
+        .event-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .event-item:last-child {
+            border-bottom: none;
+        }
+
+        .event-item.new {
+            background: rgba(16, 185, 129, 0.2);
+            color: #4ade80;
+            animation: eventPulse 0.5s ease;
+        }
+
+        @keyframes eventPulse {
+            0%, 100% { background: rgba(16, 185, 129, 0.2); }
+            50% { background: rgba(16, 185, 129, 0.4); }
+        }
+
+        .event-type {
+            background: #3b82f6;
+            color: white;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        .event-type.deposit {
+            background: #10b981;
+        }
+
+        .event-type.withdraw {
+            background: #f59e0b;
+        }
+
+        .event-type.open {
+            background: #8b5cf6;
+        }
+
+        .action-panel {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.6rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .action-btn.deposit {
+            background: #10b981;
+            color: white;
+        }
+
+        .action-btn.withdraw {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .action-btn.time-travel {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .action-btn.reset {
+            background: #64748b;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .info-row {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        .info-item {
+            flex: 1;
+            background: white;
+            padding: 0.6rem;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-item .label {
+            color: var(--text-light);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .info-item .value {
+            font-weight: 700;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .info-item .value.danger {
+            color: var(--danger-color);
+        }
+
+        .info-item .value.success {
+            color: var(--success-color);
+        }
+
+        .time-travel-panel {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            border: 1px solid #8b5cf6;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+            display: none;
+        }
+
+        .time-travel-panel.visible {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .time-slider {
+            width: 100%;
+            margin: 0.5rem 0;
+        }
+
+        .time-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .history-note {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-align: center;
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
+        .history-note.warning {
+            color: var(--danger-color);
+        }
+
+        .traditional-history {
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-style: italic;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Event Sourcing - Interactive Comparison</h2>
+        <div class="content-area">
+            <div class="demo-container">
+                <div class="comparison-grid">
+                    <!-- Traditional CRUD Panel -->
+                    <div class="approach-panel traditional">
+                        <div class="panel-header">
+                            <h3>Traditional CRUD</h3>
+                            <span class="badge warning">Current State Only</span>
+                        </div>
+
+                        <div class="current-state">
+                            <div class="label">Account Balance</div>
+                            <div class="balance" id="tradBalance">$1,000</div>
+                        </div>
+
+                        <table class="db-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Balance</th>
+                                    <th>Updated</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tradTable">
+                                <tr>
+                                    <td>ACC-1001</td>
+                                    <td id="tradTableBalance">$1,000</td>
+                                    <td id="tradTableTime">Just now</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="traditional-history" id="tradHistory">
+                            No history available - only current state stored
+                        </div>
+
+                        <p class="history-note warning" id="tradNote">
+                            Previous states are overwritten and lost forever
+                        </p>
+                    </div>
+
+                    <!-- Event Sourcing Panel -->
+                    <div class="approach-panel event-sourcing">
+                        <div class="panel-header">
+                            <h3>Event Sourcing</h3>
+                            <span class="badge success">Full History</span>
+                        </div>
+
+                        <div class="current-state success">
+                            <div class="label">Account Balance (Computed)</div>
+                            <div class="balance" id="esBalance">$1,000</div>
+                        </div>
+
+                        <div class="event-log" id="eventLog">
+                            <div class="event-item">
+                                <span class="event-type open">AccountOpened</span>
+                                <span>balance: $0</span>
+                            </div>
+                            <div class="event-item">
+                                <span class="event-type deposit">Deposited</span>
+                                <span>+$1,000</span>
+                            </div>
+                        </div>
+
+                        <p class="history-note" id="esNote">
+                            Complete audit trail - every change is recorded
+                        </p>
+                    </div>
+                </div>
+
+                <div class="action-panel">
+                    <button class="action-btn deposit" onclick="performDeposit()">
+                        + Deposit $200
+                    </button>
+                    <button class="action-btn withdraw" onclick="performWithdraw()">
+                        - Withdraw $150
+                    </button>
+                    <button class="action-btn time-travel" onclick="toggleTimeTravel()" id="timeTravelBtn">
+                        ⏪ Time Travel
+                    </button>
+                    <button class="action-btn reset" onclick="resetDemo()">
+                        Reset
+                    </button>
+                </div>
+
+                <div class="time-travel-panel" id="timeTravelPanel">
+                    <strong style="color: #7c3aed;">Time Travel (Event Sourcing Only)</strong>
+                    <p style="font-size: 0.8rem; margin: 0.5rem 0; color: var(--text-light);">
+                        Replay events up to a specific point to see historical state:
+                    </p>
+                    <input type="range" class="time-slider" id="timeSlider" min="0" max="1" value="1" step="1">
+                    <div class="time-label">
+                        <span>Account Opened</span>
+                        <span id="timeSliderMax">Event 2</span>
+                    </div>
+                    <div style="text-align: center; margin-top: 0.5rem;">
+                        <span style="font-size: 0.85rem; color: #7c3aed;">
+                            Viewing state at: <strong id="timeState">Latest</strong>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-item">
+                        <div class="label">Transactions</div>
+                        <div class="value" id="txCount">2</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">Traditional DB Writes</div>
+                        <div class="value" id="crudWrites">1</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">Events Stored</div>
+                        <div class="value success" id="eventCount">2</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">Can Replay History?</div>
+                        <div class="value danger" id="canReplay">CRUD: No</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">25 / 42</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Interactive Event Sourcing Demo</strong></p>
+        <p>Show students the key differences:</p>
+        <ul>
+            <li><strong>Deposit/Withdraw:</strong> In CRUD, balance is overwritten. In Event Sourcing, a new event is appended.</li>
+            <li><strong>Time Travel:</strong> Only Event Sourcing can show historical state by replaying events up to a point.</li>
+            <li>Point out that CRUD loses history - we can't see what the balance was before the last transaction.</li>
+        </ul>
+        <p>Key insight: Event Sourcing stores <em>facts</em> (what happened), not <em>state</em> (current situation).</p>
+    </script>
+
+    <script>
+        let balance = 1000;
+        let events = [
+            { type: 'AccountOpened', amount: 0, balance: 0 },
+            { type: 'Deposited', amount: 1000, balance: 1000 }
+        ];
+        let txCount = 2;
+        let crudWrites = 1;
+        let timeTravelActive = false;
+
+        function formatMoney(amount) {
+            return '$' + amount.toLocaleString();
+        }
+
+        function performDeposit() {
+            const amount = 200;
+            balance += amount;
+            txCount++;
+            crudWrites++;
+
+            // Add event
+            events.push({
+                type: 'Deposited',
+                amount: amount,
+                balance: balance
+            });
+
+            updateUI('deposit', amount);
+        }
+
+        function performWithdraw() {
+            const amount = 150;
+            if (balance < amount) {
+                alert('Insufficient funds!');
+                return;
+            }
+            balance -= amount;
+            txCount++;
+            crudWrites++;
+
+            // Add event
+            events.push({
+                type: 'Withdrawn',
+                amount: amount,
+                balance: balance
+            });
+
+            updateUI('withdraw', amount);
+        }
+
+        function updateUI(action, amount) {
+            // Update traditional CRUD
+            const tradBalance = document.getElementById('tradBalance');
+            const tradTableBalance = document.getElementById('tradTableBalance');
+            const tradTableTime = document.getElementById('tradTableTime');
+            const tradRow = document.querySelector('#tradTable tr');
+
+            tradBalance.textContent = formatMoney(balance);
+            tradTableBalance.textContent = formatMoney(balance);
+            tradTableTime.textContent = 'Just now';
+            tradRow.classList.add('highlight');
+            setTimeout(() => tradRow.classList.remove('highlight'), 500);
+
+            // Update Event Sourcing
+            document.getElementById('esBalance').textContent = formatMoney(balance);
+
+            // Add new event to log
+            const eventLog = document.getElementById('eventLog');
+            const eventItem = document.createElement('div');
+            eventItem.className = 'event-item new';
+            const eventType = action === 'deposit' ? 'Deposited' : 'Withdrawn';
+            const eventClass = action === 'deposit' ? 'deposit' : 'withdraw';
+            const sign = action === 'deposit' ? '+' : '-';
+            eventItem.innerHTML = `
+                <span class="event-type ${eventClass}">${eventType}</span>
+                <span>${sign}${formatMoney(amount)}</span>
+            `;
+            eventLog.appendChild(eventItem);
+            eventLog.scrollTop = eventLog.scrollHeight;
+
+            setTimeout(() => eventItem.classList.remove('new'), 500);
+
+            // Update stats
+            document.getElementById('txCount').textContent = txCount;
+            document.getElementById('crudWrites').textContent = crudWrites;
+            document.getElementById('eventCount').textContent = events.length;
+
+            // Update time slider
+            updateTimeSlider();
+        }
+
+        function updateTimeSlider() {
+            const slider = document.getElementById('timeSlider');
+            slider.max = events.length - 1;
+            slider.value = events.length - 1;
+            document.getElementById('timeSliderMax').textContent = `Event ${events.length}`;
+            document.getElementById('timeState').textContent = 'Latest';
+        }
+
+        function toggleTimeTravel() {
+            timeTravelActive = !timeTravelActive;
+            const panel = document.getElementById('timeTravelPanel');
+            const btn = document.getElementById('timeTravelBtn');
+
+            panel.classList.toggle('visible', timeTravelActive);
+            btn.style.background = timeTravelActive ? '#7c3aed' : '#8b5cf6';
+
+            if (timeTravelActive) {
+                updateTimeSlider();
+            } else {
+                // Reset to latest state
+                document.getElementById('esBalance').textContent = formatMoney(balance);
+            }
+        }
+
+        document.getElementById('timeSlider').addEventListener('input', function() {
+            const eventIndex = parseInt(this.value);
+            const targetEvent = events[eventIndex];
+
+            // Compute balance at this point
+            let historicalBalance = 0;
+            for (let i = 0; i <= eventIndex; i++) {
+                if (events[i].type === 'Deposited') {
+                    historicalBalance += events[i].amount;
+                } else if (events[i].type === 'Withdrawn') {
+                    historicalBalance -= events[i].amount;
+                }
+            }
+
+            document.getElementById('esBalance').textContent = formatMoney(historicalBalance);
+            document.getElementById('timeState').textContent =
+                eventIndex === events.length - 1 ? 'Latest' : `Event ${eventIndex + 1}`;
+
+            // Highlight events up to this point
+            const eventItems = document.querySelectorAll('.event-item');
+            eventItems.forEach((item, index) => {
+                item.style.opacity = index <= eventIndex ? '1' : '0.3';
+            });
+        });
+
+        function resetDemo() {
+            balance = 1000;
+            events = [
+                { type: 'AccountOpened', amount: 0, balance: 0 },
+                { type: 'Deposited', amount: 1000, balance: 1000 }
+            ];
+            txCount = 2;
+            crudWrites = 1;
+            timeTravelActive = false;
+
+            // Reset Traditional
+            document.getElementById('tradBalance').textContent = '$1,000';
+            document.getElementById('tradTableBalance').textContent = '$1,000';
+            document.getElementById('tradTableTime').textContent = 'Just now';
+
+            // Reset Event Sourcing
+            document.getElementById('esBalance').textContent = '$1,000';
+            document.getElementById('eventLog').innerHTML = `
+                <div class="event-item">
+                    <span class="event-type open">AccountOpened</span>
+                    <span>balance: $0</span>
+                </div>
+                <div class="event-item">
+                    <span class="event-type deposit">Deposited</span>
+                    <span>+$1,000</span>
+                </div>
+            `;
+
+            // Reset stats
+            document.getElementById('txCount').textContent = '2';
+            document.getElementById('crudWrites').textContent = '1';
+            document.getElementById('eventCount').textContent = '2';
+
+            // Reset time travel
+            document.getElementById('timeTravelPanel').classList.remove('visible');
+            document.getElementById('timeTravelBtn').style.background = '#8b5cf6';
+            updateTimeSlider();
+        }
+
+        // Initialize slider
+        updateTimeSlider();
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

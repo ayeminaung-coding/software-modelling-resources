@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Management Tactics - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Resource Management Tactics</h2>
+        <div class="content-area">
+            <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">Increase available resources or optimize their usage</p>
+
+            <div class="three-columns">
+                <div class="card">
+                    <h4>Introduce Concurrency</h4>
+                    <ul style="font-size: 0.95rem;">
+                        <li>Parallel processing</li>
+                        <li>Thread pools</li>
+                        <li>Async/await patterns</li>
+                        <li>Event loops</li>
+                    </ul>
+                </div>
+                <div class="card success">
+                    <h4>Maintain Multiple Copies</h4>
+                    <ul style="font-size: 0.95rem;">
+                        <li>Data replication</li>
+                        <li>Read replicas</li>
+                        <li>CDN caching</li>
+                        <li>In-memory caches</li>
+                    </ul>
+                </div>
+                <div class="card warning">
+                    <h4>Increase Resources</h4>
+                    <ul style="font-size: 0.95rem;">
+                        <li>Vertical scaling (up)</li>
+                        <li>Horizontal scaling (out)</li>
+                        <li>Auto-scaling groups</li>
+                        <li>Serverless functions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="diagram" style="margin-top: 1.5rem; padding: 1.5rem;">
+                <h4 style="margin-bottom: 1rem;">Caching Hierarchy</h4>
+                <div class="flow-horizontal">
+                    <div class="diagram-box">Browser Cache</div>
+                    <span class="arrow">&rarr;</span>
+                    <div class="diagram-box secondary">CDN Edge</div>
+                    <span class="arrow">&rarr;</span>
+                    <div class="diagram-box success">App Cache</div>
+                    <span class="arrow">&rarr;</span>
+                    <div class="diagram-box outline">Database</div>
+                </div>
+                <p style="margin-top: 1rem; color: var(--text-light); font-size: 0.9rem;">
+                    Each layer reduces load on the next | Fastest access closest to user
+                </p>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <p><strong>Modern Tools:</strong> Redis/Memcached (distributed cache), Kubernetes HPA (auto-scaling),
+                CloudFlare/Akamai (CDN), Connection pooling (HikariCP, pgBouncer)</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Points:</strong></p>
+        <ul>
+            <li><em>Concurrency</em> - Multiple threads/processes handling requests in parallel</li>
+            <li><em>Caching</em> - Store computed results to avoid recomputation (trade memory for speed)</li>
+            <li><em>Scaling</em> - Add more resources when demand increases</li>
+        </ul>
+        <p><strong>Cache invalidation</strong> is one of the hardest problems in computer science!</p>
+        <p><strong>Scaling trade-offs:</strong></p>
+        <ul>
+            <li>Vertical: Simpler but has limits</li>
+            <li>Horizontal: Complex but unlimited (theoretically)</li>
+        </ul>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

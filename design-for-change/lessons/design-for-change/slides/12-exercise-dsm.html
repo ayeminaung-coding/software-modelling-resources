@@ -1,0 +1,442 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Build a DSM</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .exercise-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.35fr;
+            gap: 1.25rem;
+            align-items: start;
+            flex: 1;
+        }
+        .diagram-col {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.9rem;
+        }
+        .diag-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            margin-bottom: 0.6rem;
+        }
+        .dsm-col { display: flex; flex-direction: column; }
+        .dsm-grid {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.88rem;
+        }
+        .dsm-grid th, .dsm-grid td {
+            min-width: 44px;
+            min-height: 44px;
+            height: 46px;
+            text-align: center;
+            vertical-align: middle;
+            border: 2px solid #cbd5e1;
+            padding: 0.3rem;
+        }
+        .dsm-grid th {
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 600;
+            max-width: 90px;
+            padding: 0.35rem 0.4rem;
+            line-height: 1.2;
+        }
+        .dsm-grid .row-header {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            font-size: 0.72rem;
+            text-align: left;
+            padding: 0.35rem 0.5rem;
+            white-space: nowrap;
+        }
+        .dsm-grid .cell {
+            cursor: pointer;
+            background: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            transition: background 0.15s, transform 0.1s;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .dsm-grid .cell:hover, .dsm-grid .cell:active { background: #eff6ff; }
+        .dsm-grid .cell:active { transform: scale(0.95); }
+        .dsm-grid .cell.marked  { background: linear-gradient(135deg, #3b82f6, #6366f1); color: white; }
+        .dsm-grid .cell.correct   { background: linear-gradient(135deg, #10b981, #059669) !important; color: white !important; }
+        .dsm-grid .cell.incorrect { background: linear-gradient(135deg, #ef4444, #dc2626) !important; color: white !important; }
+        .dsm-grid .cell.missing   { background: #fef3c7 !important; color: #d97706 !important; border: 2px dashed #f59e0b !important; }
+        .dsm-grid .diagonal       { background: #e2e8f0; color: #94a3b8; cursor: default; }
+        .control-buttons {
+            display: flex;
+            gap: 0.65rem;
+            justify-content: center;
+            margin-top: 0.9rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.6rem 1.1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-check  { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .btn-reveal { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+        .btn-reset  { background: #e2e8f0; color: #475569; }
+        .btn-check:hover,  .btn-check:active  { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+        .btn-reveal:hover, .btn-reveal:active { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99,102,241,0.3); }
+        .btn-reset:hover,  .btn-reset:active  { background: #cbd5e1; }
+        .feedback {
+            text-align: center;
+            padding: 0.65rem;
+            border-radius: 8px;
+            margin-top: 0.65rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: none;
+        }
+        .feedback.show      { display: block; }
+        .feedback.correct   { background: #dcfce7; color: #166534; }
+        .feedback.incorrect { background: #fef2f2; color: #991b1b; }
+        .callout {
+            margin-top: 0.75rem;
+            padding: 0.65rem 0.9rem;
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border-left: 4px solid #f59e0b;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.88rem;
+        }
+        .callout strong { color: #d97706; }
+        @media (max-width: 860px) { .exercise-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Build a DSM</h2>
+        <div class="content-area">
+
+            <div class="highlight-box" style="padding:0.6rem 1rem; margin-bottom:0.75rem;">
+                <p style="font-size:0.95rem;">
+                    <strong>Task:</strong> Study the architecture below, then mark which component <em>depends on</em> which in the DSM. (Row depends on Column)
+                </p>
+            </div>
+
+            <div class="exercise-layout">
+
+                <!-- LEFT: SVG Architecture Diagram -->
+                <div class="diagram-col">
+                    <div class="diag-title">&#128301; Component Architecture</div>
+
+                    <svg viewBox="0 0 400 230" xmlns="http://www.w3.org/2000/svg"
+                         width="100%" style="display:block;">
+                        <defs>
+                            <linearGradient id="pg12" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%"   stop-color="#2563eb"/>
+                                <stop offset="100%" stop-color="#4338ca"/>
+                            </linearGradient>
+                            <!-- Blue bidir: end -->
+                            <marker id="b-end" markerWidth="7" markerHeight="5"
+                                    refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#3b82f6"/>
+                            </marker>
+                            <!-- Blue bidir: start (reversed) -->
+                            <marker id="b-start" markerWidth="7" markerHeight="5"
+                                    refX="6" refY="2.5" orient="auto-start-reverse" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#3b82f6"/>
+                            </marker>
+                            <!-- Green: end -->
+                            <marker id="g-end" markerWidth="7" markerHeight="5"
+                                    refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#16a34a"/>
+                            </marker>
+                            <!-- Orange: end -->
+                            <marker id="o-end" markerWidth="7" markerHeight="5"
+                                    refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#ea580c"/>
+                            </marker>
+                        </defs>
+
+                        <!-- â•â• Nodes (drawn first so lines render on top) â•â• -->
+
+                        <!-- Employee WebApp  x=8 y=18 w=108 h=36 -->
+                        <rect x="8"   y="18"  width="108" height="36" rx="7"
+                              fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+                        <text x="62" y="33" text-anchor="middle"
+                              font-family="system-ui,sans-serif" font-size="10.5" font-weight="700" fill="#1e40af">Employee</text>
+                        <text x="62" y="47" text-anchor="middle"
+                              font-family="system-ui,sans-serif" font-size="10.5" font-weight="700" fill="#1e40af">WebApp</text>
+
+                        <!-- Authenticator  x=146 y=18 w=108 h=36 -->
+                        <rect x="146" y="18"  width="108" height="36" rx="7"
+                              fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+                        <text x="200" y="40" text-anchor="middle"
+                              font-family="system-ui,sans-serif" font-size="10.5" font-weight="700" fill="#15803d">Authenticator</text>
+
+                        <!-- Approver Mobile  x=284 y=18 w=108 h=36 -->
+                        <rect x="284" y="18"  width="108" height="36" rx="7"
+                              fill="#f3e8ff" stroke="#8b5cf6" stroke-width="2"/>
+                        <text x="338" y="33" text-anchor="middle"
+                              font-family="system-ui,sans-serif" font-size="10.5" font-weight="700" fill="#5b21b6">Approver</text>
+                        <text x="338" y="47" text-anchor="middle"
+                              font-family="system-ui,sans-serif" font-size="10.5" font-weight="700" fill="#5b21b6">Mobile</text>
+
+                        <!-- Expense Processor  x=110 y=148 w=132 h=42 -->
+                        <rect x="110" y="148" width="132" height="42" rx="7"
+                              fill="url(#pg12)" stroke="#1e40af" stroke-width="2"/>
+                        <text x="176" y="165" text-anchor="middle"
+                              font-family="system-ui,sans-serif" font-size="10.5" font-weight="700" fill="white">Expense</text>
+                        <text x="176" y="181" text-anchor="middle"
+                              font-family="system-ui,sans-serif" font-size="10.5" font-weight="700" fill="white">Processor</text>
+
+                        <!-- Booking.com  x=280 y=150 w=112 h=38 -->
+                        <rect x="280" y="150" width="112" height="38" rx="7"
+                              fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+                        <text x="336" y="165" text-anchor="middle"
+                              font-family="system-ui,sans-serif" font-size="10.5" font-weight="700" fill="#c2410c">Booking.com</text>
+                        <text x="336" y="180" text-anchor="middle"
+                              font-family="system-ui,sans-serif" font-size="9" fill="#9a3412">(external)</text>
+
+                        <!-- â•â• Connection lines (on top of nodes) â•â• -->
+
+                        <!-- WebApp â†’ Authenticator (green) -->
+                        <line x1="116" y1="36" x2="144" y2="36"
+                              stroke="#16a34a" stroke-width="1.5"
+                              marker-end="url(#g-end)"/>
+
+                        <!-- Mobile â†’ Authenticator (green, goes left) -->
+                        <line x1="284" y1="36" x2="256" y2="36"
+                              stroke="#16a34a" stroke-width="1.5"
+                              marker-end="url(#g-end)"/>
+
+                        <!-- WebApp â†” Expense Processor (blue, bidir) -->
+                        <line x1="62"  y1="54" x2="144" y2="146"
+                              stroke="#3b82f6" stroke-width="1.5"
+                              marker-start="url(#b-start)"
+                              marker-end="url(#b-end)"/>
+
+                        <!-- Mobile â†” Expense Processor (blue, bidir) -->
+                        <line x1="338" y1="54" x2="226" y2="146"
+                              stroke="#3b82f6" stroke-width="1.5"
+                              marker-start="url(#b-start)"
+                              marker-end="url(#b-end)"/>
+
+                        <!-- Expense Processor â†’ Booking.com (orange) -->
+                        <line x1="242" y1="169" x2="278" y2="169"
+                              stroke="#ea580c" stroke-width="1.5"
+                              marker-end="url(#o-end)"/>
+
+                        <!-- â•â• Labels â•â• -->
+
+                        <!-- login label under the two green arrows -->
+                        <text x="200" y="64" text-anchor="middle"
+                              font-family="system-ui,sans-serif" font-size="8.5"
+                              fill="#16a34a" font-style="italic">â† both apps login â†’</text>
+
+                        <!-- submit/notify (left of left diagonal) -->
+                        <text x="82"  y="95" text-anchor="end"
+                              font-family="system-ui,sans-serif" font-size="8" fill="#3b82f6" font-style="italic">submit /</text>
+                        <text x="82"  y="107" text-anchor="end"
+                              font-family="system-ui,sans-serif" font-size="8" fill="#3b82f6" font-style="italic">notify â†”</text>
+
+                        <!-- approve/notify (right of right diagonal) -->
+                        <text x="318" y="95"  text-anchor="start"
+                              font-family="system-ui,sans-serif" font-size="8" fill="#3b82f6" font-style="italic">â†” approve /</text>
+                        <text x="318" y="107" text-anchor="start"
+                              font-family="system-ui,sans-serif" font-size="8" fill="#3b82f6" font-style="italic">notify</text>
+
+                        <!-- fetch label -->
+                        <text x="260" y="163" text-anchor="middle"
+                              font-family="system-ui,sans-serif" font-size="8.5"
+                              fill="#ea580c" font-style="italic">fetch</text>
+
+                        <!-- â•â• Legend â•â• -->
+                        <line x1="10" y1="213" x2="30" y2="213"
+                              stroke="#3b82f6" stroke-width="1.5"
+                              marker-start="url(#b-start)" marker-end="url(#b-end)"/>
+                        <text x="34" y="217" font-family="system-ui,sans-serif" font-size="8.5" fill="#475569">mutual dependency</text>
+
+                        <line x1="148" y1="213" x2="168" y2="213"
+                              stroke="#16a34a" stroke-width="1.5"
+                              marker-end="url(#g-end)"/>
+                        <text x="172" y="217" font-family="system-ui,sans-serif" font-size="8.5" fill="#475569">authentication</text>
+
+                        <line x1="278" y1="213" x2="298" y2="213"
+                              stroke="#ea580c" stroke-width="1.5"
+                              marker-end="url(#o-end)"/>
+                        <text x="302" y="217" font-family="system-ui,sans-serif" font-size="8.5" fill="#475569">fetch data</text>
+                    </svg>
+                </div>
+
+                <!-- RIGHT: DSM grid -->
+                <div class="dsm-col">
+                    <table class="dsm-grid" id="dsmGrid">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Employee WebApp</th>
+                                <th>Approver Mobile</th>
+                                <th>Expense Processor</th>
+                                <th>Booking.com</th>
+                                <th>Authenticator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="row-header">Employee WebApp</td>
+                                <td class="diagonal">.</td>
+                                <td class="cell" data-row="0" data-col="1"></td>
+                                <td class="cell" data-row="0" data-col="2"></td>
+                                <td class="cell" data-row="0" data-col="3"></td>
+                                <td class="cell" data-row="0" data-col="4"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">Approver Mobile</td>
+                                <td class="cell" data-row="1" data-col="0"></td>
+                                <td class="diagonal">.</td>
+                                <td class="cell" data-row="1" data-col="2"></td>
+                                <td class="cell" data-row="1" data-col="3"></td>
+                                <td class="cell" data-row="1" data-col="4"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">Expense Processor</td>
+                                <td class="cell" data-row="2" data-col="0"></td>
+                                <td class="cell" data-row="2" data-col="1"></td>
+                                <td class="diagonal">.</td>
+                                <td class="cell" data-row="2" data-col="3"></td>
+                                <td class="cell" data-row="2" data-col="4"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">Booking.com</td>
+                                <td class="cell" data-row="3" data-col="0"></td>
+                                <td class="cell" data-row="3" data-col="1"></td>
+                                <td class="cell" data-row="3" data-col="2"></td>
+                                <td class="diagonal">.</td>
+                                <td class="cell" data-row="3" data-col="4"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">Authenticator</td>
+                                <td class="cell" data-row="4" data-col="0"></td>
+                                <td class="cell" data-row="4" data-col="1"></td>
+                                <td class="cell" data-row="4" data-col="2"></td>
+                                <td class="cell" data-row="4" data-col="3"></td>
+                                <td class="diagonal">.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="control-buttons">
+                        <button class="btn btn-check"  onclick="checkAnswers()">Check Answers</button>
+                        <button class="btn btn-reveal" onclick="showAnswer()">Show Answer</button>
+                        <button class="btn btn-reset"  onclick="resetGrid()">Reset</button>
+                    </div>
+                    <div id="feedback" class="feedback"></div>
+                </div>
+            </div>
+
+            <div class="callout">
+                <strong>Notice:</strong> Expense Processor depends on Booking.com â€” changes to their API ripple directly into your system!
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">12 / 38</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise â€” 3â€“4 minutes.</strong> Ask students to read the diagram, then translate each connection into a DSM mark.</p>
+        <p>The â†” bidirectional arrows mean both ends depend on each other â€” this tight coupling with WebApp and Mobile is the design problem the lesson will address.</p>
+        <p><strong>Correct answers:</strong></p>
+        <ul>
+            <li>Employee WebApp â†’ Expense Processor, Authenticator</li>
+            <li>Approver Mobile â†’ Expense Processor, Authenticator</li>
+            <li>Expense Processor â†’ Employee WebApp, Approver Mobile, Booking.com</li>
+            <li>Booking.com: no dependencies (external)</li>
+            <li>Authenticator: no dependencies (standalone)</li>
+        </ul>
+        <p>Follow-up: "Which component has the most dependencies?" (Expense Processor â€” 3) â†’ "What does that tell us about risk?"</p>
+    </script>
+
+    <script>
+        const correctAnswers = {
+            '0-2': true, '0-4': true,
+            '1-2': true, '1-4': true,
+            '2-0': true, '2-1': true, '2-3': true
+        };
+
+        document.querySelectorAll('.dsm-grid .cell').forEach(cell => {
+            cell.addEventListener('click', function() {
+                this.classList.toggle('marked');
+                this.textContent = this.classList.contains('marked') ? 'X' : '';
+                this.classList.remove('correct', 'incorrect', 'missing');
+                document.getElementById('feedback').classList.remove('show');
+            });
+        });
+
+        function checkAnswers() {
+            let correctCount = 0;
+            const totalCorrect = Object.keys(correctAnswers).length;
+            let errors = 0;
+            document.querySelectorAll('.dsm-grid .cell').forEach(cell => {
+                const key = cell.dataset.row + '-' + cell.dataset.col;
+                const isMarked = cell.classList.contains('marked');
+                const shouldBe = correctAnswers[key] === true;
+                cell.classList.remove('correct', 'incorrect', 'missing');
+                if (isMarked && shouldBe)       { cell.classList.add('correct');   correctCount++; }
+                else if (isMarked && !shouldBe) { cell.classList.add('incorrect'); errors++; }
+                else if (!isMarked && shouldBe) { cell.classList.add('missing'); }
+            });
+            const fb = document.getElementById('feedback');
+            fb.classList.add('show');
+            if (correctCount === totalCorrect && errors === 0) {
+                fb.textContent = 'Perfect! All ' + totalCorrect + ' dependencies identified!';
+                fb.className = 'feedback show correct';
+            } else {
+                fb.textContent = correctCount + ' of ' + totalCorrect + ' correct. Green = correct, Red = wrong, Yellow = missing.';
+                fb.className = 'feedback show incorrect';
+            }
+        }
+
+        function showAnswer() {
+            resetGrid();
+            document.querySelectorAll('.dsm-grid .cell').forEach(cell => {
+                if (correctAnswers[cell.dataset.row + '-' + cell.dataset.col]) {
+                    cell.classList.add('marked', 'correct');
+                    cell.textContent = 'X';
+                }
+            });
+            const fb = document.getElementById('feedback');
+            fb.textContent = 'Answers revealed! Expense Processor has the most dependencies â€” highest change risk.';
+            fb.className = 'feedback show correct';
+        }
+
+        function resetGrid() {
+            document.querySelectorAll('.dsm-grid .cell').forEach(cell => {
+                cell.classList.remove('marked', 'correct', 'incorrect', 'missing');
+                cell.textContent = '';
+            });
+            const fb = document.getElementById('feedback');
+            fb.className = 'feedback';
+            fb.textContent = '';
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

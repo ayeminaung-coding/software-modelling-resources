@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use Case Analysis - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .uca-points {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .uca-point {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            border-left: 4px solid var(--primary-color);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        .uca-point:nth-child(2) { border-left-color: var(--success-color); }
+        .uca-point:nth-child(3) { border-left-color: var(--warning-color); }
+        .uca-point:nth-child(4) { border-left-color: var(--accent-color); }
+        .uca-point .point-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+        .uca-point p {
+            font-size: 1.15rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+        .flow-container {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        .flow-label {
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .uca-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .flow-step {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.9rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+            min-width: 140px;
+        }
+        .flow-step:nth-child(3) {
+            background: var(--gradient-success);
+        }
+        .flow-step:nth-child(5) {
+            background: var(--gradient-secondary);
+        }
+        .flow-step:nth-child(7) {
+            background: var(--gradient-dark);
+        }
+        .flow-arrow {
+            font-size: 1.8rem;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Use Case Analysis</h2>
+        <div class="content-area">
+            <div class="uca-points">
+                <div class="uca-point">
+                    <span class="point-icon">&#128196;</span>
+                    <p><strong>Examines functional needs</strong> of the system to verify completeness</p>
+                </div>
+                <div class="uca-point">
+                    <span class="point-icon">&#128268;</span>
+                    <p><strong>Identifies required components</strong> and interfaces for each use case</p>
+                </div>
+                <div class="uca-point">
+                    <span class="point-icon">&#128100;</span>
+                    <p><strong>Maps user scenarios</strong> to architectural components</p>
+                </div>
+                <div class="uca-point">
+                    <span class="point-icon">&#9989;</span>
+                    <p><strong>Validates architecture</strong> supports all required use cases</p>
+                </div>
+            </div>
+
+            <div class="flow-container">
+                <div class="flow-label">Use Case Analysis Flow</div>
+                <div class="uca-flow">
+                    <div class="flow-step">Requirements</div>
+                    <span class="flow-arrow">&#10132;</span>
+                    <div class="flow-step">Use Cases</div>
+                    <span class="flow-arrow">&#10132;</span>
+                    <div class="flow-step">Components</div>
+                    <span class="flow-arrow">&#10132;</span>
+                    <div class="flow-step">Interfaces</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">7 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Use Case Analysis - The Starting Point:</strong></p>
+        <ul>
+            <li><em>Functional needs:</em> We begin by examining what the system must do - its core functionality</li>
+            <li><em>Components and interfaces:</em> Each use case helps us identify which architectural components are needed and how they interact</li>
+            <li><em>User scenario mapping:</em> We trace user workflows through the architecture to verify all paths are supported</li>
+            <li><em>Validation:</em> The goal is to confirm every required use case has a clear path through the architecture</li>
+        </ul>
+        <p>Use case analysis is the starting point - it verifies that the architecture can support all required functionality before we worry about quality attributes.</p>
+        <p>The flow shows the progression: from raw requirements, we derive use cases, which identify needed components, which define the interfaces between them.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

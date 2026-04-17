@@ -1,0 +1,367 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Anti-Pattern Hunt - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .hunt-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem;
+            align-items: start;
+        }
+        .code-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .code-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #475569;
+        }
+        .code-container {
+            background: #0f172a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .code-line {
+            display: flex;
+            align-items: stretch;
+            min-height: 44px;
+            cursor: pointer;
+            transition: background 0.15s;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+        }
+        .code-line:hover { background: rgba(255,255,255,0.06); }
+        .code-line.flagged { background: rgba(239,68,68,0.15); }
+        .code-line.correct-flag { background: rgba(16,185,129,0.15); }
+        .line-num {
+            flex-shrink: 0;
+            width: 30px;
+            padding: 0.45rem 0;
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            font-size: 0.72rem;
+            color: #475569;
+            user-select: none;
+            border-right: 1px solid #1e293b;
+            margin-right: 0.5rem;
+        }
+        .line-marker {
+            flex-shrink: 0;
+            width: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+        .line-text {
+            flex: 1;
+            font-family: 'Courier New', monospace;
+            font-size: 0.72rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+            padding: 0.45rem 0;
+            white-space: pre;
+        }
+        .kw  { color: #93c5fd; }
+        .fn  { color: #fde68a; }
+        .str { color: #86efac; }
+        .cmt { color: #64748b; font-style: italic; }
+        .num { color: #f9a8d4; }
+        /* explanation panel */
+        .explain-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .explain-task {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        .explain-card {
+            border-radius: 8px;
+            padding: 0.6rem 0.75rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+            display: none;
+        }
+        .explain-card.show { display: block; }
+        .explain-name {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.2rem;
+        }
+        .explain-text {
+            font-size: 0.78rem;
+            color: #475569;
+            line-height: 1.45;
+        }
+        .explain-card.anti-a { border-color: #ef4444; background: #fef2f2; }
+        .explain-card.anti-b { border-color: #f59e0b; background: #fffbeb; }
+        .explain-card.anti-c { border-color: #8b5cf6; background: #f5f3ff; }
+        .explain-card.not-main { border-color: #94a3b8; background: #f8fafc; }
+        .control-buttons {
+            display: flex;
+            gap: 0.55rem;
+            flex-wrap: wrap;
+            margin-top: 0.25rem;
+        }
+        .btn {
+            padding: 0.5rem 0.9rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-reveal { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+        .btn-reset  { background: #e2e8f0; color: #475569; }
+        .btn-reveal:hover, .btn-reveal:active { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(99,102,241,0.3); }
+        .btn-reset:hover,  .btn-reset:active  { background: #cbd5e1; }
+        @media (max-width: 768px) {
+            .hunt-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Anti-Pattern Hunt</h2>
+        <div class="content-area">
+
+            <div class="hunt-layout">
+
+                <!-- Code Panel -->
+                <div class="code-panel">
+                    <div class="code-label">Find the 3 AI anti-patterns â€” click on the problematic lines:</div>
+                    <div class="code-container" id="codeContainer">
+
+                        <div class="code-line" data-anti="a" onclick="flagLine(this)">
+                            <div class="line-num">1</div>
+                            <div class="line-marker" id="m1"></div>
+                            <div class="line-text"><span class="kw">class</span> <span class="fn">ExpenseProcessor</span>:</div>
+                        </div>
+
+                        <div class="code-line" data-anti="a" onclick="flagLine(this)">
+                            <div class="line-num">2</div>
+                            <div class="line-marker" id="m2"></div>
+                            <div class="line-text">    <span class="kw">def</span> <span class="fn">submit_expense</span>(<span class="kw">self</span>, expense):</div>
+                        </div>
+
+                        <div class="code-line" data-anti="a" onclick="flagLine(this)">
+                            <div class="line-num">3</div>
+                            <div class="line-marker" id="m3"></div>
+                            <div class="line-text">        <span class="cmt"># Line 1: Direct model instantiation</span></div>
+                        </div>
+
+                        <div class="code-line" data-anti="a" onclick="flagLine(this)">
+                            <div class="line-num">4</div>
+                            <div class="line-marker" id="m4"></div>
+                            <div class="line-text">        model = pickle.<span class="fn">load</span>(<span class="fn">open</span>(<span class="str">'fraud_model.pkl'</span>, <span class="str">'rb'</span>))</div>
+                        </div>
+
+                        <div class="code-line" data-anti="b" onclick="flagLine(this)">
+                            <div class="line-num">5</div>
+                            <div class="line-marker" id="m5"></div>
+                            <div class="line-text">        </div>
+                        </div>
+
+                        <div class="code-line" data-anti="b" onclick="flagLine(this)">
+                            <div class="line-num">6</div>
+                            <div class="line-marker" id="m6"></div>
+                            <div class="line-text">        <span class="cmt"># Line 2: No timeout or error handling</span></div>
+                        </div>
+
+                        <div class="code-line" data-anti="b" onclick="flagLine(this)">
+                            <div class="line-num">7</div>
+                            <div class="line-marker" id="m7"></div>
+                            <div class="line-text">        score = model.<span class="fn">predict</span>(expense.<span class="fn">to_features</span>())</div>
+                        </div>
+
+                        <div class="code-line" data-anti="b" onclick="flagLine(this)">
+                            <div class="line-num">8</div>
+                            <div class="line-marker" id="m8"></div>
+                            <div class="line-text">        </div>
+                        </div>
+
+                        <div class="code-line" data-anti="b" onclick="flagLine(this)">
+                            <div class="line-num">9</div>
+                            <div class="line-marker" id="m9"></div>
+                            <div class="line-text">        <span class="cmt"># Line 3: Silent failure â€” returns None on error</span></div>
+                        </div>
+
+                        <div class="code-line" data-anti="b" onclick="flagLine(this)">
+                            <div class="line-num">10</div>
+                            <div class="line-marker" id="m10"></div>
+                            <div class="line-text">        <span class="kw">if</span> score <span class="kw">is</span> <span class="num">None</span>:</div>
+                        </div>
+
+                        <div class="code-line" data-anti="b" onclick="flagLine(this)">
+                            <div class="line-num">11</div>
+                            <div class="line-marker" id="m11"></div>
+                            <div class="line-text">            <span class="kw">return</span> <span class="num">True</span>  <span class="cmt"># approve if no score</span></div>
+                        </div>
+
+                        <div class="code-line" data-anti="c" onclick="flagLine(this)">
+                            <div class="line-num">12</div>
+                            <div class="line-marker" id="m12"></div>
+                            <div class="line-text">        </div>
+                        </div>
+
+                        <div class="code-line" data-anti="c" onclick="flagLine(this)">
+                            <div class="line-num">13</div>
+                            <div class="line-marker" id="m13"></div>
+                            <div class="line-text">        <span class="cmt"># Line 4: No logging</span></div>
+                        </div>
+
+                        <div class="code-line" data-anti="c" onclick="flagLine(this)">
+                            <div class="line-num">14</div>
+                            <div class="line-marker" id="m14"></div>
+                            <div class="line-text">        <span class="kw">if</span> score <span class="kw">&gt;</span> <span class="num">0.7</span>:</div>
+                        </div>
+
+                        <div class="code-line" data-anti="c" onclick="flagLine(this)">
+                            <div class="line-num">15</div>
+                            <div class="line-marker" id="m15"></div>
+                            <div class="line-text">            expense.status = <span class="str">'FLAGGED'</span></div>
+                        </div>
+
+                        <div class="code-line" data-anti="c" onclick="flagLine(this)">
+                            <div class="line-num">16</div>
+                            <div class="line-marker" id="m16"></div>
+                            <div class="line-text">        </div>
+                        </div>
+
+                        <div class="code-line" data-anti="c" onclick="flagLine(this)">
+                            <div class="line-num">17</div>
+                            <div class="line-marker" id="m17"></div>
+                            <div class="line-text">        <span class="cmt"># Line 5: Hardcoded threshold, no versioning</span></div>
+                        </div>
+
+                        <div class="code-line" data-anti="c" onclick="flagLine(this)">
+                            <div class="line-num">18</div>
+                            <div class="line-marker" id="m18"></div>
+                            <div class="line-text">        <span class="kw">return</span> score &lt;= <span class="num">0.7</span></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Explanation Panel -->
+                <div class="explain-panel">
+                    <div class="explain-task">Click lines to flag anti-patterns. 3 anti-patterns hidden in the code.</div>
+
+                    <div id="cardA" class="explain-card anti-a">
+                        <div class="explain-name">&#10060; Anti-Pattern A: Model loaded per call (Line 4)</div>
+                        <div class="explain-text">Loading model inside a function = reload on every call. At 1000 requests/second, loading a 200MB model each time is catastrophic. No version tracking, no injection â€” impossible to swap models.</div>
+                    </div>
+
+                    <div id="cardB" class="explain-card anti-b">
+                        <div class="explain-name">&#9888; Anti-Pattern B: Silent approval on failure (Lines 10-11)</div>
+                        <div class="explain-text">No timeout, no error handling, silent approval on failure = worst possible fallback. If the model crashes or returns None, every expense is automatically approved â€” fraud walks through.</div>
+                    </div>
+
+                    <div id="cardC" class="explain-card anti-c">
+                        <div class="explain-name">&#128065; Anti-Pattern C: No inference logging (Lines 13-15)</div>
+                        <div class="explain-text">No logging of score, decision, latency, or model version. Cannot audit, debug, or detect drift. Everything "works" but you're flying blind in production.</div>
+                    </div>
+
+                    <div id="cardNot" class="explain-card not-main">
+                        <div class="explain-name">&#128161; Not the main issue here</div>
+                        <div class="explain-text">This line has issues, but there's a more critical anti-pattern nearby. Look for: model loading per call, silent failure on error, and missing logging.</div>
+                    </div>
+
+                    <div class="control-buttons">
+                        <button class="btn btn-reveal" onclick="revealAll()">Reveal All</button>
+                        <button class="btn btn-reset"  onclick="resetHunt()">Reset</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">37 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise â€” Anti-Pattern Hunt, 3-4 minutes.</strong></p>
+        <p>Most students find lines 10-11 first (no error handling is obvious â€” silent approval on failure is clearly dangerous). Line 4 (model loading) is the most educational miss â€” students think it's fine to load a model per request. At 1000 requests/second, loading a 200MB model file each time is catastrophic for memory and latency.</p>
+        <p>Line 14 (no logging) is the quietest bug â€” everything "works" but you're flying blind. You can't answer "why was this expense flagged?" and you can't detect drift.</p>
+        <p>The hardcoded threshold 0.7 on line 18 is also problematic (Principle 5: version the model, tune thresholds separately from code) but it's considered part of anti-pattern C for this exercise.</p>
+    </script>
+
+    <script>
+        const flagged = {};
+        const antiMap = { a: false, b: false, c: false };
+
+        function flagLine(el) {
+            var anti = el.dataset.anti;
+            var marker = el.querySelector('.line-marker');
+            if (el.classList.contains('flagged') || el.classList.contains('correct-flag')) return;
+
+            el.classList.add('flagged');
+            marker.textContent = 'âš ';
+
+            // Show correct card for the anti-pattern
+            if (anti === 'a') { showCard('cardA'); }
+            else if (anti === 'b') { showCard('cardB'); }
+            else if (anti === 'c') { showCard('cardC'); }
+
+            // Mark the anti group as found
+            antiMap[anti] = true;
+        }
+
+        function showCard(id) {
+            var card = document.getElementById(id);
+            if (card) card.classList.add('show');
+            document.getElementById('cardNot').classList.remove('show');
+        }
+
+        function revealAll() {
+            // Highlight all anti-pattern lines
+            document.querySelectorAll('.code-line').forEach(function(line) {
+                var anti = line.dataset.anti;
+                line.classList.remove('flagged');
+                line.classList.add('correct-flag');
+                var marker = line.querySelector('.line-marker');
+                if (anti === 'a') marker.textContent = 'ðŸ”´';
+                else if (anti === 'b') marker.textContent = 'ðŸŸ¡';
+                else if (anti === 'c') marker.textContent = 'ðŸŸ£';
+            });
+            document.getElementById('cardA').classList.add('show');
+            document.getElementById('cardB').classList.add('show');
+            document.getElementById('cardC').classList.add('show');
+            document.getElementById('cardNot').classList.remove('show');
+        }
+
+        function resetHunt() {
+            document.querySelectorAll('.code-line').forEach(function(line) {
+                line.classList.remove('flagged', 'correct-flag');
+                var marker = line.querySelector('.line-marker');
+                marker.textContent = '';
+            });
+            ['cardA','cardB','cardC','cardNot'].forEach(function(id) {
+                document.getElementById(id).classList.remove('show');
+            });
+            antiMap.a = false; antiMap.b = false; antiMap.c = false;
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

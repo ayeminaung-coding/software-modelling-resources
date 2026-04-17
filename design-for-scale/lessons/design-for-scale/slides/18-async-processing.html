@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asynchronous Processing</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .demo-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+
+        .mode-btn {
+            padding: 0.8rem 2rem;
+            border: 2px solid var(--primary-color);
+            background: white;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mode-btn:hover {
+            background: #eff6ff;
+        }
+
+        .mode-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .simulation-panel {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .client-panel, .result-panel {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 200px;
+        }
+
+        .panel-title {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .server-area {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .server-box {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .queue-box {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            min-height: 80px;
+        }
+
+        .queue-box .panel-title {
+            color: white;
+            opacity: 0.9;
+        }
+
+        .worker-box {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .worker-status {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        .request-btn {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--primary-color);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 0.75rem;
+        }
+
+        .request-btn:hover:not(:disabled) {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .request-btn:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        .client-status {
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .client-status.waiting {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .client-status.done {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .client-status.idle {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .timer {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        .queue-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .queue-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .result-item {
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .result-item.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .processing-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #fbbf24;
+            border-radius: 50%;
+            margin-right: 6px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Async Processing - Interactive Demo</h2>
+        <div class="content-area">
+            <div class="demo-container">
+                <div class="mode-selector">
+                    <button class="mode-btn active" data-mode="sync">Synchronous</button>
+                    <button class="mode-btn" data-mode="async">Asynchronous</button>
+                </div>
+
+                <div class="simulation-panel">
+                    <div class="client-panel">
+                        <div class="panel-title">Client</div>
+                        <button class="request-btn" id="requestBtn" onclick="sendRequest()">
+                            Send Request
+                        </button>
+                        <div class="client-status idle" id="clientStatus">
+                            Ready to send request
+                        </div>
+                        <div class="timer" id="clientTimer">0.0s</div>
+                    </div>
+
+                    <div class="server-area">
+                        <div class="server-box" id="serverBox">
+                            Server
+                            <div class="worker-status" id="serverStatus">Idle</div>
+                        </div>
+
+                        <div class="queue-box hidden" id="queueBox">
+                            <div class="panel-title">Message Queue</div>
+                            <div class="queue-items" id="queueItems"></div>
+                        </div>
+
+                        <div class="worker-box hidden" id="workerBox">
+                            Worker
+                            <div class="worker-status" id="workerStatus">Idle</div>
+                        </div>
+                    </div>
+
+                    <div class="result-panel">
+                        <div class="panel-title">Completed Tasks</div>
+                        <div id="resultItems"></div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-value" id="statRequests">0</div>
+                        <div class="stat-label">Requests Sent</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statAvgWait">0.0s</div>
+                        <div class="stat-label">Avg Client Wait</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statCompleted">0</div>
+                        <div class="stat-label">Tasks Completed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statQueued">0</div>
+                        <div class="stat-label">In Queue</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">18 / 42</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Interactive Async Demo</strong></p>
+        <p>Show students the difference:</p>
+        <ul>
+            <li><strong>Sync mode:</strong> Client waits 3 seconds per request. Send multiple - they queue at client!</li>
+            <li><strong>Async mode:</strong> Client gets response in ~200ms. Work happens in background.</li>
+        </ul>
+        <p>Try sending multiple requests rapidly in each mode - the difference is dramatic!</p>
+        <p>Point out the "Avg Client Wait" stat - this is what users feel.</p>
+    </script>
+
+    <script>
+        let mode = 'sync';
+        let isProcessing = false;
+        let timerInterval = null;
+        let startTime = 0;
+        let stats = {
+            requests: 0,
+            completed: 0,
+            totalWait: 0,
+            queued: 0
+        };
+        let taskQueue = [];
+        let taskCounter = 0;
+        let workerBusy = false;
+
+        const SYNC_PROCESS_TIME = 3000;  // 3 seconds
+        const ASYNC_RESPONSE_TIME = 200; // 200ms
+        const WORKER_PROCESS_TIME = 3000; // 3 seconds per task
+
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (isProcessing || workerBusy) return;
+                mode = btn.dataset.mode;
+                document.querySelectorAll('.mode-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.mode === mode);
+                });
+                resetDemo();
+            });
+        });
+
+        function resetDemo() {
+            taskQueue = [];
+            taskCounter = 0;
+            workerBusy = false;
+            stats = { requests: 0, completed: 0, totalWait: 0, queued: 0 };
+            updateStats();
+
+            document.getElementById('queueBox').classList.toggle('hidden', mode === 'sync');
+            document.getElementById('workerBox').classList.toggle('hidden', mode === 'sync');
+            document.getElementById('queueItems').innerHTML = '';
+            document.getElementById('resultItems').innerHTML = '';
+            document.getElementById('clientTimer').textContent = '0.0s';
+            document.getElementById('clientStatus').textContent = 'Ready to send request';
+            document.getElementById('clientStatus').className = 'client-status idle';
+            document.getElementById('serverStatus').textContent = 'Idle';
+            document.getElementById('workerStatus').textContent = 'Idle';
+            document.getElementById('requestBtn').disabled = false;
+        }
+
+        async function sendRequest() {
+            if (mode === 'sync' && isProcessing) return;
+
+            stats.requests++;
+            taskCounter++;
+            const taskId = taskCounter;
+
+            if (mode === 'sync') {
+                await processSyncRequest(taskId);
+            } else {
+                await processAsyncRequest(taskId);
+            }
+
+            updateStats();
+        }
+
+        async function processSyncRequest(taskId) {
+            isProcessing = true;
+            document.getElementById('requestBtn').disabled = true;
+
+            // Start timer
+            startTime = Date.now();
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 100);
+
+            // Update UI
+            document.getElementById('clientStatus').textContent = 'Waiting for response...';
+            document.getElementById('clientStatus').className = 'client-status waiting';
+            document.getElementById('serverStatus').innerHTML =
+                '<span class="processing-indicator"></span>Processing Task #' + taskId;
+
+            // Simulate processing
+            await sleep(SYNC_PROCESS_TIME);
+
+            // Done
+            clearInterval(timerInterval);
+            const waitTime = (Date.now() - startTime) / 1000;
+            stats.totalWait += waitTime;
+            stats.completed++;
+
+            document.getElementById('clientStatus').textContent = 'Response received!';
+            document.getElementById('clientStatus').className = 'client-status done';
+            document.getElementById('serverStatus').textContent = 'Idle';
+
+            addResult(taskId, waitTime);
+
+            document.getElementById('requestBtn').disabled = false;
+            isProcessing = false;
+            updateStats();
+        }
+
+        async function processAsyncRequest(taskId) {
+            // Start timer
+            startTime = Date.now();
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 100);
+
+            document.getElementById('clientStatus').textContent = 'Sending request...';
+            document.getElementById('clientStatus').className = 'client-status waiting';
+            document.getElementById('serverStatus').innerHTML =
+                '<span class="processing-indicator"></span>Queuing...';
+
+            // Quick response
+            await sleep(ASYNC_RESPONSE_TIME);
+
+            // Server responds immediately
+            clearInterval(timerInterval);
+            const waitTime = (Date.now() - startTime) / 1000;
+            stats.totalWait += waitTime;
+
+            document.getElementById('clientStatus').textContent = 'Accepted! (Task queued)';
+            document.getElementById('clientStatus').className = 'client-status done';
+            document.getElementById('serverStatus').textContent = 'Idle';
+
+            // Add to queue
+            taskQueue.push(taskId);
+            stats.queued++;
+            updateQueueDisplay();
+            updateStats();
+
+            // Start worker if not busy
+            if (!workerBusy) {
+                processQueue();
+            }
+        }
+
+        async function processQueue() {
+            while (taskQueue.length > 0) {
+                workerBusy = true;
+                const taskId = taskQueue.shift();
+                stats.queued--;
+                updateQueueDisplay();
+                updateStats();
+
+                document.getElementById('workerStatus').innerHTML =
+                    '<span class="processing-indicator"></span>Processing Task #' + taskId;
+
+                await sleep(WORKER_PROCESS_TIME);
+
+                stats.completed++;
+                addResult(taskId, WORKER_PROCESS_TIME / 1000);
+                updateStats();
+            }
+
+            workerBusy = false;
+            document.getElementById('workerStatus').textContent = 'Idle';
+        }
+
+        function updateQueueDisplay() {
+            const container = document.getElementById('queueItems');
+            container.innerHTML = taskQueue.map(id =>
+                `<div class="queue-item">Task #${id}</div>`
+            ).join('');
+        }
+
+        function addResult(taskId, time) {
+            const container = document.getElementById('resultItems');
+            const item = document.createElement('div');
+            item.className = 'result-item success';
+            item.textContent = `Task #${taskId} (${time.toFixed(1)}s)`;
+            container.insertBefore(item, container.firstChild);
+        }
+
+        function updateTimer() {
+            const elapsed = (Date.now() - startTime) / 1000;
+            document.getElementById('clientTimer').textContent = elapsed.toFixed(1) + 's';
+        }
+
+        function updateStats() {
+            document.getElementById('statRequests').textContent = stats.requests;
+            document.getElementById('statCompleted').textContent = stats.completed;
+            document.getElementById('statQueued').textContent = stats.queued;
+
+            const avgWait = stats.requests > 0 ?
+                (stats.totalWait / stats.requests).toFixed(1) : '0.0';
+            document.getElementById('statAvgWait').textContent = avgWait + 's';
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Initialize
+        resetDemo();
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

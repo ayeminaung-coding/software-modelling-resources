@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principle 5: Version the Model Like Code - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .versioning-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .comparison-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem;
+        }
+        .ver-card {
+            border-radius: 10px;
+            padding: 0.75rem 0.9rem;
+        }
+        .ver-card.code-ver {
+            background: #f8fafc;
+            border: 2px solid #94a3b8;
+        }
+        .ver-card.model-ver {
+            background: #eff6ff;
+            border: 2px solid #3b82f6;
+        }
+        .ver-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.55rem;
+        }
+        .code-ver .ver-title  { color: #475569; }
+        .model-ver .ver-title { color: #1e40af; }
+        .ver-row {
+            display: flex;
+            gap: 0.4rem;
+            font-size: 0.82rem;
+            color: #1e293b;
+            line-height: 1.5;
+            padding: 0.18rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .ver-row:last-child { border-bottom: none; }
+        .ver-label {
+            font-weight: 700;
+            flex-shrink: 0;
+            min-width: 75px;
+            color: #0f172a;
+        }
+        /* Canary diagram */
+        .canary-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.7rem 0.9rem;
+        }
+        .canary-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #475569;
+            margin-bottom: 0.55rem;
+        }
+        .canary-svg-wrap { text-align: center; }
+        .key-rule {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border: 2px solid #d97706;
+            border-radius: 10px;
+            padding: 0.55rem 0.9rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #78350f;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .comparison-cols { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Principle 5: Version the Model Like Code</h2>
+        <div class="content-area">
+
+            <div class="versioning-layout">
+
+                <div class="highlight-box" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: #3b82f6; padding: 0.6rem 1rem;">
+                    <p style="font-size: 0.95rem; font-weight: 700; color: #1e3a8a; margin: 0; line-height: 1.5;">
+                        &#128230; A model is a deployable artifact. Give it a version, deploy it like code, and plan its rollback.
+                    </p>
+                </div>
+
+                <div class="comparison-cols">
+
+                    <div class="ver-card code-ver">
+                        <div class="ver-title">&#128196; Code Versioning (familiar)</div>
+                        <div class="ver-row"><span class="ver-label">Tag</span><span>git tag: v2.1.0</span></div>
+                        <div class="ver-row"><span class="ver-label">Deploy</span><span>via CI/CD pipeline</span></div>
+                        <div class="ver-row"><span class="ver-label">Rollback</span><span>git revert â†’ redeploy</span></div>
+                        <div class="ver-row"><span class="ver-label">Test</span><span>unit + integration tests</span></div>
+                        <div class="ver-row"><span class="ver-label">Monitor</span><span>error rates, response times</span></div>
+                    </div>
+
+                    <div class="ver-card model-ver">
+                        <div class="ver-title">&#129302; Model Versioning (parallel)</div>
+                        <div class="ver-row"><span class="ver-label">ID</span><span>fraud-model-v2.1.0</span></div>
+                        <div class="ver-row"><span class="ver-label">Deploy</span><span>via ML pipeline (MLflow, SageMaker)</span></div>
+                        <div class="ver-row"><span class="ver-label">Rollback</span><span>switch model pointer â†’ previous</span></div>
+                        <div class="ver-row"><span class="ver-label">Test</span><span>accuracy, confusion matrix, A/B test</span></div>
+                        <div class="ver-row"><span class="ver-label">Monitor</span><span>accuracy over time, drift, confidence</span></div>
+                    </div>
+
+                </div>
+
+                <div class="canary-box">
+                    <div class="canary-title">&#128038; Canary Deployment for Models</div>
+                    <div class="canary-svg-wrap">
+                        <svg viewBox="0 0 460 80" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block; max-width:460px; margin:0 auto;">
+                            <defs>
+                                <marker id="arr30" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                    <polygon points="0 0,7 2.5,0 5" fill="#3b82f6"/>
+                                </marker>
+                                <marker id="arr30g" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                    <polygon points="0 0,7 2.5,0 5" fill="#22c55e"/>
+                                </marker>
+                            </defs>
+                            <!-- Traffic box -->
+                            <rect x="5" y="28" width="70" height="28" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+                            <text x="40" y="40" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" font-weight="700" fill="#1e40af">Traffic</text>
+                            <text x="40" y="51" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#1e40af">100%</text>
+                            <!-- arrow to v2.0 -->
+                            <line x1="75" y1="36" x2="103" y2="26" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr30)"/>
+                            <!-- arrow to v2.1 canary -->
+                            <line x1="75" y1="52" x2="103" y2="58" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arr30g)"/>
+                            <!-- label 95% -->
+                            <text x="82" y="30" font-family="system-ui,sans-serif" font-size="8" fill="#1e40af" font-weight="600">95%</text>
+                            <!-- label 5% -->
+                            <text x="82" y="62" font-family="system-ui,sans-serif" font-size="8" fill="#22c55e" font-weight="600">5%</text>
+                            <!-- v2.0 box -->
+                            <rect x="105" y="14" width="90" height="28" rx="6" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+                            <text x="150" y="25" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" font-weight="700" fill="#1e293b">Model v2.0</text>
+                            <text x="150" y="36" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#475569">(current)</text>
+                            <!-- v2.1 canary box -->
+                            <rect x="105" y="50" width="90" height="28" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+                            <text x="150" y="61" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" font-weight="700" fill="#166534">Model v2.1</text>
+                            <text x="150" y="72" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#15803d">(canary)</text>
+                            <!-- monitor box -->
+                            <rect x="220" y="28" width="100" height="28" rx="6" fill="#fefce8" stroke="#ca8a04" stroke-width="1.5"/>
+                            <text x="270" y="39" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="#78350f">Monitor:</text>
+                            <text x="270" y="50" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#92400e">accuracy Â· latency Â· confidence</text>
+                            <!-- if OK arrow -->
+                            <line x1="320" y1="42" x2="348" y2="42" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arr30g)"/>
+                            <text x="332" y="38" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#15803d">if OK</text>
+                            <!-- ramp to 100% -->
+                            <rect x="350" y="28" width="104" height="28" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+                            <text x="402" y="39" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="#166534">Ramp v2.1</text>
+                            <text x="402" y="50" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#15803d">to 100% traffic</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="key-rule">
+                    &#9888; Never deploy a new model to 100% traffic immediately. Always canary first.
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">30 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Principle 5 â€” Version the Model Like Code.</strong></p>
+        <p>Students often treat model files as static assets, not deployable artifacts. The semantic versioning parallel makes it concrete: MAJOR = new feature engineering (breaking change to input format), MINOR = retrained on new data (same interface), PATCH = threshold tuning.</p>
+        <p>The canary deployment principle comes from Design for Change â€” same idea applied to ML models. You can't unit test a model's production behavior â€” the canary IS the test.</p>
+        <p>Ask: "What would happen if you deployed a new model to 100% traffic and accuracy dropped from 94% to 60%?" â€” every expense incorrectly flagged or approved until you detect and roll back. Canary limits blast radius to 5% of requests.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

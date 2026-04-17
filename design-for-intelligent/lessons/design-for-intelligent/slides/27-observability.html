@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principle 3: Observe Every Inference - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .obs-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem;
+        }
+        .log-card {
+            border-radius: 10px;
+            padding: 0.75rem 0.9rem;
+        }
+        .log-card.green {
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+        }
+        .log-card.blue {
+            background: #eff6ff;
+            border: 2px solid #3b82f6;
+        }
+        .log-card-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        .log-card.green .log-card-title { color: #166534; }
+        .log-card.blue .log-card-title  { color: #1e40af; }
+        .log-item {
+            display: flex;
+            gap: 0.4rem;
+            font-size: 0.82rem;
+            color: #1e293b;
+            line-height: 1.5;
+            padding: 0.15rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .log-item:last-child { border-bottom: none; }
+        .log-item-key {
+            font-weight: 700;
+            flex-shrink: 0;
+            min-width: 90px;
+            color: #0f172a;
+        }
+        .code-block {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 0.75rem 0.9rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.76rem;
+            line-height: 1.65;
+            color: #e2e8f0;
+            overflow-x: auto;
+        }
+        .ck  { color: #93c5fd; }  /* key */
+        .cv  { color: #fde68a; }  /* value string */
+        .cn  { color: #f9a8d4; }  /* number */
+        .cb  { color: #6ee7b7; }  /* boolean / enum */
+        @media (max-width: 768px) {
+            .two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Principle 3: Observe Every Inference</h2>
+        <div class="content-area">
+
+            <div class="obs-layout">
+
+                <div class="highlight-box" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: #3b82f6; padding: 0.6rem 1rem;">
+                    <p style="font-size: 0.95rem; font-weight: 700; color: #1e3a8a; margin: 0; line-height: 1.5;">
+                        &#128065; Log every AI decision: input, output, confidence, latency, model version. You cannot debug what you cannot see.
+                    </p>
+                </div>
+
+                <div class="two-col">
+
+                    <div class="log-card green">
+                        <div class="log-card-title">&#128203; What to Log</div>
+                        <div class="log-item"><span class="log-item-key">Input features</span><span>expense amount, merchant, category, time</span></div>
+                        <div class="log-item"><span class="log-item-key">Model output</span><span>fraud_score: 0.73</span></div>
+                        <div class="log-item"><span class="log-item-key">Confidence</span><span>HIGH / MEDIUM / LOW</span></div>
+                        <div class="log-item"><span class="log-item-key">Model version</span><span>fraud-model-v2.1.0</span></div>
+                        <div class="log-item"><span class="log-item-key">Latency</span><span>142ms</span></div>
+                        <div class="log-item"><span class="log-item-key">Decision</span><span>FLAGGED / APPROVED / HUMAN_REVIEW</span></div>
+                        <div class="log-item"><span class="log-item-key">Timestamp + ID</span><span>exp-20250320-4821</span></div>
+                    </div>
+
+                    <div class="log-card blue">
+                        <div class="log-card-title">&#10067; Why Each Field Matters</div>
+                        <div class="log-item"><span class="log-item-key">Input features</span><span>detect data drift â€” are inputs changing?</span></div>
+                        <div class="log-item"><span class="log-item-key">Model output</span><span>analyze score distributions over time</span></div>
+                        <div class="log-item"><span class="log-item-key">Confidence</span><span>tune thresholds, identify uncertain cases</span></div>
+                        <div class="log-item"><span class="log-item-key">Model version</span><span>correlate accuracy with deployments</span></div>
+                        <div class="log-item"><span class="log-item-key">Latency</span><span>SLA monitoring, detect degradation</span></div>
+                        <div class="log-item"><span class="log-item-key">Decision</span><span>audit trail, compliance, explanations</span></div>
+                    </div>
+
+                </div>
+
+                <div>
+                    <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:#475569; margin-bottom:0.3rem;">Sample Inference Log Entry</div>
+                    <div class="code-block">&#123;<br>
+&nbsp;&nbsp;<span class="ck">"requestId"</span>: <span class="cv">"exp-20250320-4821"</span>,<br>
+&nbsp;&nbsp;<span class="ck">"modelVersion"</span>: <span class="cv">"fraud-v2.1.0"</span>,<br>
+&nbsp;&nbsp;<span class="ck">"input"</span>: &#123; <span class="ck">"amount"</span>: <span class="cn">1250.00</span>, <span class="ck">"merchant"</span>: <span class="cv">"Hilton Bangkok"</span>, <span class="ck">"category"</span>: <span class="cv">"hotel"</span> &#125;,<br>
+&nbsp;&nbsp;<span class="ck">"fraudScore"</span>: <span class="cn">0.73</span>,<br>
+&nbsp;&nbsp;<span class="ck">"confidence"</span>: <span class="cv">"MEDIUM"</span>,<br>
+&nbsp;&nbsp;<span class="ck">"decision"</span>: <span class="cb">"HUMAN_REVIEW"</span>,<br>
+&nbsp;&nbsp;<span class="ck">"latencyMs"</span>: <span class="cn">142</span>,<br>
+&nbsp;&nbsp;<span class="ck">"timestamp"</span>: <span class="cv">"2025-03-20T14:23:01Z"</span><br>
+&#125;</div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">27 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Principle 3 â€” Observe Every Inference.</strong></p>
+        <p>Without this log, when an employee asks "Why was my expense flagged?", you cannot answer. When accuracy drops after a model update, you cannot diagnose it.</p>
+        <p>The model version field is critical â€” it lets you correlate accuracy changes with specific deployments and enables rollback decisions. Without it, you can't tell whether accuracy dropped because of a model update or a data change.</p>
+        <p>Latency logging is also essential for SLA monitoring â€” if your AI starts taking 800ms instead of 142ms, you need to know before it hits end users.</p>
+        <p>Emphasize: log from day one. Historical data you don't capture is gone forever. You can always ignore a log field later, but you can't recover data you never logged.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

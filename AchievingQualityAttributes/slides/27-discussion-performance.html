@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion: Performance Trade-offs - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Discussion: Performance Optimization Trade-offs</h2>
+        <div class="content-area">
+            <div class="highlight-box" style="margin-bottom: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Scenario</h3>
+                <p style="font-size: 1.2rem;">
+                    Your e-commerce platform experiences 10x traffic spikes during flash sales.
+                    Current architecture handles normal load but crashes during peaks.
+                    You have limited budget and a 2-week deadline.
+                </p>
+            </div>
+
+            <div class="two-columns">
+                <div class="card">
+                    <h4>Option A: Aggressive Caching</h4>
+                    <ul style="font-size: 1rem;">
+                        <li>Add Redis cache layer</li>
+                        <li>Cache product catalog for 5 minutes</li>
+                        <li>Pre-compute popular queries</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                        <strong>Trade-off:</strong> May show stale prices/inventory
+                    </p>
+                </div>
+                <div class="card warning">
+                    <h4>Option B: Rate Limiting + Queuing</h4>
+                    <ul style="font-size: 1rem;">
+                        <li>Queue checkout requests</li>
+                        <li>Limit concurrent users</li>
+                        <li>Show "virtual waiting room"</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                        <strong>Trade-off:</strong> Users wait, may lose sales
+                    </p>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 2rem; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);">
+                <h4>Discussion Questions</h4>
+                <ol style="font-size: 1.1rem;">
+                    <li>Which option would you choose and why?</li>
+                    <li>What metrics would you use to measure success?</li>
+                    <li>How would you handle inventory accuracy during caching?</li>
+                    <li>What hybrid approach might combine benefits of both?</li>
+                </ol>
+            </div>
+
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-light);">
+                <strong>Time:</strong> 5 minutes discussion | Share your reasoning with the class
+            </p>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Facilitation Guide:</strong></p>
+        <ul>
+            <li>Let students discuss in pairs for 3 minutes</li>
+            <li>Ask for volunteers to share their choice</li>
+            <li>Guide discussion toward hybrid solutions</li>
+        </ul>
+        <p><strong>Expected insights:</strong></p>
+        <ul>
+            <li>Cache static content, queue dynamic operations (checkout)</li>
+            <li>Use optimistic locking for inventory</li>
+            <li>Different tactics for different parts of the system</li>
+        </ul>
+        <p><strong>Real example:</strong> Amazon uses a combination - cached product pages, queued checkout, and inventory reservation system.</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion: AI Debt in the Wild - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .discussion-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .opening-question {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border-left: 4px solid #f59e0b;
+            border-radius: 0 8px 8px 0;
+            padding: 0.6rem 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #78350f;
+        }
+        .legend {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-weight: 600;
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+        .scenarios-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.6rem;
+        }
+        .scenario-card {
+            border-radius: 10px;
+            padding: 0.65rem 0.75rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 80px;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .scenario-card:hover { border-color: #94a3b8; background: #f8fafc; }
+        .scenario-card:active { transform: scale(0.98); }
+        .scenario-card.flipped { cursor: default; }
+        .scenario-front {
+            font-size: 0.78rem;
+            color: #334155;
+            line-height: 1.45;
+        }
+        .scenario-back {
+            display: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+        .scenario-card.flipped .scenario-front { display: none; }
+        .scenario-card.flipped .scenario-back  { display: block; }
+        /* Category colors */
+        .scenario-card.entanglement      { background: #eff6ff; border-color: #3b82f6; }
+        .scenario-card.entanglement .scenario-back { color: #1e40af; }
+        .scenario-card.cascade           { background: #f5f3ff; border-color: #8b5cf6; }
+        .scenario-card.cascade .scenario-back { color: #4c1d95; }
+        .scenario-card.undeclared        { background: #fff7ed; border-color: #f97316; }
+        .scenario-card.undeclared .scenario-back { color: #c2410c; }
+        .scenario-card.jungle            { background: #fafaf9; border-color: #78716c; }
+        .scenario-card.jungle .scenario-back { color: #44403c; }
+        .control-buttons {
+            display: flex;
+            gap: 0.55rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.5rem 0.9rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-reveal { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+        .btn-reset  { background: #e2e8f0; color: #475569; }
+        .btn-reveal:hover, .btn-reveal:active { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(99,102,241,0.3); }
+        .btn-reset:hover,  .btn-reset:active  { background: #cbd5e1; }
+        @media (max-width: 768px) {
+            .scenarios-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Discussion: AI Debt in the Wild</h2>
+        <div class="content-area">
+
+            <div class="discussion-layout">
+
+                <div class="opening-question">
+                    &#128172; Which of these AI debt patterns have you encountered &mdash; or can you imagine in your projects?
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div> Entanglement</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6;"></div> Correction Cascade</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:#f97316;"></div> Undeclared Consumer</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:#78716c;"></div> Pipeline Jungle</div>
+                    <p style="font-size:0.75rem; color:#64748b; margin:0; align-self:center;">Click each card to reveal its category.</p>
+                </div>
+
+                <div class="scenarios-grid" id="scenariosGrid">
+                    <div class="scenario-card" data-category="entanglement" onclick="flipCard(this)">
+                        <div class="scenario-front">"The data science team added 3 new features to the fraud model. Somehow, the model now gives different scores for expenses it used to approve correctly."</div>
+                        <div class="scenario-back">&#128376; Entanglement<br><span style="font-size:0.72rem; font-weight:400; color:#3b82f6;">CACE: changing anything changes everything. New features shift all feature weights.</span></div>
+                    </div>
+                    <div class="scenario-card" data-category="undeclared" onclick="flipCard(this)">
+                        <div class="scenario-front">"The fraud detection score started being used by the annual compliance report â€” but the ML team didn't know. A model update broke the report."</div>
+                        <div class="scenario-back">&#128100; Undeclared Consumer<br><span style="font-size:0.72rem; font-weight:400; color:#ea580c;">Other teams depend on your model output without notifying the ML team.</span></div>
+                    </div>
+                    <div class="scenario-card" data-category="cascade" onclick="flipCard(this)">
+                        <div class="scenario-front">"The receipt OCR model's output feeds the category classifier. OCR started returning 'UNKNOWN' for blurry receipts. Fraud scores went wrong for those expenses."</div>
+                        <div class="scenario-back">&#128279; Correction Cascade<br><span style="font-size:0.72rem; font-weight:400; color:#7c3aed;">OCR error â†’ wrong category â†’ wrong fraud score. Errors compound silently.</span></div>
+                    </div>
+                    <div class="scenario-card" data-category="jungle" onclick="flipCard(this)">
+                        <div class="scenario-front">"Nobody knows where the feature engineering script came from. It runs in a cron job somewhere. If you touch it, the model breaks. Everyone is afraid to change it."</div>
+                        <div class="scenario-back">&#127807; Pipeline Jungle<br><span style="font-size:0.72rem; font-weight:400; color:#57534e;">Organically grown scripts with no owner, no tests, and no documentation.</span></div>
+                    </div>
+                    <div class="scenario-card" data-category="entanglement" onclick="flipCard(this)">
+                        <div class="scenario-front">"Adding employee tenure as a feature to the fraud model somehow made the 'amount' feature less predictive."</div>
+                        <div class="scenario-back">&#128376; Entanglement<br><span style="font-size:0.72rem; font-weight:400; color:#3b82f6;">New feature changes how existing features are weighted â€” global side effect.</span></div>
+                    </div>
+                    <div class="scenario-card" data-category="undeclared" onclick="flipCard(this)">
+                        <div class="scenario-front">"Three different microservices are calling the fraud model API directly, bypassing the interface contract. Nobody told the ML team."</div>
+                        <div class="scenario-back">&#128100; Undeclared Consumer<br><span style="font-size:0.72rem; font-weight:400; color:#ea580c;">Direct API callers = invisible dependents. Model change breaks all three.</span></div>
+                    </div>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="btn btn-reveal" onclick="revealAll()">Reveal All</button>
+                    <button class="btn btn-reset"  onclick="resetAll()">Reset</button>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">39 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Discussion â€” AI Debt in the Wild.</strong></p>
+        <p>This discussion surfaces real patterns from students' experience. After revealing, ask: "Which of these is hardest to detect?" Answer: Undeclared consumers â€” you don't know they exist until they break. "Which is hardest to fix?" Answer: Pipeline jungle â€” it requires full rewrite of data pipeline.</p>
+        <p>Categories: Entanglement (blue), Correction Cascade (purple), Undeclared Consumer (orange), Pipeline Jungle (brown/gray).</p>
+        <p>The undeclared consumer scenario is the most common in real organizations. Other teams treat your model API as a stable service without consulting you â€” a simple API rate limit or versioning strategy prevents most of these problems.</p>
+    </script>
+
+    <script>
+        function flipCard(card) {
+            if (card.classList.contains('flipped')) return;
+            var category = card.dataset.category;
+            card.classList.add('flipped', category);
+        }
+
+        function revealAll() {
+            document.querySelectorAll('.scenario-card').forEach(function(card) {
+                if (!card.classList.contains('flipped')) {
+                    flipCard(card);
+                }
+            });
+        }
+
+        function resetAll() {
+            document.querySelectorAll('.scenario-card').forEach(function(card) {
+                card.classList.remove('flipped', 'entanglement', 'cascade', 'undeclared', 'jungle');
+            });
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

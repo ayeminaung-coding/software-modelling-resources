@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade-off Analysis - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .balance-scale {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+        .balance-fulcrum {
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 30px solid var(--primary-color);
+            margin-top: -2px;
+        }
+        .balance-base {
+            width: 80px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        .balance-beam {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+        .balance-beam::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 4px;
+            background: var(--dark-color);
+            border-radius: 2px;
+        }
+        .balance-pan {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.75rem;
+            z-index: 1;
+            min-width: 140px;
+        }
+        .balance-pan .qa-tag {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 1px solid var(--accent-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            white-space: nowrap;
+        }
+        .balance-pan.right .qa-tag {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-color: var(--warning-color);
+            color: #92400e;
+        }
+        .balance-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 0.3rem;
+        }
+        .tradeoff-examples {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .tradeoff-pair {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .tradeoff-pair .vs {
+            color: var(--danger-color);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .tradeoff-pair .attr {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Trade-off Analysis</h2>
+        <div class="content-area">
+            <ul style="font-size: 1.15rem; margin-bottom: 1rem;">
+                <li>Careful consideration of potential risks and benefits is essential for informed architectural decisions</li>
+                <li>New technologies may offer benefits but carry higher risks; established technologies are less risky but offer fewer benefits</li>
+                <li>Architectural trade-offs involve balancing different quality attributes</li>
+            </ul>
+
+            <div class="balance-scale">
+                <div class="balance-beam">
+                    <div class="balance-pan left">
+                        <span class="balance-label">Side A</span>
+                        <span class="qa-tag">Performance</span>
+                        <span class="qa-tag">Flexibility</span>
+                        <span class="qa-tag">Usability</span>
+                    </div>
+                    <div class="balance-pan right">
+                        <span class="balance-label">Side B</span>
+                        <span class="qa-tag">Maintainability</span>
+                        <span class="qa-tag">Security</span>
+                        <span class="qa-tag">Scalability</span>
+                    </div>
+                </div>
+                <div class="balance-fulcrum"></div>
+                <div class="balance-base"></div>
+            </div>
+
+            <div class="tradeoff-examples">
+                <div class="tradeoff-pair">
+                    <span class="attr">Performance</span>
+                    <span class="vs">vs.</span>
+                    <span class="attr">Maintainability</span>
+                </div>
+                <div class="tradeoff-pair">
+                    <span class="attr">Flexibility</span>
+                    <span class="vs">vs.</span>
+                    <span class="attr">Security</span>
+                </div>
+                <div class="tradeoff-pair">
+                    <span class="attr">Usability</span>
+                    <span class="vs">vs.</span>
+                    <span class="attr">Scalability</span>
+                </div>
+                <div class="tradeoff-pair">
+                    <span class="attr">Reusability</span>
+                    <span class="vs">vs.</span>
+                    <span class="attr">Complexity</span>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">26 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Trade-off Analysis Overview:</strong></p>
+        <p>There are rarely "right" answers in trade-off analysis. The goal is to make informed decisions aligned with project priorities.</p>
+        <ul>
+            <li>Every design choice favors certain quality attributes at the expense of others</li>
+            <li>New technologies (e.g., reactive frameworks, serverless) may offer performance or scalability benefits but carry adoption risks</li>
+            <li>Established technologies (e.g., relational databases, monoliths) are well-understood but may limit future flexibility</li>
+            <li>The balance scale illustrates how improving one side often comes at the cost of the other</li>
+        </ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

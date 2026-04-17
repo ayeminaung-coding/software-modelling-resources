@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .summary-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+        }
+        .sum-card {
+            border-radius: 10px;
+            padding: 0.7rem 0.85rem;
+        }
+        .sum-card.blue   { background: #eff6ff; border: 2px solid #3b82f6; }
+        .sum-card.indigo { background: #eef2ff; border: 2px solid #6366f1; }
+        .sum-card.green  { background: #f0fdf4; border: 2px solid #22c55e; }
+        .sum-card.amber  { background: #fffbeb; border: 2px solid #f59e0b; }
+        .sum-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.4rem;
+        }
+        .blue .sum-title   { color: #1e40af; }
+        .indigo .sum-title { color: #3730a3; }
+        .green .sum-title  { color: #166534; }
+        .amber .sum-title  { color: #92400e; }
+        .sum-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.22rem;
+        }
+        .sum-list li {
+            font-size: 0.8rem;
+            color: #1e293b;
+            line-height: 1.4;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.3rem;
+        }
+        .monday-box {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            border-radius: 10px;
+            padding: 0.7rem 0.9rem;
+            color: white;
+        }
+        .monday-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #94a3b8;
+            margin-bottom: 0.4rem;
+        }
+        .monday-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .monday-list li {
+            font-size: 0.82rem;
+            color: #e2e8f0;
+            line-height: 1.45;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.4rem;
+        }
+        .monday-num {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin-top: 0.05rem;
+        }
+        @media (max-width: 768px) {
+            .summary-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Summary</h2>
+        <div class="content-area">
+
+            <div class="summary-layout">
+
+                <div class="summary-grid">
+
+                    <div class="sum-card blue">
+                        <div class="sum-title">&#129302; What Makes AI Different</div>
+                        <ul class="sum-list">
+                            <li><span>&#8226;</span><span>Probabilistic, not deterministic â€” design for failure, not just success</span></li>
+                            <li><span>&#8226;</span><span>Five risks: non-determinism, latency, data dependency, drift, explainability</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="sum-card indigo">
+                        <div class="sum-title">&#127306; Patterns</div>
+                        <ul class="sum-list">
+                            <li><span>&#8226;</span><span>Five patterns: AI-as-a-Service, Embedded, Pipeline, Human-in-the-Loop, RAG</span></li>
+                            <li><span>&#8226;</span><span>No single "best" pattern â€” choose based on latency, privacy, complexity, volume</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="sum-card green">
+                        <div class="sum-title">&#128274; Principles</div>
+                        <ul class="sum-list">
+                            <li><span>&#8226;</span><span><strong>Isolate</strong> â€” interface between your system and AI</span></li>
+                            <li><span>&#8226;</span><span><strong>Fallback</strong> â€” design for AI failure from day one</span></li>
+                            <li><span>&#8226;</span><span><strong>Observe</strong> â€” log every inference</span></li>
+                            <li><span>&#8226;</span><span><strong>Data contract</strong> â€” validate inputs at boundary</span></li>
+                            <li><span>&#8226;</span><span><strong>Version</strong> â€” models are deployable artifacts</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="sum-card amber">
+                        <div class="sum-title">&#9201; AI Technical Debt</div>
+                        <ul class="sum-list">
+                            <li><span>&#8226;</span><span>Models decay even when code doesn't change</span></li>
+                            <li><span>&#8226;</span><span>Hidden debt: entanglement, correction cascades, undeclared consumers, pipeline jungle</span></li>
+                            <li><span>&#8226;</span><span>Monitor accuracy, drift, and fallback activation rate</span></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="monday-box">
+                    <div class="monday-title">3 Things to Do on Monday</div>
+                    <ul class="monday-list">
+                        <li><span class="monday-num">1</span><span>Review any AI integration in your current project â€” does it have an interface?</span></li>
+                        <li><span class="monday-num">2</span><span>Find the fallback â€” if AI fails today, what happens to your users?</span></li>
+                        <li><span class="monday-num">3</span><span>Open the logs â€” can you trace why the AI made its last 10 decisions?</span></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">44 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Summary.</strong></p>
+        <p>The "3 things to do Monday" is the most actionable part â€” it gives students concrete steps they can take immediately in their work. The takeaway cards mirror the 4 sections so students can mentally map what they learned.</p>
+        <p>The three Monday actions are deliberately diagnostic: (1) does it have an interface? â€” tests Principle 1, (2) what happens if AI fails? â€” tests Principle 2, (3) can you trace AI decisions? â€” tests Principle 3. These are the three most common gaps in real AI integrations.</p>
+        <p>Close with: "If you find that none of these three things are true for your current project, you now know exactly what to fix first."</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

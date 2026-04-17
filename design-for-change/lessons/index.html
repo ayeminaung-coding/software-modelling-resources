@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Modeling and Architectural Design</title>
+    <link rel="stylesheet" href="shared/css/slides.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .lessons-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .lesson-number {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .lesson-content {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .lesson-content h2 {
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-content p {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .lesson-content:hover h2 {
+            color: var(--primary-color);
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .meta-badge {
+            background: var(--light-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .lesson-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-end;
+        }
+
+        .checkin-btn {
+            background: var(--gradient-success);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkin-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Lesson Progress */
+        .lesson-progress {
+            margin-top: 0.75rem;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 0.25rem;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--gradient-success);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-text .slides-count {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .progress-loading {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .progress-login-prompt {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .progress-login-prompt a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .progress-login-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        /* Check-in Status */
+        .checkin-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: #ecfdf5;
+            border-radius: 8px;
+            border: 1px solid #a7f3d0;
+        }
+
+        .checkin-status svg {
+            width: 18px;
+            height: 18px;
+            color: var(--success-color);
+            flex-shrink: 0;
+        }
+
+        .checkin-status-text {
+            font-size: 0.85rem;
+            color: #065f46;
+        }
+
+        .checkin-status-text strong {
+            font-weight: 600;
+        }
+
+        .checkin-status-time {
+            font-size: 0.75rem;
+            color: #059669;
+        }
+
+        .checkin-loading {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
+        .checkin-not-found {
+            display: none;
+        }
+
+        /* Check-in Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal h3 {
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-lesson-name {
+            color: var(--primary-color);
+            font-size: 1rem;
+            font-weight: normal;
+            display: block;
+            margin-top: 0.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .camera-container {
+            background: #1f2937;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 4/3;
+            margin-bottom: 1rem;
+        }
+
+        .camera-container video,
+        .camera-container canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .camera-container canvas {
+            display: none;
+        }
+
+        .camera-container.captured video {
+            display: none;
+        }
+
+        .camera-container.captured canvas {
+            display: block;
+        }
+
+        .camera-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #9ca3af;
+            text-align: center;
+        }
+
+        .camera-placeholder svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 0.5rem;
+        }
+
+        .camera-controls {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .camera-btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .camera-btn.capture {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .camera-btn.retake {
+            background: #6b7280;
+            color: white;
+            display: none;
+        }
+
+        .camera-container.captured ~ .camera-controls .capture {
+            display: none;
+        }
+
+        .camera-container.captured ~ .camera-controls .retake {
+            display: inline-block;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn.cancel {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .modal-btn.submit {
+            background: var(--gradient-success);
+            color: white;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .modal-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .checkin-success {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .checkin-success svg {
+            width: 64px;
+            height: 64px;
+            color: var(--success-color);
+            margin-bottom: 1rem;
+        }
+
+        .checkin-success h4 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .checkin-success p {
+            color: var(--text-light);
+        }
+
+        .footer {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            margin-top: 3rem;
+            padding: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .lesson-card {
+                grid-template-columns: auto 1fr;
+            }
+            .lesson-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Software Modeling and Architectural Design</h1>
+            <p>A comprehensive course on building modern software systems</p>
+        </div>
+
+        <div class="lessons-container" id="lessonsContainer">
+            <!-- Lessons loaded dynamically from Firestore -->
+            <div class="lessons-loading" style="text-align: center; padding: 2rem; color: #64748b;">
+                Loading lessons...
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Software Architecture Course</p>
+        </div>
+    </div>
+
+    <!-- Check-in Modal -->
+    <div class="modal-overlay" id="checkinModal">
+        <div class="modal">
+            <div id="checkinForm">
+                <h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+                    Check In
+                    <span class="modal-lesson-name" id="modalLessonName"></span>
+                </h3>
+
+                <div class="form-group">
+                    <label for="studentId">Student ID</label>
+                    <input type="text" id="studentId" placeholder="e.g., 6531503001" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" placeholder="Enter your first name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" placeholder="Enter your last name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Photo</label>
+                    <div class="camera-container" id="cameraContainer">
+                        <video id="cameraVideo" autoplay playsinline muted webkit-playsinline></video>
+                        <canvas id="cameraCanvas"></canvas>
+                        <div class="camera-placeholder" id="cameraPlaceholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                                <circle cx="12" cy="13" r="4"></circle>
+                            </svg>
+                            <p>Tap to start camera</p>
+                        </div>
+                    </div>
+                    <div class="camera-controls">
+                        <button type="button" class="camera-btn capture" id="captureBtn" onclick="capturePhoto()">
+                            Capture Photo
+                        </button>
+                        <button type="button" class="camera-btn retake" id="retakeBtn" onclick="retakePhoto()">
+                            Retake
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="modal-btn cancel" onclick="closeCheckinModal()">Cancel</button>
+                    <button type="button" class="modal-btn submit" id="submitBtn" onclick="submitCheckin()">Submit Check In</button>
+                </div>
+            </div>
+
+            <div id="checkinSuccess" class="checkin-success" style="display: none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <h4>Check-in Successful!</h4>
+                <p id="successMessage">You have been checked in.</p>
+                <button class="modal-btn submit" style="margin-top: 1rem; flex: none;" onclick="closeCheckinModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase and Authentication Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    <script src="shared/js/firebase-config.js"></script>
+    <script src="shared/js/auth-service.js"></script>
+    <script src="shared/js/interaction-tracker.js"></script>
+    <script src="shared/js/login-ui.js"></script>
+    <script src="shared/js/app-init.js"></script>
+
+    <!-- Check-in Script -->
+    <script>
+        let currentLessonId = null;
+        let currentLessonName = null;
+        let cameraStream = null;
+        let capturedImageData = null;
+
+        function openCheckinModal(lessonId, lessonName) {
+            currentLessonId = lessonId;
+            currentLessonName = lessonName;
+
+            document.getElementById('modalLessonName').textContent = lessonName;
+            document.getElementById('checkinModal').classList.add('active');
+            document.getElementById('checkinForm').style.display = 'block';
+            document.getElementById('checkinSuccess').style.display = 'none';
+
+            // Reset form
+            document.getElementById('studentId').value = '';
+            document.getElementById('firstName').value = '';
+            document.getElementById('lastName').value = '';
+            capturedImageData = null;
+
+            // Start camera
+            startCamera();
+        }
+
+        function closeCheckinModal() {
+            document.getElementById('checkinModal').classList.remove('active');
+            stopCamera();
+            resetCameraUI();
+        }
+
+        async function startCamera() {
+            const video = document.getElementById('cameraVideo');
+            const placeholder = document.getElementById('cameraPlaceholder');
+            const container = document.getElementById('cameraContainer');
+
+            // Check if we're on iOS/iPadOS
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+            try {
+                // Request camera with fallback options for iOS compatibility
+                const constraints = {
+                    video: {
+                        facingMode: 'user',
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    },
+                    audio: false
+                };
+
+                // On iOS, try simpler constraints first if complex ones fail
+                try {
+                    cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
+                } catch (constraintError) {
+                    console.log('Trying simpler constraints for iOS...');
+                    cameraStream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: 'user' },
+                        audio: false
+                    });
+                }
+
+                video.srcObject = cameraStream;
+
+                // iOS requires explicit play() call after setting srcObject
+                video.setAttribute('autoplay', '');
+                video.setAttribute('playsinline', '');
+                video.setAttribute('muted', '');
+
+                // Wait for video to be ready before playing
+                video.onloadedmetadata = async () => {
+                    try {
+                        await video.play();
+                        placeholder.style.display = 'none';
+                        container.classList.remove('captured');
+                    } catch (playError) {
+                        console.error('Video play error:', playError);
+                        // On iOS, user interaction might be needed
+                        placeholder.innerHTML = `
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                                <circle cx="12" cy="13" r="4"></circle>
+                            </svg>
+                            <p>Tap here to start camera</p>
+                        `;
+                        placeholder.style.cursor = 'pointer';
+                        placeholder.onclick = async () => {
+                            try {
+                                await video.play();
+                                placeholder.style.display = 'none';
+                            } catch (e) {
+                                console.error('Manual play failed:', e);
+                            }
+                        };
+                    }
+                };
+
+            } catch (error) {
+                console.error('Camera error:', error);
+                let errorMessage = 'Camera not available';
+
+                if (error.name === 'NotAllowedError') {
+                    errorMessage = 'Camera access denied. Please allow camera access in your browser settings.';
+                } else if (error.name === 'NotFoundError') {
+                    errorMessage = 'No camera found on this device.';
+                } else if (error.name === 'NotReadableError') {
+                    errorMessage = 'Camera is in use by another app.';
+                } else if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+                    errorMessage = 'Camera requires HTTPS. Please use a secure connection.';
+                }
+
+                placeholder.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                    <p style="font-size: 0.9rem; padding: 0 1rem;">${errorMessage}</p>
+                `;
+            }
+        }
+
+        function stopCamera() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+            }
+        }
+
+        function capturePhoto() {
+            const video = document.getElementById('cameraVideo');
+            const canvas = document.getElementById('cameraCanvas');
+            const container = document.getElementById('cameraContainer');
+
+            // Set canvas size to match video
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Draw video frame to canvas
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+
+            // Store the image data
+            capturedImageData = canvas.toDataURL('image/jpeg', 0.8);
+
+            // Update UI
+            container.classList.add('captured');
+            document.getElementById('captureBtn').style.display = 'none';
+            document.getElementById('retakeBtn').style.display = 'inline-block';
+        }
+
+        function retakePhoto() {
+            const container = document.getElementById('cameraContainer');
+            container.classList.remove('captured');
+            capturedImageData = null;
+
+            document.getElementById('captureBtn').style.display = 'inline-block';
+            document.getElementById('retakeBtn').style.display = 'none';
+        }
+
+        function resetCameraUI() {
+            const container = document.getElementById('cameraContainer');
+            container.classList.remove('captured');
+            document.getElementById('captureBtn').style.display = 'inline-block';
+            document.getElementById('retakeBtn').style.display = 'none';
+            capturedImageData = null;
+        }
+
+        /**
+         * Convert base64 data URL to Blob
+         */
+        function dataURLtoBlob(dataURL) {
+            const parts = dataURL.split(',');
+            const mime = parts[0].match(/:(.*?);/)[1];
+            const bstr = atob(parts[1]);
+            let n = bstr.length;
+            const u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], { type: mime });
+        }
+
+        async function submitCheckin() {
+            const studentId = document.getElementById('studentId').value.trim();
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+
+            // Validation
+            if (!studentId) {
+                alert('Please enter your Student ID');
+                return;
+            }
+            if (!firstName) {
+                alert('Please enter your First Name');
+                return;
+            }
+            if (!lastName) {
+                alert('Please enter your Last Name');
+                return;
+            }
+            if (!capturedImageData) {
+                alert('Please capture your photo');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+
+            try {
+                const db = window.FirebaseApp?.getDb();
+                if (!db) {
+                    throw new Error('Database not available');
+                }
+
+                // Get Firebase Storage reference
+                const storage = firebase.storage();
+
+                const checkinDate = new Date().toISOString().split('T')[0];
+
+                // Use consistent document ID: lessonId_studentId (one per student per lesson)
+                const docId = `${currentLessonId}_${studentId}`;
+
+                // Check for existing check-in and delete old photo if exists
+                submitBtn.textContent = 'Checking existing...';
+                const existingDoc = await db.collection('checkins').doc(docId).get();
+
+                if (existingDoc.exists) {
+                    const existingData = existingDoc.data();
+                    // Delete old photo from storage if it exists
+                    if (existingData.photoPath) {
+                        try {
+                            await storage.ref(existingData.photoPath).delete();
+                            console.log('Deleted old photo:', existingData.photoPath);
+                        } catch (deleteError) {
+                            console.warn('Could not delete old photo:', deleteError);
+                            // Continue anyway - old photo might not exist
+                        }
+                    }
+                }
+
+                // Create new filename with timestamp for uniqueness in storage
+                const timestamp = Date.now();
+                const fileName = `${studentId}_${checkinDate}_${timestamp}.jpg`;
+                const storagePath = `checkins/${currentLessonId}/${fileName}`;
+
+                // Convert base64 to blob and upload
+                const imageBlob = dataURLtoBlob(capturedImageData);
+                const storageRef = storage.ref(storagePath);
+
+                submitBtn.textContent = 'Uploading photo...';
+                const uploadTask = await storageRef.put(imageBlob);
+
+                // Get download URL
+                const photoURL = await uploadTask.ref.getDownloadURL();
+
+                submitBtn.textContent = 'Saving...';
+
+                // Create/replace check-in document
+                const checkinData = {
+                    lessonId: currentLessonId,
+                    lessonName: currentLessonName,
+                    studentId: studentId,
+                    firstName: firstName,
+                    lastName: lastName,
+                    photoURL: photoURL,
+                    photoPath: storagePath,
+                    checkinTime: firebase.firestore.FieldValue.serverTimestamp(),
+                    checkinDate: checkinDate
+                };
+
+                // Set (create or replace) the check-in document
+                await db.collection('checkins').doc(docId).set(checkinData);
+
+                // Show success
+                document.getElementById('checkinForm').style.display = 'none';
+                document.getElementById('checkinSuccess').style.display = 'block';
+                document.getElementById('successMessage').textContent =
+                    `${firstName} ${lastName} (${studentId}) checked in to ${currentLessonName}`;
+
+                stopCamera();
+            } catch (error) {
+                console.error('Check-in error:', error);
+                alert('Failed to check in. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Check In';
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('checkinModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCheckinModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeCheckinModal();
+            }
+        });
+
+        // ============================================
+        // Progress Loading Functions
+        // ============================================
+
+        // Lesson configuration - dynamically populated from Firestore
+        const LESSON_TOTALS = {};
+        let lessonsCache = [];
+
+        // Default lessons (fallback if Firestore is unavailable)
+        const DEFAULT_LESSONS = [
+            {
+                id: 'software-architecture-fundamentals',
+                name: 'Software Architecture Fundamentals',
+                path: 'software-architecture-fundamentals/index.html',
+                description: 'Core concepts, influential factors, Architecture Business Cycle, and quality attributes',
+                totalSlides: 40,
+                visible: true,
+                order: 1
+            },
+            {
+                id: 'requirement-modeling',
+                name: 'Requirement Modeling',
+                path: 'requirement-modeling/index.html',
+                description: 'Sketches, functional decomposition, use cases, domain modeling, and simulation techniques',
+                totalSlides: 36,
+                visible: true,
+                order: 2
+            },
+            {
+                id: 'system-modeling',
+                name: 'System Modeling',
+                path: 'system-modeling/index.html',
+                description: 'Design as Domain Model - 4+1 View, Component Diagrams, State and Activity Diagrams',
+                totalSlides: 28,
+                visible: true,
+                order: 3
+            },
+            {
+                id: 'design-for-scale',
+                name: 'Design for Scale',
+                path: 'design-for-scale/index.html',
+                description: 'Scalability fundamentals, patterns, and implementation strategies',
+                totalSlides: 42,
+                visible: true,
+                order: 4
+            },
+            {
+                id: 'analysing-architecture',
+                name: 'Analysing Software Architecture',
+                path: 'analysing-architecture/index.html',
+                description: 'Use case analysis, quality attribute analysis, trade-off analysis, cost-benefit analysis',
+                totalSlides: 39,
+                visible: true,
+                order: 7
+            },
+            {
+                id: 'design-for-change',
+                name: 'Design for Change',
+                path: 'design-for-change/index.html',
+                description: 'DSM, Conway\'s Law, interfaces, adapters, technical debt, code decay',
+                totalSlides: 34,
+                visible: true,
+                order: 8
+            }
+        ];
+
+        /**
+         * Load lessons from Firestore and merge with defaults
+         */
+        async function loadLessonsFromFirestore() {
+            const container = document.getElementById('lessonsContainer');
+
+            try {
+                const db = window.FirebaseApp?.getDb();
+
+                if (!db) {
+                    // Firebase not ready, wait and retry
+                    setTimeout(loadLessonsFromFirestore, 500);
+                    return;
+                }
+
+                const snapshot = await db.collection('lessons').orderBy('order', 'asc').get();
+
+                // Start with DEFAULT_LESSONS as base
+                const lessonMap = new Map();
+                DEFAULT_LESSONS.forEach(lesson => {
+                    lessonMap.set(lesson.id, { ...lesson });
+                });
+
+                // Override/merge with Firestore lessons
+                if (!snapshot.empty) {
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        // Determine the lesson ID - prefer path-based ID extraction, then data.id, then doc.id
+                        let lessonId = data.id;
+                        if (!lessonId && data.path) {
+                            // Extract ID from path like "system-modeling/index.html" -> "system-modeling"
+                            const pathMatch = data.path.match(/^([^\/]+)\//);
+                            if (pathMatch) {
+                                lessonId = pathMatch[1];
+                            }
+                        }
+                        if (!lessonId) {
+                            lessonId = doc.id;
+                        }
+
+                        console.log('Firestore lesson:', lessonId, 'doc.id:', doc.id, 'data.id:', data.id, 'path:', data.path);
+                        if (data.visible !== false) {
+                            lessonMap.set(lessonId, { ...data, id: lessonId });
+                        } else if (lessonMap.has(lessonId)) {
+                            // If Firestore says not visible, remove from defaults
+                            lessonMap.delete(lessonId);
+                        }
+                    });
+                }
+
+                console.log('Final lessons:', Array.from(lessonMap.keys()));
+
+                // Convert map to array and sort by order
+                lessonsCache = Array.from(lessonMap.values()).sort((a, b) => (a.order || 99) - (b.order || 99));
+
+                // Populate LESSON_TOTALS
+                lessonsCache.forEach(lesson => {
+                    LESSON_TOTALS[lesson.id] = lesson.totalSlides || 40;
+                });
+
+                // Render the lesson cards
+                renderLessonCards();
+
+            } catch (error) {
+                console.error('Error loading lessons from Firestore:', error);
+                // Fallback to default lessons
+                lessonsCache = DEFAULT_LESSONS;
+                lessonsCache.forEach(lesson => {
+                    LESSON_TOTALS[lesson.id] = lesson.totalSlides || 40;
+                });
+                renderLessonCards();
+            }
+        }
+
+        /**
+         * Render lesson cards dynamically
+         */
+        function renderLessonCards() {
+            const container = document.getElementById('lessonsContainer');
+
+            if (lessonsCache.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: #64748b;">
+                        <h3>No lessons available</h3>
+                        <p>Please check back later.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            lessonsCache.forEach((lesson, index) => {
+                const lessonNumber = String(lesson.order || index + 1).padStart(2, '0');
+                const totalSlides = lesson.totalSlides || 40;
+
+                html += `
+                    <div class="lesson-card" data-lesson-id="${lesson.id}" data-total-slides="${totalSlides}">
+                        <div class="lesson-number">${lessonNumber}</div>
+                        <a href="${(lesson.path&#32;||&#32;lesson.id&#32;+&#32;'/index.html').replace(/^lessons\/,&#32;'')}" class="lesson-content">
+                            <h2>${lesson.name}</h2>
+                            <p>${lesson.description || ''}</p>
+                            <div class="lesson-meta">
+                                <span class="meta-badge">${totalSlides} Slides</span>
+                            </div>
+                            <div class="lesson-progress" id="progress-${lesson.id}">
+                                <div class="progress-loading">Loading progress...</div>
+                            </div>
+                            <div class="checkin-status-container" id="checkin-${lesson.id}"></div>
+                        </a>
+                        <div class="lesson-actions">
+                            <button class="checkin-btn" id="checkin-btn-${lesson.id}" onclick="openCheckinModal('${lesson.id}', '${lesson.name.replace(/'/g, "\\'")}')">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 11l3 3L22 4"></path>
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                </svg>
+                                Check In
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+
+            // After rendering, load progress and check-in status
+            loadAllLessonProgress();
+            loadAllCheckinStatus();
+        }
+
+        /**
+         * Extract student ID from email (e.g., 623423423@lamduan.mfu.ac.th -> 623423423, user@mfu.ac.th -> user)
+         */
+        function extractStudentId(email) {
+            if (!email) return null;
+            // Extract everything before the @ sign
+            const match = email.match(/^([^@]+)@/);
+            return match ? match[1] : null;
+        }
+
+        /**
+         * Load and display progress for all lessons
+         */
+        async function loadAllLessonProgress() {
+            const user = window.AuthService?.getCurrentUser();
+
+            // Update all progress containers based on auth state
+            document.querySelectorAll('.lesson-card').forEach(card => {
+                const lessonId = card.dataset.lessonId;
+                const progressContainer = document.getElementById(`progress-${lessonId}`);
+
+                if (!progressContainer) return;
+
+                if (!user) {
+                    // Not logged in - show login prompt
+                    progressContainer.innerHTML = `
+                        <div class="progress-login-prompt">
+                            <a href="index.html#" onclick="window.AuthService?.showLoginUI(); return false;">Sign in</a> to track your progress
+                        </div>
+                    `;
+                } else {
+                    // Show loading state
+                    progressContainer.innerHTML = `<div class="progress-loading">Loading progress...</div>`;
+                }
+            });
+
+            if (!user) return;
+
+            // Load progress for each lesson
+            const db = window.FirebaseApp?.getDb();
+            if (!db) return;
+
+            const odId = extractStudentId(user.email) || user.uid;
+
+            for (const lesson of lessonsCache) {
+                await loadLessonProgress(lesson.id, odId, db);
+            }
+        }
+
+        /**
+         * Load progress for a single lesson
+         */
+        async function loadLessonProgress(lessonId, odId, db) {
+            const progressContainer = document.getElementById(`progress-${lessonId}`);
+            const totalSlides = LESSON_TOTALS[lessonId];
+
+            try {
+                const docId = `${lessonId}_${odId}`;
+                const doc = await db.collection('user_progress').doc(docId).get();
+
+                if (doc.exists) {
+                    const data = doc.data();
+                    const slidesVisited = data.slidesVisited?.length || 0;
+                    const progressPercent = Math.min(100, Math.round((slidesVisited / totalSlides) * 100));
+
+                    progressContainer.innerHTML = `
+                        <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width: ${progressPercent}%"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span class="slides-count">${slidesVisited} / ${totalSlides} slides</span>
+                            <span>${progressPercent}% complete</span>
+                        </div>
+                    `;
+                } else {
+                    // No progress yet
+                    progressContainer.innerHTML = `
+                        <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span class="slides-count">0 / ${totalSlides} slides</span>
+                            <span>Not started</span>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error(`Error loading progress for ${lessonId}:`, error);
+                progressContainer.innerHTML = `
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>0 / ${totalSlides} slides</span>
+                        <span>-</span>
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize: load lessons then progress
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for Firebase to be ready, then load lessons
+            const checkFirebase = setInterval(() => {
+                if (window.FirebaseApp?.getDb()) {
+                    clearInterval(checkFirebase);
+                    loadLessonsFromFirestore();
+                }
+            }, 100);
+
+            // Fallback: if Firebase doesn't load in 3 seconds, use defaults
+            setTimeout(() => {
+                if (!window.FirebaseApp?.getDb()) {
+                    clearInterval(checkFirebase);
+                    lessonsCache = DEFAULT_LESSONS;
+                    lessonsCache.forEach(lesson => {
+                        LESSON_TOTALS[lesson.id] = lesson.totalSlides || 40;
+                    });
+                    renderLessonCards();
+                }
+            }, 3000);
+
+            // Wait for AuthService to be available for progress tracking
+            const checkAuth = setInterval(() => {
+                if (window.AuthService) {
+                    clearInterval(checkAuth);
+
+                    // Listen for auth state changes
+                    window.AuthService.onAuthStateChanged((user) => {
+                        // Only load progress and check-in status if lessons are already rendered
+                        if (lessonsCache.length > 0) {
+                            loadAllLessonProgress();
+                            loadAllCheckinStatus();
+                        }
+                    });
+                }
+            }, 100);
+
+            // Timeout after 5 seconds if AuthService never loads
+            setTimeout(() => {
+                clearInterval(checkAuth);
+                if (!window.AuthService) {
+                    document.querySelectorAll('.lesson-progress').forEach(el => {
+                        el.innerHTML = `<div class="progress-loading">Progress tracking unavailable</div>`;
+                    });
+                }
+            }, 5000);
+        });
+
+        // ============================================
+        // Check-in Status Functions
+        // ============================================
+
+        // Store the last entered student ID in localStorage
+        function getStoredStudentId() {
+            return localStorage.getItem('checkin_student_id') || '';
+        }
+
+        function setStoredStudentId(studentId) {
+            localStorage.setItem('checkin_student_id', studentId);
+        }
+
+        /**
+         * Load check-in status for all lessons
+         */
+        async function loadAllCheckinStatus() {
+            console.log('loadAllCheckinStatus called');
+
+            // Get student ID from logged-in user's email or use uid as fallback
+            const user = window.AuthService?.getCurrentUser();
+            console.log('User:', user?.email, 'uid:', user?.uid);
+            const studentId = user ? (extractStudentId(user.email) || user.uid) : null;
+            console.log('Extracted studentId:', studentId);
+
+            if (!studentId) {
+                // No logged-in user, don't show anything
+                console.log('No studentId, skipping check-in status');
+                return;
+            }
+
+            const db = window.FirebaseApp?.getDb();
+            if (!db) {
+                // Wait for Firebase to be ready
+                console.log('DB not ready, retrying...');
+                setTimeout(loadAllCheckinStatus, 500);
+                return;
+            }
+
+            console.log('Lessons to check:', lessonsCache.map(l => l.id));
+
+            for (const lesson of lessonsCache) {
+                await loadCheckinStatus(lesson.id, studentId, db);
+            }
+        }
+
+        /**
+         * Load check-in status for a single lesson
+         */
+        async function loadCheckinStatus(lessonId, studentId, db) {
+            const container = document.getElementById(`checkin-${lessonId}`);
+            const checkinBtn = document.getElementById(`checkin-btn-${lessonId}`);
+
+            if (!container) return;
+
+            try {
+                // Get check-in document directly by ID (one per student per lesson)
+                const docId = `${lessonId}_${studentId}`;
+                console.log('Looking for check-in:', docId);
+
+                // First try exact match
+                let doc = await db.collection('checkins').doc(docId).get();
+
+                // If not found, try querying by lessonId and studentId fields
+                if (!doc.exists) {
+                    console.log('Exact match not found, querying by fields...');
+                    const querySnapshot = await db.collection('checkins')
+                        .where('lessonId', '==', lessonId)
+                        .where('studentId', '==', studentId)
+                        .limit(1)
+                        .get();
+
+                    if (!querySnapshot.empty) {
+                        doc = querySnapshot.docs[0];
+                        console.log('Found check-in via query:', doc.id);
+                    }
+                }
+
+                if (doc.exists) {
+                    const checkin = doc.data();
+                    const checkinTime = checkin.checkinTime?.toDate();
+                    const timeStr = checkinTime ? checkinTime.toLocaleTimeString('th-TH', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) : '';
+
+                    container.innerHTML = `
+                        <div class="checkin-status">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            <div>
+                                <div class="checkin-status-text">
+                                    <strong>Checked in</strong> as ${checkin.firstName} ${checkin.lastName}
+                                </div>
+                                <div class="checkin-status-time">Today at ${timeStr}</div>
+                            </div>
+                        </div>
+                    `;
+
+                    // Update button to show "Checked In" but still allow re-check-in
+                    if (checkinBtn) {
+                        checkinBtn.innerHTML = `
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            Re-Check In
+                        `;
+                        checkinBtn.style.background = 'linear-gradient(135deg, #059669 0%, #10b981 100%)';
+                    }
+                } else {
+                    // No check-in found for today
+                    container.innerHTML = '';
+                }
+            } catch (error) {
+                console.error(`Error loading check-in status for ${lessonId}:`, error);
+                container.innerHTML = '';
+            }
+        }
+
+        // Override the original openCheckinModal to pre-fill student ID
+        const originalOpenCheckinModal = openCheckinModal;
+        openCheckinModal = function(lessonId, lessonName) {
+            originalOpenCheckinModal(lessonId, lessonName);
+            // Pre-fill student ID from localStorage
+            const storedId = getStoredStudentId();
+            if (storedId) {
+                document.getElementById('studentId').value = storedId;
+            }
+        };
+
+        // Override submitCheckin to store student ID and refresh status
+        const originalSubmitCheckin = submitCheckin;
+        submitCheckin = async function() {
+            const studentId = document.getElementById('studentId').value.trim();
+            // Store the student ID before submitting
+            if (studentId) {
+                setStoredStudentId(studentId);
+            }
+            await originalSubmitCheckin();
+            // Reload check-in status after successful submission
+            setTimeout(() => {
+                loadAllCheckinStatus();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>

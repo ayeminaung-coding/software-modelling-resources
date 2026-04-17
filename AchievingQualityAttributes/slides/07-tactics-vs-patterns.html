@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tactics vs Patterns - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Tactics vs. Patterns</h2>
+        <div class="content-area">
+            <div class="comparison">
+                <div class="card">
+                    <h4>Tactic</h4>
+                    <ul style="font-size: 1.15rem;">
+                        <li><strong>Single</strong> design decision</li>
+                        <li>Focuses on <strong>one</strong> quality attribute</li>
+                        <li>Like a single <strong>ingredient</strong></li>
+                        <li>Example: "Use redundancy"</li>
+                    </ul>
+                </div>
+                <div class="card success">
+                    <h4>Pattern</h4>
+                    <ul style="font-size: 1.15rem;">
+                        <li><strong>Collection</strong> of design decisions</li>
+                        <li>Addresses <strong>multiple</strong> concerns</li>
+                        <li>Like a complete <strong>recipe</strong></li>
+                        <li>Example: "Microservices architecture"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="diagram" style="margin-top: 2rem;">
+                <h4 style="color: var(--text-light); margin-bottom: 1rem;">Example: Microservices Pattern = Multiple Tactics</h4>
+                <div class="flow-horizontal" style="flex-wrap: wrap; gap: 1rem;">
+                    <div class="diagram-box outline" style="font-size: 0.95rem;">Loose Coupling</div>
+                    <span style="font-size: 1.5rem; color: var(--text-light);">+</span>
+                    <div class="diagram-box outline" style="font-size: 0.95rem;">Service Isolation</div>
+                    <span style="font-size: 1.5rem; color: var(--text-light);">+</span>
+                    <div class="diagram-box outline" style="font-size: 0.95rem;">Independent Deploy</div>
+                    <span style="font-size: 1.5rem; color: var(--text-light);">+</span>
+                    <div class="diagram-box outline" style="font-size: 0.95rem;">API Gateway</div>
+                </div>
+                <div style="margin-top: 1rem;">
+                    <span class="arrow-down">&#8595;</span>
+                </div>
+                <div class="diagram-box" style="font-size: 1.1rem; padding: 1rem 2rem;">Microservices Pattern</div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">7 / 22</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Distinction:</strong></p>
+        <ul>
+            <li><em>Tactics</em> = atomic, single-purpose decisions</li>
+            <li><em>Patterns</em> = proven combinations of tactics</li>
+        </ul>
+        <p><strong>Analogy:</strong></p>
+        <ul>
+            <li>Tactics are like cooking techniques (sauteing, braising, roasting)</li>
+            <li>Patterns are like recipes that combine multiple techniques</li>
+        </ul>
+        <p><strong>Why this matters:</strong></p>
+        <ul>
+            <li>Understanding tactics helps you understand <em>why</em> patterns work</li>
+            <li>You can create custom solutions by combining tactics</li>
+            <li>You can adapt patterns by adding/removing tactics</li>
+        </ul>
+        <p>Microservices combines tactics for modifiability (loose coupling), availability (isolation), and deployability (independent deployment).</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

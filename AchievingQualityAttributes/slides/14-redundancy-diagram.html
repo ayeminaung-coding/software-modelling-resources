@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active vs Passive Redundancy - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Active vs. Passive Redundancy</h2>
+        <div class="content-area">
+            <div class="comparison" style="gap: 3rem;">
+                <div>
+                    <h3 style="text-align: center; color: var(--success-color);">Active Redundancy (Hot)</h3>
+                    <div class="diagram" style="padding: 1.5rem; min-height: 280px;">
+                        <div style="margin-bottom: 1rem;">
+                            <div class="diagram-box secondary" style="padding: 0.8rem 1.5rem;">Component A (Request)</div>
+                        </div>
+                        <div style="font-size: 1.5rem; color: var(--text-light);">&#8595;</div>
+                        <div class="flow-horizontal" style="margin-top: 1rem; gap: 1rem;">
+                            <div style="text-align: center;">
+                                <div class="diagram-box success" style="padding: 0.8rem 1rem;">B-1</div>
+                                <p style="font-size: 0.85rem; color: var(--success-color); margin-top: 0.3rem;"><strong>Active</strong></p>
+                            </div>
+                            <div style="text-align: center;">
+                                <div class="diagram-box success" style="padding: 0.8rem 1rem;">B-2</div>
+                                <p style="font-size: 0.85rem; color: var(--success-color); margin-top: 0.3rem;"><strong>Active</strong></p>
+                            </div>
+                            <div style="text-align: center;">
+                                <div class="diagram-box success" style="padding: 0.8rem 1rem;">B-3</div>
+                                <p style="font-size: 0.85rem; color: var(--success-color); margin-top: 0.3rem;"><strong>Active</strong></p>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 1rem;">All replicas process requests simultaneously</p>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="text-align: center; color: var(--warning-color);">Passive Redundancy (Warm)</h3>
+                    <div class="diagram" style="padding: 1.5rem; min-height: 280px;">
+                        <div style="margin-bottom: 1rem;">
+                            <div class="diagram-box secondary" style="padding: 0.8rem 1.5rem;">Component A (Request)</div>
+                        </div>
+                        <div style="font-size: 1.5rem; color: var(--text-light);">&#8595;</div>
+                        <div class="flow-horizontal" style="margin-top: 1rem; gap: 1rem;">
+                            <div style="text-align: center;">
+                                <div class="diagram-box success" style="padding: 0.8rem 1rem;">B-1</div>
+                                <p style="font-size: 0.85rem; color: var(--success-color); margin-top: 0.3rem;"><strong>Primary</strong></p>
+                            </div>
+                            <div style="text-align: center; opacity: 0.6;">
+                                <div class="diagram-box outline" style="padding: 0.8rem 1rem;">B-2</div>
+                                <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.3rem;">Standby</p>
+                            </div>
+                            <div style="text-align: center; opacity: 0.6;">
+                                <div class="diagram-box outline" style="padding: 0.8rem 1rem;">B-3</div>
+                                <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.3rem;">Standby</p>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 1rem;">Standby syncs state, promoted on failure</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-columns" style="margin-top: 1.5rem; gap: 2rem;">
+                <div class="card success">
+                    <h4>Active Redundancy</h4>
+                    <ul style="font-size: 1rem;">
+                        <li>Zero/near-zero downtime on failure</li>
+                        <li>Higher resource cost (all running)</li>
+                        <li>Use: Critical services, real-time systems</li>
+                    </ul>
+                </div>
+                <div class="card warning">
+                    <h4>Passive Redundancy</h4>
+                    <ul style="font-size: 1rem;">
+                        <li>Brief downtime during failover</li>
+                        <li>Lower cost (standbys idle)</li>
+                        <li>Use: Databases, session stores</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">14 / 22</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Visual Comparison:</strong></p>
+        <ul>
+            <li><em>Active:</em> All instances handle traffic. Load balancer distributes requests. If one fails, traffic just goes to others.</li>
+            <li><em>Passive:</em> Primary handles all traffic. Standbys receive state updates but don't process requests. On failure, standby is promoted.</li>
+        </ul>
+        <p><strong>When to use which:</strong></p>
+        <ul>
+            <li><em>Active:</em> Stateless services, API servers, web frontends - easy to run multiple copies</li>
+            <li><em>Passive:</em> Stateful services, databases - harder to keep multiple copies consistent</li>
+        </ul>
+        <p><strong>Modern example:</strong></p>
+        <ul>
+            <li>Kubernetes deployments use active redundancy (multiple pods)</li>
+            <li>PostgreSQL replication uses passive (primary + replicas)</li>
+            <li>Some databases like CockroachDB support active-active across regions</li>
+        </ul>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

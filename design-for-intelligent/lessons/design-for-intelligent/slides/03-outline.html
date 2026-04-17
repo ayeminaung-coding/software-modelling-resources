@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What We'll Cover - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .roadmap {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+        .roadmap::before {
+            content: '';
+            position: absolute;
+            left: 22px;
+            top: 28px;
+            bottom: 28px;
+            width: 3px;
+            background: linear-gradient(to bottom, #e2e8f0, #3b82f6, #6366f1, #8b5cf6, #ec4899, #e2e8f0);
+            border-radius: 2px;
+        }
+        .roadmap-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 0.6rem 0.6rem 0.6rem 0;
+            position: relative;
+        }
+        .roadmap-dot {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: white;
+            position: relative;
+            z-index: 1;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .dot-gray    { background: #94a3b8; }
+        .dot-blue    { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .dot-indigo  { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+        .dot-purple  { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .dot-pink    { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .dot-slate   { background: #475569; }
+        .roadmap-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border-radius: 10px;
+            padding: 0.65rem 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            border: 1px solid #e2e8f0;
+            min-height: 44px;
+        }
+        .roadmap-label {
+            font-weight: 700;
+            font-size: 0.98rem;
+            color: var(--dark-color);
+        }
+        .roadmap-desc {
+            font-size: 0.88rem;
+            color: #64748b;
+            margin-top: 0.15rem;
+        }
+        .roadmap-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+        .time-badge {
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+        .ex-badge {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+        @media (max-width: 768px) {
+            .roadmap-content { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+            .roadmap::before { left: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>What We'll Cover</h2>
+        <div class="content-area">
+            <div class="roadmap">
+                <div class="roadmap-item">
+                    <div class="roadmap-dot dot-gray">Intro</div>
+                    <div class="roadmap-content">
+                        <div>
+                            <div class="roadmap-label">Opening â€” Why AI changes architecture</div>
+                            <div class="roadmap-desc">Discussion: adding AI fraud detection to SmartExpense</div>
+                        </div>
+                        <div class="roadmap-meta">
+                            <span class="time-badge">~10 min</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-dot dot-blue">S1</div>
+                    <div class="roadmap-content">
+                        <div>
+                            <div class="roadmap-label">Section 1 â€” What makes a component intelligent?</div>
+                            <div class="roadmap-desc">Spectrum, determinism, 5 unique risks</div>
+                        </div>
+                        <div class="roadmap-meta">
+                            <span class="ex-badge">2 exercises</span>
+                            <span class="time-badge">~22 min</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-dot dot-indigo">S2</div>
+                    <div class="roadmap-content">
+                        <div>
+                            <div class="roadmap-label">Section 2 â€” Architecture patterns</div>
+                            <div class="roadmap-desc">AI-as-a-Service, Embedded Model, Pipeline, HITL, RAG</div>
+                        </div>
+                        <div class="roadmap-meta">
+                            <span class="ex-badge">2 exercises</span>
+                            <span class="time-badge">~28 min</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-dot dot-purple">S3</div>
+                    <div class="roadmap-content">
+                        <div>
+                            <div class="roadmap-label">Section 3 â€” Design principles</div>
+                            <div class="roadmap-desc">Isolation, fallback, observability, data contracts, timeouts</div>
+                        </div>
+                        <div class="roadmap-meta">
+                            <span class="ex-badge">2 exercises</span>
+                            <span class="time-badge">~28 min</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-dot dot-pink">S4</div>
+                    <div class="roadmap-content">
+                        <div>
+                            <div class="roadmap-label">Section 4 â€” AI technical debt</div>
+                            <div class="roadmap-desc">Model decay, hidden coupling, entanglement, undeclared consumers</div>
+                        </div>
+                        <div class="roadmap-meta">
+                            <span class="ex-badge">1 exercise</span>
+                            <span class="time-badge">~20 min</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-dot dot-slate">End</div>
+                    <div class="roadmap-content">
+                        <div>
+                            <div class="roadmap-label">Closing â€” Synthesis &amp; summary</div>
+                            <div class="roadmap-desc">Design checklist, SmartExpense final architecture, key takeaways</div>
+                        </div>
+                        <div class="roadmap-meta">
+                            <span class="time-badge">~12 min</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">3 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Roadmap Overview:</strong></p>
+        <p>We'll use the SmartExpense system as our running case study throughout â€” adding an AI fraud detection module to a familiar expense management system. This connects directly to what students learned in Design for Change.</p>
+        <p>7 interactive exercises are distributed across sections to keep energy high. Total lesson: ~2 hours.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use Prototypes - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .methods-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            flex: 1;
+        }
+        .method-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+            display: flex;
+            flex-direction: column;
+        }
+        .method-card:nth-child(1) { border-left-color: #2563eb; }
+        .method-card:nth-child(2) { border-left-color: #7c3aed; }
+        .method-card:nth-child(3) { border-left-color: #059669; }
+        .method-card:nth-child(4) { border-left-color: #d97706; }
+        .method-card .method-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .method-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        .method-card:nth-child(1) h3 { color: #2563eb; }
+        .method-card:nth-child(2) h3 { color: #7c3aed; }
+        .method-card:nth-child(3) h3 { color: #059669; }
+        .method-card:nth-child(4) h3 { color: #d97706; }
+        .method-card p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: var(--text-color);
+        }
+        .method-card .insight-type {
+            margin-top: auto;
+            padding-top: 0.8rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>How to Use Prototypes</h2>
+        <div class="content-area">
+            <div class="methods-grid">
+                <div class="method-card">
+                    <div class="method-icon">&#128100;</div>
+                    <h3>User Testing</h3>
+                    <p>Observe users interacting with the prototype to identify usability issues and validate design assumptions.</p>
+                    <div class="insight-type">Insight: Behavioral patterns</div>
+                </div>
+                <div class="method-card">
+                    <div class="method-icon">&#128172;</div>
+                    <h3>Interviews</h3>
+                    <p>Ask users about their experience and gather qualitative feedback on design decisions and preferences.</p>
+                    <div class="insight-type">Insight: Qualitative opinions</div>
+                </div>
+                <div class="method-card">
+                    <div class="method-icon">&#128065;</div>
+                    <h3>Observational Research</h3>
+                    <p>Watch users in their natural environment to understand context, workflows, and real-world constraints.</p>
+                    <div class="insight-type">Insight: Contextual understanding</div>
+                </div>
+                <div class="method-card">
+                    <div class="method-icon">&#128202;</div>
+                    <h3>Analytics</h3>
+                    <p>Collect quantitative data on user interactions and behavior patterns to measure and compare designs.</p>
+                    <div class="insight-type">Insight: Quantitative metrics</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">09 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>The goal of prototyping is learning.</strong> Each method provides different types of insights:</p>
+        <ul>
+            <li><strong>User Testing:</strong> Shows you what people <em>actually do</em> (not what they say they do). Run with 5 users to find ~85% of usability issues.</li>
+            <li><strong>Interviews:</strong> Reveals the "why" behind user behavior. Best for understanding mental models and expectations.</li>
+            <li><strong>Observational Research:</strong> Uncovers context you might miss in a lab setting. How does the environment affect usage?</li>
+            <li><strong>Analytics:</strong> Provides hard numbers - click rates, task completion times, error rates. Best for comparing alternatives (A/B testing).</li>
+        </ul>
+        <p>Combine multiple methods for a complete picture. Don't rely on just one.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fault Detection Tactics - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Fault Detection Tactics</h2>
+        <div class="content-area">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tactic</th>
+                        <th>Description</th>
+                        <th>Modern Implementation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ping/Echo</strong></td>
+                        <td>Send ping, expect echo within timeout</td>
+                        <td>Health check endpoints, Kubernetes liveness probes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Heartbeat</strong></td>
+                        <td>Component periodically emits status</td>
+                        <td>Service mesh health checks, Consul</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exception Handling</strong></td>
+                        <td>Throw and handle exceptions</td>
+                        <td>Structured error handling, React error boundaries</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Monitor</strong></td>
+                        <td>Observe system metrics continuously</td>
+                        <td>Prometheus, Datadog, CloudWatch</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="two-columns" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <h4>Classic Tactics</h4>
+                    <ul style="font-size: 1rem;">
+                        <li>Ping/Echo, Heartbeat, Exception</li>
+                        <li>Focus on: "Is it working?"</li>
+                    </ul>
+                </div>
+                <div class="card success">
+                    <h4>Modern Additions</h4>
+                    <ul style="font-size: 1rem;">
+                        <li>Synthetic monitoring (simulated transactions)</li>
+                        <li>ML-based anomaly detection</li>
+                        <li>Distributed tracing (Jaeger, Zipkin)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">12 / 22</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Fault Detection Deep Dive:</strong></p>
+        <ul>
+            <li><em>Ping/Echo:</em> Active checking - we ask "are you alive?" periodically</li>
+            <li><em>Heartbeat:</em> Passive checking - component says "I'm alive" periodically</li>
+            <li><em>Exception:</em> Application-level detection of problems</li>
+            <li><em>Monitor:</em> Observing trends, not just binary alive/dead</li>
+        </ul>
+        <p><strong>Modern evolution:</strong></p>
+        <ul>
+            <li>Kubernetes liveness probes are ping/echo at the container level</li>
+            <li>Readiness probes tell us if a service CAN serve, not just if it's alive</li>
+            <li>Distributed tracing shows us the full request path across services</li>
+            <li>Anomaly detection can catch problems before they become failures</li>
+        </ul>
+        <p><strong>Key insight:</strong> Detection speed directly impacts recovery time. Fast detection = shorter outages.</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

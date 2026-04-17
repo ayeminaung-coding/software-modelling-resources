@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifiability Analysis &amp; Metrics - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .mod-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .mod-analysis {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        .mod-analysis h3 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+        .mod-analysis p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        .mod-analysis ul {
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .mod-analysis ul li {
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+        }
+        .mod-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.25rem;
+        }
+        .mod-metric-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border-top: 4px solid var(--primary-color);
+            text-align: center;
+        }
+        .mod-metric-card:nth-child(2) { border-top-color: var(--warning-color); }
+        .mod-metric-card:nth-child(3) { border-top-color: var(--success-color); }
+        .mod-metric-card .mod-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .mod-metric-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        .mod-metric-card:nth-child(1) h4 { color: var(--primary-color); }
+        .mod-metric-card:nth-child(2) h4 { color: var(--warning-color); }
+        .mod-metric-card:nth-child(3) h4 { color: var(--success-color); }
+        .mod-metric-card p {
+            font-size: 0.95rem;
+            color: var(--text-color);
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+        }
+        .mod-formula {
+            display: inline-block;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.4rem 0.8rem;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Modifiability Analysis &amp; Metrics</h2>
+        <div class="content-area">
+            <div class="mod-layout">
+                <div class="mod-analysis">
+                    <h3>Modifiability Analysis</h3>
+                    <p>Examine the ability to customize and adapt the system:</p>
+                    <ul>
+                        <li>Adjusting layout and appearance</li>
+                        <li>Adding or removing features</li>
+                        <li>Adapting to different user groups</li>
+                        <li>Requires testing different customization features</li>
+                    </ul>
+                </div>
+
+                <h3>Key Metrics</h3>
+                <div class="mod-metrics">
+                    <div class="mod-metric-card">
+                        <div class="mod-icon">&#128203;</div>
+                        <h4>Changeability Index</h4>
+                        <p>Ratio of changes to lines of code</p>
+                        <div class="mod-formula">changes / LOC &times; 100%</div>
+                    </div>
+                    <div class="mod-metric-card">
+                        <div class="mod-icon">&#9201;</div>
+                        <h4>Mean Time to Repair</h4>
+                        <p>Average time to fix a defect</p>
+                        <div class="mod-formula">total repair time / # defects</div>
+                    </div>
+                    <div class="mod-metric-card">
+                        <div class="mod-icon">&#128736;</div>
+                        <h4>Maintenance Workload</h4>
+                        <p>Time and resources needed for maintenance</p>
+                        <div class="mod-formula">person-hours / year</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">21 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Point:</strong> Low changeability index and high maintenance workload indicate poor modifiability. Track these metrics over time to see trends.</p>
+        <ul>
+            <li><em>Changeability Index:</em> A low value means many lines of code need to change for each modification - tightly coupled system</li>
+            <li><em>Mean Time to Repair (MTTR):</em> If it takes days to fix simple bugs, the architecture may be too complex or poorly documented</li>
+            <li><em>Maintenance Workload:</em> If maintenance consumes most development capacity, there's little room for new features</li>
+        </ul>
+        <p>These metrics should improve over time. If they worsen, the system is accumulating technical debt.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

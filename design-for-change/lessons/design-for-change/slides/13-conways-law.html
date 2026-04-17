@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conway's Law</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .law-quote-box {
+            background: linear-gradient(135deg, #1e40af, #4f46e5);
+            color: white;
+            padding: 2rem 2.5rem;
+            border-radius: 16px;
+            margin: 1.5rem 0;
+            position: relative;
+            box-shadow: 0 8px 30px rgba(30, 64, 175, 0.25);
+        }
+        .law-quote-box::before {
+            content: '\201C';
+            position: absolute;
+            top: -0.2rem;
+            left: 1rem;
+            font-size: 5rem;
+            opacity: 0.2;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+        .law-quote-box p {
+            font-size: 1.4rem;
+            font-style: italic;
+            line-height: 1.6;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .law-quote-box .author {
+            font-size: 1rem;
+            font-style: normal;
+            opacity: 0.8;
+            margin-top: 1rem;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Conway's Law</h2>
+        <div class="content-area">
+            <div class="law-quote-box">
+                <p>"The structure of a designed system is isomorphic to the organizational structure of those who built it"</p>
+                <div class="author">&mdash; Melvin Conway, 1967</div>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <h3>Key Implications</h3>
+                <ul>
+                    <li>If a design decision depends on a decision made by <strong>another team/company</strong>, coordination is required when changes happen</li>
+                    <li>Communication channels: email, meetings, Slack, shared documents, etc.</li>
+                    <li><strong>Dependencies between teams = dependencies between components</strong></li>
+                </ul>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">13 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p>Conway's Law explains why microservices work well with small independent teams, and why monoliths tend to emerge from large centralized teams. The architecture mirrors the org chart.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

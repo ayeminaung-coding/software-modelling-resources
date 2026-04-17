@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategies to Localize Changes</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .strategy-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1rem 0 1.5rem;
+        }
+        .strategy-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+        }
+        .strategy-card.limit {
+            border-left: 4px solid var(--primary-color);
+        }
+        .strategy-card.hide {
+            border-left: 4px solid var(--success-color);
+        }
+        .strategy-card h3 {
+            margin-bottom: 0.75rem;
+        }
+        .strategy-card.limit h3 { color: var(--primary-color); }
+        .strategy-card.hide h3 { color: #059669; }
+        .strategy-card p, .strategy-card li {
+            font-size: 1.05rem !important;
+            line-height: 1.5;
+        }
+        .strategy-card ul {
+            padding-left: 1.25rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Component diagram */
+        .component-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-top: 1rem;
+            padding: 1.5rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+        }
+        .component {
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            min-width: 180px;
+            position: relative;
+        }
+        .component-a {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border: 2px solid #3b82f6;
+        }
+        .component-b {
+            background: linear-gradient(135deg, #ffedd5, #fed7aa);
+            border: 2px solid #f97316;
+        }
+        .component-label {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        .component-a .component-label { color: #1e40af; }
+        .component-b .component-label { color: #c2410c; }
+        .component-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .inner-box {
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            text-align: center;
+            font-weight: 500;
+        }
+        .inner-box.process {
+            background: #3b82f6;
+            color: white;
+        }
+        .inner-box.public-svc {
+            background: #f97316;
+            color: white;
+        }
+        .inner-box.private-svc {
+            background: #fdba74;
+            color: #7c2d12;
+            border: 1px dashed #f97316;
+            opacity: 0.7;
+        }
+        .interface-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 0.5rem;
+            min-width: 120px;
+        }
+        .interface-line {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+        .connector-line {
+            width: 30px;
+            height: 3px;
+            background: #64748b;
+        }
+        .interface-box {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .connector-arrow {
+            width: 30px;
+            height: 3px;
+            background: #64748b;
+            position: relative;
+        }
+        .connector-arrow::after {
+            content: '';
+            position: absolute;
+            right: -1px;
+            top: -5px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid #64748b;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+        }
+        .private-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-style: italic;
+            text-align: center;
+            margin-top: 0.25rem;
+        }
+        @media (max-width: 760px) {
+            .strategy-cards { grid-template-columns: 1fr; }
+            .component-diagram { flex-direction: column; align-items: center; gap: 0.75rem; }
+            .interface-connector { min-width: auto; }
+            .connector-line, .connector-arrow { width: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Strategies to Localize Changes</h2>
+        <div class="content-area">
+            <div class="strategy-cards">
+                <div class="strategy-card limit">
+                    <h3>1. Limit Possible Options</h3>
+                    <p>Restricting options reduces the effect of changes.</p>
+                    <ul>
+                        <li>Use enums instead of free text</li>
+                        <li>Defined interfaces instead of ad-hoc calls</li>
+                        <li>Contracts over conventions</li>
+                    </ul>
+                </div>
+                <div class="strategy-card hide">
+                    <h3>2. Hide Information</h3>
+                    <p>Quarantine changes within the module:</p>
+                    <ul>
+                        <li>Decompose responsibilities into smaller pieces</li>
+                        <li>Choose which parts are private, which are public</li>
+                        <li>Make public parts available only through specified interfaces</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="component-diagram">
+                <div class="component component-a">
+                    <div class="component-label">Component A</div>
+                    <div class="component-inner">
+                        <div class="inner-box process">Process A1</div>
+                    </div>
+                </div>
+
+                <div class="interface-connector">
+                    <div class="interface-line">
+                        <div class="connector-line"></div>
+                        <div class="interface-box">Interface</div>
+                        <div class="connector-arrow"></div>
+                    </div>
+                </div>
+
+                <div class="component component-b">
+                    <div class="component-label">Component B</div>
+                    <div class="component-inner">
+                        <div class="inner-box public-svc">Service B1 (Public)</div>
+                        <div class="inner-box private-svc">Service B2 (Private)</div>
+                        <div class="private-label">Hidden from external access</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">16 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p>Information hiding is one of the most powerful principles for managing change. If the private implementation changes, no external component is affected.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

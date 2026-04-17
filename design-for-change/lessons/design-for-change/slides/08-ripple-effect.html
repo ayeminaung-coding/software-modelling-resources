@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ripple Effect Analysis - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .system-diagram {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        .component {
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            background: white;
+            transition: all 0.2s ease;
+        }
+        .component.direct {
+            background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+            border-color: var(--danger-color);
+            color: #991b1b;
+        }
+        .component.indirect {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border-color: #f97316;
+            color: #9a3412;
+        }
+        .component.safe {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-color: var(--success-color);
+            color: #065f46;
+        }
+        .legend {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+        .legend-dot.red { background: #ef4444; }
+        .legend-dot.orange { background: #f97316; }
+        .legend-dot.green { background: #10b981; }
+        .ripple-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .stat-box {
+            text-align: center;
+            padding: 0.8rem;
+            border-radius: 10px;
+            background: var(--light-color);
+        }
+        .stat-box .stat-num {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .stat-box .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .stat-box.red .stat-num { color: #ef4444; }
+        .stat-box.orange .stat-num { color: #f97316; }
+        .stat-box.green .stat-num { color: #10b981; }
+        .insight-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .insight-box p {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Ripple Effect Analysis</h2>
+        <div class="content-area">
+            <div class="legend">
+                <div class="legend-item"><span class="legend-dot red"></span> Direct change required</div>
+                <div class="legend-item"><span class="legend-dot orange"></span> Indirectly affected</div>
+                <div class="legend-item"><span class="legend-dot green"></span> No change needed</div>
+            </div>
+
+            <div class="system-diagram">
+                <div class="component direct">External API Connector</div>
+                <div class="component direct">Data Parser</div>
+                <div class="component indirect">Expense Processor</div>
+                <div class="component indirect">Validation Rules</div>
+                <div class="component indirect">Report Generator</div>
+                <div class="component safe">User Authentication</div>
+                <div class="component safe">Approval Workflow</div>
+                <div class="component indirect">Database Schema</div>
+                <div class="component safe">Notification Service</div>
+            </div>
+
+            <div class="ripple-stats">
+                <div class="stat-box red">
+                    <div class="stat-num">2</div>
+                    <div class="stat-label">Direct changes</div>
+                </div>
+                <div class="stat-box orange">
+                    <div class="stat-num">4</div>
+                    <div class="stat-label">Indirectly affected</div>
+                </div>
+                <div class="stat-box green">
+                    <div class="stat-num">3</div>
+                    <div class="stat-label">Unaffected</div>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <p>A single integration change ripples through 67% of components</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">8 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Ripple Effect Analysis</strong> helps us visualize the true cost of a change.</p>
+        <p>When we add external integration to the expense system, the direct changes are obvious (API connector and data parser). But the indirect effects are what catch teams off guard: the expense processor needs to handle new data formats, validation rules need updating, reports change, and database schema may need new fields.</p>
+        <p>This is why we need to design systems that contain change â€” so a modification in one area doesn't cascade through the entire system.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

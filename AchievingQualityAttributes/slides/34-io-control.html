@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input/Output Control Tactics - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Input/Output Control Tactics</h2>
+        <div class="content-area">
+            <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">Enable control of inputs and observation of outputs for testing</p>
+
+            <div class="two-columns">
+                <div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Record/Playback</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Capture real interactions</li>
+                            <li>Replay for regression testing</li>
+                            <li>VCR pattern for HTTP calls</li>
+                            <li>Event sourcing for replay</li>
+                        </ul>
+                    </div>
+                    <div class="card success" style="margin-bottom: 1rem;">
+                        <h4>Separate Interface from Implementation</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Dependency injection</li>
+                            <li>Interface-based design</li>
+                            <li>Enable mock substitution</li>
+                            <li>Inversion of Control (IoC)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="card warning" style="margin-bottom: 1rem;">
+                        <h4>Specialized Access Routes</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Test harnesses at each layer</li>
+                            <li>Debug endpoints (secured)</li>
+                            <li>Feature flags for test modes</li>
+                            <li>Sandbox environments</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Test Doubles</h4>
+                        <ul style="font-size: 1rem;">
+                            <li><strong>Mocks:</strong> Verify interactions</li>
+                            <li><strong>Stubs:</strong> Provide canned responses</li>
+                            <li><strong>Fakes:</strong> Simplified implementations</li>
+                            <li><strong>Spies:</strong> Record calls for inspection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <p><strong>Modern Tools:</strong>
+                Mockito/Jest (mocking) | WireMock (HTTP mocks) | Testcontainers (real dependencies) |
+                Pact (contract testing) | LocalStack (AWS mocks)</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Points:</strong></p>
+        <ul>
+            <li>Dependency Injection is the most important testability tactic</li>
+            <li>If you cannot inject dependencies, you cannot mock them</li>
+            <li>Record/Playback is great for API testing and data capture</li>
+        </ul>
+        <p><strong>Test Double Types:</strong></p>
+        <ul>
+            <li>Mock: "Did you call me correctly?"</li>
+            <li>Stub: "Here is your answer"</li>
+            <li>Fake: "I am a simpler version of the real thing"</li>
+        </ul>
+        <p><strong>Anti-pattern:</strong> Static methods and singletons are hard to mock!</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

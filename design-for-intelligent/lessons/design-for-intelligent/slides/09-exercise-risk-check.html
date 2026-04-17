@@ -1,0 +1,301 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: AI Risk Identification - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .exercise-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        .statement-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: white;
+            border-radius: 10px;
+            padding: 0.7rem 0.9rem;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            transition: border-color 0.2s;
+        }
+        .statement-row.checked-correct  { border-color: #22c55e; background: #f0fdf4; }
+        .statement-row.checked-incorrect { border-color: #ef4444; background: #fef2f2; }
+        .stmt-number {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            width: 18px;
+            flex-shrink: 0;
+        }
+        .stmt-text {
+            flex: 1;
+            font-size: 0.92rem;
+            color: var(--dark-color);
+            line-height: 1.4;
+        }
+        .tf-buttons {
+            display: flex;
+            gap: 0.4rem;
+            flex-shrink: 0;
+        }
+        .tf-btn {
+            min-width: 44px;
+            min-height: 44px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: inherit;
+            color: #64748b;
+            -webkit-tap-highlight-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tf-btn:hover  { border-color: #94a3b8; background: #f8fafc; }
+        .tf-btn:active { transform: scale(0.95); }
+        .tf-btn.selected-T { background: #3b82f6; border-color: #3b82f6; color: white; }
+        .tf-btn.selected-F { background: #6366f1; border-color: #6366f1; color: white; }
+        .tf-btn.reveal-correct   { background: #22c55e !important; border-color: #22c55e !important; color: white !important; }
+        .tf-btn.reveal-incorrect { background: #ef4444 !important; border-color: #ef4444 !important; color: white !important; }
+        .explanation {
+            font-size: 0.78rem;
+            color: #64748b;
+            margin-top: 0.3rem;
+            padding: 0.35rem 0.6rem;
+            background: #f1f5f9;
+            border-radius: 6px;
+            display: none;
+            line-height: 1.4;
+        }
+        .explanation.show { display: block; }
+        .explanation.exp-true  { background: #dcfce7; color: #166534; }
+        .explanation.exp-false { background: #fce7f3; color: #9d174d; }
+        .stmt-inner { flex: 1; }
+        .control-buttons {
+            display: flex;
+            gap: 0.65rem;
+            justify-content: center;
+            margin-top: 0.25rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-check  { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .btn-reset  { background: #e2e8f0; color: #475569; }
+        .btn-check:hover  { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+        .btn-reset:hover  { background: #cbd5e1; }
+        .score-display {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            display: none;
+        }
+        .score-display.show { display: block; }
+        .score-display.all-correct { background: #dcfce7; color: #166534; }
+        .score-display.partial     { background: #fef3c7; color: #92400e; }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: AI Risk Identification</h2>
+        <div class="content-area">
+
+            <div class="exercise-container">
+                <div class="highlight-box" style="padding: 0.5rem 0.9rem; margin-bottom: 0.2rem;">
+                    <p style="font-size: 0.9rem; margin: 0;"><strong>Task:</strong> Mark each statement True or False, then check your answers.</p>
+                </div>
+
+                <!-- Statement 1 -->
+                <div class="statement-row" id="row-1">
+                    <div class="stmt-number">1</div>
+                    <div class="stmt-inner">
+                        <div class="stmt-text">"An AI model that passes all unit tests will behave correctly in production."</div>
+                        <div class="explanation" id="exp-1">
+                            <strong>FALSE</strong> â€” Distribution shift and the training/production gap mean a model can pass tests on known data but fail on real-world inputs it was never trained on.
+                        </div>
+                    </div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" id="btn-1-T" onclick="select(1,'T')">T</button>
+                        <button class="tf-btn" id="btn-1-F" onclick="select(1,'F')">F</button>
+                    </div>
+                </div>
+
+                <!-- Statement 2 -->
+                <div class="statement-row" id="row-2">
+                    <div class="stmt-number">2</div>
+                    <div class="stmt-inner">
+                        <div class="stmt-text">"Adding an AI component always increases system latency."</div>
+                        <div class="explanation" id="exp-2">
+                            <strong>TRUE</strong> â€” AI inference requires computation (local or remote). Even fast models add measurable latency compared to a simple lookup or rule check.
+                        </div>
+                    </div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" id="btn-2-T" onclick="select(2,'T')">T</button>
+                        <button class="tf-btn" id="btn-2-F" onclick="select(2,'F')">F</button>
+                    </div>
+                </div>
+
+                <!-- Statement 3 -->
+                <div class="statement-row" id="row-3">
+                    <div class="stmt-number">3</div>
+                    <div class="stmt-inner">
+                        <div class="stmt-text">"If you retrain the model on new data, old bugs will disappear."</div>
+                        <div class="explanation" id="exp-3">
+                            <strong>FALSE</strong> â€” Retraining may fix some issues but can introduce new regressions. Old "bugs" (model errors) might reappear on slightly different data. Retraining is not a reliable fix â€” it's a new deployment.
+                        </div>
+                    </div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" id="btn-3-T" onclick="select(3,'T')">T</button>
+                        <button class="tf-btn" id="btn-3-F" onclick="select(3,'F')">F</button>
+                    </div>
+                </div>
+
+                <!-- Statement 4 -->
+                <div class="statement-row" id="row-4">
+                    <div class="stmt-number">4</div>
+                    <div class="stmt-inner">
+                        <div class="stmt-text">"A rule-based fraud detector is always worse than an ML model."</div>
+                        <div class="explanation" id="exp-4">
+                            <strong>FALSE</strong> â€” In narrow, well-defined domains, rule-based systems can match or outperform ML: they are simpler, fully explainable, require no training data, and have zero latency overhead.
+                        </div>
+                    </div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" id="btn-4-T" onclick="select(4,'T')">T</button>
+                        <button class="tf-btn" id="btn-4-F" onclick="select(4,'F')">F</button>
+                    </div>
+                </div>
+
+                <!-- Statement 5 -->
+                <div class="statement-row" id="row-5">
+                    <div class="stmt-number">5</div>
+                    <div class="stmt-inner">
+                        <div class="stmt-text">"Model drift can happen even if your code hasn't changed."</div>
+                        <div class="explanation" id="exp-5">
+                            <strong>TRUE</strong> â€” Model drift is driven by changes in the real world (new fraud patterns, seasonal behavior, user demographics) â€” not by code changes. Your system can degrade silently with no deployment.
+                        </div>
+                    </div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" id="btn-5-T" onclick="select(5,'T')">T</button>
+                        <button class="tf-btn" id="btn-5-F" onclick="select(5,'F')">F</button>
+                    </div>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="btn btn-check" onclick="checkAnswers()">Check Answers</button>
+                    <button class="btn btn-reset" onclick="resetAll()">Reset</button>
+                </div>
+                <div class="score-display" id="scoreDisplay"></div>
+
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">9 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise â€” 2 minutes individual, then discuss.</strong></p>
+        <p>Walk through each answer after checking:</p>
+        <ul>
+            <li>Statement 1 (FALSE): Unit tests on training data â‰  production behavior.</li>
+            <li>Statement 2 (TRUE): Even local models add inference time.</li>
+            <li>Statement 3 (FALSE): Retraining is a new deployment with its own risks.</li>
+            <li>Statement 4 (FALSE â€” often surprises students): Simpler models can win in narrow domains.</li>
+            <li>Statement 5 (TRUE): This is the core of model drift â€” world changes, code doesn't.</li>
+        </ul>
+        <p>Statement 4 often surprises students â€” simpler models can outperform complex ones in narrow, well-defined domains. Statement 5 is the core of model drift.</p>
+    </script>
+
+    <script>
+        const answers = { 1:'F', 2:'T', 3:'F', 4:'F', 5:'T' };
+        const selected = {};
+
+        function select(n, val) {
+            selected[n] = val;
+            ['T','F'].forEach(v => {
+                const btn = document.getElementById('btn-' + n + '-' + v);
+                btn.classList.remove('selected-T','selected-F','reveal-correct','reveal-incorrect');
+            });
+            document.getElementById('btn-' + n + '-' + val).classList.add('selected-' + val);
+            document.getElementById('row-' + n).classList.remove('checked-correct','checked-incorrect');
+            document.getElementById('scoreDisplay').classList.remove('show');
+        }
+
+        function checkAnswers() {
+            let correct = 0;
+            for (let i = 1; i <= 5; i++) {
+                const row  = document.getElementById('row-' + i);
+                const exp  = document.getElementById('exp-' + i);
+                const ans  = answers[i];
+                const sel  = selected[i];
+                row.classList.remove('checked-correct','checked-incorrect');
+                ['T','F'].forEach(v => {
+                    const btn = document.getElementById('btn-' + i + '-' + v);
+                    btn.classList.remove('selected-T','selected-F','reveal-correct','reveal-incorrect');
+                });
+                // Mark correct answer button
+                document.getElementById('btn-' + i + '-' + ans).classList.add('reveal-correct');
+                // Mark selected if wrong
+                if (sel && sel !== ans) {
+                    document.getElementById('btn-' + i + '-' + sel).classList.add('reveal-incorrect');
+                    row.classList.add('checked-incorrect');
+                } else if (sel === ans) {
+                    row.classList.add('checked-correct');
+                    correct++;
+                }
+                // Show explanation
+                exp.classList.add('show');
+                exp.classList.add(ans === 'T' ? 'exp-true' : 'exp-false');
+            }
+            const scoreEl = document.getElementById('scoreDisplay');
+            scoreEl.classList.add('show');
+            if (correct === 5) {
+                scoreEl.textContent = 'Perfect score! 5 / 5 correct.';
+                scoreEl.className = 'score-display show all-correct';
+            } else {
+                scoreEl.textContent = correct + ' / 5 correct. Review the highlighted explanations.';
+                scoreEl.className = 'score-display show partial';
+            }
+        }
+
+        function resetAll() {
+            for (let i = 1; i <= 5; i++) {
+                selected[i] = null;
+                document.getElementById('row-' + i).classList.remove('checked-correct','checked-incorrect');
+                ['T','F'].forEach(v => {
+                    const btn = document.getElementById('btn-' + i + '-' + v);
+                    btn.classList.remove('selected-T','selected-F','reveal-correct','reveal-incorrect');
+                });
+                const exp = document.getElementById('exp-' + i);
+                exp.classList.remove('show','exp-true','exp-false');
+            }
+            const scoreEl = document.getElementById('scoreDisplay');
+            scoreEl.classList.remove('show');
+            scoreEl.textContent = '';
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

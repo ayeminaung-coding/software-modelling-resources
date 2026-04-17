@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        .summary-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 5px solid #2563eb;
+            transition: transform 0.2s ease;
+        }
+        .summary-card:hover {
+            transform: translateY(-3px);
+        }
+        .summary-card:nth-child(1) { border-left-color: #2563eb; }
+        .summary-card:nth-child(2) { border-left-color: #7c3aed; }
+        .summary-card:nth-child(3) { border-left-color: #059669; }
+        .summary-card:nth-child(4) { border-left-color: #d97706; }
+
+        .summary-card .card-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.6rem;
+        }
+        .summary-card:nth-child(1) .card-number { background: #2563eb; }
+        .summary-card:nth-child(2) .card-number { background: #7c3aed; }
+        .summary-card:nth-child(3) .card-number { background: #059669; }
+        .summary-card:nth-child(4) .card-number { background: #d97706; }
+
+        .summary-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+        }
+        .summary-card:nth-child(1) h3 { color: #2563eb; }
+        .summary-card:nth-child(2) h3 { color: #7c3aed; }
+        .summary-card:nth-child(3) h3 { color: #059669; }
+        .summary-card:nth-child(4) h3 { color: #d97706; }
+
+        .summary-card p {
+            font-size: 0.98rem;
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+
+        .takeaway-box {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .takeaway-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .takeaway-content h4 {
+            font-size: 1.1rem;
+            color: #059669;
+            margin-bottom: 0.4rem;
+        }
+        .takeaway-content p {
+            font-size: 1.05rem;
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Summary</h2>
+        <div class="content-area">
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="card-number">1</div>
+                    <h3>Use Case Analysis</h3>
+                    <p>Examines intended tasks and scenarios to identify usability and functionality issues</p>
+                </div>
+                <div class="summary-card">
+                    <div class="card-number">2</div>
+                    <h3>Quality Attribute Analysis</h3>
+                    <p>Examines non-functional requirements (performance, security, scalability) to identify quality issues</p>
+                </div>
+                <div class="summary-card">
+                    <div class="card-number">3</div>
+                    <h3>Trade-off Analysis</h3>
+                    <p>Evaluates trade-offs between design choices to find the optimal solution for specific goals</p>
+                </div>
+                <div class="summary-card">
+                    <div class="card-number">4</div>
+                    <h3>Cost-Benefit Analysis</h3>
+                    <p>Determines the most cost-effective solution providing greatest value</p>
+                </div>
+            </div>
+
+            <div class="takeaway-box">
+                <div class="takeaway-icon">&#128161;</div>
+                <div class="takeaway-content">
+                    <h4>Key Takeaway</h4>
+                    <p>Architecture analysis is not a one-time activity. Continuous analysis throughout the development lifecycle ensures the architecture remains fit for purpose.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">38 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Recap of the Four Analysis Methods:</strong></p>
+        <ul>
+            <li><strong>Use Case Analysis:</strong> Start with how users interact with the system. Are the right use cases supported? Are there gaps?</li>
+            <li><strong>Quality Attribute Analysis:</strong> Move beyond functionality to quality. Does the system meet performance, security, and scalability needs?</li>
+            <li><strong>Trade-off Analysis:</strong> Recognize that improving one quality often impacts another. Find the right balance for your context.</li>
+            <li><strong>Cost-Benefit Analysis:</strong> Ensure the architecture makes economic sense. The best technical solution isn't always the right business decision.</li>
+        </ul>
+        <p>Emphasize that real projects use all four types of analysis, often iteratively. Architecture evolves, and so should the analysis. Revisit these methods at each major milestone or when requirements change significantly.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

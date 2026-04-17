@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion: Balancing Quality Attributes - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Discussion: Balancing Quality Attributes</h2>
+        <div class="content-area">
+            <div class="highlight-box" style="margin-bottom: 1.5rem;">
+                <h3 style="margin-bottom: 1rem;">Real-World Scenario</h3>
+                <p style="font-size: 1.1rem;">
+                    You are architecting a banking mobile app. The product owner wants it to be
+                    extremely secure, highly performant, and easy to use. The deadline is 6 months.
+                </p>
+            </div>
+
+            <div class="two-columns">
+                <div class="card">
+                    <h4>Trade-off Tensions</h4>
+                    <table style="font-size: 0.9rem; width: 100%;">
+                        <tr>
+                            <td><strong>Security vs. Usability</strong></td>
+                            <td>MFA adds friction</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Security vs. Performance</strong></td>
+                            <td>Encryption adds latency</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modifiability vs. Performance</strong></td>
+                            <td>Abstraction has overhead</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Availability vs. Cost</strong></td>
+                            <td>Redundancy is expensive</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card warning">
+                    <h4>Consider</h4>
+                    <ul style="font-size: 1rem;">
+                        <li>Which quality attributes are non-negotiable?</li>
+                        <li>Where can you accept "good enough"?</li>
+                        <li>How do you communicate trade-offs to stakeholders?</li>
+                        <li>What metrics will validate your decisions?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card success" style="margin-top: 1.5rem;">
+                <h4>Discussion Questions</h4>
+                <ol style="font-size: 1.1rem;">
+                    <li>For a banking app, which quality attribute would you prioritize highest? Why?</li>
+                    <li>How would you make MFA user-friendly without compromising security?</li>
+                    <li>What tactics would you combine to achieve multiple quality attributes?</li>
+                </ol>
+            </div>
+
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-light);">
+                <strong>Time:</strong> 5 minutes group discussion | Present your priorities to the class
+            </p>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Facilitation Guide:</strong></p>
+        <ul>
+            <li>Split into groups of 3-4</li>
+            <li>Each group should rank: Security, Performance, Usability, Availability</li>
+            <li>Have them justify their ranking</li>
+        </ul>
+        <p><strong>Expected insights:</strong></p>
+        <ul>
+            <li>Security is non-negotiable for banking (regulatory)</li>
+            <li>Usability can be enhanced with biometrics (both secure and easy)</li>
+            <li>Performance can be achieved with caching for read-heavy operations</li>
+            <li>Availability depends on cost constraints</li>
+        </ul>
+        <p><strong>Key message:</strong> There is no "right answer" - it depends on context and stakeholder priorities.</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Risks Unique to AI Components - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .risks-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+        .risk-card {
+            background: white;
+            border-radius: 12px;
+            padding: 0.85rem 0.95rem;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+        .risk-card:nth-child(1) { border-top: 4px solid #94a3b8; }
+        .risk-card:nth-child(2) { border-top: 4px solid #f97316; }
+        .risk-card:nth-child(3) { border-top: 4px solid #3b82f6; }
+        .risk-card:nth-child(4) { border-top: 4px solid #ef4444; }
+        .risk-card:nth-child(5) { border-top: 4px solid #8b5cf6; }
+        .risk-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        .risk-name {
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--dark-color);
+        }
+        .risk-desc {
+            font-size: 0.82rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+        .risk-example {
+            font-size: 0.78rem;
+            font-style: italic;
+            color: #475569;
+            background: #f8fafc;
+            border-radius: 6px;
+            padding: 0.3rem 0.5rem;
+            margin-top: 0.15rem;
+            line-height: 1.35;
+        }
+        .risks-footer-callout {
+            background: linear-gradient(135deg, #fef3c7, #fffbeb);
+            border-left: 4px solid #f59e0b;
+            border-radius: 0 10px 10px 0;
+            padding: 0.65rem 1rem;
+            font-size: 0.88rem;
+            color: #78350f;
+        }
+        .risks-footer-callout strong { color: #b45309; }
+        @media (max-width: 768px) {
+            .risks-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>5 Risks Unique to AI Components</h2>
+        <div class="content-area">
+
+            <div class="risks-grid">
+                <div class="risk-card">
+                    <div class="risk-icon">&#127922;</div>
+                    <div class="risk-name">Non-determinism</div>
+                    <div class="risk-desc">Same input can produce different outputs across runs.</div>
+                    <div class="risk-example">Fraud score for the same expense varies between model versions.</div>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-icon">&#9201;</div>
+                    <div class="risk-name">Latency Variability</div>
+                    <div class="risk-desc">AI inference time is unpredictable under load.</div>
+                    <div class="risk-example">Real-time fraud check adds 200msâ€“2s latency to expense submission.</div>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-icon">&#128202;</div>
+                    <div class="risk-name">Data Dependency</div>
+                    <div class="risk-desc">Model quality degrades when input distribution shifts.</div>
+                    <div class="risk-example">Trained on 2023 expense data, breaks on 2025 patterns.</div>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-icon">&#128201;</div>
+                    <div class="risk-name">Model Drift</div>
+                    <div class="risk-desc">Accuracy drops over time as the world changes.</div>
+                    <div class="risk-example">Fraud patterns evolve; a 6-month-old model misses new schemes.</div>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-icon">&#128269;</div>
+                    <div class="risk-name">Explainability Gap</div>
+                    <div class="risk-desc">Hard to explain why the AI made a decision.</div>
+                    <div class="risk-example">"Why was my expense flagged?" â€” "The model said so."</div>
+                </div>
+            </div>
+
+            <div class="risks-footer-callout" style="margin-top: 0.85rem;">
+                <strong>Each risk requires a specific design response</strong> â€” we'll address them in Section 3.
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">8 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>5 Risks Unique to AI Components:</strong></p>
+        <p>Walk through each risk with a concrete example from expense fraud detection.</p>
+        <p>The explainability gap is particularly important for enterprise applications where audit trails are required. "My expense was flagged â€” can I appeal?" requires an explanation.</p>
+        <p>Risk 3 (data dependency) connects to the data contracts principle in Section 3. Risk 4 (model drift) connects to AI technical debt in Section 4.</p>
+        <p>Ask: "Which of these risks worries you most as an architect? Why?"</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

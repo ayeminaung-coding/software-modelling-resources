@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Improved DSM: Payment System - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .dsm-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            flex: 1;
+            align-items: start;
+        }
+        .dsm-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .dsm-panel h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+        .dsm-panel.bad h3 {
+            color: var(--danger-color);
+        }
+        .dsm-panel.good h3 {
+            color: var(--success-color);
+        }
+
+        /* DSM Tables */
+        .dsm-compare-table {
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            width: 100%;
+            max-width: 100%;
+            table-layout: fixed;
+        }
+        .dsm-compare-table th,
+        .dsm-compare-table td {
+            border: 2px solid #cbd5e1;
+            text-align: center;
+            vertical-align: middle;
+            padding: 0.35rem 0.25rem;
+            font-weight: 600;
+            height: 42px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .dsm-compare-table th {
+            font-size: 0.7rem;
+            line-height: 1.2;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        /* Bad DSM styles */
+        .dsm-panel.bad .dsm-compare-table th {
+            background: #991b1b;
+            color: white;
+        }
+        .dsm-panel.bad .row-header {
+            background: #991b1b;
+            color: white;
+            font-size: 0.7rem;
+            text-align: left;
+            padding-left: 0.4rem;
+        }
+        .dsm-panel.bad .dep-cell {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        /* Good DSM styles */
+        .dsm-panel.good .dsm-compare-table th {
+            background: #065f46;
+            color: white;
+        }
+        .dsm-panel.good .row-header {
+            background: #065f46;
+            color: white;
+            font-size: 0.7rem;
+            text-align: left;
+            padding-left: 0.4rem;
+        }
+        .dsm-panel.good .dep-cell {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .diagonal-cell {
+            background: #e2e8f0;
+            color: #94a3b8;
+        }
+        .empty-cell {
+            background: white;
+        }
+
+        /* Callouts */
+        .callout {
+            margin-top: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            text-align: center;
+            width: 100%;
+        }
+        .callout.bad {
+            background: #fef2f2;
+            border: 2px solid var(--danger-color);
+            color: #991b1b;
+        }
+        .callout.good {
+            background: #ecfdf5;
+            border: 2px solid var(--success-color);
+            color: #065f46;
+        }
+
+        @media (max-width: 1000px) {
+            .dsm-comparison {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Improved DSM: Payment System</h2>
+        <div class="content-area">
+            <div class="dsm-comparison">
+                <!-- Left: Without Interface Pattern -->
+                <div class="dsm-panel bad">
+                    <h3>Without Interface Pattern</h3>
+                    <table class="dsm-compare-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 25%;"></th>
+                                <th>Credit Card</th>
+                                <th>PayPal</th>
+                                <th>Bank Transfer</th>
+                                <th>Order Proc</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="row-header">Credit Card</td>
+                                <td class="diagonal-cell">.</td>
+                                <td class="empty-cell"></td>
+                                <td class="empty-cell"></td>
+                                <td class="empty-cell"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">PayPal</td>
+                                <td class="empty-cell"></td>
+                                <td class="diagonal-cell">.</td>
+                                <td class="empty-cell"></td>
+                                <td class="empty-cell"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">Bank Transfer</td>
+                                <td class="empty-cell"></td>
+                                <td class="empty-cell"></td>
+                                <td class="diagonal-cell">.</td>
+                                <td class="empty-cell"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">Order Processor</td>
+                                <td class="dep-cell">X</td>
+                                <td class="dep-cell">X</td>
+                                <td class="dep-cell">X</td>
+                                <td class="diagonal-cell">.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="callout bad">
+                        <strong>Problem:</strong> Order Processor depends on ALL payment methods. Adding a new method requires changing Order Processor.
+                    </div>
+                </div>
+
+                <!-- Right: With Interface Pattern -->
+                <div class="dsm-panel good">
+                    <h3>With Interface Pattern</h3>
+                    <table class="dsm-compare-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 22%;"></th>
+                                <th>Payment IF</th>
+                                <th>CC Adapter</th>
+                                <th>PP Adapter</th>
+                                <th>BT Adapter</th>
+                                <th>Order Proc</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="row-header">Payment IF</td>
+                                <td class="diagonal-cell">.</td>
+                                <td class="empty-cell"></td>
+                                <td class="empty-cell"></td>
+                                <td class="empty-cell"></td>
+                                <td class="empty-cell"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">CC Adapter</td>
+                                <td class="dep-cell">X</td>
+                                <td class="diagonal-cell">.</td>
+                                <td class="empty-cell"></td>
+                                <td class="empty-cell"></td>
+                                <td class="empty-cell"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">PP Adapter</td>
+                                <td class="dep-cell">X</td>
+                                <td class="empty-cell"></td>
+                                <td class="diagonal-cell">.</td>
+                                <td class="empty-cell"></td>
+                                <td class="empty-cell"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">BT Adapter</td>
+                                <td class="dep-cell">X</td>
+                                <td class="empty-cell"></td>
+                                <td class="empty-cell"></td>
+                                <td class="diagonal-cell">.</td>
+                                <td class="empty-cell"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">Order Proc</td>
+                                <td class="dep-cell">X</td>
+                                <td class="empty-cell"></td>
+                                <td class="empty-cell"></td>
+                                <td class="empty-cell"></td>
+                                <td class="diagonal-cell">.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="callout good">
+                        <strong>Solution:</strong> Order Processor only depends on the interface. Adding Alipay = new adapter depending on interface only. No existing code changes!
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">29 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p>This is the key comparison slide. The interface pattern transforms a tightly coupled system into a loosely coupled one. This is the essence of design for change.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

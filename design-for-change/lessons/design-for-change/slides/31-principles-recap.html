@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Principles Recap - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .principles-hub {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+        .center-principle {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        .connectors {
+            display: flex;
+            gap: 0.5rem;
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+        .principles-ring {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            width: 100%;
+        }
+        .principle-card {
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+        .principle-card .p-icon {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: white;
+            font-weight: 700;
+        }
+        .principle-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+        .principle-card p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--text-color);
+        }
+        .card-info-hiding {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #3b82f6;
+        }
+        .card-info-hiding .p-icon { background: #3b82f6; }
+        .card-info-hiding h4 { color: #1e40af; }
+        .card-separation {
+            background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%);
+            border: 2px solid #8b5cf6;
+        }
+        .card-separation .p-icon { background: #8b5cf6; }
+        .card-separation h4 { color: #6d28d9; }
+        .card-coupling {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid #10b981;
+        }
+        .card-coupling .p-icon { background: #10b981; }
+        .card-coupling h4 { color: #065f46; }
+        .card-anticipate {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border: 2px solid #f97316;
+        }
+        .card-anticipate .p-icon { background: #f97316; }
+        .card-anticipate h4 { color: #9a3412; }
+        .synthesis-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            text-align: center;
+            width: 100%;
+        }
+        .synthesis-box p {
+            font-size: 1.05rem;
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.5;
+        }
+        .synthesis-box strong {
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Design Principles Recap</h2>
+        <div class="content-area">
+            <div class="principles-hub">
+                <div class="center-principle">Design for Change</div>
+                <div class="connectors">&#9475; &#9475; &#9475; &#9475;</div>
+                <div class="principles-ring">
+                    <div class="principle-card card-info-hiding">
+                        <div class="p-icon">H</div>
+                        <div>
+                            <h4>Information Hiding</h4>
+                            <p>Hide decisions likely to change behind stable interfaces (Parnas)</p>
+                        </div>
+                    </div>
+                    <div class="principle-card card-separation">
+                        <div class="p-icon">S</div>
+                        <div>
+                            <h4>Separation of Concerns</h4>
+                            <p>Each module addresses one concern &mdash; changes stay contained</p>
+                        </div>
+                    </div>
+                    <div class="principle-card card-coupling">
+                        <div class="p-icon">C</div>
+                        <div>
+                            <h4>Low Coupling</h4>
+                            <p>Minimize dependencies between modules to reduce ripple effects</p>
+                        </div>
+                    </div>
+                    <div class="principle-card card-anticipate">
+                        <div class="p-icon">A</div>
+                        <div>
+                            <h4>Anticipate Change</h4>
+                            <p>Identify likely change points and design flexibility around them</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="synthesis-box">
+                    <p>These principles are <strong>complementary</strong> &mdash; information hiding enables low coupling, separation of concerns guides what to hide, and anticipating change tells you <strong>where</strong> to apply them.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">31 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>This slide connects all the principles</strong> we've covered in this chapter.</p>
+        <p>The key insight is that these principles don't exist in isolation â€” they form a coherent design philosophy:</p>
+        <ul>
+            <li><strong>Anticipate Change</strong> tells you WHERE to focus your design effort</li>
+            <li><strong>Information Hiding</strong> tells you HOW to encapsulate changeable decisions</li>
+            <li><strong>Separation of Concerns</strong> tells you WHAT each module should be responsible for</li>
+            <li><strong>Low Coupling</strong> tells you how modules should RELATE to each other</li>
+        </ul>
+        <p>Together, they produce systems where changes are localized, predictable, and low-cost â€” which is exactly what "design for change" means.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

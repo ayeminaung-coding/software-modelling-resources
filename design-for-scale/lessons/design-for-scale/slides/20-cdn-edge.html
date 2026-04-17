@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDN and Edge Computing</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>CDN and Edge Computing</h2>
+        <div class="content-area">
+            <div class="two-columns">
+                <div>
+                    <h3>Content Delivery Network (CDN)</h3>
+                    <div class="card" style="margin-top: 1rem;">
+                        <p style="font-size: 1.1rem;">Distributed network of servers that cache content closer to users</p>
+                        <ul style="font-size: 1rem; margin-top: 1rem;">
+                            <li>Static assets (images, CSS, JS)</li>
+                            <li>Video streaming</li>
+                            <li>API response caching</li>
+                            <li>DDoS protection</li>
+                        </ul>
+                    </div>
+                    <div class="card success" style="margin-top: 1rem;">
+                        <h4>Popular CDNs</h4>
+                        <p style="font-size: 1rem;">CloudFlare, AWS CloudFront, Akamai, Fastly, Azure CDN</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Edge Computing</h3>
+                    <div class="card warning" style="margin-top: 1rem;">
+                        <p style="font-size: 1.1rem;">Run code at the edge, close to users</p>
+                        <ul style="font-size: 1rem; margin-top: 1rem;">
+                            <li>Compute at CDN nodes</li>
+                            <li>Personalization</li>
+                            <li>A/B testing</li>
+                            <li>Request routing</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="margin-top: 1rem;">
+                        <h4>Edge Platforms</h4>
+                        <p style="font-size: 1rem;">CloudFlare Workers, AWS Lambda@Edge, Vercel Edge, Deno Deploy</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="metrics" style="margin-top: 1.5rem;">
+                <div class="metric">
+                    <div class="metric-value">50-200ms</div>
+                    <div class="metric-label">Without CDN</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" style="color: var(--success-color);">5-20ms</div>
+                    <div class="metric-label">With CDN</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">90%</div>
+                    <div class="metric-label">Latency Reduction</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">20 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>CDN and Edge Computing:</strong></p>
+<p>CDNs are not just for static assets anymore!</p>
+<ul>
+<li>Edge computing brings logic closer to users</li>
+<li>Perfect for personalization, A/B testing, authentication</li>
+<li>Cloudflare Workers, Lambda@Edge can run real code at edge</li>
+</ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

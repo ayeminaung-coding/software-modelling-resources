@@ -1,0 +1,332 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Derive Scenarios - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .exercise-container {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 1.5rem;
+            flex: 1;
+        }
+        .context-panel {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        .context-panel h3 {
+            color: #1d4ed8;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+        .context-panel p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 0.75rem;
+        }
+        .system-features {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            padding: 0.3rem 0;
+        }
+        .feature-icon {
+            color: #3b82f6;
+            font-weight: bold;
+        }
+        .scenarios-panel h3 {
+            font-size: 1.1rem;
+            color: var(--dark-color);
+            margin-bottom: 0.75rem;
+        }
+        .scenario-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid #e2e8f0;
+            background: white;
+            user-select: none;
+        }
+        .scenario-option:hover {
+            border-color: #6366f1;
+            background: #f5f3ff;
+        }
+        .scenario-option.selected {
+            border-color: #6366f1;
+            background: #ede9fe;
+        }
+        .scenario-option.correct {
+            border-color: #10b981;
+            background: #dcfce7;
+        }
+        .scenario-option.wrong {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+        .option-marker {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #475569;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+        .scenario-option.selected .option-marker {
+            background: #6366f1;
+            color: white;
+        }
+        .scenario-option.correct .option-marker {
+            background: #10b981;
+            color: white;
+        }
+        .scenario-option.wrong .option-marker {
+            background: #ef4444;
+            color: white;
+        }
+        .option-text {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--text-color);
+        }
+        .option-text .type-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            margin-left: 0.4rem;
+            vertical-align: middle;
+        }
+        .type-tag.normal { background: #dcfce7; color: #166534; }
+        .type-tag.growth { background: #dbeafe; color: #1e40af; }
+        .type-tag.failure { background: #fef2f2; color: #991b1b; }
+        .control-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-top: 0.75rem;
+        }
+        .btn {
+            padding: 0.6rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-check {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .btn-check:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-reveal {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        .btn-reveal:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+        .btn-reset {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .btn-reset:hover { background: #cbd5e1; }
+        .feedback {
+            text-align: center;
+            padding: 0.6rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: none;
+        }
+        .feedback.correct { background: #dcfce7; color: #166534; display: block; }
+        .feedback.incorrect { background: #fef2f2; color: #991b1b; display: block; }
+        .feedback.info { background: #e0e7ff; color: #3730a3; display: block; }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Derive Architecture Scenarios</h2>
+        <div class="content-area">
+            <div class="highlight-box" style="padding: 0.6rem 1rem; margin-bottom: 0.75rem; background: linear-gradient(135deg, #e0e7ff, #c7d2fe); border-color: #6366f1;">
+                <p style="font-size: 0.9rem; margin: 0;"><strong>Instructions:</strong> Given this system, select the 4 scenarios that are <em>architecture-relevant</em> (affect structural decisions).</p>
+            </div>
+
+            <div class="exercise-container">
+                <div class="context-panel">
+                    <h3>&#128179; Online Payment System</h3>
+                    <p>A payment gateway processing credit card transactions for e-commerce merchants. Currently handles 500 transactions/second.</p>
+                    <div class="system-features">
+                        <div class="feature-item"><span class="feature-icon">&#9679;</span> Multi-currency support</div>
+                        <div class="feature-item"><span class="feature-icon">&#9679;</span> PCI-DSS compliance required</div>
+                        <div class="feature-item"><span class="feature-icon">&#9679;</span> 99.99% uptime SLA</div>
+                        <div class="feature-item"><span class="feature-icon">&#9679;</span> Real-time fraud detection</div>
+                        <div class="feature-item"><span class="feature-icon">&#9679;</span> Settlement with multiple banks</div>
+                    </div>
+                </div>
+
+                <div class="scenarios-panel">
+                    <h3>Select 4 architecture-relevant scenarios:</h3>
+                    <div id="scenarioOptions">
+                        <div class="scenario-option" data-correct="true" data-type="failure" onclick="toggleScenario(this)">
+                            <span class="option-marker">A</span>
+                            <span class="option-text">Primary payment processor goes down during Black Friday peak</span>
+                        </div>
+                        <div class="scenario-option" data-correct="false" data-type="" onclick="toggleScenario(this)">
+                            <span class="option-marker">B</span>
+                            <span class="option-text">Change the color of the payment confirmation button</span>
+                        </div>
+                        <div class="scenario-option" data-correct="true" data-type="growth" onclick="toggleScenario(this)">
+                            <span class="option-marker">C</span>
+                            <span class="option-text">Transaction volume grows from 500 to 5,000 per second within a year</span>
+                        </div>
+                        <div class="scenario-option" data-correct="true" data-type="failure" onclick="toggleScenario(this)">
+                            <span class="option-marker">D</span>
+                            <span class="option-text">A security breach exposes encrypted card data in transit</span>
+                        </div>
+                        <div class="scenario-option" data-correct="false" data-type="" onclick="toggleScenario(this)">
+                            <span class="option-marker">E</span>
+                            <span class="option-text">Add a new field to the merchant registration form</span>
+                        </div>
+                        <div class="scenario-option" data-correct="true" data-type="normal" onclick="toggleScenario(this)">
+                            <span class="option-marker">F</span>
+                            <span class="option-text">Process a refund within 200ms while maintaining an audit trail</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-buttons">
+                <button class="btn btn-check" onclick="checkAnswers()">Check Answers</button>
+                <button class="btn btn-reveal" onclick="revealAnswers()">Reveal Answers</button>
+                <button class="btn btn-reset" onclick="resetExercise()">Reset</button>
+            </div>
+            <div id="feedback" class="feedback"></div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">12 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise - 3-4 minutes</strong></p>
+        <p>Students should identify which scenarios actually influence architecture decisions vs. which are minor UI/functional changes.</p>
+        <p><strong>Correct Answers: A, C, D, F</strong></p>
+        <ul>
+            <li><strong>A (Failure):</strong> Processor failure during peak requires failover architecture, circuit breakers, and redundancy - major structural decisions.</li>
+            <li><strong>B (Not relevant):</strong> UI color change is purely cosmetic. No architecture impact.</li>
+            <li><strong>C (Growth):</strong> 10x scaling requires decisions about horizontal scaling, database sharding, caching layers - fundamental architecture choices.</li>
+            <li><strong>D (Failure):</strong> Security breach scenario drives encryption architecture, key management, network segmentation decisions.</li>
+            <li><strong>E (Not relevant):</strong> Adding a form field is a simple feature change, not an architecture concern.</li>
+            <li><strong>F (Normal):</strong> Performance requirement with audit trail requires decisions about async processing, event sourcing, and data consistency.</li>
+        </ul>
+        <p><strong>Key insight:</strong> Architecture-relevant scenarios are those that would require changing the system's structure (components, connectors, topology) to address. Simple feature changes or cosmetic updates are not architecture-relevant.</p>
+    </script>
+
+    <script>
+        function toggleScenario(el) {
+            // Reset feedback
+            document.getElementById('feedback').className = 'feedback';
+            // Remove correct/wrong styling
+            document.querySelectorAll('.scenario-option').forEach(opt => {
+                opt.classList.remove('correct', 'wrong');
+                const tag = opt.querySelector('.type-tag');
+                if (tag) tag.remove();
+            });
+            el.classList.toggle('selected');
+        }
+
+        function checkAnswers() {
+            const options = document.querySelectorAll('.scenario-option');
+            let correctCount = 0;
+            let selectedCount = 0;
+
+            options.forEach(opt => {
+                const isCorrect = opt.dataset.correct === 'true';
+                const isSelected = opt.classList.contains('selected');
+                opt.classList.remove('correct', 'wrong');
+
+                if (isSelected) {
+                    selectedCount++;
+                    if (isCorrect) {
+                        opt.classList.add('correct');
+                        correctCount++;
+                    } else {
+                        opt.classList.add('wrong');
+                    }
+                }
+            });
+
+            const feedback = document.getElementById('feedback');
+            if (selectedCount !== 4) {
+                feedback.textContent = 'Please select exactly 4 scenarios! (' + selectedCount + ' selected)';
+                feedback.className = 'feedback incorrect';
+            } else if (correctCount === 4) {
+                feedback.textContent = 'Correct! All 4 architecture-relevant scenarios identified!';
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = correctCount + ' of 4 correct. Green = right, red = wrong. Think: does it change the system structure?';
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        function revealAnswers() {
+            resetExercise();
+            const typeLabels = { normal: 'Normal', growth: 'Growth', failure: 'Failure' };
+            document.querySelectorAll('.scenario-option').forEach(opt => {
+                const isCorrect = opt.dataset.correct === 'true';
+                const type = opt.dataset.type;
+                if (isCorrect) {
+                    opt.classList.add('selected', 'correct');
+                    if (type && typeLabels[type]) {
+                        const tag = document.createElement('span');
+                        tag.className = 'type-tag ' + type;
+                        tag.textContent = typeLabels[type];
+                        opt.querySelector('.option-text').appendChild(tag);
+                    }
+                }
+            });
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = 'A = Failure | C = Growth | D = Failure | F = Normal. B & E are not architecture-relevant.';
+            feedback.className = 'feedback info';
+        }
+
+        function resetExercise() {
+            document.querySelectorAll('.scenario-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'wrong');
+                const tag = opt.querySelector('.type-tag');
+                if (tag) tag.remove();
+            });
+            document.getElementById('feedback').className = 'feedback';
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Sourcing Benefits</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Event Sourcing Benefits</h2>
+        <div class="content-area">
+            <div class="two-columns">
+                <div>
+                    <div class="card success" style="margin-bottom: 1.5rem;">
+                        <h4>Complete Audit Trail</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Every change is recorded</li>
+                            <li>Who did what and when</li>
+                            <li>Regulatory compliance</li>
+                            <li>Debug production issues</li>
+                        </ul>
+                    </div>
+                    <div class="card success" style="margin-bottom: 1.5rem;">
+                        <h4>Time Travel & Replay</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Reconstruct state at any point</li>
+                            <li>Replay events for debugging</li>
+                            <li>Test new logic on old events</li>
+                            <li>Recover from bugs</li>
+                        </ul>
+                    </div>
+                    <div class="card success">
+                        <h4>Event-Driven Integration</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Natural fit for microservices</li>
+                            <li>Publish events to other systems</li>
+                            <li>Build projections/read models</li>
+                            <li>Loose coupling between services</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="card warning" style="margin-bottom: 1.5rem;">
+                        <h4>Challenges to Consider</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Event schema evolution</li>
+                            <li>Eventual consistency mindset</li>
+                            <li>Query complexity (use CQRS)</li>
+                            <li>Storage growth over time</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <h4>Best Use Cases</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Financial transactions</li>
+                            <li>Order management systems</li>
+                            <li>Collaborative editing</li>
+                            <li>Audit-heavy domains</li>
+                        </ul>
+                    </div>
+                    <div class="highlight-box">
+                        <strong>Pro Tip:</strong> Start with Event Sourcing for aggregates that need audit trails. You don't have to use it everywhere!
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">26 / 42</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Event Sourcing Benefits:</strong></p>
+<ul>
+<li><em>Audit Trail:</em> Perfect for finance, healthcare, legal - anywhere you need to prove what happened</li>
+<li><em>Time Travel:</em> Powerful for debugging - "what was the state at 3pm yesterday?"</li>
+<li><em>Integration:</em> Events are a natural way to communicate between microservices</li>
+</ul>
+<p><strong>When NOT to use:</strong> Simple CRUD apps, high-frequency updates with no audit needs, when team lacks experience.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

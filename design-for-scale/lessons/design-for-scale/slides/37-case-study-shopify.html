@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: Shopify</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Case Study: Shopify (BFCM)</h2>
+        <div class="content-area">
+            <div class="highlight-box">
+                <p style="font-size: 1.2rem;">
+                    Shopify handles <strong>Black Friday/Cyber Monday</strong> - one of the highest
+                    e-commerce traffic events globally, with extreme burst scaling requirements.
+                </p>
+            </div>
+
+            <div class="metrics" style="margin-top: 1.5rem;">
+                <div class="metric">
+                    <div class="metric-value">$9.3B</div>
+                    <div class="metric-label">BFCM 2023 Sales</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">58M</div>
+                    <div class="metric-label">RPS Peak</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">99.99%</div>
+                    <div class="metric-label">Uptime</div>
+                </div>
+            </div>
+
+            <div class="two-columns" style="margin-top: 1.5rem;">
+                <div>
+                    <h3>Scaling Strategies</h3>
+                    <ul style="font-size: 1.05rem;">
+                        <li><strong>Pod Autoscaling:</strong> Based on request queue</li>
+                        <li><strong>Edge Caching:</strong> Static content at CDN</li>
+                        <li><strong>Read Replicas:</strong> Massive read scaling</li>
+                        <li><strong>Queue Everything:</strong> Async checkout</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Resiliency Measures</h3>
+                    <ul style="font-size: 1.05rem;">
+                        <li><strong>Load Shedding:</strong> Reject excess load</li>
+                        <li><strong>Checkout Queue:</strong> Fair ordering</li>
+                        <li><strong>Feature Flags:</strong> Disable non-critical</li>
+                        <li><strong>Pre-scaling:</strong> Hours before peak</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box warning" style="margin-top: 1rem;">
+                <strong>Lesson:</strong> Predictable high-traffic events require pre-scaling, load testing, and graceful degradation strategies.
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">37 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Shopify BFCM Case Study:</strong></p>
+<ul>
+<li>Predictable high-traffic event - can prepare in advance</li>
+<li>Pre-scaling hours before expected peak</li>
+<li>Graceful degradation - disable non-critical features under load</li>
+</ul>
+<p><strong>Key lesson:</strong> Load testing is essential. Test beyond expected peak!</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

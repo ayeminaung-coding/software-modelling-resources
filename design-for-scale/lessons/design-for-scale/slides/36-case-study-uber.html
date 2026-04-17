@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: Uber</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Case Study: Uber</h2>
+        <div class="content-area">
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-value">130M+</div>
+                    <div class="metric-label">Monthly Users</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">6M+</div>
+                    <div class="metric-label">Drivers</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">4000+</div>
+                    <div class="metric-label">Microservices</div>
+                </div>
+            </div>
+
+            <div class="two-columns" style="margin-top: 1.5rem;">
+                <div>
+                    <h3>Technical Challenges</h3>
+                    <ul style="font-size: 1.05rem;">
+                        <li><strong>Real-time matching:</strong> Drivers to riders</li>
+                        <li><strong>Geospatial queries:</strong> Location tracking</li>
+                        <li><strong>Surge pricing:</strong> Dynamic demand</li>
+                        <li><strong>ETA calculation:</strong> Route optimization</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Solutions</h3>
+                    <ul style="font-size: 1.05rem;">
+                        <li><strong>Ringpop:</strong> Consistent hashing</li>
+                        <li><strong>H3:</strong> Hexagonal geospatial index</li>
+                        <li><strong>Kafka:</strong> Trillion events/day</li>
+                        <li><strong>Schemaless:</strong> MySQL sharding layer</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="diagram" style="margin-top: 1rem; padding: 1rem;">
+                <div class="flow-horizontal">
+                    <div class="diagram-box">Mobile Apps</div>
+                    <span class="arrow">→</span>
+                    <div class="diagram-box success">API Gateway</div>
+                    <span class="arrow">→</span>
+                    <div class="diagram-box secondary">Dispatch Service</div>
+                    <span class="arrow">→</span>
+                    <div class="diagram-box warning">Geospatial Index</div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <strong>Key Learning:</strong> Geographic sharding by city/region enables independent scaling and fault isolation per market.
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">36 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Uber Case Study:</strong></p>
+<ul>
+<li>Real-time matching requires sub-second latency</li>
+<li>Geographic sharding by city enables independent scaling</li>
+<li>H3 hexagonal grid for efficient geospatial queries</li>
+</ul>
+<p><strong>Key lesson:</strong> Choose data structures and sharding strategies based on access patterns.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,380 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Trade-off Analysis - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .exercise-header {
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        .exercise-header h3 { margin: 0 0 0.3rem 0; font-size: 1.2rem; }
+        .exercise-header p { margin: 0; font-size: 0.95rem; opacity: 0.95; }
+        .scenario-box {
+            background: var(--light-color);
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #f59e0b;
+            font-size: 0.95rem;
+        }
+        .scenario-box p { margin: 0; }
+        .feature-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .feature-section {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem;
+            transition: border-color 0.2s;
+        }
+        .feature-section.complete {
+            border-color: var(--success-color);
+        }
+        .feature-section h4 {
+            font-size: 1rem;
+            color: var(--dark-color);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .feature-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        .feature-icon.biometric { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+        .feature-icon.redundancy { background: linear-gradient(135deg, #059669, #10b981); }
+        .form-group {
+            margin-bottom: 0.65rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .form-group select {
+            width: 100%;
+            padding: 0.5rem 0.6rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: white;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.6rem center;
+        }
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        .form-group textarea {
+            width: 100%;
+            padding: 0.5rem 0.6rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 52px;
+            line-height: 1.4;
+            transition: border-color 0.2s;
+        }
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        .control-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.6rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 120px;
+            min-height: 44px;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-example {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        .btn-example:hover { box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+        .btn-evaluate {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .btn-evaluate:hover { box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-reset {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .btn-reset:hover { background: #cbd5e1; transform: translateY(-2px); }
+        .feedback {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            display: none;
+            line-height: 1.5;
+        }
+        .feedback.show { display: block; }
+        .feedback.success { background: #dcfce7; color: #166534; }
+        .feedback.warning { background: #fef3c7; color: #92400e; }
+        .feedback.info { background: #e0e7ff; color: #3730a3; }
+        .discussion-prompts {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+        }
+        .discussion-prompts strong {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Trade-off Analysis</h2>
+        <div class="content-area">
+            <div class="exercise-header">
+                <h3>Scenario: Restaurant Management System</h3>
+                <p>Analyse the trade-offs for each feature under consideration</p>
+            </div>
+
+            <div class="scenario-box">
+                <p>The system has the following features under consideration: <strong>Biometric scanning</strong> for employee authentication and <strong>Multiple servers</strong> as active redundancy.</p>
+            </div>
+
+            <div class="feature-sections">
+                <!-- Section 1: Biometric Scanning -->
+                <div class="feature-section" id="section1">
+                    <h4>
+                        <span class="feature-icon biometric">1</span>
+                        Biometric Scanning
+                    </h4>
+                    <div class="form-group">
+                        <label>Trade-off Pair</label>
+                        <select id="bio-tradeoff">
+                            <option value="">Select trade-off pair...</option>
+                            <option value="sec-usability">Security vs. Usability</option>
+                            <option value="sec-cost">Security vs. Cost</option>
+                            <option value="perf-security">Performance vs. Security</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Advantages</label>
+                        <textarea id="bio-advantages" placeholder="List the advantages of biometric scanning..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Disadvantages</label>
+                        <textarea id="bio-disadvantages" placeholder="List the disadvantages of biometric scanning..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Section 2: Active Redundancy -->
+                <div class="feature-section" id="section2">
+                    <h4>
+                        <span class="feature-icon redundancy">2</span>
+                        Active Redundancy (Multiple Servers)
+                    </h4>
+                    <div class="form-group">
+                        <label>Trade-off Pair</label>
+                        <select id="red-tradeoff">
+                            <option value="">Select trade-off pair...</option>
+                            <option value="avail-performance">Availability vs. Performance</option>
+                            <option value="avail-cost">Availability vs. Cost</option>
+                            <option value="scale-complexity">Scalability vs. Complexity</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Advantages</label>
+                        <textarea id="red-advantages" placeholder="List the advantages of active redundancy..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Disadvantages</label>
+                        <textarea id="red-disadvantages" placeholder="List the disadvantages of active redundancy..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-buttons">
+                <button class="btn btn-example" onclick="showExample()">Show Example</button>
+                <button class="btn btn-evaluate" onclick="evaluate()">Evaluate</button>
+                <button class="btn btn-reset" onclick="resetExercise()">Reset</button>
+            </div>
+
+            <div id="feedback" class="feedback"></div>
+
+            <div class="discussion-prompts">
+                <strong>Additional Discussion:</strong> Security vs. Usability, Availability vs. Performance â€” How do these trade-offs apply to your own project experiences?
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">29 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise Instructions (5 minutes in pairs):</strong></p>
+        <ul>
+            <li>Give students 5 minutes to work in pairs on both features</li>
+            <li>Walk around and prompt with questions like: "What happens if the biometric scanner fails?" or "How do you keep data in sync across servers?"</li>
+            <li>Collect 2-3 groups to share their analysis</li>
+        </ul>
+        <p><strong>Expected Answers:</strong></p>
+        <ul>
+            <li><em>Biometric Scanning:</em> Security vs. Usability. Advantages: Strong authentication, no password to forget. Disadvantages: Slower login, expensive hardware, privacy concerns.</li>
+            <li><em>Active Redundancy:</em> Availability vs. Performance. Advantages: System stays up if one server fails, load distribution. Disadvantages: Consumes more resources, data sync overhead, higher cost.</li>
+        </ul>
+    </script>
+
+    <script>
+        function showExample() {
+            document.getElementById('bio-tradeoff').value = 'sec-usability';
+            document.getElementById('bio-advantages').value = 'Strong authentication, no password to forget, difficult to forge biometric data';
+            document.getElementById('bio-disadvantages').value = 'Slower login process, expensive hardware required, privacy concerns with biometric data storage';
+
+            document.getElementById('red-tradeoff').value = 'avail-performance';
+            document.getElementById('red-advantages').value = 'System stays up if one server fails, load distribution across servers, better uptime';
+            document.getElementById('red-disadvantages').value = 'Consumes more resources, data synchronization overhead, higher infrastructure cost';
+
+            document.getElementById('section1').classList.add('complete');
+            document.getElementById('section2').classList.add('complete');
+
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = '<strong>Example answers loaded.</strong> These represent one valid analysis. Discuss in your group whether you agree or would add other points.';
+            feedback.className = 'feedback info show';
+        }
+
+        function evaluate() {
+            const fields = [
+                { id: 'bio-tradeoff', type: 'select' },
+                { id: 'bio-advantages', type: 'text' },
+                { id: 'bio-disadvantages', type: 'text' },
+                { id: 'red-tradeoff', type: 'select' },
+                { id: 'red-advantages', type: 'text' },
+                { id: 'red-disadvantages', type: 'text' }
+            ];
+
+            let empty = [];
+            fields.forEach(f => {
+                const el = document.getElementById(f.id);
+                if (!el.value.trim()) {
+                    empty.push(f.id);
+                }
+            });
+
+            const feedback = document.getElementById('feedback');
+
+            if (empty.length > 0) {
+                feedback.innerHTML = '<strong>Please fill in all fields.</strong> ' + empty.length + ' field(s) are still empty.';
+                feedback.className = 'feedback warning show';
+                return;
+            }
+
+            // Keyword matching for basic quality check
+            const bioAdv = document.getElementById('bio-advantages').value.toLowerCase();
+            const bioDis = document.getElementById('bio-disadvantages').value.toLowerCase();
+            const redAdv = document.getElementById('red-advantages').value.toLowerCase();
+            const redDis = document.getElementById('red-disadvantages').value.toLowerCase();
+
+            let score = 0;
+            let hints = [];
+
+            // Check biometric advantages
+            const bioAdvKeywords = ['authentication', 'secure', 'strong', 'password', 'identity', 'unique', 'reliable', 'forge'];
+            if (bioAdvKeywords.some(k => bioAdv.includes(k))) {
+                score++;
+            } else {
+                hints.push('Consider mentioning authentication strength for biometric advantages');
+            }
+
+            // Check biometric disadvantages
+            const bioDisKeywords = ['cost', 'expensive', 'slow', 'privacy', 'hardware', 'friction', 'fail', 'error'];
+            if (bioDisKeywords.some(k => bioDis.includes(k))) {
+                score++;
+            } else {
+                hints.push('Consider mentioning cost, speed, or privacy concerns for biometric disadvantages');
+            }
+
+            // Check redundancy advantages
+            const redAdvKeywords = ['availability', 'uptime', 'fail', 'redundan', 'backup', 'load', 'distribut', 'reliable'];
+            if (redAdvKeywords.some(k => redAdv.includes(k))) {
+                score++;
+            } else {
+                hints.push('Consider mentioning availability or failover for redundancy advantages');
+            }
+
+            // Check redundancy disadvantages
+            const redDisKeywords = ['cost', 'resource', 'sync', 'complex', 'overhead', 'expensive', 'maintain'];
+            if (redDisKeywords.some(k => redDis.includes(k))) {
+                score++;
+            } else {
+                hints.push('Consider mentioning cost, complexity, or sync overhead for redundancy disadvantages');
+            }
+
+            document.getElementById('section1').classList.add('complete');
+            document.getElementById('section2').classList.add('complete');
+
+            if (score >= 4) {
+                feedback.innerHTML = '<strong>Excellent analysis!</strong> You have identified key trade-offs for both features. Great understanding of how architectural decisions affect quality attributes.';
+                feedback.className = 'feedback success show';
+            } else if (score >= 2) {
+                feedback.innerHTML = '<strong>Good start!</strong> You have covered some key points. ' + (hints.length > 0 ? 'Suggestions: ' + hints.join('. ') + '.' : '');
+                feedback.className = 'feedback warning show';
+            } else {
+                feedback.innerHTML = '<strong>Keep going!</strong> Try to think about specific impacts on quality attributes. ' + hints.join('. ') + '.';
+                feedback.className = 'feedback warning show';
+            }
+        }
+
+        function resetExercise() {
+            document.getElementById('bio-tradeoff').value = '';
+            document.getElementById('bio-advantages').value = '';
+            document.getElementById('bio-disadvantages').value = '';
+            document.getElementById('red-tradeoff').value = '';
+            document.getElementById('red-advantages').value = '';
+            document.getElementById('red-disadvantages').value = '';
+            document.getElementById('section1').classList.remove('complete');
+            document.getElementById('section2').classList.remove('complete');
+            document.getElementById('feedback').className = 'feedback';
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

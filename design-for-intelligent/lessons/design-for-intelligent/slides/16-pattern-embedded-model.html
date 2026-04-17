@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattern 2: Embedded Model - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .pattern-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            align-items: start;
+            flex: 1;
+        }
+        .diagram-panel {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.75rem;
+        }
+        .diag-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .pros-cons-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .pros-card, .cons-card {
+            border-radius: 10px;
+            padding: 0.7rem 0.9rem;
+        }
+        .pros-card {
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+        }
+        .cons-card {
+            background: #fff1f2;
+            border: 2px solid #fca5a5;
+        }
+        .card-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.4rem;
+        }
+        .pros-card .card-title { color: #166534; }
+        .cons-card .card-title { color: #991b1b; }
+        .card-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .card-list li {
+            font-size: 0.88rem;
+            color: var(--dark-color);
+            line-height: 1.4;
+        }
+        .use-when-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid #3b82f6;
+            border-radius: 10px;
+            padding: 0.65rem 0.9rem;
+            margin-top: 0.4rem;
+        }
+        .use-when-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #1e40af;
+            margin-bottom: 0.3rem;
+        }
+        .use-when-box p {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: #1e3a8a;
+            margin: 0;
+            line-height: 1.5;
+        }
+        @media (max-width: 768px) {
+            .pattern-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Pattern 2: Embedded Model</h2>
+        <div class="content-area">
+
+            <div class="pattern-layout">
+
+                <!-- LEFT: Architecture Diagram -->
+                <div class="diagram-panel">
+                    <div class="diag-title">Architecture Diagram</div>
+                    <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
+                        <defs>
+                            <marker id="arr16" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#3b82f6"/>
+                            </marker>
+                            <marker id="arr16g" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#22c55e"/>
+                            </marker>
+                            <marker id="arr16gl" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto-start-reverse" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#22c55e"/>
+                            </marker>
+                        </defs>
+
+                        <!-- Large dashed border: Your Service -->
+                        <rect x="30" y="50" width="220" height="110" rx="10" fill="#f0f9ff" stroke="#3b82f6" stroke-width="2" stroke-dasharray="8,4"/>
+                        <text x="140" y="42" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#1e40af">Your Service</text>
+
+                        <!-- ExpenseProcessor inside -->
+                        <rect x="45" y="70" width="90" height="35" rx="6" fill="#3b82f6"/>
+                        <text x="90" y="85" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="white">Expense</text>
+                        <text x="90" y="97" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="white">Processor</text>
+
+                        <!-- FraudModel.pkl inside -->
+                        <rect x="155" y="70" width="85" height="35" rx="6" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="1.5"/>
+                        <text x="197" y="84" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#5b21b6">FraudModel</text>
+                        <text x="197" y="96" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" fill="#7c3aed">.pkl</text>
+
+                        <!-- Arrow between EP and Model: load at startup -->
+                        <line x1="135" y1="87" x2="153" y2="87" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr16)"/>
+                        <text x="144" y="82" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#7c3aed">load at</text>
+                        <text x="144" y="99" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#7c3aed">startup</text>
+
+                        <!-- Expense Data arrow in -->
+                        <line x1="10" y1="100" x2="43" y2="100" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arr16g)"/>
+                        <text x="5" y="94" font-family="system-ui,sans-serif" font-size="8" fill="#166534">Expense</text>
+                        <text x="5" y="105" font-family="system-ui,sans-serif" font-size="8" fill="#166534">Data</text>
+
+                        <!-- Fraud Score arrow out -->
+                        <line x1="243" y1="100" x2="270" y2="100" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arr16g)"/>
+                        <text x="248" y="94" font-family="system-ui,sans-serif" font-size="8" fill="#166534">Fraud</text>
+                        <text x="248" y="105" font-family="system-ui,sans-serif" font-size="8" fill="#166534">Score</text>
+
+                        <!-- Label inside dashed box -->
+                        <text x="140" y="148" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#94a3b8" font-style="italic">model bundled with service binary</text>
+                    </svg>
+                </div>
+
+                <!-- RIGHT: Pros / Cons -->
+                <div class="pros-cons-panel">
+                    <div class="pros-card">
+                        <div class="card-title">&#10003; Pros</div>
+                        <ul class="card-list">
+                            <li>&#9989; No network latency</li>
+                            <li>&#9989; No API costs</li>
+                            <li>&#9989; Works fully offline</li>
+                            <li>&#9989; Full control of model version</li>
+                        </ul>
+                    </div>
+                    <div class="cons-card">
+                        <div class="card-title">&#10005; Cons</div>
+                        <ul class="card-list">
+                            <li>&#10060; Model update = full redeploy</li>
+                            <li>&#10060; Larger service binary</li>
+                            <li>&#10060; Needs model ops (versioning, rollback)</li>
+                            <li>&#10060; GPU / memory constraints on host</li>
+                        </ul>
+                    </div>
+
+                    <div class="use-when-box">
+                        <div class="use-when-label">Use When</div>
+                        <p>Latency is critical (&lt;&nbsp;50ms), data cannot leave your system, or prediction volume is very high.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">16 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Pattern 2 â€” Embedded Model.</strong></p>
+        <p>Good for high-frequency predictions where latency matters. Examples: spam filter that runs per keystroke, fraud scoring that must return in &lt; 100ms.</p>
+        <p>The hidden cost is model operations â€” you now have a binary artifact (the model) that must be versioned and deployed alongside your code. Teams often underestimate the operational overhead: who retrains the model? How do you roll back a bad model without rolling back the service?</p>
+        <p>Key question: "What happens when the model needs to be retrained?" Leads naturally to the model ops discussion.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

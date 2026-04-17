@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance vs. Scalability - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .comparison-column {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .comparison-column::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+        }
+        .comparison-column.performance::before {
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+        }
+        .comparison-column.scalability::before {
+            background: linear-gradient(90deg, #059669, #10b981);
+        }
+        .comparison-column h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .comparison-column.performance h3 {
+            color: var(--primary-color);
+        }
+        .comparison-column.scalability h3 {
+            color: var(--success-color);
+        }
+        .comparison-column ul {
+            padding-left: 1.25rem;
+        }
+        .comparison-column ul li {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        .comparison-column.performance ul li::marker {
+            color: var(--primary-color);
+        }
+        .comparison-column.scalability ul li::marker {
+            color: var(--success-color);
+        }
+
+        /* Spectrum Bar */
+        .spectrum-container {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+        }
+        .spectrum-title {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        .spectrum-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .spectrum-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            max-width: 45%;
+            text-align: center;
+        }
+        .spectrum-label.left { color: var(--primary-color); }
+        .spectrum-label.right { color: var(--success-color); }
+        .spectrum-bar {
+            position: relative;
+            height: 24px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #2563eb, #60a5fa, #86efac, #10b981);
+            margin-bottom: 0.5rem;
+        }
+        .spectrum-indicator {
+            position: absolute;
+            top: -6px;
+            width: 36px;
+            height: 36px;
+            background: white;
+            border: 3px solid var(--dark-color);
+            border-radius: 50%;
+            cursor: grab;
+            transition: left 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            touch-action: none;
+        }
+        .spectrum-indicator:active {
+            cursor: grabbing;
+            transform: scale(1.1);
+        }
+        .spectrum-arrows {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.3rem;
+        }
+        .spectrum-arrows .arrow-symbol {
+            font-size: 1.2rem;
+        }
+        .sweet-spot-note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-style: italic;
+            margin-top: 0.75rem;
+            padding: 0.5rem;
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border-radius: 8px;
+            border: 1px solid #fbbf24;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Performance vs. Scalability</h2>
+        <div class="content-area">
+            <div class="comparison-grid">
+                <div class="comparison-column performance">
+                    <h3>Optimizing for Performance</h3>
+                    <ul>
+                        <li>Use efficient algorithms and data structures</li>
+                        <li>In-memory caching, pre-computed results</li>
+                        <li>Tight coupling for speed</li>
+                        <li>May not scale horizontally</li>
+                    </ul>
+                </div>
+                <div class="comparison-column scalability">
+                    <h3>Designing for Scalability</h3>
+                    <ul>
+                        <li>Distributed architecture</li>
+                        <li>Stateless services, eventual consistency</li>
+                        <li>Additional overhead from network communication</li>
+                        <li>Can handle more users but each request may be slower</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="spectrum-container">
+                <div class="spectrum-title">Trade-off Spectrum</div>
+                <div class="spectrum-labels">
+                    <span class="spectrum-label left">High Performance<br>Low Scale</span>
+                    <span class="spectrum-label right">Low Performance<br>High Scale</span>
+                </div>
+                <div class="spectrum-bar" id="spectrumBar">
+                    <div class="spectrum-indicator" id="spectrumIndicator" style="left: calc(50% - 18px);">
+                        &#9679;
+                    </div>
+                </div>
+                <div class="spectrum-arrows">
+                    <span class="arrow-symbol">&larr;</span>
+                    <span>Drag to explore the trade-off</span>
+                    <span class="arrow-symbol">&rarr;</span>
+                </div>
+                <div class="sweet-spot-note">
+                    The "sweet spot" depends on your specific requirements and context
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">28 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Performance vs. Scalability - A Detailed Example:</strong></p>
+        <p>The right balance depends on your specific requirements. A real-time trading system needs performance; a social media platform needs scalability.</p>
+        <ul>
+            <li><em>Performance-first:</em> Think of a high-frequency trading system - every microsecond matters, so tight coupling and in-memory processing are essential, even though this won't scale to millions of users</li>
+            <li><em>Scalability-first:</em> Think of Twitter/X - each request might take slightly longer, but the system can handle hundreds of millions of users through distributed architecture</li>
+            <li>The spectrum bar is interactive - drag it to show students that most real systems sit somewhere in the middle</li>
+            <li>Ask students: "Where would a banking system sit? What about a streaming platform?"</li>
+        </ul>
+    </script>
+
+    <script>
+        (function() {
+            const bar = document.getElementById('spectrumBar');
+            const indicator = document.getElementById('spectrumIndicator');
+            let isDragging = false;
+
+            function updatePosition(clientX) {
+                const rect = bar.getBoundingClientRect();
+                let x = clientX - rect.left - 18;
+                x = Math.max(0, Math.min(x, rect.width - 36));
+                indicator.style.left = x + 'px';
+            }
+
+            // Mouse events
+            indicator.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    updatePosition(e.clientX);
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+            });
+
+            // Touch events for iPad
+            indicator.addEventListener('touchstart', function(e) {
+                isDragging = true;
+                e.preventDefault();
+            }, { passive: false });
+
+            document.addEventListener('touchmove', function(e) {
+                if (isDragging) {
+                    updatePosition(e.touches[0].clientX);
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            document.addEventListener('touchend', function() {
+                isDragging = false;
+            });
+        })();
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

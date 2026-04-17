@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achieving Quality Attributes - Lesson Overview</title>
+    <link rel="stylesheet" href="design-for-intelligent/lessons/shared/css/slides.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .slides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .slide-link {
+            display: block;
+            padding: 1rem 1.5rem;
+            background: var(--light-color);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .slide-link:hover {
+            background: white;
+            border-left-color: var(--primary-color);
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .slide-link .number {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+
+        .slide-link.section-link {
+            background: var(--gradient-secondary);
+            color: white;
+            border-left-color: transparent;
+        }
+
+        .slide-link.section-link:hover {
+            opacity: 0.9;
+            transform: translateX(4px);
+        }
+
+        .slide-link.section-link .number {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .slide-link.exercise-link {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            border-left-color: transparent;
+        }
+
+        .slide-link.exercise-link:hover {
+            opacity: 0.9;
+            transform: translateX(4px);
+        }
+
+        .slide-link.exercise-link .number {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .slide-link.discussion-link {
+            background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+            color: white;
+            border-left-color: transparent;
+        }
+
+        .slide-link.discussion-link:hover {
+            opacity: 0.9;
+            transform: translateX(4px);
+        }
+
+        .slide-link.discussion-link .number {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            transition: background 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: var(--secondary-color);
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .meta-item strong {
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Course</a>
+
+        <div class="header">
+            <h1>Achieving Quality Attributes</h1>
+            <p>Architectural Tactics for System Quality</p>
+            <div class="lesson-meta">
+                <div class="meta-item"><strong>45</strong> Slides</div>
+                <div class="meta-item"><strong>5</strong> Sections</div>
+                <div class="meta-item"><strong>4</strong> Exercises</div>
+                <div class="meta-item"><strong>4</strong> Discussions</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Opening</h2>
+            <div class="slides-grid">
+                <a href="slides/01-title.html" class="slide-link">
+                    <span class="number">01</span> Title Slide
+                </a>
+                <a href="slides/02-objectives.html" class="slide-link">
+                    <span class="number">02</span> Learning Objectives
+                </a>
+                <a href="slides/03-agenda.html" class="slide-link">
+                    <span class="number">03</span> Chapter Outline
+                </a>
+                <a href="slides/04-discussion-how-achieve.html" class="slide-link discussion-link">
+                    <span class="number">04</span> Discussion: How Do We Achieve Quality?
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Section 1: Introduction to Tactics</h2>
+            <div class="slides-grid">
+                <a href="slides/05-section-intro-tactics.html" class="slide-link section-link">
+                    <span class="number">05</span> Section: Introduction to Tactics
+                </a>
+                <a href="slides/06-what-is-tactic.html" class="slide-link">
+                    <span class="number">06</span> What is a Tactic?
+                </a>
+                <a href="slides/07-tactics-vs-patterns.html" class="slide-link">
+                    <span class="number">07</span> Tactics vs Patterns
+                </a>
+                <a href="slides/08-tactic-control-model.html" class="slide-link">
+                    <span class="number">08</span> Tactic Control Model
+                </a>
+                <a href="slides/09-exercise-match-tactics.html" class="slide-link exercise-link">
+                    <span class="number">09</span> Exercise: Match Tactics to Attributes
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Section 2: Availability & Modifiability Tactics</h2>
+            <div class="slides-grid">
+                <a href="slides/10-section-availability.html" class="slide-link section-link">
+                    <span class="number">10</span> Section: Availability Tactics
+                </a>
+                <a href="slides/11-availability-categories.html" class="slide-link">
+                    <span class="number">11</span> Availability Tactic Categories
+                </a>
+                <a href="slides/12-fault-detection.html" class="slide-link">
+                    <span class="number">12</span> Fault Detection Tactics
+                </a>
+                <a href="slides/13-fault-recovery.html" class="slide-link">
+                    <span class="number">13</span> Fault Recovery Tactics
+                </a>
+                <a href="slides/14-redundancy-diagram.html" class="slide-link">
+                    <span class="number">14</span> Active vs Passive Redundancy
+                </a>
+                <a href="slides/15-fault-prevention.html" class="slide-link">
+                    <span class="number">15</span> Fault Prevention Tactics
+                </a>
+                <a href="slides/16-discussion-recovery.html" class="slide-link discussion-link">
+                    <span class="number">16</span> Discussion: Choosing Recovery Strategy
+                </a>
+                <a href="slides/17-section-modifiability.html" class="slide-link section-link">
+                    <span class="number">17</span> Section: Modifiability Tactics
+                </a>
+                <a href="slides/18-localize-modifications.html" class="slide-link">
+                    <span class="number">18</span> Localize Modifications Tactics
+                </a>
+                <a href="slides/19-abstract-services.html" class="slide-link">
+                    <span class="number">19</span> Abstract Common Services
+                </a>
+                <a href="slides/20-prevent-ripple.html" class="slide-link">
+                    <span class="number">20</span> Prevent Ripple Effects
+                </a>
+                <a href="slides/21-hide-information.html" class="slide-link">
+                    <span class="number">21</span> Hide Information Diagram
+                </a>
+                <a href="slides/22-exercise-modifiability.html" class="slide-link exercise-link">
+                    <span class="number">22</span> Exercise: Design for Modifiability
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Section 3: Performance & Security Tactics</h2>
+            <div class="slides-grid">
+                <a href="slides/23-section-performance.html" class="slide-link section-link">
+                    <span class="number">23</span> Section: Performance Tactics
+                </a>
+                <a href="slides/24-resource-demand.html" class="slide-link">
+                    <span class="number">24</span> Resource Demand Tactics
+                </a>
+                <a href="slides/25-resource-management.html" class="slide-link">
+                    <span class="number">25</span> Resource Management Tactics
+                </a>
+                <a href="slides/26-resource-arbitration.html" class="slide-link">
+                    <span class="number">26</span> Resource Arbitration Tactics
+                </a>
+                <a href="slides/27-discussion-performance.html" class="slide-link discussion-link">
+                    <span class="number">27</span> Discussion: Performance Optimization
+                </a>
+                <a href="slides/28-section-security.html" class="slide-link section-link">
+                    <span class="number">28</span> Section: Security Tactics
+                </a>
+                <a href="slides/29-resist-attacks.html" class="slide-link">
+                    <span class="number">29</span> Resist Attacks Tactics
+                </a>
+                <a href="slides/30-detect-attacks.html" class="slide-link">
+                    <span class="number">30</span> Detect Attacks Tactics
+                </a>
+                <a href="slides/31-recover-attacks.html" class="slide-link">
+                    <span class="number">31</span> Recover from Attacks
+                </a>
+                <a href="slides/32-exercise-security.html" class="slide-link exercise-link">
+                    <span class="number">32</span> Exercise: Security Design
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Section 4: Testability & Usability Tactics</h2>
+            <div class="slides-grid">
+                <a href="slides/33-section-testability.html" class="slide-link section-link">
+                    <span class="number">33</span> Section: Testability Tactics
+                </a>
+                <a href="slides/34-io-control.html" class="slide-link">
+                    <span class="number">34</span> Input/Output Control Tactics
+                </a>
+                <a href="slides/35-internal-monitoring.html" class="slide-link">
+                    <span class="number">35</span> Internal Monitoring Tactics
+                </a>
+                <a href="slides/36-section-usability.html" class="slide-link section-link">
+                    <span class="number">36</span> Section: Usability Tactics
+                </a>
+                <a href="slides/37-runtime-tactics.html" class="slide-link">
+                    <span class="number">37</span> Runtime Tactics
+                </a>
+                <a href="slides/38-design-time-tactics.html" class="slide-link">
+                    <span class="number">38</span> Design-time Tactics
+                </a>
+                <a href="slides/39-discussion-balance.html" class="slide-link discussion-link">
+                    <span class="number">39</span> Discussion: Balancing Quality Attributes
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Closing</h2>
+            <div class="slides-grid">
+                <a href="slides/40-tactics-summary.html" class="slide-link">
+                    <span class="number">40</span> Tactics Summary Matrix
+                </a>
+                <a href="slides/41-modern-patterns.html" class="slide-link">
+                    <span class="number">41</span> Modern Patterns and Tactics
+                </a>
+                <a href="slides/42-qa-scenarios.html" class="slide-link">
+                    <span class="number">42</span> Quality Attribute Scenarios
+                </a>
+                <a href="slides/43-exercise-scenario.html" class="slide-link exercise-link">
+                    <span class="number">43</span> Exercise: Write a QA Scenario
+                </a>
+                <a href="slides/44-summary.html" class="slide-link">
+                    <span class="number">44</span> Chapter Summary
+                </a>
+                <a href="slides/45-references.html" class="slide-link">
+                    <span class="number">45</span> References & Q&A
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

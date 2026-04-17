@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharding Strategies</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Database Sharding Strategies</h2>
+        <div class="content-area">
+            <div class="two-columns">
+                <div>
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <h4>Range-Based Sharding</h4>
+                        <p style="font-size: 1.1rem;">Partition by value ranges (e.g., user_id 1-1000, 1001-2000)</p>
+                        <div class="pros-cons" style="margin-top: 0.5rem;">
+                            <div class="pros">
+                                <ul style="font-size: 0.9rem;"><li>Simple to implement</li></ul>
+                            </div>
+                            <div class="cons">
+                                <ul style="font-size: 0.9rem;"><li>Uneven distribution</li></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card success" style="margin-bottom: 1.5rem;">
+                        <h4>Hash-Based Sharding</h4>
+                        <p style="font-size: 1.1rem;">Use hash function: shard = hash(key) % num_shards</p>
+                        <div class="pros-cons" style="margin-top: 0.5rem;">
+                            <div class="pros">
+                                <ul style="font-size: 0.9rem;"><li>Even distribution</li></ul>
+                            </div>
+                            <div class="cons">
+                                <ul style="font-size: 0.9rem;"><li>Hard to add shards</li></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="card warning" style="margin-bottom: 1.5rem;">
+                        <h4>Directory-Based Sharding</h4>
+                        <p style="font-size: 1.1rem;">Lookup table maps keys to shards</p>
+                        <div class="pros-cons" style="margin-top: 0.5rem;">
+                            <div class="pros">
+                                <ul style="font-size: 0.9rem;"><li>Flexible mapping</li></ul>
+                            </div>
+                            <div class="cons">
+                                <ul style="font-size: 0.9rem;"><li>Lookup overhead</li></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <h4>Geographic Sharding</h4>
+                        <p style="font-size: 1.1rem;">Partition by user location or region</p>
+                        <div class="pros-cons" style="margin-top: 0.5rem;">
+                            <div class="pros">
+                                <ul style="font-size: 0.9rem;"><li>Low latency</li></ul>
+                            </div>
+                            <div class="cons">
+                                <ul style="font-size: 0.9rem;"><li>Cross-region queries</li></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <strong>Consistent Hashing:</strong> Minimizes data movement when adding/removing shards. Essential for dynamic scaling.
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">17 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Sharding Deep Dive:</strong></p>
+<p>Choosing the right shard key is critical - you cannot easily change it later!</p>
+<ul>
+<li><em>Range-based:</em> Good for time-series data</li>
+<li><em>Hash-based:</em> Even distribution, but loses ordering</li>
+<li><em>Consistent hashing:</em> Essential - allows adding shards with minimal data movement</li>
+</ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

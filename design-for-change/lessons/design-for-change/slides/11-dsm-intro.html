@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Structure Matrix (DSM)</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .dsm-table {
+            border-collapse: collapse;
+            margin: 1.5rem auto;
+            font-size: 1.2rem;
+            width: auto;
+        }
+        .dsm-table th,
+        .dsm-table td {
+            width: 80px;
+            height: 60px;
+            text-align: center;
+            vertical-align: middle;
+            border: 2px solid #cbd5e1;
+            padding: 0.5rem;
+            font-weight: 600;
+        }
+        .dsm-table th {
+            background: var(--primary-color);
+            color: white;
+        }
+        .dsm-table .row-header {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        .dsm-table .diagonal {
+            background: #e2e8f0;
+            color: #94a3b8;
+        }
+        .dsm-table .dependency {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .dsm-table .empty-cell {
+            background: white;
+        }
+        .dsm-explanation {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0 8px 8px 0;
+            font-size: 1.15rem;
+        }
+        .dsm-explanation .arrow-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Design Structure Matrix (DSM)</h2>
+        <div class="content-area">
+            <ul>
+                <li>Build a matrix where design decisions/components are <strong>rows AND columns</strong></li>
+                <li>An <strong>X</strong> in cell [row B, col A] means <strong>"B depends on A"</strong></li>
+                <li>If design decision A changes, B may need to change too</li>
+            </ul>
+
+            <table class="dsm-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>A</th>
+                        <th>B</th>
+                        <th>C</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="row-header">A</td>
+                        <td class="diagonal">.</td>
+                        <td class="empty-cell"></td>
+                        <td class="empty-cell"></td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">B</td>
+                        <td class="dependency">X</td>
+                        <td class="diagonal">.</td>
+                        <td class="dependency">X</td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">C</td>
+                        <td class="empty-cell"></td>
+                        <td class="dependency">X</td>
+                        <td class="diagonal">.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="dsm-explanation">
+                <span class="arrow-icon">&#x27A1;</span>
+                <span><strong>B depends on A</strong> &mdash; If A changes, B may need to change</span>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">11 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p>DSMs help architects visualize the "blast radius" of changes. The more X marks in a column, the more components depend on that decision.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

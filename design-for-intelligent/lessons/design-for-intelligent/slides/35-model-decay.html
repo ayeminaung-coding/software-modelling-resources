@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Decay and Concept Drift - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .decay-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .drift-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem;
+        }
+        .drift-card {
+            border-radius: 10px;
+            padding: 0.75rem 0.9rem;
+        }
+        .drift-card.data-drift { background: #eff6ff; border: 2px solid #3b82f6; }
+        .drift-card.concept-drift { background: #f5f3ff; border: 2px solid #8b5cf6; }
+        .drift-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.45rem;
+        }
+        .data-drift .drift-title { color: #1e40af; }
+        .concept-drift .drift-title { color: #4c1d95; }
+        .drift-what {
+            font-size: 0.82rem;
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .drift-example {
+            font-size: 0.8rem;
+            color: #475569;
+            line-height: 1.5;
+            margin-bottom: 0.35rem;
+            font-style: italic;
+        }
+        .drift-signal {
+            font-size: 0.78rem;
+            color: #334155;
+            background: rgba(255,255,255,0.7);
+            border-radius: 5px;
+            padding: 0.25rem 0.45rem;
+            font-weight: 600;
+        }
+        .graph-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.7rem 0.9rem;
+        }
+        .graph-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .solution-callout {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #22c55e;
+            border-radius: 10px;
+            padding: 0.55rem 0.9rem;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #14532d;
+        }
+        @media (max-width: 768px) {
+            .drift-cols { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Model Decay and Concept Drift</h2>
+        <div class="content-area">
+
+            <div class="decay-layout">
+
+                <div class="highlight-box" style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border-color: #f59e0b; padding: 0.6rem 1rem;">
+                    <p style="font-size: 0.95rem; font-weight: 700; color: #78350f; margin: 0; line-height: 1.5;">
+                        &#9201; Model decay: a model&rsquo;s accuracy decreases over time even when the code doesn&rsquo;t change. The world changes; the model doesn&rsquo;t.
+                    </p>
+                </div>
+
+                <div class="drift-cols">
+
+                    <div class="drift-card data-drift">
+                        <div class="drift-title">&#128202; Data Drift</div>
+                        <div class="drift-what">What: input distribution changes</div>
+                        <div class="drift-example">SmartExpense trained on 2023 data. In 2025, remote work increases international expenses. 40% of expenses now come from foreign merchants â€” model wasn't trained on this pattern.</div>
+                        <div class="drift-signal">&#128680; Signal: "merchant_country diversity increased 200%"</div>
+                    </div>
+
+                    <div class="drift-card concept-drift">
+                        <div class="drift-title">&#129302; Concept Drift</div>
+                        <div class="drift-what">What: inputâ†’label relationship changes</div>
+                        <div class="drift-example">Fraud patterns evolve. In 2023, fraud = large hotel bills. In 2025, fraud = many small micro-transactions. Model still flags large hotels but misses new pattern.</div>
+                        <div class="drift-signal">&#128680; Signal: accuracy on recent data drops 94% â†’ 71%</div>
+                    </div>
+
+                </div>
+
+                <div class="graph-box">
+                    <div class="graph-title">&#128200; Accuracy Degradation Over 6 Months â€” No Code Changes</div>
+                    <svg viewBox="0 0 460 90" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
+                        <defs>
+                            <linearGradient id="grad35" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%"   stop-color="#22c55e"/>
+                                <stop offset="55%"  stop-color="#f59e0b"/>
+                                <stop offset="100%" stop-color="#ef4444"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Axes -->
+                        <line x1="45" y1="10" x2="45" y2="72" stroke="#94a3b8" stroke-width="1.5"/>
+                        <line x1="45" y1="72" x2="455" y2="72" stroke="#94a3b8" stroke-width="1.5"/>
+                        <!-- Y-axis labels -->
+                        <text x="42" y="14" text-anchor="end" font-family="system-ui,sans-serif" font-size="7.5" fill="#64748b">100%</text>
+                        <text x="42" y="34" text-anchor="end" font-family="system-ui,sans-serif" font-size="7.5" fill="#64748b">90%</text>
+                        <text x="42" y="52" text-anchor="end" font-family="system-ui,sans-serif" font-size="7.5" fill="#64748b">80%</text>
+                        <text x="42" y="70" text-anchor="end" font-family="system-ui,sans-serif" font-size="7.5" fill="#64748b">70%</text>
+                        <!-- Gridlines -->
+                        <line x1="45" y1="34" x2="455" y2="34" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+                        <line x1="45" y1="52" x2="455" y2="52" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+                        <!-- X-axis month labels -->
+                        <text x="70"  y="82" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#64748b">Jan</text>
+                        <text x="128" y="82" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#64748b">Feb</text>
+                        <text x="186" y="82" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#64748b">Mar</text>
+                        <text x="244" y="82" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#64748b">Jun</text>
+                        <text x="302" y="82" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#64748b">Sep</text>
+                        <text x="397" y="82" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#64748b">Dec</text>
+                        <!-- Accuracy line: 94% stable Jan-Jun, drops to 71% by Dec -->
+                        <!-- 94% â†’ y = 10 + (100-94)/10 * 20 = 10 + 12 = 22; scale: 100%-70% = 30pts over 60px â†’ 2px/pt -->
+                        <!-- y = 14 + (100 - pct) * (58/30) -->
+                        <!-- 94% â†’ 14 + 6*(58/30) = 14 + 11.6 = 25.6 â‰ˆ 26 -->
+                        <!-- 71% â†’ 14 + 29*(58/30) = 14 + 56.1 = 70 -->
+                        <polyline points="70,26 128,26 186,26 244,26 302,40 350,55 397,70"
+                            fill="none" stroke="url(#grad35)" stroke-width="2.5" stroke-linejoin="round"/>
+                        <!-- Dots -->
+                        <circle cx="70"  cy="26" r="3.5" fill="#22c55e"/>
+                        <circle cx="128" cy="26" r="3.5" fill="#22c55e"/>
+                        <circle cx="186" cy="26" r="3.5" fill="#22c55e"/>
+                        <circle cx="244" cy="26" r="3.5" fill="#f59e0b"/>
+                        <circle cx="302" cy="40" r="3.5" fill="#f59e0b"/>
+                        <circle cx="350" cy="55" r="3.5" fill="#ef4444"/>
+                        <circle cx="397" cy="70" r="3.5" fill="#ef4444"/>
+                        <!-- Annotation labels -->
+                        <text x="75"  cy="26" y="20" font-family="system-ui,sans-serif" font-size="7" fill="#22c55e" font-weight="600">94%</text>
+                        <text x="395" cy="70" y="64" font-family="system-ui,sans-serif" font-size="7" fill="#ef4444" font-weight="600">71%</text>
+                        <!-- Decline label -->
+                        <text x="330" y="48" font-family="system-ui,sans-serif" font-size="7.5" fill="#94a3b8" font-style="italic">gradual decline</text>
+                    </svg>
+                </div>
+
+                <div class="solution-callout">
+                    &#128270; <strong>Solution:</strong> Monitor accuracy on recent labeled data. Retrain on a schedule. Set accuracy alerts.
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">35 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Model Decay and Concept Drift.</strong></p>
+        <p>Model decay is one of the most surprising findings for students from traditional software. Code doesn't rot on its own â€” but models do. The business implication: AI features require ongoing maintenance budget, not just development budget. A model deployed and forgotten will silently become a liability.</p>
+        <p>The data drift example is concrete: remote work is a real pattern that changed expense data distribution globally in 2020-2023. Any model trained before that shift would degrade.</p>
+        <p>Concept drift is more insidious â€” the inputs look normal (expenses still come in), but the relationship between inputs and fraud has changed. Only labeled data from recent periods reveals the problem.</p>
+        <p>Ask: "How would you detect model decay without labeled data?" â€” confidence score distribution (if more scores fall in the MEDIUM range, the model is less certain), fallback activation rate increase, user complaint patterns.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

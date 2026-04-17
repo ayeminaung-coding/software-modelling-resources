@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Testing vs Stress Testing - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .testing-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        .testing-card {
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+        }
+        .testing-card.load {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #3b82f6;
+        }
+        .testing-card.stress {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border: 2px solid #f97316;
+        }
+        .testing-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .testing-card.load h3 { color: #2563eb; }
+        .testing-card.stress h3 { color: #ea580c; }
+        .testing-card ul {
+            padding-left: 1.5rem;
+        }
+        .testing-card ul li {
+            font-size: 1.1rem;
+            margin-bottom: 0.6rem;
+            line-height: 1.4;
+        }
+        .testing-card .question {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-style: italic;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .testing-card.load .question {
+            background: rgba(37, 99, 235, 0.1);
+            color: #1d4ed8;
+        }
+        .testing-card.stress .question {
+            background: rgba(234, 88, 12, 0.1);
+            color: #c2410c;
+        }
+        .spectrum-bar {
+            margin-top: 1.5rem;
+            position: relative;
+            height: 60px;
+        }
+        .spectrum-track {
+            height: 16px;
+            border-radius: 8px;
+            background: linear-gradient(to right, #3b82f6 0%, #3b82f6 40%, #f59e0b 60%, #ef4444 85%, #7f1d1d 100%);
+            position: relative;
+            top: 22px;
+        }
+        .spectrum-labels {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            top: -18px;
+        }
+        .spectrum-label {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .spectrum-label .label-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin: 0 auto 0.3rem;
+            border: 2px solid white;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+        .spectrum-label:nth-child(1) .label-dot { background: #3b82f6; }
+        .spectrum-label:nth-child(2) .label-dot { background: #f59e0b; }
+        .spectrum-label:nth-child(3) .label-dot { background: #ef4444; }
+        .spectrum-zones {
+            display: flex;
+            position: relative;
+            top: -12px;
+        }
+        .spectrum-zone {
+            flex: 1;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            padding-top: 0.3rem;
+        }
+        .spectrum-zone.load-zone {
+            color: #2563eb;
+            font-weight: 600;
+        }
+        .spectrum-zone.stress-zone {
+            color: #ea580c;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Load Testing vs Stress Testing</h2>
+        <div class="content-area">
+            <div class="testing-comparison">
+                <div class="testing-card load">
+                    <h3>&#128202; Load Testing</h3>
+                    <ul>
+                        <li>Tests system under <strong>expected load</strong></li>
+                        <li>Validates performance requirements</li>
+                        <li>Identifies capacity limits</li>
+                    </ul>
+                    <div class="question">Answers: "Can the system handle the expected users?"</div>
+                </div>
+                <div class="testing-card stress">
+                    <h3>&#128293; Stress Testing</h3>
+                    <ul>
+                        <li>Tests system <strong>beyond normal capacity</strong></li>
+                        <li>Finds breaking points</li>
+                        <li>Tests recovery behavior</li>
+                    </ul>
+                    <div class="question">Answers: "What happens when the system is overwhelmed?"</div>
+                </div>
+            </div>
+
+            <div class="spectrum-bar">
+                <div class="spectrum-track"></div>
+                <div class="spectrum-labels">
+                    <div class="spectrum-label">
+                        <div class="label-dot"></div>
+                        Normal Load
+                    </div>
+                    <div class="spectrum-label">
+                        <div class="label-dot"></div>
+                        Peak Load
+                    </div>
+                    <div class="spectrum-label">
+                        <div class="label-dot"></div>
+                        Breaking Point
+                    </div>
+                </div>
+                <div class="spectrum-zones">
+                    <div class="spectrum-zone load-zone">&#8592; Load Testing &#8594;</div>
+                    <div class="spectrum-zone stress-zone">&#8592; Stress Testing &#8594;</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">18 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Distinction:</strong></p>
+        <ul>
+            <li><em>Load testing</em> verifies the system meets requirements - it answers "does it work under expected conditions?"</li>
+            <li><em>Stress testing</em> reveals how the system fails - gracefully or catastrophically?</li>
+            <li>Both are essential: load testing for confidence, stress testing for resilience</li>
+        </ul>
+        <p><strong>Example:</strong> An e-commerce site might load test with 10,000 concurrent users (expected Black Friday traffic), then stress test with 50,000 to see what breaks first.</p>
+        <p>The spectrum visual shows that load testing covers normal to peak, while stress testing pushes beyond peak to the breaking point.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

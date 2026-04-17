@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Principles Recap - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .recap-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .principles-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+        }
+        .p-card {
+            background: white;
+            border-radius: 10px;
+            padding: 0.7rem 0.85rem;
+            border: 2px solid #e2e8f0;
+        }
+        .p-card.p1 { border-left: 5px solid #3b82f6; }
+        .p-card.p2 { border-left: 5px solid #10b981; }
+        .p-card.p3 { border-left: 5px solid #6366f1; }
+        .p-card.p4 { border-left: 5px solid #f59e0b; }
+        .p-card.p5 { border-left: 5px solid #8b5cf6; }
+        .p5-full { grid-column: 1 / -1; }
+        .p-header {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            margin-bottom: 0.3rem;
+        }
+        .p-icon { font-size: 1.1rem; }
+        .p-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .p-risk {
+            font-size: 0.77rem;
+            color: #64748b;
+            line-height: 1.4;
+            margin-bottom: 0.25rem;
+        }
+        .p-risk strong { color: #334155; }
+        .risk-badges {
+            display: flex;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+        }
+        .risk-badge {
+            font-size: 0.68rem;
+            font-weight: 600;
+            padding: 0.15rem 0.45rem;
+            border-radius: 999px;
+            background: #f1f5f9;
+            color: #475569;
+        }
+        .footer-callout {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid #3b82f6;
+            border-radius: 10px;
+            padding: 0.55rem 0.9rem;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .principles-grid { grid-template-columns: 1fr; }
+            .p5-full { grid-column: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>5 Principles Recap</h2>
+        <div class="content-area">
+
+            <div class="recap-layout">
+
+                <div class="principles-grid">
+
+                    <div class="p-card p1">
+                        <div class="p-header">
+                            <span class="p-icon">&#128274;</span>
+                            <span class="p-name">1. Isolate the Intelligence</span>
+                        </div>
+                        <div class="p-risk">Use a stable interface. Components depend on the interface, not the model.</div>
+                        <div class="risk-badges">
+                            <span class="risk-badge">Non-determinism</span>
+                            <span class="risk-badge">Vendor lock-in</span>
+                        </div>
+                    </div>
+
+                    <div class="p-card p2">
+                        <div class="p-header">
+                            <span class="p-icon">&#128737;</span>
+                            <span class="p-name">2. Design the Fallback First</span>
+                        </div>
+                        <div class="p-risk">Plan for AI failure before AI integration. Fallback is a first-class feature.</div>
+                        <div class="risk-badges">
+                            <span class="risk-badge">Latency variability</span>
+                            <span class="risk-badge">Unavailability</span>
+                        </div>
+                    </div>
+
+                    <div class="p-card p3">
+                        <div class="p-header">
+                            <span class="p-icon">&#128065;</span>
+                            <span class="p-name">3. Observe Every Inference</span>
+                        </div>
+                        <div class="p-risk">Log inputs, outputs, confidence, version, latency. From day one.</div>
+                        <div class="risk-badges">
+                            <span class="risk-badge">Explainability gap</span>
+                            <span class="risk-badge">Drift detection</span>
+                        </div>
+                    </div>
+
+                    <div class="p-card p4">
+                        <div class="p-header">
+                            <span class="p-icon">&#128203;</span>
+                            <span class="p-name">4. Treat Data as a Contract</span>
+                        </div>
+                        <div class="p-risk">Schema + distribution contracts. Validate at the boundary.</div>
+                        <div class="risk-badges">
+                            <span class="risk-badge">Data dependency</span>
+                            <span class="risk-badge">Silent degradation</span>
+                        </div>
+                    </div>
+
+                    <div class="p-card p5 p5-full">
+                        <div class="p-header">
+                            <span class="p-icon">&#128230;</span>
+                            <span class="p-name">5. Version the Model Like Code</span>
+                        </div>
+                        <div class="p-risk">Semantic versioning, canary deploy, rollback plan. Models are deployable artifacts.</div>
+                        <div class="risk-badges">
+                            <span class="risk-badge">Model drift</span>
+                            <span class="risk-badge">Deployment risk</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="footer-callout">
+                    Each principle addresses a specific AI risk. Together, they make AI integration safe and maintainable.
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">43 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>5 Principles Recap.</strong></p>
+        <p>This is the summary card students should keep. Notice each principle maps to one or more of the 5 risks from Slide 8.</p>
+        <p>Ask: "Which principle is hardest to add after the fact?" Observability (Principle 3) â€” you lose historical data forever if you don't log from day one. "Which is easiest to skip in a prototype?" Versioning (Principle 5) â€” acceptable in MVP, but must be added before production.</p>
+        <p>"Which principle takes the most ongoing effort?" Versioning and Observability together â€” they require infrastructure (model registry, logging pipeline) that must be maintained. The others are mostly design-time decisions.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulation &amp; Architecture Description Languages - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            flex: 1;
+        }
+        .section-block {
+            display: flex;
+            flex-direction: column;
+        }
+        .section-block h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid;
+        }
+        .section-block.simulation h3 {
+            color: #2563eb;
+            border-bottom-color: #2563eb;
+        }
+        .section-block.adl h3 {
+            color: #7c3aed;
+            border-bottom-color: #7c3aed;
+        }
+        .section-block p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+        .simulation-aspects {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .simulation-aspect {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #eff6ff;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+        }
+        .simulation-aspect .aspect-icon {
+            font-size: 1.3rem;
+            width: 36px;
+            text-align: center;
+        }
+        .simulation-aspect span {
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+        .adl-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .adl-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            background: #f5f3ff;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border-left: 3px solid #7c3aed;
+        }
+        .adl-item .adl-name {
+            font-weight: 700;
+            color: #7c3aed;
+            min-width: 120px;
+            font-size: 1.05rem;
+        }
+        .adl-item .adl-desc {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Simulation &amp; Architecture Description Languages</h2>
+        <div class="content-area">
+            <div class="split-layout">
+                <div class="section-block simulation">
+                    <h3>Simulation</h3>
+                    <p>Using models to predict system behavior before building. Helps validate assumptions early.</p>
+                    <div class="simulation-aspects">
+                        <div class="simulation-aspect">
+                            <span class="aspect-icon">&#9889;</span>
+                            <span>Performance modeling</span>
+                        </div>
+                        <div class="simulation-aspect">
+                            <span class="aspect-icon">&#128737;</span>
+                            <span>Reliability prediction</span>
+                        </div>
+                        <div class="simulation-aspect">
+                            <span class="aspect-icon">&#128200;</span>
+                            <span>Scalability analysis</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-block adl">
+                    <h3>Architecture Description Languages</h3>
+                    <p>Formal notations for specifying and analyzing software architectures.</p>
+                    <div class="adl-list">
+                        <div class="adl-item">
+                            <span class="adl-name">Wright#</span>
+                            <span class="adl-desc">Formal specification and analysis</span>
+                        </div>
+                        <div class="adl-item">
+                            <span class="adl-name">Darwin</span>
+                            <span class="adl-desc">Component-based modeling</span>
+                        </div>
+                        <div class="adl-item">
+                            <span class="adl-name">AADL</span>
+                            <span class="adl-desc">Embedded systems modeling</span>
+                        </div>
+                        <div class="adl-item">
+                            <span class="adl-name">Model Checking</span>
+                            <span class="adl-desc">Automated verification of system properties</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">10 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Simulation and ADLs:</strong></p>
+        <ul>
+            <li>ADLs provide formal methods for describing and analyzing architecture. While not always practical in industry, they're valuable for critical systems.</li>
+            <li><strong>Simulation:</strong> Build a model of the system and run scenarios against it. Useful for capacity planning, stress testing designs, and "what if" analysis before committing to implementation.</li>
+            <li><strong>Wright#:</strong> Based on CSP (Communicating Sequential Processes). Can verify connector protocols and check for deadlocks.</li>
+            <li><strong>Darwin:</strong> Focuses on component structure and binding. Good for distributed systems.</li>
+            <li><strong>AADL:</strong> Architecture Analysis and Design Language - used heavily in aerospace and automotive. Models both software and hardware aspects.</li>
+            <li><strong>Model Checking:</strong> Exhaustively verifies all possible states of a system model. Tools like SPIN, NuSMV.</li>
+        </ul>
+        <p>In practice, most teams use informal architecture diagrams (C4, UML). But for safety-critical systems, formal methods can catch issues that testing alone would miss.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

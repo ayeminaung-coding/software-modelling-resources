@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scalability Metrics</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Key Scalability Metrics</h2>
+        <div class="content-area">
+            <div class="three-columns">
+                <div class="card">
+                    <h4>Throughput</h4>
+                    <p style="font-size: 1.1rem;">Number of requests/transactions processed per unit time</p>
+                    <div class="metric" style="margin-top: 1rem;">
+                        <div class="metric-value">RPS</div>
+                        <div class="metric-label">Requests/Second</div>
+                    </div>
+                </div>
+                <div class="card success">
+                    <h4>Latency</h4>
+                    <p style="font-size: 1.1rem;">Time taken to process a single request</p>
+                    <div class="metric" style="margin-top: 1rem;">
+                        <div class="metric-value">P99</div>
+                        <div class="metric-label">99th Percentile</div>
+                    </div>
+                </div>
+                <div class="card warning">
+                    <h4>Availability</h4>
+                    <p style="font-size: 1.1rem;">Percentage of time system is operational</p>
+                    <div class="metric" style="margin-top: 1rem;">
+                        <div class="metric-value">99.9%</div>
+                        <div class="metric-label">Three Nines</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 2rem;">Additional Metrics</h3>
+            <div class="two-columns">
+                <ul>
+                    <li><strong>Concurrent Users:</strong> Active simultaneous users</li>
+                    <li><strong>Error Rate:</strong> Percentage of failed requests</li>
+                    <li><strong>Resource Utilization:</strong> CPU, Memory, Network</li>
+                </ul>
+                <ul>
+                    <li><strong>Queue Depth:</strong> Pending requests waiting</li>
+                    <li><strong>Connection Pool:</strong> Active DB connections</li>
+                    <li><strong>Cache Hit Ratio:</strong> Cache effectiveness</li>
+                </ul>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">9 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>You cannot improve what you do not measure!</strong></p>
+<ul>
+<li><em>Throughput:</em> How many requests can we handle? Measure in RPS</li>
+<li><em>Latency:</em> How fast is each request? Always use P99, not average!</li>
+<li><em>Availability:</em> "Nines" - 99.9% = 8.76 hours downtime/year</li>
+</ul>
+<p>Pro tip: Set up dashboards before you need them. Grafana + Prometheus is popular.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

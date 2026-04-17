@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>References & Questions - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .references-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .references-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .reference-item {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 1.25rem 1.5rem;
+            border-left: 4px solid var(--primary-color);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: transform 0.2s;
+        }
+        .reference-item:hover {
+            transform: translateX(4px);
+        }
+        .reference-item:nth-child(1) { border-left-color: #2563eb; }
+        .reference-item:nth-child(2) { border-left-color: #7c3aed; }
+        .reference-item:nth-child(3) { border-left-color: #059669; }
+        .reference-item:nth-child(4) { border-left-color: #d97706; }
+
+        .ref-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            margin-top: 0.15rem;
+        }
+        .ref-content {
+            flex: 1;
+        }
+        .ref-authors {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.05rem;
+        }
+        .ref-title {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-style: italic;
+            margin-top: 0.2rem;
+        }
+
+        .questions-section {
+            margin-top: auto;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            border-radius: 16px;
+        }
+        .questions-icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .questions-section h3 {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        .questions-section p {
+            font-size: 1.15rem;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>References &amp; Questions</h2>
+        <div class="content-area">
+            <div class="references-section">
+                <div class="references-list">
+                    <div class="reference-item">
+                        <div class="ref-icon">&#128214;</div>
+                        <div class="ref-content">
+                            <div class="ref-authors">Bass, L., Clements, P., &amp; Kazman, R.</div>
+                            <div class="ref-title">Software Architecture in Practice (4th Edition)</div>
+                        </div>
+                    </div>
+                    <div class="reference-item">
+                        <div class="ref-icon">&#128214;</div>
+                        <div class="ref-content">
+                            <div class="ref-authors">Rozanski, N., &amp; Woods, E.</div>
+                            <div class="ref-title">Software Systems Architecture</div>
+                        </div>
+                    </div>
+                    <div class="reference-item">
+                        <div class="ref-icon">&#128196;</div>
+                        <div class="ref-content">
+                            <div class="ref-authors">Kazman, R., et al.</div>
+                            <div class="ref-title">ATAM: Architecture Tradeoff Analysis Method</div>
+                        </div>
+                    </div>
+                    <div class="reference-item">
+                        <div class="ref-icon">&#128220;</div>
+                        <div class="ref-content">
+                            <div class="ref-authors">ISO/IEC 25010</div>
+                            <div class="ref-title">Systems and Software Quality Requirements and Evaluation</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="questions-section">
+                    <div class="questions-icon">&#10067;</div>
+                    <h3>Questions?</h3>
+                    <p>Feel free to ask about any of the analysis methods covered in this lesson.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">39 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>References and Further Reading:</strong></p>
+        <ul>
+            <li><strong>Bass, Clements & Kazman:</strong> The definitive textbook on software architecture. Chapter on ATAM is essential reading.</li>
+            <li><strong>Rozanski & Woods:</strong> Excellent practical guide with viewpoints and perspectives framework.</li>
+            <li><strong>ATAM paper:</strong> ATAM (Architecture Tradeoff Analysis Method) is the industry standard for systematic trade-off analysis. Recommended reading for deeper understanding of how to evaluate architectural trade-offs in practice.</li>
+            <li><strong>ISO/IEC 25010:</strong> The international standard that defines the quality model referenced in quality attribute analysis.</li>
+        </ul>
+        <p>Encourage students to explore ATAM further - it provides a structured, repeatable process for architecture evaluation that is widely used in industry.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

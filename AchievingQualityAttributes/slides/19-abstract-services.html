@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abstract Common Services - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Abstract Common Services</h2>
+        <div class="content-area">
+            <p style="font-size: 1.2rem; color: var(--text-light); margin-bottom: 1.5rem; text-align: center;">
+                Extract shared functionality into reusable services
+            </p>
+
+            <div class="diagram" style="padding: 2rem;">
+                <div style="margin-bottom: 1rem;">
+                    <div class="diagram-box secondary" style="padding: 1rem 2rem; min-width: 300px;">
+                        <strong>Application Layer</strong>
+                        <p style="font-size: 0.9rem; margin: 0.5rem 0 0 0; opacity: 0.9;">Business Modules</p>
+                    </div>
+                </div>
+                <div class="flow-horizontal" style="gap: 1.5rem; margin: 1rem 0;">
+                    <div class="diagram-box outline" style="padding: 0.8rem 1rem; font-size: 0.9rem;">Process<br>Purchase Order</div>
+                    <div class="diagram-box outline" style="padding: 0.8rem 1rem; font-size: 0.9rem;">Generate<br>PO Document</div>
+                    <div class="diagram-box outline" style="padding: 0.8rem 1rem; font-size: 0.9rem;">Manage<br>Inventory</div>
+                </div>
+                <div style="font-size: 1.5rem; color: var(--text-light); margin: 0.5rem 0;">&#8595; uses &#8595;</div>
+                <div style="background: var(--light-color); padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin: 0 0 1rem 0; text-transform: uppercase; letter-spacing: 1px;">Common Services Layer</p>
+                    <div class="flow-horizontal" style="gap: 1rem;">
+                        <div class="diagram-box success" style="padding: 0.8rem 1rem; font-size: 0.9rem;">Workflow<br>Engine</div>
+                        <div class="diagram-box success" style="padding: 0.8rem 1rem; font-size: 0.9rem;">UI<br>Components</div>
+                        <div class="diagram-box success" style="padding: 0.8rem 1rem; font-size: 0.9rem;">Document<br>Management</div>
+                        <div class="diagram-box success" style="padding: 0.8rem 1rem; font-size: 0.9rem;">Notification<br>Service</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-columns" style="margin-top: 1.5rem; gap: 2rem;">
+                <div class="card success">
+                    <h4>Benefits</h4>
+                    <ul style="font-size: 1rem;">
+                        <li>Change once, affect all consumers</li>
+                        <li>Consistent behavior across modules</li>
+                        <li>Reduced duplication</li>
+                    </ul>
+                </div>
+                <div class="card warning">
+                    <h4>Trade-offs</h4>
+                    <ul style="font-size: 1rem;">
+                        <li>Creates dependencies</li>
+                        <li>Changes may break consumers</li>
+                        <li>Requires versioning strategy</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">19 / 22</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Abstract Common Services:</strong></p>
+        <p>This diagram shows how business modules (top) share common services (bottom).</p>
+        <ul>
+            <li>Each business module uses shared services for cross-cutting concerns</li>
+            <li>If document format needs to change, only update Document Management</li>
+            <li>If workflow rules change, only update Workflow Engine</li>
+        </ul>
+        <p><strong>Modern implementations:</strong></p>
+        <ul>
+            <li>Shared libraries/packages (npm, Maven, NuGet)</li>
+            <li>Microservices for common concerns (auth, notifications)</li>
+            <li>API gateways for cross-cutting concerns (rate limiting, logging)</li>
+        </ul>
+        <p><strong>Important trade-off:</strong> While abstraction helps modifiability, it also creates dependencies. If the common service breaks or changes its API, all consumers are affected. This is why versioning and backward compatibility matter.</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design-time Usability Tactics - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Design-time Usability Tactics</h2>
+        <div class="content-area">
+            <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">Enable usability through architectural decisions</p>
+
+            <div class="two-columns">
+                <div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Separate UI from Logic</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>MVC, MVP, MVVM patterns</li>
+                            <li>Backend for Frontend (BFF)</li>
+                            <li>GraphQL for flexible queries</li>
+                            <li>Independent UI development</li>
+                        </ul>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-light);">
+                            Allows UI changes without backend changes
+                        </p>
+                    </div>
+                    <div class="card success" style="margin-bottom: 1rem;">
+                        <h4>Design Systems</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Consistent component library</li>
+                            <li>Design tokens (colors, spacing)</li>
+                            <li>Shared patterns and behaviors</li>
+                            <li>Documentation and guidelines</li>
+                        </ul>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-light);">
+                            Examples: Material UI, Tailwind, Chakra
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card warning" style="margin-bottom: 1rem;">
+                        <h4>Accessibility by Design</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>WCAG 2.2 compliance</li>
+                            <li>Semantic HTML structure</li>
+                            <li>Keyboard navigation</li>
+                            <li>Screen reader support</li>
+                            <li>Color contrast ratios</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Internationalization (i18n)</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Externalized strings</li>
+                            <li>RTL layout support</li>
+                            <li>Date/number formatting</li>
+                            <li>Cultural considerations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <p><strong>Key Principle:</strong>
+                Design for the extremes and the middle will take care of itself.
+                Designing for accessibility benefits all users, not just those with disabilities.</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Points:</strong></p>
+        <ul>
+            <li>UI separation enables parallel development and A/B testing</li>
+            <li>Design systems ensure consistency across teams and products</li>
+            <li>Accessibility is a legal requirement in many jurisdictions</li>
+        </ul>
+        <p><strong>Benefits of Design Systems:</strong></p>
+        <ul>
+            <li>Faster development (reuse components)</li>
+            <li>Consistent user experience</li>
+            <li>Easier onboarding for new developers</li>
+            <li>Reduced design debt</li>
+        </ul>
+        <p><strong>Discussion:</strong> Why do many organizations struggle to maintain design systems over time?</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

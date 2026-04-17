@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Cost of Change Over Time - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .graph-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            flex: 1;
+            align-items: end;
+            margin-bottom: 1.5rem;
+        }
+        .graph-panel {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .graph-panel h3 {
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        .graph-panel.bad h3 {
+            color: #991b1b;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+        .graph-panel.good h3 {
+            color: #065f46;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            flex: 1;
+            padding: 0 0.5rem;
+            min-height: 280px;
+            border-left: 2px solid #94a3b8;
+            border-bottom: 2px solid #94a3b8;
+            position: relative;
+        }
+
+        /* Y-axis label */
+        .bar-chart::before {
+            content: 'Cost';
+            position: absolute;
+            top: -0.5rem;
+            left: -0.5rem;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            flex: 1;
+            max-width: 100px;
+        }
+        .bar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
+            min-height: 250px;
+        }
+        .bar {
+            width: 60%;
+            min-width: 40px;
+            max-width: 70px;
+            border-radius: 6px 6px 0 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 0.5rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            transition: height 0.5s ease;
+        }
+        .bar-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* Bar colors */
+        .bar.green { background: linear-gradient(180deg, #34d399, #10b981); }
+        .bar.yellow { background: linear-gradient(180deg, #fbbf24, #f59e0b); }
+        .bar.orange { background: linear-gradient(180deg, #fb923c, #f97316); }
+        .bar.red { background: linear-gradient(180deg, #f87171, #ef4444); }
+        .bar.light-green { background: linear-gradient(180deg, #6ee7b7, #34d399); }
+        .bar.teal { background: linear-gradient(180deg, #5eead4, #14b8a6); }
+
+        /* Without design: exponential growth */
+        .bar.h-1k { height: 20px; }
+        .bar.h-5k { height: 60px; }
+        .bar.h-20k { height: 130px; }
+        .bar.h-100k { height: 240px; }
+
+        /* With design: flat growth */
+        .bar.h-2k { height: 30px; }
+        .bar.h-3k { height: 40px; }
+        .bar.h-4k { height: 50px; }
+        .bar.h-5k-good { height: 60px; }
+
+        .insight-box {
+            margin-top: 1rem;
+            padding: 1.25rem 1.5rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        .insight-box strong {
+            color: var(--secondary-color);
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .legend-swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+        }
+        .legend-swatch.exponential {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+        }
+        .legend-swatch.flat {
+            background: linear-gradient(135deg, #34d399, #14b8a6);
+        }
+
+        @media (max-width: 900px) {
+            .graph-comparison {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>The Cost of Change Over Time</h2>
+        <div class="content-area">
+            <div class="graph-comparison">
+                <!-- Without Design for Change -->
+                <div class="graph-panel bad">
+                    <h3>Without Design for Change</h3>
+                    <div class="bar-chart">
+                        <div class="bar-group">
+                            <div class="bar-wrapper">
+                                <div class="bar green h-1k">$1K</div>
+                            </div>
+                            <div class="bar-label">Sprint 1</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar-wrapper">
+                                <div class="bar yellow h-5k">$5K</div>
+                            </div>
+                            <div class="bar-label">Sprint 5</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar-wrapper">
+                                <div class="bar orange h-20k">$20K</div>
+                            </div>
+                            <div class="bar-label">Sprint 10</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar-wrapper">
+                                <div class="bar red h-100k">$100K</div>
+                            </div>
+                            <div class="bar-label">Sprint 20</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- With Design for Change -->
+                <div class="graph-panel good">
+                    <h3>With Design for Change</h3>
+                    <div class="bar-chart">
+                        <div class="bar-group">
+                            <div class="bar-wrapper">
+                                <div class="bar light-green h-2k">$2K</div>
+                            </div>
+                            <div class="bar-label">Sprint 1</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar-wrapper">
+                                <div class="bar light-green h-3k">$3K</div>
+                            </div>
+                            <div class="bar-label">Sprint 5</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar-wrapper">
+                                <div class="bar teal h-4k">$4K</div>
+                            </div>
+                            <div class="bar-label">Sprint 10</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar-wrapper">
+                                <div class="bar teal h-5k-good">$5K</div>
+                            </div>
+                            <div class="bar-label">Sprint 20</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-swatch exponential"></div>
+                    <span>Exponential growth (no design)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-swatch flat"></div>
+                    <span>Flat growth (with design)</span>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <strong>Key Insight:</strong> Investing in design for change has a higher upfront cost, but the cost of changes stays flat over time instead of growing exponentially.
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">30 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p>This graph illustrates why design for change matters economically. Without it, the cost of changes grows exponentially. With it, the upfront investment pays dividends over the lifecycle of the project.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

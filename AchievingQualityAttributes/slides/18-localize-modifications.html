@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localize Modifications Tactics - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Localize Modifications Tactics</h2>
+        <div class="content-area">
+            <p style="font-size: 1.3rem; color: var(--text-light); margin-bottom: 2rem; text-align: center;">
+                <strong>Goal:</strong> Minimize the number of modules affected by a change
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tactic</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Maintain Semantic Coherence</strong></td>
+                        <td>Group related responsibilities together</td>
+                        <td>Single Responsibility Principle, bounded contexts</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Abstract Common Services</strong></td>
+                        <td>Create reusable services across modules</td>
+                        <td>Authentication service, logging framework</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Generalize Modules</strong></td>
+                        <td>Make behavior configurable via input</td>
+                        <td>Configuration files, feature flags</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Limit Possible Options</strong></td>
+                        <td>Constrain variation points</td>
+                        <td>Restrict plugin APIs, limit customization</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box success" style="margin-top: 1.5rem;">
+                <h4 style="margin-bottom: 0.5rem;">Key Principle</h4>
+                <p style="font-size: 1.1rem; margin: 0;">When a change is needed, it should affect <strong>as few modules as possible</strong>. This is achieved by ensuring each module has a clear, focused purpose.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">18 / 22</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Localize Modifications Explained:</strong></p>
+        <ul>
+            <li><em>Semantic Coherence:</em> Things that change together should live together. If you change the "order" concept, all order-related code should be in one place.</li>
+            <li><em>Abstract Common Services:</em> Don't repeat yourself. If 10 modules need authentication, create one auth service.</li>
+            <li><em>Generalize:</em> Instead of hardcoding, make things configurable. Feature flags let you change behavior without code changes.</li>
+            <li><em>Limit Options:</em> Paradoxically, limiting what CAN change makes what DOES change easier to manage.</li>
+        </ul>
+        <p><strong>Modern connections:</strong></p>
+        <ul>
+            <li>Domain-Driven Design's bounded contexts = semantic coherence</li>
+            <li>Microservices = abstractions at the service level</li>
+            <li>Feature flags (LaunchDarkly, etc.) = runtime generalization</li>
+        </ul>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

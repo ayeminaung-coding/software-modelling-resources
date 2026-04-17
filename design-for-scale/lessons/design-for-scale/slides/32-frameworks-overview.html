@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frameworks Overview</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Frameworks for Scalable Systems</h2>
+        <div class="content-area">
+            <div class="three-columns">
+                <div class="card">
+                    <h4>Message Brokers</h4>
+                    <ul style="font-size: 1rem;">
+                        <li><strong>Apache Kafka</strong><br><span style="color: var(--text-light);">High-throughput streaming</span></li>
+                        <li><strong>RabbitMQ</strong><br><span style="color: var(--text-light);">Flexible routing</span></li>
+                        <li><strong>AWS SQS/SNS</strong><br><span style="color: var(--text-light);">Managed queues</span></li>
+                        <li><strong>NATS</strong><br><span style="color: var(--text-light);">Lightweight</span></li>
+                    </ul>
+                </div>
+                <div class="card success">
+                    <h4>Container Orchestration</h4>
+                    <ul style="font-size: 1rem;">
+                        <li><strong>Kubernetes</strong><br><span style="color: var(--text-light);">Industry standard</span></li>
+                        <li><strong>Docker Swarm</strong><br><span style="color: var(--text-light);">Simple alternative</span></li>
+                        <li><strong>AWS ECS/EKS</strong><br><span style="color: var(--text-light);">Managed K8s</span></li>
+                        <li><strong>Nomad</strong><br><span style="color: var(--text-light);">HashiCorp</span></li>
+                    </ul>
+                </div>
+                <div class="card warning">
+                    <h4>Service Mesh</h4>
+                    <ul style="font-size: 1rem;">
+                        <li><strong>Istio</strong><br><span style="color: var(--text-light);">Full-featured</span></li>
+                        <li><strong>Linkerd</strong><br><span style="color: var(--text-light);">Lightweight</span></li>
+                        <li><strong>Consul Connect</strong><br><span style="color: var(--text-light);">HashiCorp</span></li>
+                        <li><strong>AWS App Mesh</strong><br><span style="color: var(--text-light);">AWS native</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="two-columns" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <h4>Caching</h4>
+                    <p style="font-size: 1rem;">Redis, Memcached, Hazelcast, Apache Ignite</p>
+                </div>
+                <div class="card">
+                    <h4>Databases</h4>
+                    <p style="font-size: 1rem;">CockroachDB, Vitess, Cassandra, MongoDB, DynamoDB</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">32 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Framework Landscape:</strong></p>
+<p>You do not need to build everything from scratch!</p>
+<ul>
+<li><em>Message Brokers:</em> Choose based on throughput needs and operational complexity</li>
+<li><em>Orchestration:</em> Kubernetes is the de facto standard</li>
+<li><em>Service Mesh:</em> Consider when you have many services</li>
+</ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

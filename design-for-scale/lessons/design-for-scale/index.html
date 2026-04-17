@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design for Scale - Lesson Overview</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .slides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .slide-link {
+            display: block;
+            padding: 1rem 1.5rem;
+            background: var(--light-color);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .slide-link:hover {
+            background: white;
+            border-left-color: var(--primary-color);
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .slide-link .number {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+
+        .slide-link.section-link {
+            background: var(--gradient-secondary);
+            color: white;
+            border-left-color: transparent;
+        }
+
+        .slide-link.section-link:hover {
+            opacity: 0.9;
+            transform: translateX(4px);
+        }
+
+        .slide-link.section-link .number {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            transition: background 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: var(--secondary-color);
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .meta-item strong {
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Course</a>
+
+        <div class="header">
+            <h1>Design for Scale</h1>
+            <p>Building Systems That Grow</p>
+            <div class="lesson-meta">
+                <div class="meta-item"><strong>42</strong> Slides</div>
+                <div class="meta-item"><strong>4</strong> Sections</div>
+                <div class="meta-item"><strong>3</strong> Case Studies</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Section 1: Scalability Fundamentals</h2>
+            <div class="slides-grid">
+                <a href="slides/01-title.html" class="slide-link">
+                    <span class="number">01</span> Title Slide
+                </a>
+                <a href="slides/02-agenda.html" class="slide-link">
+                    <span class="number">02</span> Agenda
+                </a>
+                <a href="slides/03-section-fundamentals.html" class="slide-link section-link">
+                    <span class="number">03</span> Section: Fundamentals
+                </a>
+                <a href="slides/04-what-is-scalability.html" class="slide-link">
+                    <span class="number">04</span> What is Scalability?
+                </a>
+                <a href="slides/05-types-of-scaling.html" class="slide-link">
+                    <span class="number">05</span> Types of Scaling
+                </a>
+                <a href="slides/06-vertical-scaling.html" class="slide-link">
+                    <span class="number">06</span> Vertical Scaling
+                </a>
+                <a href="slides/07-horizontal-scaling.html" class="slide-link">
+                    <span class="number">07</span> Horizontal Scaling
+                </a>
+                <a href="slides/08-scaling-comparison.html" class="slide-link">
+                    <span class="number">08</span> Scaling Comparison
+                </a>
+                <a href="slides/09-scalability-metrics.html" class="slide-link">
+                    <span class="number">09</span> Scalability Metrics
+                </a>
+                <a href="slides/10-common-bottlenecks.html" class="slide-link">
+                    <span class="number">10</span> Common Bottlenecks
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Section 2: Design Patterns for Scaling</h2>
+            <div class="slides-grid">
+                <a href="slides/11-section-patterns.html" class="slide-link section-link">
+                    <span class="number">11</span> Section: Design Patterns
+                </a>
+                <a href="slides/12-load-balancing.html" class="slide-link">
+                    <span class="number">12</span> Load Balancing
+                </a>
+                <a href="slides/13-lb-algorithms.html" class="slide-link">
+                    <span class="number">13</span> LB Algorithms
+                </a>
+                <a href="slides/14-caching-overview.html" class="slide-link">
+                    <span class="number">14</span> Caching Strategies
+                </a>
+                <a href="slides/15-cache-patterns.html" class="slide-link">
+                    <span class="number">15</span> Cache Patterns
+                </a>
+                <a href="slides/16-database-scaling.html" class="slide-link">
+                    <span class="number">16</span> Database Scaling
+                </a>
+                <a href="slides/17-sharding-strategies.html" class="slide-link">
+                    <span class="number">17</span> Sharding Strategies
+                </a>
+                <a href="slides/18-async-processing.html" class="slide-link">
+                    <span class="number">18</span> Async Processing
+                </a>
+                <a href="slides/19-message-queues.html" class="slide-link">
+                    <span class="number">19</span> Message Queues
+                </a>
+                <a href="slides/20-cdn-edge.html" class="slide-link">
+                    <span class="number">20</span> CDN & Edge Computing
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Section 3: Microservices Architecture</h2>
+            <div class="slides-grid">
+                <a href="slides/21-section-microservices.html" class="slide-link section-link">
+                    <span class="number">21</span> Section: Microservices
+                </a>
+                <a href="slides/22-microservices-intro.html" class="slide-link">
+                    <span class="number">22</span> What are Microservices?
+                </a>
+                <a href="slides/23-microservices-scaling.html" class="slide-link">
+                    <span class="number">23</span> Microservices for Scaling
+                </a>
+                <a href="slides/24-event-driven.html" class="slide-link">
+                    <span class="number">24</span> Event-Driven Architecture
+                </a>
+                <a href="slides/25-event-sourcing.html" class="slide-link">
+                    <span class="number">25</span> Event Sourcing
+                </a>
+                <a href="slides/26-event-sourcing-impl.html" class="slide-link">
+                    <span class="number">26</span> Event Sourcing Implementation
+                </a>
+                <a href="slides/27-cqrs-intro.html" class="slide-link">
+                    <span class="number">27</span> CQRS Pattern
+                </a>
+                <a href="slides/28-cqrs-benefits.html" class="slide-link">
+                    <span class="number">28</span> CQRS Benefits
+                </a>
+                <a href="slides/28b-cqrs-sync.html" class="slide-link">
+                    <span class="number">28b</span> CQRS: Database Sync
+                </a>
+                <a href="slides/28c-cqrs-consistency.html" class="slide-link">
+                    <span class="number">28c</span> CQRS: Consistency
+                </a>
+                <a href="slides/29-saga-pattern.html" class="slide-link">
+                    <span class="number">29</span> Saga Pattern
+                </a>
+                <a href="slides/30-resilience-patterns.html" class="slide-link">
+                    <span class="number">30</span> Resilience Patterns
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Section 4: Implementation & Case Studies</h2>
+            <div class="slides-grid">
+                <a href="slides/31-section-implementation.html" class="slide-link section-link">
+                    <span class="number">31</span> Section: Implementation
+                </a>
+                <a href="slides/32-frameworks-overview.html" class="slide-link">
+                    <span class="number">32</span> Frameworks Overview
+                </a>
+                <a href="slides/33-kafka-architecture.html" class="slide-link">
+                    <span class="number">33</span> Apache Kafka
+                </a>
+                <a href="slides/34-kubernetes-scaling.html" class="slide-link">
+                    <span class="number">34</span> Kubernetes Scaling
+                </a>
+                <a href="slides/35-case-study-netflix.html" class="slide-link">
+                    <span class="number">35</span> Case Study: Netflix
+                </a>
+                <a href="slides/36-case-study-uber.html" class="slide-link">
+                    <span class="number">36</span> Case Study: Uber
+                </a>
+                <a href="slides/37-case-study-shopify.html" class="slide-link">
+                    <span class="number">37</span> Case Study: Shopify
+                </a>
+                <a href="slides/38-best-practices.html" class="slide-link">
+                    <span class="number">38</span> Best Practices
+                </a>
+                <a href="slides/39-summary.html" class="slide-link">
+                    <span class="number">39</span> Summary
+                </a>
+                <a href="slides/40-references.html" class="slide-link">
+                    <span class="number">40</span> References
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

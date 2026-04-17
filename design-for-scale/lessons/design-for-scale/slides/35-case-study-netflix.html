@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: Netflix</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Case Study: Netflix</h2>
+        <div class="content-area">
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-value">230M+</div>
+                    <div class="metric-label">Subscribers</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">15%</div>
+                    <div class="metric-label">Global Internet Traffic</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">1000+</div>
+                    <div class="metric-label">Microservices</div>
+                </div>
+            </div>
+
+            <div class="two-columns" style="margin-top: 1.5rem;">
+                <div>
+                    <h3>Architecture Highlights</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li><strong>Microservices:</strong> 1000+ independent services</li>
+                        <li><strong>CDN:</strong> Open Connect delivers 100% of video</li>
+                        <li><strong>AWS:</strong> Multi-region deployment</li>
+                        <li><strong>Chaos Engineering:</strong> Simian Army</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Key Patterns Used</h3>
+                    <div class="card" style="margin-bottom: 0.5rem;">
+                        <span class="badge success">Circuit Breaker</span>
+                        <span class="badge primary">Bulkhead</span>
+                    </div>
+                    <div class="card" style="margin-bottom: 0.5rem;">
+                        <span class="badge warning">Event-Driven</span>
+                        <span class="badge">CQRS</span>
+                    </div>
+                    <div class="card">
+                        <span class="badge danger">Chaos Testing</span>
+                        <span class="badge primary">Auto-Scaling</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <strong>Netflix OSS:</strong> Eureka (discovery), Zuul (gateway), Hystrix (circuit breaker),
+                Ribbon (load balancing) - now largely replaced by Spring Cloud and Istio.
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">35 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Netflix Case Study:</strong></p>
+<p>Netflix pioneered many of the patterns we discussed today.</p>
+<ul>
+<li>1000+ microservices in production</li>
+<li>Open-sourced many tools (now evolved into Spring Cloud)</li>
+<li>Chaos Engineering - Simian Army tests resilience continuously</li>
+</ul>
+<p><strong>Key lesson:</strong> Embrace failure as normal and design systems to handle it.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

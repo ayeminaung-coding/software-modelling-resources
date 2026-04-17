@@ -1,0 +1,554 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Design for Change - Payment System</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .exercise-scenario {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.25rem;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        .exercise-scenario strong {
+            color: var(--secondary-color);
+        }
+
+        .exercise-parts {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .exercise-part {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+        }
+        .exercise-part h3 {
+            font-size: 1.15rem;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .part-badge {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .hint-text {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Textarea */
+        .arch-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.5;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+        .arch-textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        /* DSM Grid */
+        .dsm-interactive {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .dsm-grid-table {
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        .dsm-grid-table th,
+        .dsm-grid-table td {
+            border: 2px solid #cbd5e1;
+            text-align: center;
+            vertical-align: middle;
+            font-weight: 600;
+            padding: 0;
+        }
+        .dsm-grid-table th {
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.4rem 0.3rem;
+            min-width: 68px;
+            max-width: 80px;
+            line-height: 1.2;
+        }
+        .dsm-grid-table .row-header {
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.4rem 0.5rem;
+            text-align: left;
+            min-width: 100px;
+            line-height: 1.2;
+        }
+        .dsm-cell {
+            width: 68px;
+            height: 52px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: transparent;
+            transition: all 0.15s ease;
+            background: white;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .dsm-cell:hover,
+        .dsm-cell:active {
+            background: #dbeafe;
+        }
+        .dsm-cell.marked {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: white;
+        }
+        .dsm-cell.diagonal {
+            background: #e2e8f0;
+            color: #94a3b8;
+            cursor: default;
+            font-size: 1rem;
+        }
+        .dsm-cell.diagonal:hover {
+            background: #e2e8f0;
+        }
+
+        /* Radio Options */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.75rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .radio-option:hover,
+        .radio-option:active {
+            border-color: var(--accent-color);
+            background: #f0f7ff;
+        }
+        .radio-option input[type="radio"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+            flex-shrink: 0;
+        }
+        .radio-option.correct {
+            border-color: var(--success-color);
+            background: #ecfdf5;
+        }
+        .radio-option.incorrect {
+            border-color: var(--danger-color);
+            background: #fef2f2;
+        }
+
+        /* Buttons */
+        .exercise-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.65rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        .btn-primary:hover,
+        .btn-primary:active {
+            background: var(--secondary-color);
+            transform: translateY(-1px);
+        }
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+        .btn-success:hover,
+        .btn-success:active {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+        .btn-outline {
+            background: white;
+            color: var(--text-color);
+            border: 2px solid #e2e8f0;
+        }
+        .btn-outline:hover,
+        .btn-outline:active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        /* Feedback */
+        .feedback {
+            display: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-top: 0.75rem;
+        }
+        .feedback.success {
+            display: block;
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid var(--success-color);
+        }
+        .feedback.error {
+            display: block;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid var(--danger-color);
+        }
+        .feedback.info {
+            display: block;
+            background: #eff6ff;
+            color: #1e40af;
+            border: 1px solid var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Design for Change - Payment System</h2>
+        <div class="content-area">
+            <div class="exercise-scenario">
+                <strong>Scenario:</strong> Your restaurant management system needs to accept different payment methods: Credit Card, Bank Transfer, PayPal, Alipay. Design the system to handle future payment methods being added.
+            </div>
+
+            <div class="exercise-parts">
+                <!-- Part 1: Architecture Design -->
+                <div class="exercise-part">
+                    <h3><span class="part-badge">Part 1</span> Architecture Design</h3>
+                    <p class="hint-text">Think about: interfaces, adapters, processors</p>
+                    <textarea class="arch-textarea" id="archDescription" inputmode="text" placeholder="Describe your component architecture. What components do you need?"></textarea>
+                </div>
+
+                <!-- Part 2: DSM Builder -->
+                <div class="exercise-part">
+                    <h3><span class="part-badge">Part 2</span> DSM Builder</h3>
+                    <p class="hint-text">Click cells to mark dependencies (X). Row depends on Column.</p>
+                    <div class="dsm-interactive">
+                        <table class="dsm-grid-table" id="dsmGrid">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Payment IF</th>
+                                    <th>CC Adapter</th>
+                                    <th>PayPal Adapter</th>
+                                    <th>BT Adapter</th>
+                                    <th>Order Proc</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="row-header">Payment IF</td>
+                                    <td class="dsm-cell diagonal">.</td>
+                                    <td class="dsm-cell" data-row="0" data-col="1"></td>
+                                    <td class="dsm-cell" data-row="0" data-col="2"></td>
+                                    <td class="dsm-cell" data-row="0" data-col="3"></td>
+                                    <td class="dsm-cell" data-row="0" data-col="4"></td>
+                                </tr>
+                                <tr>
+                                    <td class="row-header">CC Adapter</td>
+                                    <td class="dsm-cell" data-row="1" data-col="0"></td>
+                                    <td class="dsm-cell diagonal">.</td>
+                                    <td class="dsm-cell" data-row="1" data-col="2"></td>
+                                    <td class="dsm-cell" data-row="1" data-col="3"></td>
+                                    <td class="dsm-cell" data-row="1" data-col="4"></td>
+                                </tr>
+                                <tr>
+                                    <td class="row-header">PayPal Adapter</td>
+                                    <td class="dsm-cell" data-row="2" data-col="0"></td>
+                                    <td class="dsm-cell" data-row="2" data-col="1"></td>
+                                    <td class="dsm-cell diagonal">.</td>
+                                    <td class="dsm-cell" data-row="2" data-col="3"></td>
+                                    <td class="dsm-cell" data-row="2" data-col="4"></td>
+                                </tr>
+                                <tr>
+                                    <td class="row-header">BT Adapter</td>
+                                    <td class="dsm-cell" data-row="3" data-col="0"></td>
+                                    <td class="dsm-cell" data-row="3" data-col="1"></td>
+                                    <td class="dsm-cell" data-row="3" data-col="2"></td>
+                                    <td class="dsm-cell diagonal">.</td>
+                                    <td class="dsm-cell" data-row="3" data-col="4"></td>
+                                </tr>
+                                <tr>
+                                    <td class="row-header">Order Proc</td>
+                                    <td class="dsm-cell" data-row="4" data-col="0"></td>
+                                    <td class="dsm-cell" data-row="4" data-col="1"></td>
+                                    <td class="dsm-cell" data-row="4" data-col="2"></td>
+                                    <td class="dsm-cell" data-row="4" data-col="3"></td>
+                                    <td class="dsm-cell diagonal">.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Part 3: Change Impact -->
+                <div class="exercise-part">
+                    <h3><span class="part-badge">Part 3</span> Change Impact</h3>
+                    <p style="font-size: 1rem; margin-bottom: 0.5rem;"><strong>If a new payment method (Alipay) is added, which components need to change?</strong></p>
+                    <div class="radio-group" id="radioGroup">
+                        <label class="radio-option" data-value="A">
+                            <input type="radio" name="changeImpact" value="A">
+                            <span>A) All components</span>
+                        </label>
+                        <label class="radio-option" data-value="B">
+                            <input type="radio" name="changeImpact" value="B">
+                            <span>B) Only the new Alipay Adapter</span>
+                        </label>
+                        <label class="radio-option" data-value="C">
+                            <input type="radio" name="changeImpact" value="C">
+                            <span>C) Order Processor + new Alipay Adapter</span>
+                        </label>
+                        <label class="radio-option" data-value="D">
+                            <input type="radio" name="changeImpact" value="D">
+                            <span>D) Payment Interface + new Alipay Adapter</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="exercise-buttons">
+                <button class="btn btn-primary" onclick="showExample()">Show Example Design</button>
+                <button class="btn btn-success" onclick="evaluate()">Evaluate</button>
+                <button class="btn btn-outline" onclick="resetExercise()">Reset</button>
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">28 / 34</span>
+        </div>
+    </div>
+
+    <script>
+        // DSM state: 5x5 grid
+        var dsmState = [
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0]
+        ];
+
+        // Correct DSM: Adapters (rows 1,2,3) depend on Payment IF (col 0); Order Proc (row 4) depends on Payment IF (col 0)
+        var correctDSM = [
+            [0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0]
+        ];
+
+        // iOS keyboard: scroll textarea into view when focused
+        var textarea = document.getElementById('archDescription');
+        if (textarea) {
+            textarea.addEventListener('focus', function() {
+                var el = this;
+                setTimeout(function() {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 400);
+            });
+        }
+
+        // DSM cell click handler
+        document.querySelectorAll('.dsm-cell:not(.diagonal)').forEach(function(cell) {
+            cell.addEventListener('click', function() {
+                var r = parseInt(this.getAttribute('data-row'));
+                var c = parseInt(this.getAttribute('data-col'));
+                if (dsmState[r][c] === 0) {
+                    dsmState[r][c] = 1;
+                    this.classList.add('marked');
+                    this.textContent = 'X';
+                } else {
+                    dsmState[r][c] = 0;
+                    this.classList.remove('marked');
+                    this.textContent = '';
+                }
+            });
+        });
+
+        function setDSM(matrix) {
+            dsmState = matrix.map(function(row) { return row.slice(); });
+            document.querySelectorAll('.dsm-cell:not(.diagonal)').forEach(function(cell) {
+                var r = parseInt(cell.getAttribute('data-row'));
+                var c = parseInt(cell.getAttribute('data-col'));
+                if (dsmState[r][c] === 1) {
+                    cell.classList.add('marked');
+                    cell.textContent = 'X';
+                } else {
+                    cell.classList.remove('marked');
+                    cell.textContent = '';
+                }
+            });
+        }
+
+        function showExample() {
+            // Fill architecture description
+            document.getElementById('archDescription').value =
+                'Use a Payment Interface that all adapters implement. Each payment method gets its own adapter (CreditCardAdapter, PayPalAdapter, etc.). The Order Processor only depends on the Payment Interface, never on specific adapters. Adding a new method = creating a new adapter that implements the interface.';
+
+            // Fill correct DSM
+            setDSM(correctDSM);
+
+            // Select correct radio
+            var radio = document.querySelector('input[name="changeImpact"][value="B"]');
+            if (radio) radio.checked = true;
+
+            showFeedback('Example design loaded. Review the DSM: only adapters and Order Processor depend on the Payment Interface. No component depends on a specific adapter.', 'info');
+        }
+
+        function evaluate() {
+            var messages = [];
+            var allCorrect = true;
+
+            // Check architecture description
+            var desc = document.getElementById('archDescription').value.trim();
+            if (desc.length < 20) {
+                messages.push('Part 1: Please describe your architecture in more detail.');
+                allCorrect = false;
+            }
+
+            // Check DSM - see if it matches the ideal pattern
+            var dsmCorrect = true;
+            for (var i = 0; i < 5; i++) {
+                for (var j = 0; j < 5; j++) {
+                    if (dsmState[i][j] !== correctDSM[i][j]) {
+                        dsmCorrect = false;
+                        break;
+                    }
+                }
+                if (!dsmCorrect) break;
+            }
+
+            // Check if at minimum Order Proc depends on Payment IF (row 4, col 0)
+            var orderDependsOnIF = dsmState[4][0] === 1;
+            // Check adapters depend on Payment IF
+            var adaptersDependOnIF = dsmState[1][0] === 1 && dsmState[2][0] === 1 && dsmState[3][0] === 1;
+            // Check Order Proc does NOT depend on adapters
+            var orderNoAdapterDeps = dsmState[4][1] === 0 && dsmState[4][2] === 0 && dsmState[4][3] === 0;
+
+            if (dsmCorrect) {
+                messages.push('Part 2: DSM is correct! Order Processor and all adapters depend only on the Payment Interface.');
+            } else if (orderDependsOnIF && adaptersDependOnIF && orderNoAdapterDeps) {
+                messages.push('Part 2: DSM looks good! The key dependencies are correct.');
+            } else {
+                messages.push('Part 2: Review your DSM. Key insight: Order Processor should depend on Payment Interface, not on individual adapters. Each adapter should depend on Payment Interface.');
+                allCorrect = false;
+            }
+
+            // Check radio answer
+            var selected = document.querySelector('input[name="changeImpact"]:checked');
+            document.querySelectorAll('.radio-option').forEach(function(opt) {
+                opt.classList.remove('correct', 'incorrect');
+            });
+
+            if (!selected) {
+                messages.push('Part 3: Please select an answer for the change impact question.');
+                allCorrect = false;
+            } else if (selected.value === 'B') {
+                selected.closest('.radio-option').classList.add('correct');
+                messages.push('Part 3: Correct! With proper interfaces, adding Alipay only requires creating a new Alipay Adapter. No existing code changes needed.');
+            } else {
+                selected.closest('.radio-option').classList.add('incorrect');
+                document.querySelector('.radio-option[data-value="B"]').classList.add('correct');
+                messages.push('Part 3: Not quite. With a proper interface pattern, only the new Alipay Adapter needs to be created. Existing components remain unchanged.');
+                allCorrect = false;
+            }
+
+            showFeedback(messages.join('\n\n'), allCorrect ? 'success' : 'error');
+        }
+
+        function resetExercise() {
+            document.getElementById('archDescription').value = '';
+            setDSM([
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0]
+            ]);
+            document.querySelectorAll('input[name="changeImpact"]').forEach(function(r) { r.checked = false; });
+            document.querySelectorAll('.radio-option').forEach(function(opt) {
+                opt.classList.remove('correct', 'incorrect');
+            });
+            var fb = document.getElementById('feedback');
+            fb.className = 'feedback';
+            fb.style.display = 'none';
+        }
+
+        function showFeedback(message, type) {
+            var fb = document.getElementById('feedback');
+            fb.textContent = '';
+            fb.className = 'feedback ' + type;
+            fb.style.display = 'block';
+            fb.style.whiteSpace = 'pre-line';
+            fb.textContent = message;
+        }
+    </script>
+
+    <script type="text/speaker-notes">
+        <p><strong>Main exercise &mdash; give 8-10 minutes.</strong></p>
+        <p>Walk around and check DSMs. Key insight: with proper interfaces, adding Alipay requires ZERO changes to existing code, only adding a new adapter.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

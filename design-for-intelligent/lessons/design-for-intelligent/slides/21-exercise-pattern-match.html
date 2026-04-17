@@ -1,0 +1,347 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Match the Pattern - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .exercise-layout {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 1rem;
+            align-items: start;
+            flex: 1;
+        }
+        /* SCENARIOS */
+        .scenarios-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .scenario-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.65rem 0.85rem;
+            cursor: pointer;
+            transition: all 0.18s;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 44px;
+            position: relative;
+        }
+        .scenario-card:hover { border-color: #94a3b8; background: #f8fafc; }
+        .scenario-card:active { transform: scale(0.99); }
+        .scenario-card.selected {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+        }
+        .scenario-card.correct  { border-color: #22c55e; background: #f0fdf4; }
+        .scenario-card.incorrect { border-color: #ef4444; background: #fff1f2; }
+        .scenario-header {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            margin-bottom: 0.3rem;
+        }
+        .scenario-letter {
+            width: 22px;
+            height: 22px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .scenario-text {
+            font-size: 0.85rem;
+            color: var(--dark-color);
+            line-height: 1.4;
+            flex: 1;
+        }
+        .assignment-slot {
+            margin-top: 0.3rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #94a3b8;
+            min-height: 20px;
+        }
+        .assignment-slot.assigned { color: #3b82f6; }
+        .assignment-slot.reveal-correct { color: #166534; }
+        .assignment-slot.reveal-incorrect { color: #991b1b; }
+
+        /* PATTERNS */
+        .patterns-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .patterns-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #475569;
+        }
+        .pattern-btn {
+            width: 100%;
+            padding: 0.65rem 0.9rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.18s;
+            font-family: inherit;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .pattern-btn:hover { border-color: #94a3b8; background: #f8fafc; }
+        .pattern-btn:active { transform: scale(0.98); }
+        .pattern-btn.active { border-color: #6366f1; background: #f5f3ff; color: #4c1d95; }
+
+        .control-buttons {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-top: 0.25rem;
+        }
+        .btn {
+            padding: 0.6rem 1.1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-check  { background: linear-gradient(135deg, #10b981, #059669); color: white; flex: 1; }
+        .btn-reset  { background: #e2e8f0; color: #475569; }
+        .btn-check:hover  { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+        .btn-reset:hover  { background: #cbd5e1; }
+
+        .result-display {
+            display: none;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            margin-top: 0.25rem;
+        }
+        .result-display.show { display: block; }
+        .result-display.all-correct { background: #dcfce7; color: #166534; }
+        .result-display.partial     { background: #fef3c7; color: #92400e; }
+
+        .selected-indicator {
+            font-size: 0.78rem;
+            color: #3b82f6;
+            font-weight: 600;
+            min-height: 18px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .exercise-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Match the Pattern</h2>
+        <div class="content-area">
+
+            <div class="highlight-box" style="padding: 0.45rem 0.9rem; margin-bottom: 0.6rem;">
+                <p style="font-size: 0.88rem; margin: 0;"><strong>Task:</strong> Click a scenario card, then click the matching pattern. Assign all 4, then check your answers.</p>
+            </div>
+
+            <div class="exercise-layout">
+
+                <!-- LEFT: Scenarios -->
+                <div class="scenarios-panel">
+
+                    <div class="scenario-card" id="sc-A" onclick="selectScenario('A')">
+                        <div class="scenario-header">
+                            <div class="scenario-letter">A</div>
+                            <div class="scenario-text">A hospital needs AI to suggest diagnoses. Wrong suggestions could harm patients. Doctors must always make the final decision.</div>
+                        </div>
+                        <div class="assignment-slot" id="slot-A">Click to select, then pick a pattern &rarr;</div>
+                    </div>
+
+                    <div class="scenario-card" id="sc-B" onclick="selectScenario('B')">
+                        <div class="scenario-header">
+                            <div class="scenario-letter">B</div>
+                            <div class="scenario-text">A mobile banking app needs to score transactions for fraud in under 30ms. Data cannot leave the device.</div>
+                        </div>
+                        <div class="assignment-slot" id="slot-B">Click to select, then pick a pattern &rarr;</div>
+                    </div>
+
+                    <div class="scenario-card" id="sc-C" onclick="selectScenario('C')">
+                        <div class="scenario-header">
+                            <div class="scenario-letter">C</div>
+                            <div class="scenario-text">A startup wants to add AI product recommendations to their e-commerce site this sprint. The team has no ML expertise.</div>
+                        </div>
+                        <div class="assignment-slot" id="slot-C">Click to select, then pick a pattern &rarr;</div>
+                    </div>
+
+                    <div class="scenario-card" id="sc-D" onclick="selectScenario('D')">
+                        <div class="scenario-header">
+                            <div class="scenario-letter">D</div>
+                            <div class="scenario-text">An HR system allows employees to ask questions about company benefits policy. Answers must cite specific policy sections.</div>
+                        </div>
+                        <div class="assignment-slot" id="slot-D">Click to select, then pick a pattern &rarr;</div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT: Pattern Buttons + Controls -->
+                <div class="patterns-panel">
+                    <div class="patterns-title">Patterns â€” assign to selected scenario</div>
+                    <div class="selected-indicator" id="selectedIndicator">No scenario selected</div>
+
+                    <button class="pattern-btn" id="pbtn-AI-as-a-Service"   onclick="assignPattern('AI-as-a-Service')">&#127760; AI-as-a-Service</button>
+                    <button class="pattern-btn" id="pbtn-Embedded"          onclick="assignPattern('Embedded')">&#128190; Embedded Model</button>
+                    <button class="pattern-btn" id="pbtn-Pipeline"          onclick="assignPattern('Pipeline')">&#128257; Model Pipeline</button>
+                    <button class="pattern-btn" id="pbtn-Human-in-the-Loop" onclick="assignPattern('Human-in-the-Loop')">&#128100; Human-in-the-Loop</button>
+                    <button class="pattern-btn" id="pbtn-RAG"               onclick="assignPattern('RAG')">&#128196; RAG</button>
+
+                    <div class="control-buttons">
+                        <button class="btn btn-check" onclick="checkAnswers()">Check Answers</button>
+                        <button class="btn btn-reset" onclick="resetExercise()">Reset</button>
+                    </div>
+                    <div class="result-display" id="resultDisplay"></div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">21 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise â€” 4 minutes individual, then discuss answers.</strong></p>
+        <p>Walk through each answer:</p>
+        <ul>
+            <li><strong>A â†’ Human-in-the-Loop:</strong> The only safe choice for medical decisions â€” the AI is advisory only. Patient safety requires a doctor to always make the final call.</li>
+            <li><strong>B â†’ Embedded Model:</strong> Required â€” can't do a network round trip in 30ms on a mobile device, and "data cannot leave the device" rules out any API-based approach.</li>
+            <li><strong>C â†’ AI-as-a-Service:</strong> No ML expertise, speed to market matters. RAG/Pipeline would be overengineering for a startup sprint.</li>
+            <li><strong>D â†’ RAG:</strong> The requirement to "cite specific sections" is the giveaway â€” that's exactly what RAG does. A plain LLM can't cite Â§3.2 of your benefits policy.</li>
+        </ul>
+    </script>
+
+    <script>
+        const correctAnswers = { A: 'Human-in-the-Loop', B: 'Embedded', C: 'AI-as-a-Service', D: 'RAG' };
+        const assignments = { A: null, B: null, C: null, D: null };
+        let selectedScenario = null;
+        let revealed = false;
+
+        function selectScenario(letter) {
+            if (revealed) return;
+            selectedScenario = letter;
+            ['A','B','C','D'].forEach(function(l) {
+                const card = document.getElementById('sc-' + l);
+                if (!card.classList.contains('correct') && !card.classList.contains('incorrect')) {
+                    card.classList.toggle('selected', l === letter);
+                }
+            });
+            document.getElementById('selectedIndicator').textContent = 'Scenario ' + letter + ' selected';
+        }
+
+        function assignPattern(pattern) {
+            if (!selectedScenario || revealed) return;
+            var letter = selectedScenario;
+            assignments[letter] = pattern;
+            var slot = document.getElementById('slot-' + letter);
+            slot.className = 'assignment-slot assigned';
+            slot.innerHTML = '&#10137; ' + pattern;
+
+            // Deselect scenario card
+            var card = document.getElementById('sc-' + letter);
+            card.classList.remove('selected');
+            selectedScenario = null;
+
+            // Brief confirmation, then reset indicator
+            var ind = document.getElementById('selectedIndicator');
+            ind.textContent = '\u2713 ' + letter + ' \u2192 ' + pattern;
+            ind.style.color = '#10b981';
+            ind.style.fontWeight = '700';
+            setTimeout(function() {
+                ind.textContent = 'No scenario selected';
+                ind.style.color = '';
+                ind.style.fontWeight = '';
+            }, 1800);
+        }
+
+        function checkAnswers() {
+            revealed = true;
+            let correct = 0;
+            ['A','B','C','D'].forEach(function(letter) {
+                const card = document.getElementById('sc-' + letter);
+                const slot = document.getElementById('slot-' + letter);
+                const ans  = correctAnswers[letter];
+                const sel  = assignments[letter];
+                card.classList.remove('selected');
+                if (sel === ans) {
+                    card.classList.add('correct');
+                    slot.className = 'assignment-slot reveal-correct';
+                    slot.innerHTML = '&#10003; ' + sel + ' â€” Correct!';
+                    correct++;
+                } else {
+                    card.classList.add('incorrect');
+                    slot.className = 'assignment-slot reveal-incorrect';
+                    slot.innerHTML = (sel ? '&#10007; ' + sel + ' &rarr; ' : '&#10007; Unanswered &rarr; ') + 'Answer: ' + ans;
+                }
+            });
+            const rd = document.getElementById('resultDisplay');
+            rd.classList.add('show');
+            if (correct === 4) {
+                rd.textContent = 'Perfect! 4 / 4 correct.';
+                rd.className = 'result-display show all-correct';
+            } else {
+                rd.textContent = correct + ' / 4 correct. Review highlighted scenarios.';
+                rd.className = 'result-display show partial';
+            }
+        }
+
+        function resetExercise() {
+            revealed = false;
+            selectedScenario = null;
+            ['A','B','C','D'].forEach(function(letter) {
+                assignments[letter] = null;
+                const card = document.getElementById('sc-' + letter);
+                card.classList.remove('selected','correct','incorrect');
+                const slot = document.getElementById('slot-' + letter);
+                slot.className = 'assignment-slot';
+                slot.textContent = 'Click to select, then pick a pattern \u2192';
+            });
+            document.getElementById('selectedIndicator').textContent = 'No scenario selected';
+            const rd = document.getElementById('resultDisplay');
+            rd.classList.remove('show');
+            rd.textContent = '';
+            rd.className = 'result-display';
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

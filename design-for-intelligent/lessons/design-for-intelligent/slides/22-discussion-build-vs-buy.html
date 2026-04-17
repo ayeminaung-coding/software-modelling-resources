@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion: Build vs. Buy AI - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .bvb-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+        .debate-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem;
+        }
+        .debate-card {
+            border-radius: 12px;
+            padding: 0.8rem 0.95rem;
+        }
+        .debate-card.option-a {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid #3b82f6;
+        }
+        .debate-card.option-b {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #22c55e;
+        }
+        .card-header {
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.6rem;
+        }
+        .option-a .card-header { color: #1e40af; }
+        .option-b .card-header { color: #166534; }
+        .attr-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .attr-table tr {
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+        }
+        .attr-table tr:last-child { border-bottom: none; }
+        .attr-table td {
+            padding: 0.28rem 0;
+            vertical-align: top;
+            line-height: 1.4;
+        }
+        .attr-label {
+            font-weight: 700;
+            color: #475569;
+            width: 45%;
+            font-size: 0.8rem;
+        }
+        .option-a .attr-value { color: #1e3a8a; }
+        .option-b .attr-value { color: #14532d; }
+
+        .discussion-box {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border: 2px solid #d97706;
+            border-radius: 10px;
+            padding: 0.7rem 0.95rem;
+        }
+        .discussion-box-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #92400e;
+            margin-bottom: 0.3rem;
+        }
+        .discussion-box p {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #78350f;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .vote-section {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            flex-wrap: wrap;
+        }
+        .vote-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+            white-space: nowrap;
+        }
+        .vote-buttons {
+            display: flex;
+            gap: 0.6rem;
+        }
+        .vote-btn {
+            padding: 0.55rem 1.1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.18s;
+            font-family: inherit;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .vote-btn:active { transform: scale(0.97); }
+        .vote-btn.vote-a { border-color: #3b82f6; }
+        .vote-btn.vote-b { border-color: #22c55e; }
+        .vote-btn.vote-a.voted { background: #3b82f6; color: white; }
+        .vote-btn.vote-b.voted { background: #22c55e; color: white; }
+        .vote-count {
+            display: inline-block;
+            background: rgba(0,0,0,0.1);
+            border-radius: 999px;
+            padding: 0.1rem 0.45rem;
+            font-size: 0.82rem;
+        }
+        .vote-btn.vote-a.voted .vote-count { background: rgba(255,255,255,0.25); }
+        .vote-btn.vote-b.voted .vote-count { background: rgba(255,255,255,0.25); }
+
+        @media (max-width: 768px) {
+            .debate-columns { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Discussion: Build vs. Buy AI</h2>
+        <div class="content-area">
+
+            <div class="bvb-layout">
+
+                <div class="highlight-box" style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border-color: #d97706; padding: 0.65rem 1rem;">
+                    <p style="font-size: 0.9rem; font-weight: 600; color: #78350f; margin: 0; line-height: 1.5;">
+                        <strong>Scenario:</strong> SmartExpense needs fraud detection. Option A: call OpenAI API. Option B: train and host your own XGBoost model.
+                    </p>
+                </div>
+
+                <div class="debate-columns">
+
+                    <div class="debate-card option-a">
+                        <div class="card-header">&#127760; Option A &mdash; Buy / API</div>
+                        <table class="attr-table">
+                            <tr>
+                                <td class="attr-label">Cost</td>
+                                <td class="attr-value">~$0.002 per check</td>
+                            </tr>
+                            <tr>
+                                <td class="attr-label">Time to deploy</td>
+                                <td class="attr-value">1 day</td>
+                            </tr>
+                            <tr>
+                                <td class="attr-label">Accuracy</td>
+                                <td class="attr-value">General purpose</td>
+                            </tr>
+                            <tr>
+                                <td class="attr-label">Vendor lock-in</td>
+                                <td class="attr-value">High</td>
+                            </tr>
+                            <tr>
+                                <td class="attr-label">Data</td>
+                                <td class="attr-value">Leaves your system</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="debate-card option-b">
+                        <div class="card-header">&#127959; Option B &mdash; Build / Own</div>
+                        <table class="attr-table">
+                            <tr>
+                                <td class="attr-label">Cost</td>
+                                <td class="attr-value">Engineering + infrastructure</td>
+                            </tr>
+                            <tr>
+                                <td class="attr-label">Time to deploy</td>
+                                <td class="attr-value">2â€“4 weeks</td>
+                            </tr>
+                            <tr>
+                                <td class="attr-label">Accuracy</td>
+                                <td class="attr-value">Tuned to your data</td>
+                            </tr>
+                            <tr>
+                                <td class="attr-label">Vendor lock-in</td>
+                                <td class="attr-value">None</td>
+                            </tr>
+                            <tr>
+                                <td class="attr-label">Data</td>
+                                <td class="attr-value">Stays in your system</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="discussion-box">
+                    <div class="discussion-box-label">Discussion Question</div>
+                    <p>"Given 10,000 expense checks per day, which would you choose? What changes your answer?"</p>
+                </div>
+
+                <div class="vote-section">
+                    <div class="vote-label">&#128077; Team Vote:</div>
+                    <div class="vote-buttons">
+                        <button class="vote-btn vote-a" id="btnA" onclick="vote('A')">&#127760; Team A <span class="vote-count" id="countA">0</span></button>
+                        <button class="vote-btn vote-b" id="btnB" onclick="vote('B')">&#127959; Team B <span class="vote-count" id="countB">0</span></button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">22 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Discussion â€” 4 minutes.</strong></p>
+        <p>At 10,000 checks/day: OpenAI costs ~$20/day = $600/month. Very cheap. But 10M checks/day = $20,000/day. The break-even changes the decision entirely.</p>
+        <p>Key factors that flip the decision:</p>
+        <ul>
+            <li>PII / data privacy: expenses may contain salary information â€” prohibits sending to OpenAI</li>
+            <li>Volume: at what request rate does self-hosted become cheaper?</li>
+            <li>Accuracy: does a general-purpose model catch your specific fraud patterns?</li>
+            <li>Team size: 2-person team probably can't maintain a model ops pipeline</li>
+        </ul>
+        <p>Have students identify what new information would flip their choice â€” this is the real skill: knowing which variables matter for the decision.</p>
+    </script>
+
+    <script>
+        const votes = { A: 0, B: 0 };
+        let myVote = null;
+
+        function vote(team) {
+            if (myVote === team) return; // Toggle off not supported, just ignore
+            if (myVote) {
+                votes[myVote]--;
+                document.getElementById('btn' + myVote).classList.remove('voted');
+            }
+            myVote = team;
+            votes[team]++;
+            document.getElementById('btn' + team).classList.add('voted');
+            document.getElementById('countA').textContent = votes.A;
+            document.getElementById('countB').textContent = votes.B;
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

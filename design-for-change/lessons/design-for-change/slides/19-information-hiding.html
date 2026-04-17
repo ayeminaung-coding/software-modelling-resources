@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information Hiding Principle - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .quote-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-left: 5px solid var(--primary-color);
+            border-radius: 0 12px 12px 0;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+        .quote-box blockquote {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.5;
+        }
+        .quote-box .attribution {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+            font-style: normal;
+        }
+        .hide-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        .hide-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .hide-card .card-icon {
+            font-size: 1.6rem;
+            margin-bottom: 0.4rem;
+        }
+        .hide-card h4 {
+            font-size: 1rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.4rem;
+        }
+        .hide-card p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+        .hide-card:nth-child(1) { border-top: 4px solid #3b82f6; }
+        .hide-card:nth-child(2) { border-top: 4px solid #8b5cf6; }
+        .hide-card:nth-child(3) { border-top: 4px solid #059669; }
+        .connection-box {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 1px solid var(--success-color);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+        }
+        .connection-box .arrow-flow {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex: 1;
+            justify-content: center;
+        }
+        .flow-tag {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+        .flow-tag.hide {
+            background: var(--primary-color);
+            color: white;
+        }
+        .flow-tag.interface {
+            background: #8b5cf6;
+            color: white;
+        }
+        .flow-tag.adapter {
+            background: #059669;
+            color: white;
+        }
+        .flow-arrow-right {
+            font-size: 1.4rem;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Information Hiding Principle</h2>
+        <div class="content-area">
+            <div class="quote-box">
+                <blockquote>Every module should hide a design decision behind a stable interface. When that decision changes, only the module's internals are affected.</blockquote>
+                <div class="attribution">&mdash; David Parnas, 1972</div>
+            </div>
+
+            <div class="hide-grid">
+                <div class="hide-card">
+                    <div class="card-icon">&#128451;</div>
+                    <h4>Data Structures</h4>
+                    <p>How data is stored and organized internally</p>
+                </div>
+                <div class="hide-card">
+                    <div class="card-icon">&#9881;</div>
+                    <h4>Algorithms</h4>
+                    <p>How computations and processing are performed</p>
+                </div>
+                <div class="hide-card">
+                    <div class="card-icon">&#128259;</div>
+                    <h4>I/O Formats</h4>
+                    <p>How data is read from or written to external sources</p>
+                </div>
+            </div>
+
+            <div class="connection-box">
+                <div class="arrow-flow">
+                    <span class="flow-tag hide">Information Hiding</span>
+                    <span class="flow-arrow-right">&rarr;</span>
+                    <span class="flow-tag interface">Stable Interfaces</span>
+                    <span class="flow-arrow-right">&rarr;</span>
+                    <span class="flow-tag adapter">Adapter Pattern</span>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">19 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Information hiding</strong> is arguably the most important design principle for change resilience, introduced by David Parnas in his landmark 1972 paper.</p>
+        <p>The core idea: each module encapsulates a design decision that is likely to change. The module exposes a stable interface, and its internals can change freely without affecting the rest of the system.</p>
+        <p>What to hide: data representations (array vs. linked list), algorithms (sorting strategy, search method), and I/O formats (JSON vs. XML, database schema). These are all decisions likely to change.</p>
+        <p>This directly connects to what we'll see next â€” the adapter pattern is an application of information hiding for external integrations.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

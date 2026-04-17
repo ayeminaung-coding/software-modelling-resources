@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microservices Introduction</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>What are Microservices?</h2>
+        <div class="content-area">
+            <div class="highlight-box">
+                <p style="font-size: 1.3rem;">
+                    <strong>Microservices</strong> is an architectural style that structures an application
+                    as a collection of small, autonomous services modeled around a business domain.
+                </p>
+            </div>
+
+            <div class="two-columns" style="margin-top: 2rem;">
+                <div>
+                    <h3>Monolith</h3>
+                    <div class="diagram" style="padding: 2rem;">
+                        <div class="diagram-box" style="padding: 3rem 4rem; font-size: 1.2rem;">
+                            Single<br>Deployable<br>Unit
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3>Microservices</h3>
+                    <div class="diagram" style="padding: 1rem;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;">
+                            <div class="diagram-box secondary" style="padding: 0.8rem;">Users</div>
+                            <div class="diagram-box secondary" style="padding: 0.8rem;">Orders</div>
+                            <div class="diagram-box secondary" style="padding: 0.8rem;">Products</div>
+                            <div class="diagram-box secondary" style="padding: 0.8rem;">Payments</div>
+                            <div class="diagram-box secondary" style="padding: 0.8rem;">Inventory</div>
+                            <div class="diagram-box secondary" style="padding: 0.8rem;">Shipping</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-columns" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <h4>Key Characteristics</h4>
+                    <ul style="font-size: 1rem;">
+                        <li>Single responsibility</li>
+                        <li>Independently deployable</li>
+                        <li>Own data store</li>
+                        <li>Communicate via APIs</li>
+                    </ul>
+                </div>
+                <div class="card success">
+                    <h4>Enables Scale Through</h4>
+                    <ul style="font-size: 1rem;">
+                        <li>Independent scaling</li>
+                        <li>Technology diversity</li>
+                        <li>Team autonomy</li>
+                        <li>Fault isolation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">22 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Microservices Overview:</strong></p>
+<ul>
+<li>Each service owns its data and business logic</li>
+<li>Teams can deploy independently</li>
+<li>Different services can use different technologies</li>
+</ul>
+<p><strong>Warning:</strong> Microservices add complexity. Start with a modular monolith if you are unsure!</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opening Discussion - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .discussion-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+        }
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.9rem;
+        }
+        .question-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem 1.1rem;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .q-number {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 0.6rem;
+        }
+        .question-card p {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            line-height: 1.4;
+            margin: 0;
+        }
+        .think-pair-share {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #22c55e;
+            border-radius: 10px;
+            padding: 0.7rem 1.2rem;
+        }
+        .tps-step {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: #166534;
+        }
+        .tps-divider {
+            color: #86efac;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+        @media (max-width: 768px) {
+            .questions-grid { grid-template-columns: 1fr; }
+            .think-pair-share { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Opening Discussion</h2>
+        <div class="content-area">
+            <div class="discussion-layout">
+
+                <div class="highlight-box success" style="padding: 0.9rem 1.2rem;">
+                    <p style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #166534; margin-bottom: 0.4rem;">Scenario</p>
+                    <p style="font-size: 1.05rem; font-weight: 600; color: #14532d; line-height: 1.5; margin: 0;">
+                        Your team is asked to add AI fraud detection to the SmartExpense system. The model will analyze expense submissions and flag suspicious ones. You have 2 weeks.
+                    </p>
+                </div>
+
+                <div class="questions-grid">
+                    <div class="question-card">
+                        <div class="q-number">1</div>
+                        <p>Where do you add the AI component in the architecture?</p>
+                    </div>
+                    <div class="question-card">
+                        <div class="q-number">2</div>
+                        <p>What happens when the AI gives a wrong answer?</p>
+                    </div>
+                    <div class="question-card">
+                        <div class="q-number">3</div>
+                        <p>How do you test it?</p>
+                    </div>
+                </div>
+
+                <div class="think-pair-share">
+                    <span class="tps-step">&#128161; Think 1 minute</span>
+                    <span class="tps-divider">Â·</span>
+                    <span class="tps-step">&#128101; Pair 2 minutes</span>
+                    <span class="tps-divider">Â·</span>
+                    <span class="tps-step">&#128227; Share</span>
+                </div>
+
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">4 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Opening Discussion â€” 5 minutes total.</strong></p>
+        <p>This discussion surfaces students' intuitions before teaching the material. Common answers: "add it to the expense processor" (correct instinct, wrong execution), "retrain the model" (testing misconception).</p>
+        <p>The goal is to surface that AI integration has unique design challenges beyond just calling an API.</p>
+        <p>Q1 typically gets "inside ExpenseProcessor" â€” good instinct for location, but no isolation. Q2 surfaces the fallback problem. Q3 usually reveals that students haven't thought about testing non-deterministic components.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

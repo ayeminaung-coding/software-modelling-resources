@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .takeaway-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .takeaway-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: var(--light-color);
+            border-radius: 8px;
+            font-size: 1.15rem;
+            line-height: 1.5;
+        }
+        .takeaway-item .num {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .takeaway-item.blue {
+            border-left: 5px solid var(--primary-color);
+        }
+        .takeaway-item.blue .num {
+            background: var(--primary-color);
+        }
+        .takeaway-item.purple {
+            border-left: 5px solid #7c3aed;
+        }
+        .takeaway-item.purple .num {
+            background: #7c3aed;
+        }
+        .takeaway-item.green {
+            border-left: 5px solid var(--success-color);
+        }
+        .takeaway-item.green .num {
+            background: var(--success-color);
+        }
+        .takeaway-item.orange {
+            border-left: 5px solid var(--warning-color);
+        }
+        .takeaway-item.orange .num {
+            background: var(--warning-color);
+        }
+        .takeaway-item.red {
+            border-left: 5px solid var(--danger-color);
+        }
+        .takeaway-item.red .num {
+            background: var(--danger-color);
+        }
+        .key-takeaway {
+            margin-top: 1.5rem;
+            padding: 1.25rem 1.5rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Summary</h2>
+        <div class="content-area">
+            <div class="takeaway-list">
+                <div class="takeaway-item blue">
+                    <span class="num">1</span>
+                    <span>Different organizations of functionality into elements lead to different design decisions being modularized and hidden behind interfaces</span>
+                </div>
+                <div class="takeaway-item purple">
+                    <span class="num">2</span>
+                    <span>Technical dependencies require coordination between people, or defects may result (Conway's Law)</span>
+                </div>
+                <div class="takeaway-item green">
+                    <span class="num">3</span>
+                    <span>Localizing changes using interfaces and adapters minimizes the impact of change</span>
+                </div>
+                <div class="takeaway-item orange">
+                    <span class="num">4</span>
+                    <span>Technical debt is when developers break the design for later fix &mdash; must be managed</span>
+                </div>
+                <div class="takeaway-item red">
+                    <span class="num">5</span>
+                    <span>Code decay is when implementation diverges from design &mdash; prevent with code reviews</span>
+                </div>
+            </div>
+
+            <div class="key-takeaway">
+                Design for change is not about predicting the future &mdash; it's about making the system resilient to whatever changes come.
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">32 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p>Recap the 5 key concepts. Emphasize that all these techniques are complementary and should be used together.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

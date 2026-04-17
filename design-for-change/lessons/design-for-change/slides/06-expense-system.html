@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense System Architecture - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .component-diagram {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 1rem;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .component {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--dark-color);
+            position: relative;
+            z-index: 2;
+        }
+        .component.central {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+        .component.database {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            border-color: #6366f1;
+            border-radius: 12px 12px 50% 50%;
+        }
+        .component.auth {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border-color: var(--success-color);
+        }
+        .connection-label {
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--text-light);
+            text-align: center;
+            padding: 0.2rem;
+        }
+        .diagram-title {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .arch-grid {
+            display: grid;
+            grid-template-areas:
+                "webapp    auth      mobileapp"
+                "conn-left conn-auth conn-right"
+                ".         processor ."
+                ".         conn-db   ."
+                "expensedb .         projectdb";
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.6rem;
+            align-items: center;
+            justify-items: center;
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        .arch-grid .webapp { grid-area: webapp; }
+        .arch-grid .auth { grid-area: auth; }
+        .arch-grid .mobileapp { grid-area: mobileapp; }
+        .arch-grid .processor { grid-area: processor; }
+        .arch-grid .expensedb { grid-area: expensedb; }
+        .arch-grid .projectdb { grid-area: projectdb; }
+        .arch-grid .conn-left { grid-area: conn-left; }
+        .arch-grid .conn-auth { grid-area: conn-auth; }
+        .arch-grid .conn-right { grid-area: conn-right; }
+        .arch-grid .conn-db { grid-area: conn-db; }
+        .arch-grid .component {
+            width: 100%;
+            min-width: 0;
+        }
+        .conn-lines {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.1rem;
+        }
+        .conn-arrow {
+            font-size: 1.4rem;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Expense System Architecture</h2>
+        <div class="content-area">
+            <p class="diagram-title">Logical View (Component &amp; Connector)</p>
+            <div class="arch-grid">
+                <div class="component webapp">Employee WebApp</div>
+                <div class="component auth">Authenticator</div>
+                <div class="component mobileapp">Approver MobileApp</div>
+
+                <div class="conn-lines conn-left">
+                    <span class="connection-label">login/check</span>
+                    <span class="conn-arrow">&darr; request</span>
+                </div>
+                <div class="conn-lines conn-auth">
+                    <span class="connection-label">lookup/query</span>
+                    <span class="conn-arrow">&harr; User</span>
+                </div>
+                <div class="conn-lines conn-right">
+                    <span class="connection-label">login/check</span>
+                    <span class="conn-arrow">&darr; approve/update</span>
+                </div>
+
+                <div class="component central processor">Expense Processor</div>
+
+                <div class="conn-lines conn-db">
+                    <span class="conn-arrow">&darr;</span>
+                    <span class="connection-label">record / check</span>
+                </div>
+
+                <div class="component database expensedb">Expense DB</div>
+                <div></div>
+                <div class="component database projectdb">Project DB</div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">6 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Expense System Architecture:</strong></p>
+        <p>This is a typical enterprise expense system. Employees submit expenses via web, approvers use mobile. The Expense Processor is the central component handling business logic.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Do We Analyse? - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .analysis-diagram {
+            position: relative;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+        .center-circle {
+            width: 180px;
+            height: 180px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            line-height: 1.3;
+            padding: 1.5rem;
+            position: absolute;
+            z-index: 2;
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+        }
+        .analysis-node {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+            border: 3px solid transparent;
+        }
+        .analysis-node:hover {
+            transform: scale(1.05);
+        }
+        .analysis-node.active {
+            transform: scale(1.08);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+        .analysis-node .node-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+        }
+        .analysis-node .node-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+        }
+        .node-uc {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            top: 2%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .node-uc.active { box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4); }
+        .node-qa {
+            background: linear-gradient(135deg, #059669, #10b981);
+            top: 50%;
+            right: 2%;
+            transform: translateY(-50%);
+        }
+        .node-qa.active { box-shadow: 0 8px 24px rgba(5, 150, 105, 0.4); }
+        .node-ta {
+            background: linear-gradient(135deg, #d97706, #f59e0b);
+            bottom: 2%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .node-ta.active { box-shadow: 0 8px 24px rgba(217, 119, 6, 0.4); }
+        .node-cb {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            top: 50%;
+            left: 2%;
+            transform: translateY(-50%);
+        }
+        .node-cb.active { box-shadow: 0 8px 24px rgba(220, 38, 38, 0.4); }
+
+        .detail-panel {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            font-size: 1.1rem;
+            color: var(--text-color);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+            border-left: 4px solid var(--primary-color);
+        }
+        .detail-panel.visible {
+            opacity: 1;
+        }
+        .detail-panel.uc { border-left-color: #2563eb; }
+        .detail-panel.qa { border-left-color: #059669; }
+        .detail-panel.ta { border-left-color: #d97706; }
+        .detail-panel.cb { border-left-color: #dc2626; }
+
+        .connector-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .tap-hint {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>What Do We Analyse?</h2>
+        <div class="content-area">
+            <p class="tap-hint"><strong>Click</strong> each analysis type to reveal details</p>
+
+            <div class="analysis-diagram">
+                <svg class="connector-lines" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet">
+                    <line x1="400" y1="180" x2="400" y2="100" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6"/>
+                    <line x1="490" y1="250" x2="580" y2="250" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6"/>
+                    <line x1="400" y1="320" x2="400" y2="400" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6"/>
+                    <line x1="310" y1="250" x2="220" y2="250" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6"/>
+                </svg>
+
+                <div class="center-circle">Architecture<br>Design</div>
+
+                <div class="analysis-node node-uc" data-type="uc" onclick="toggleDetail('uc')">
+                    <span class="node-icon">&#128203;</span>
+                    <span class="node-title">Use Case<br>Analysis</span>
+                </div>
+
+                <div class="analysis-node node-qa" data-type="qa" onclick="toggleDetail('qa')">
+                    <span class="node-icon">&#9733;</span>
+                    <span class="node-title">Quality Attribute<br>Analysis</span>
+                </div>
+
+                <div class="analysis-node node-ta" data-type="ta" onclick="toggleDetail('ta')">
+                    <span class="node-icon">&#9878;</span>
+                    <span class="node-title">Trade-off<br>Analysis</span>
+                </div>
+
+                <div class="analysis-node node-cb" data-type="cb" onclick="toggleDetail('cb')">
+                    <span class="node-icon">&#128176;</span>
+                    <span class="node-title">Cost-Benefit<br>Analysis</span>
+                </div>
+
+                <div id="detail-panel" class="detail-panel"></div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">5 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Four Types of Architecture Analysis:</strong></p>
+        <ul>
+            <li><em>Use Case Analysis:</em> Examines functional needs, component interfaces, and user scenarios</li>
+            <li><em>Quality Attribute Analysis:</em> Evaluates non-functional requirements such as performance, security, and availability</li>
+            <li><em>Trade-off Analysis:</em> Balances competing quality attributes and design decisions</li>
+            <li><em>Cost-Benefit Analysis:</em> Provides economic evaluation of architectural alternatives</li>
+        </ul>
+        <p>These four analysis methods form a comprehensive evaluation framework for software architecture. Each provides a different lens through which to evaluate architectural decisions.</p>
+    </script>
+
+    <script>
+        const details = {
+            uc: 'Functional needs, component interfaces, user scenarios',
+            qa: 'Non-functional requirements: performance, security, availability',
+            ta: 'Balancing competing quality attributes and design decisions',
+            cb: 'Economic evaluation of architectural alternatives'
+        };
+
+        let activeType = null;
+
+        function toggleDetail(type) {
+            const panel = document.getElementById('detail-panel');
+            const nodes = document.querySelectorAll('.analysis-node');
+
+            // If clicking the same node, close it
+            if (activeType === type) {
+                panel.classList.remove('visible');
+                panel.className = 'detail-panel';
+                nodes.forEach(n => n.classList.remove('active'));
+                activeType = null;
+                return;
+            }
+
+            // Deactivate all nodes
+            nodes.forEach(n => n.classList.remove('active'));
+
+            // Activate clicked node
+            const clickedNode = document.querySelector(`.node-${type}`);
+            clickedNode.classList.add('active');
+
+            // Show detail panel
+            panel.textContent = details[type];
+            panel.className = `detail-panel visible ${type}`;
+            activeType = type;
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

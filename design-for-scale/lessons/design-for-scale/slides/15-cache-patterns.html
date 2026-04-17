@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cache Patterns</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .interactive-demo {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .pattern-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .pattern-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary-color);
+            background: white;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pattern-btn:hover {
+            background: #eff6ff;
+        }
+
+        .pattern-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .simulation-area {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            min-height: 120px;
+            position: relative;
+        }
+
+        .component {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .component-box {
+            width: 110px;
+            height: 75px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.4s ease;
+            position: relative;
+            border: 3px solid transparent;
+        }
+
+        .component-box.app {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+
+        .component-box.cache {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .component-box.db {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+        }
+
+        .component-box.highlight {
+            transform: scale(1.08);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
+            border-color: #fbbf24;
+        }
+
+        .component-box.flash {
+            animation: flashPulse 0.6s ease;
+        }
+
+        @keyframes flashPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); box-shadow: 0 0 30px rgba(251, 191, 36, 0.8); }
+        }
+
+        .component-box .data-indicator {
+            font-size: 0.7rem;
+            opacity: 0.9;
+            margin-top: 0.25rem;
+            padding: 0.15rem 0.4rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+
+        .arrow-flow {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .arrow-flow.active {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+        }
+
+        .arrow-flow.active-reverse {
+            color: var(--success-color);
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        .data-packet {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #fbbf24;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.8);
+            opacity: 0;
+            z-index: 10;
+        }
+
+        .data-packet.animate-right {
+            animation: moveRight 0.8s ease-in-out forwards;
+        }
+
+        .data-packet.animate-left {
+            animation: moveLeft 0.8s ease-in-out forwards;
+        }
+
+        @keyframes moveRight {
+            0% { left: 0; opacity: 1; }
+            100% { left: calc(100% - 16px); opacity: 1; }
+        }
+
+        @keyframes moveLeft {
+            0% { right: 0; opacity: 1; }
+            100% { right: calc(100% - 16px); opacity: 1; }
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-top: 0.75rem;
+        }
+
+        .action-btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn.read {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .action-btn.write {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .steps-trace {
+            background: #1e293b;
+            border-radius: 8px;
+            margin-top: 0.75rem;
+            padding: 0.75rem 1rem;
+            min-height: 180px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            padding: 0.4rem 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .step-item:last-child {
+            border-bottom: none;
+        }
+
+        .step-item.active {
+            color: #e2e8f0;
+            opacity: 1;
+            background: rgba(59, 130, 246, 0.1);
+            margin: 0 -1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .step-item.completed {
+            color: #4ade80;
+            opacity: 0.8;
+        }
+
+        .step-number {
+            background: #3b82f6;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-item.completed .step-number {
+            background: #10b981;
+        }
+
+        .step-item.active .step-number {
+            background: #f59e0b;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .step-text {
+            flex: 1;
+        }
+
+        .cache-hit {
+            color: #4ade80;
+            font-weight: 700;
+        }
+
+        .cache-miss {
+            color: #f87171;
+            font-weight: 700;
+        }
+
+        .pattern-description {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .pattern-description strong {
+            color: var(--primary-color);
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .stats-bar span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .stats-bar .value {
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .stats-bar .value.updated {
+            animation: statBump 0.3s ease;
+            color: var(--primary-color);
+        }
+
+        @keyframes statBump {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        .empty-trace {
+            color: #64748b;
+            font-style: italic;
+            text-align: center;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Cache Patterns - Interactive Demo</h2>
+        <div class="content-area">
+            <div class="interactive-demo">
+                <div class="pattern-selector">
+                    <button class="pattern-btn active" data-pattern="cache-aside">Cache-Aside</button>
+                    <button class="pattern-btn" data-pattern="read-through">Read-Through</button>
+                    <button class="pattern-btn" data-pattern="write-through">Write-Through</button>
+                    <button class="pattern-btn" data-pattern="write-behind">Write-Behind</button>
+                </div>
+
+                <div class="pattern-description" id="patternDesc">
+                    <strong>Cache-Aside (Lazy Loading):</strong> Application checks cache first. On miss, it fetches from DB and populates the cache.
+                </div>
+
+                <div class="simulation-area">
+                    <div class="component">
+                        <div class="component-box app" id="appBox">
+                            Application
+                            <span class="data-indicator" id="appData">Ready</span>
+                        </div>
+                    </div>
+                    <div class="arrow-flow" id="arrow1">
+                        <div class="data-packet" id="packet1"></div>
+                        <span>⇄</span>
+                    </div>
+                    <div class="component">
+                        <div class="component-box cache" id="cacheBox">
+                            Cache
+                            <span class="data-indicator" id="cacheData">Empty</span>
+                        </div>
+                    </div>
+                    <div class="arrow-flow" id="arrow2">
+                        <div class="data-packet" id="packet2"></div>
+                        <span>⇄</span>
+                    </div>
+                    <div class="component">
+                        <div class="component-box db" id="dbBox">
+                            Database
+                            <span class="data-indicator" id="dbData">user: John</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn read" id="readBtn" onclick="simulateRead()">Read Data</button>
+                    <button class="action-btn write" id="writeBtn" onclick="simulateWrite()">Write Data</button>
+                    <button class="action-btn" style="background: #64748b; color: white;" onclick="resetSimulation()">Reset</button>
+                </div>
+
+                <div class="steps-trace" id="stepsTrace">
+                    <div class="empty-trace">Click "Read Data" or "Write Data" to see the step-by-step flow...</div>
+                </div>
+
+                <div class="stats-bar">
+                    <span>Cache Hits: <span class="value" id="hitCount">0</span></span>
+                    <span>Cache Misses: <span class="value" id="missCount">0</span></span>
+                    <span>DB Reads: <span class="value" id="dbReadCount">0</span></span>
+                    <span>DB Writes: <span class="value" id="dbWriteCount">0</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">15 / 42</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Interactive Cache Patterns Demo</strong></p>
+        <p>Let students experiment with each pattern:</p>
+        <ul>
+            <li><em>Cache-Aside:</em> Click Read twice - first is a miss (fetches from DB), second is a hit</li>
+            <li><em>Read-Through:</em> Similar to cache-aside but cache handles the DB fetch</li>
+            <li><em>Write-Through:</em> Writes go to cache first, then synchronously to DB</li>
+            <li><em>Write-Behind:</em> Writes to cache return immediately, DB write is async</li>
+        </ul>
+        <p>Point out the stats bar - it shows why caching helps reduce database load!</p>
+    </script>
+
+    <script>
+        let currentPattern = 'cache-aside';
+        let cacheHasData = false;
+        let isAnimating = false;
+        let stats = { hits: 0, misses: 0, dbReads: 0, dbWrites: 0 };
+        let writeCounter = 0;
+        let stepsList = [];
+
+        const STEP_DELAY = 1500; // 1.5 seconds per step
+
+        const patterns = {
+            'cache-aside': {
+                desc: '<strong>Cache-Aside (Lazy Loading):</strong> Application checks cache first. On miss, it fetches from DB and populates the cache.',
+                read: async () => {
+                    clearSteps();
+                    if (cacheHasData) {
+                        await step(1, 'App checks cache...', 'app', 'arrow1', 'right');
+                        await step(2, '<span class="cache-hit">CACHE HIT!</span> Data found in cache', 'cache', null, null);
+                        await step(3, 'Cache returns data to app', 'app', 'arrow1', 'left');
+                        updateStat('hits');
+                    } else {
+                        await step(1, 'App checks cache...', 'app', 'arrow1', 'right');
+                        await step(2, '<span class="cache-miss">CACHE MISS!</span> Cache is empty', 'cache', null, null);
+                        await step(3, 'App fetches from database...', 'cache', 'arrow2', 'right');
+                        await step(4, 'Database returns data', 'db', 'arrow2', 'left');
+                        updateStat('dbReads');
+                        await step(5, 'App stores data in cache', 'cache', 'arrow1', 'right');
+                        cacheHasData = true;
+                        updateCacheDisplay();
+                        await step(6, 'Data returned to application', 'app', null, null);
+                        updateStat('misses');
+                    }
+                },
+                write: async () => {
+                    clearSteps();
+                    writeCounter++;
+                    await step(1, 'App writes to database...', 'app', 'arrow2', 'right');
+                    await step(2, 'Database updated with new value', 'db', null, null);
+                    updateStat('dbWrites');
+                    updateDbDisplay();
+                    await step(3, 'App invalidates cache entry', 'cache', 'arrow1', 'right');
+                    cacheHasData = false;
+                    updateCacheDisplay();
+                    await step(4, 'Write complete (cache invalidated)', 'app', null, null);
+                }
+            },
+            'read-through': {
+                desc: '<strong>Read-Through:</strong> Application always reads from cache. Cache automatically fetches from DB on miss.',
+                read: async () => {
+                    clearSteps();
+                    if (cacheHasData) {
+                        await step(1, 'App requests data from cache...', 'app', 'arrow1', 'right');
+                        await step(2, '<span class="cache-hit">CACHE HIT!</span> Data found', 'cache', null, null);
+                        await step(3, 'Cache returns data to app', 'app', 'arrow1', 'left');
+                        updateStat('hits');
+                    } else {
+                        await step(1, 'App requests data from cache...', 'app', 'arrow1', 'right');
+                        await step(2, '<span class="cache-miss">CACHE MISS!</span> Cache fetches from DB', 'cache', 'arrow2', 'right');
+                        await step(3, 'Database returns data to cache', 'cache', 'arrow2', 'left');
+                        updateStat('dbReads');
+                        cacheHasData = true;
+                        updateCacheDisplay();
+                        await step(4, 'Cache stores and returns data to app', 'app', 'arrow1', 'left');
+                        updateStat('misses');
+                    }
+                },
+                write: async () => {
+                    clearSteps();
+                    writeCounter++;
+                    await step(1, 'App writes directly to database...', 'app', 'arrow2', 'right');
+                    await step(2, 'Database updated', 'db', null, null);
+                    updateStat('dbWrites');
+                    updateDbDisplay();
+                    await step(3, 'Cache entry invalidated', 'cache', null, null);
+                    cacheHasData = false;
+                    updateCacheDisplay();
+                    await step(4, 'Write complete', 'app', null, null);
+                }
+            },
+            'write-through': {
+                desc: '<strong>Write-Through:</strong> Writes go to cache first, which synchronously writes to DB. Guarantees consistency.',
+                read: async () => {
+                    clearSteps();
+                    if (cacheHasData) {
+                        await step(1, 'App reads from cache...', 'app', 'arrow1', 'right');
+                        await step(2, '<span class="cache-hit">CACHE HIT!</span> Data returned', 'cache', 'arrow1', 'left');
+                        updateStat('hits');
+                    } else {
+                        await step(1, 'App reads from cache...', 'app', 'arrow1', 'right');
+                        await step(2, '<span class="cache-miss">CACHE MISS!</span> Fetching from DB', 'cache', 'arrow2', 'right');
+                        await step(3, 'Data loaded from database', 'db', 'arrow2', 'left');
+                        updateStat('dbReads');
+                        cacheHasData = true;
+                        updateCacheDisplay();
+                        await step(4, 'Data returned to app', 'app', 'arrow1', 'left');
+                        updateStat('misses');
+                    }
+                },
+                write: async () => {
+                    clearSteps();
+                    writeCounter++;
+                    await step(1, 'App writes to cache...', 'app', 'arrow1', 'right');
+                    await step(2, 'Cache updated with new value', 'cache', null, null);
+                    cacheHasData = true;
+                    updateCacheDisplay();
+                    await step(3, 'Cache synchronously writes to DB...', 'cache', 'arrow2', 'right');
+                    await step(4, 'Database updated (app waits)', 'db', null, null);
+                    updateStat('dbWrites');
+                    updateDbDisplay();
+                    await step(5, 'Write complete - consistent everywhere', 'app', null, null);
+                }
+            },
+            'write-behind': {
+                desc: '<strong>Write-Behind:</strong> Writes to cache return immediately. DB write happens async. Fast but risky!',
+                read: async () => {
+                    clearSteps();
+                    if (cacheHasData) {
+                        await step(1, 'App reads from cache...', 'app', 'arrow1', 'right');
+                        await step(2, '<span class="cache-hit">CACHE HIT!</span> Instant response', 'cache', 'arrow1', 'left');
+                        updateStat('hits');
+                    } else {
+                        await step(1, 'App reads from cache...', 'app', 'arrow1', 'right');
+                        await step(2, '<span class="cache-miss">CACHE MISS!</span> Fetching from DB', 'cache', 'arrow2', 'right');
+                        await step(3, 'Data loaded from database', 'db', 'arrow2', 'left');
+                        updateStat('dbReads');
+                        cacheHasData = true;
+                        updateCacheDisplay();
+                        await step(4, 'Data returned to app', 'app', 'arrow1', 'left');
+                        updateStat('misses');
+                    }
+                },
+                write: async () => {
+                    clearSteps();
+                    writeCounter++;
+                    await step(1, 'App writes to cache...', 'app', 'arrow1', 'right');
+                    await step(2, 'Cache updated - <span class="cache-hit">RETURNING NOW!</span>', 'cache', null, null);
+                    cacheHasData = true;
+                    updateCacheDisplay();
+                    await step(3, 'App gets response (fast!)', 'app', 'arrow1', 'left');
+                    await step(4, '(Async) Cache queues DB write...', 'cache', 'arrow2', 'right');
+                    await step(5, '(Async) Database updated in background', 'db', null, null);
+                    updateStat('dbWrites');
+                    updateDbDisplay();
+                    await step(6, 'Risk: Data loss if cache fails before sync', null, null, null);
+                }
+            }
+        };
+
+        function clearSteps() {
+            stepsList = [];
+            document.getElementById('stepsTrace').innerHTML = '';
+        }
+
+        function addStepToTrace(num, text, isActive = false) {
+            const trace = document.getElementById('stepsTrace');
+            const stepDiv = document.createElement('div');
+            stepDiv.className = 'step-item' + (isActive ? ' active' : '');
+            stepDiv.id = 'step-' + num;
+            stepDiv.innerHTML = `
+                <span class="step-number">${num}</span>
+                <span class="step-text">${text}</span>
+            `;
+            trace.appendChild(stepDiv);
+            // Scroll to bottom
+            trace.scrollTop = trace.scrollHeight;
+        }
+
+        function markStepCompleted(num) {
+            const stepEl = document.getElementById('step-' + num);
+            if (stepEl) {
+                stepEl.classList.remove('active');
+                stepEl.classList.add('completed');
+            }
+        }
+
+        function selectPattern(pattern) {
+            if (isAnimating) return;
+            currentPattern = pattern;
+            document.querySelectorAll('.pattern-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.pattern === pattern);
+            });
+            document.getElementById('patternDesc').innerHTML = patterns[pattern].desc;
+            resetSimulation();
+        }
+
+        document.querySelectorAll('.pattern-btn').forEach(btn => {
+            btn.addEventListener('click', () => selectPattern(btn.dataset.pattern));
+        });
+
+        async function step(num, text, highlightComponent, arrow, direction) {
+            // Mark previous step as completed
+            if (num > 1) {
+                markStepCompleted(num - 1);
+            }
+
+            // Add new step to trace
+            addStepToTrace(num, text, true);
+
+            // Reset all highlights
+            document.querySelectorAll('.component-box').forEach(el => {
+                el.classList.remove('highlight', 'flash');
+            });
+            document.querySelectorAll('.arrow-flow').forEach(el => {
+                el.classList.remove('active', 'active-reverse');
+            });
+
+            // Highlight component
+            if (highlightComponent) {
+                const el = document.getElementById(highlightComponent + 'Box');
+                if (el) {
+                    el.classList.add('highlight');
+                    // Add flash effect
+                    el.classList.add('flash');
+                    setTimeout(() => el.classList.remove('flash'), 600);
+                }
+            }
+
+            // Animate arrow and data packet
+            if (arrow && direction) {
+                const arrowEl = document.getElementById(arrow);
+                arrowEl.classList.add(direction === 'left' ? 'active-reverse' : 'active');
+
+                // Animate data packet
+                const packetId = arrow === 'arrow1' ? 'packet1' : 'packet2';
+                const packet = document.getElementById(packetId);
+                packet.className = 'data-packet';
+                packet.style.opacity = '0';
+
+                // Trigger animation
+                setTimeout(() => {
+                    packet.classList.add(direction === 'left' ? 'animate-left' : 'animate-right');
+                }, 50);
+            }
+
+            await sleep(STEP_DELAY);
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function simulateRead() {
+            if (isAnimating) return;
+            isAnimating = true;
+            disableButtons(true);
+            await patterns[currentPattern].read();
+            // Mark last step completed
+            const lastStep = document.querySelector('.step-item.active');
+            if (lastStep) {
+                lastStep.classList.remove('active');
+                lastStep.classList.add('completed');
+            }
+            // Clear highlights
+            document.querySelectorAll('.component-box').forEach(el => el.classList.remove('highlight'));
+            document.querySelectorAll('.arrow-flow').forEach(el => el.classList.remove('active', 'active-reverse'));
+            disableButtons(false);
+            isAnimating = false;
+        }
+
+        async function simulateWrite() {
+            if (isAnimating) return;
+            isAnimating = true;
+            disableButtons(true);
+            await patterns[currentPattern].write();
+            // Mark last step completed
+            const lastStep = document.querySelector('.step-item.active');
+            if (lastStep) {
+                lastStep.classList.remove('active');
+                lastStep.classList.add('completed');
+            }
+            // Clear highlights
+            document.querySelectorAll('.component-box').forEach(el => el.classList.remove('highlight'));
+            document.querySelectorAll('.arrow-flow').forEach(el => el.classList.remove('active', 'active-reverse'));
+            disableButtons(false);
+            isAnimating = false;
+        }
+
+        function resetSimulation() {
+            cacheHasData = false;
+            writeCounter = 0;
+            stats = { hits: 0, misses: 0, dbReads: 0, dbWrites: 0 };
+            updateAllStats();
+            updateCacheDisplay();
+            document.getElementById('dbData').textContent = 'user: John';
+            document.getElementById('appData').textContent = 'Ready';
+            document.getElementById('stepsTrace').innerHTML =
+                '<div class="empty-trace">Click "Read Data" or "Write Data" to see the step-by-step flow...</div>';
+            document.querySelectorAll('.component-box').forEach(el => el.classList.remove('highlight', 'flash'));
+            document.querySelectorAll('.arrow-flow').forEach(el => {
+                el.classList.remove('active', 'active-reverse');
+            });
+            document.querySelectorAll('.data-packet').forEach(el => {
+                el.className = 'data-packet';
+            });
+        }
+
+        function updateCacheDisplay() {
+            const cacheEl = document.getElementById('cacheData');
+            cacheEl.textContent = cacheHasData ? `user: ${getCurrentValue()}` : 'Empty';
+        }
+
+        function updateDbDisplay() {
+            document.getElementById('dbData').textContent = `user: ${getCurrentValue()}`;
+        }
+
+        function getCurrentValue() {
+            const names = ['John', 'Jane', 'Bob', 'Alice', 'Charlie'];
+            return names[writeCounter % names.length];
+        }
+
+        function updateStat(statName) {
+            stats[statName]++;
+            const idMap = {
+                'hits': 'hitCount',
+                'misses': 'missCount',
+                'dbReads': 'dbReadCount',
+                'dbWrites': 'dbWriteCount'
+            };
+            const el = document.getElementById(idMap[statName]);
+            el.textContent = stats[statName];
+            el.classList.add('updated');
+            setTimeout(() => el.classList.remove('updated'), 300);
+        }
+
+        function updateAllStats() {
+            document.getElementById('hitCount').textContent = stats.hits;
+            document.getElementById('missCount').textContent = stats.misses;
+            document.getElementById('dbReadCount').textContent = stats.dbReads;
+            document.getElementById('dbWriteCount').textContent = stats.dbWrites;
+        }
+
+        function disableButtons(disabled) {
+            document.getElementById('readBtn').disabled = disabled;
+            document.getElementById('writeBtn').disabled = disabled;
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

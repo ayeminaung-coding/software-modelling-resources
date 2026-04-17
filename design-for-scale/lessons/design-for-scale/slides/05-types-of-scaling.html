@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Types of Scaling</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Types of Scaling</h2>
+        <div class="content-area">
+            <div class="comparison">
+                <div class="card" style="text-align: center;">
+                    <div class="icon">📐</div>
+                    <h3>Vertical Scaling</h3>
+                    <p style="font-size: 1.2rem; margin: 1rem 0;">"Scale Up"</p>
+                    <p style="color: var(--text-light);">
+                        Add more power to existing machine<br>
+                        (CPU, RAM, Storage)
+                    </p>
+                </div>
+                <div class="card success" style="text-align: center;">
+                    <div class="icon">📊</div>
+                    <h3>Horizontal Scaling</h3>
+                    <p style="font-size: 1.2rem; margin: 1rem 0;">"Scale Out"</p>
+                    <p style="color: var(--text-light);">
+                        Add more machines to the pool<br>
+                        (Distribute load)
+                    </p>
+                </div>
+            </div>
+
+            <div class="diagram" style="margin-top: 2rem; padding: 1.5rem;">
+                <div class="flow-horizontal">
+                    <div>
+                        <div class="diagram-box" style="height: 60px;">Small</div>
+                        <span class="arrow">→</span>
+                        <div class="diagram-box" style="height: 80px; padding: 1.5rem 2rem;">Medium</div>
+                        <span class="arrow">→</span>
+                        <div class="diagram-box" style="height: 100px; padding: 2rem 2rem;">Large</div>
+                    </div>
+                    <div style="margin: 0 3rem; font-size: 1.5rem; color: var(--text-light);">vs</div>
+                    <div>
+                        <div class="diagram-box secondary">Node 1</div>
+                        <div class="diagram-box secondary">Node 2</div>
+                        <div class="diagram-box secondary">Node 3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">5 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Two Fundamental Approaches:</strong></p>
+<ul>
+<li><em>Vertical (Scale Up):</em> Make one machine more powerful - like upgrading your computer</li>
+<li><em>Horizontal (Scale Out):</em> Add more machines - like adding more computers to share work</li>
+</ul>
+<p>Real-world analogy: Vertical = hiring one super-employee. Horizontal = hiring a team.</p>
+<p>Most modern systems use a combination of both approaches.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

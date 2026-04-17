@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Bottlenecks</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Common Scalability Bottlenecks</h2>
+        <div class="content-area">
+            <div class="two-columns">
+                <div>
+                    <div class="card danger" style="margin-bottom: 1rem;">
+                        <h4>Database</h4>
+                        <ul style="font-size: 1.1rem;">
+                            <li>Single database instance</li>
+                            <li>Slow queries / missing indexes</li>
+                            <li>Connection pool exhaustion</li>
+                            <li>Lock contention</li>
+                        </ul>
+                    </div>
+                    <div class="card warning" style="margin-bottom: 1rem;">
+                        <h4>Application Layer</h4>
+                        <ul style="font-size: 1.1rem;">
+                            <li>Stateful sessions</li>
+                            <li>Synchronous processing</li>
+                            <li>Memory leaks</li>
+                            <li>Inefficient algorithms</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Network</h4>
+                        <ul style="font-size: 1.1rem;">
+                            <li>Bandwidth limitations</li>
+                            <li>DNS resolution delays</li>
+                            <li>SSL/TLS overhead</li>
+                            <li>Geographic latency</li>
+                        </ul>
+                    </div>
+                    <div class="card success" style="margin-bottom: 1rem;">
+                        <h4>External Dependencies</h4>
+                        <ul style="font-size: 1.1rem;">
+                            <li>Third-party API limits</li>
+                            <li>Shared resources</li>
+                            <li>File system I/O</li>
+                            <li>Message queue capacity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <strong>Rule of Thumb:</strong> Always measure before optimizing. Use profiling tools to identify actual bottlenecks.
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">10 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Know Your Bottlenecks!</strong></p>
+<p>The most common bottleneck is almost always the <em>database</em>. Before adding servers, check:</p>
+<ul>
+<li>Are queries optimized? (EXPLAIN ANALYZE)</li>
+<li>Are indexes in place?</li>
+<li>Is connection pooling configured?</li>
+</ul>
+<p><strong>Rule:</strong> Profile before optimizing. Use APM tools like Datadog or New Relic.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

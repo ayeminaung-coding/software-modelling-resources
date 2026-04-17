@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Practices</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Scaling Best Practices</h2>
+        <div class="content-area">
+            <div class="two-columns">
+                <div>
+                    <div class="card success" style="margin-bottom: 1rem;">
+                        <h4>1. Design for Failure</h4>
+                        <p style="font-size: 1rem;">Assume everything can fail. Build redundancy, use circuit breakers, and implement graceful degradation.</p>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>2. Stateless Services</h4>
+                        <p style="font-size: 1rem;">Keep services stateless. Store state in external stores (Redis, DB). Enables easy horizontal scaling.</p>
+                    </div>
+                    <div class="card warning" style="margin-bottom: 1rem;">
+                        <h4>3. Async by Default</h4>
+                        <p style="font-size: 1rem;">Use message queues for non-critical operations. Decouple request handling from processing.</p>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>4. Cache Aggressively</h4>
+                        <p style="font-size: 1rem;">Cache at every layer: browser, CDN, application, database. Measure cache hit ratios.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>5. Database as Bottleneck</h4>
+                        <p style="font-size: 1rem;">The database is often the first bottleneck. Optimize queries, add indexes, consider read replicas early.</p>
+                    </div>
+                    <div class="card success" style="margin-bottom: 1rem;">
+                        <h4>6. Measure Everything</h4>
+                        <p style="font-size: 1rem;">Implement comprehensive monitoring and alerting. You can't improve what you don't measure.</p>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>7. Load Test Regularly</h4>
+                        <p style="font-size: 1rem;">Regular load testing reveals bottlenecks before production. Test beyond expected peak.</p>
+                    </div>
+                    <div class="card danger" style="margin-bottom: 1rem;">
+                        <h4>8. Avoid Premature Optimization</h4>
+                        <p style="font-size: 1rem;">Start simple. Scale when needed. Complexity has its own costs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">38 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Best Practices Summary:</strong></p>
+<p>These are hard-won lessons from production systems:</p>
+<ul>
+<li>Design for failure from day one</li>
+<li>Measure everything - you cannot improve what you do not measure</li>
+<li>Start simple, scale incrementally</li>
+<li>Avoid premature optimization - complexity has costs</li>
+</ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

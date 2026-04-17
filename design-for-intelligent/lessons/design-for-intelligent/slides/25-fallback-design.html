@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principle 2: Design the Fallback First - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .principle-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+        .fallback-body {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 1rem;
+            align-items: start;
+        }
+        /* Fallback Ladder */
+        .fallback-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .ladder-step {
+            border-radius: 10px;
+            padding: 0.7rem 0.9rem;
+            position: relative;
+        }
+        .ladder-step.level-1 {
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+        }
+        .ladder-step.level-2 {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            margin-top: 0;
+        }
+        .ladder-step.level-3 {
+            background: #fff1f2;
+            border: 2px solid #fca5a5;
+        }
+        .ladder-arrow {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.2rem 0;
+            line-height: 1.2;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.2rem;
+        }
+        .step-badge {
+            display: inline-block;
+            border-radius: 999px;
+            padding: 0.15rem 0.5rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .level-1 .step-badge { background: #22c55e; color: white; }
+        .level-2 .step-badge { background: #f59e0b; color: white; }
+        .level-3 .step-badge { background: #ef4444; color: white; }
+        .step-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+        .step-detail {
+            font-size: 0.82rem;
+            color: #64748b;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Code panel */
+        .code-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .code-panel-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #475569;
+        }
+        .code-block {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 0.75rem 0.9rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.78rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+            flex: 1;
+        }
+        .kw   { color: #93c5fd; }
+        .fn   { color: #fde68a; }
+        .str  { color: #86efac; }
+        .cmt  { color: #64748b; font-style: italic; }
+        .num  { color: #f9a8d4; }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border: 2px solid #d97706;
+            border-radius: 10px;
+            padding: 0.6rem 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        .warning-box p {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #78350f;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .fallback-body { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Principle 2: Design the Fallback First</h2>
+        <div class="content-area">
+
+            <div class="principle-layout">
+
+                <div class="highlight-box" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: #3b82f6; padding: 0.6rem 1rem;">
+                    <p style="font-size: 0.95rem; font-weight: 700; color: #1e3a8a; margin: 0; line-height: 1.5;">
+                        &#128737; AI will fail. Design the fallback <em>before</em> you design the AI integration.
+                    </p>
+                </div>
+
+                <div class="fallback-body">
+
+                    <!-- Fallback Ladder -->
+                    <div class="fallback-ladder">
+
+                        <div class="ladder-step level-1">
+                            <div class="step-header">
+                                <span class="step-badge">Level 1</span>
+                                <span class="step-title">AI Model</span>
+                            </div>
+                            <p class="step-detail">Confidence &ge; 0.8 &rarr; <strong>Use AI result directly</strong></p>
+                        </div>
+
+                        <div class="ladder-arrow">
+                            if confidence &lt; 0.8 &darr;
+                        </div>
+
+                        <div class="ladder-step level-2">
+                            <div class="step-header">
+                                <span class="step-badge">Level 2</span>
+                                <span class="step-title">Human Review Queue</span>
+                            </div>
+                            <p class="step-detail">Confidence 0.4â€“0.8 &rarr; <strong>Route to reviewer</strong></p>
+                        </div>
+
+                        <div class="ladder-arrow">
+                            if AI timeout / error &darr;
+                        </div>
+
+                        <div class="ladder-step level-3">
+                            <div class="step-header">
+                                <span class="step-badge">Level 3</span>
+                                <span class="step-title">Rule-Based Fallback</span>
+                            </div>
+                            <p class="step-detail">AI unavailable &rarr; <strong>amount &gt; $1,000 &rarr; flag</strong></p>
+                        </div>
+
+                    </div>
+
+                    <!-- Code Panel -->
+                    <div class="code-panel">
+                        <div class="code-panel-label">Pseudocode â€” Fallback Strategy</div>
+                        <div class="code-block">
+<span class="kw">function</span> <span class="fn">evaluateFraud</span>(expense):<br>
+&nbsp;&nbsp;<span class="kw">try</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result = aiModel.<span class="fn">evaluate</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;expense,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timeout=<span class="num">2</span>s<br>
+&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> result.confidence &ge; <span class="num">0.8</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> result<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> humanReviewQueue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span class="fn">submit</span>(expense)<br>
+&nbsp;&nbsp;<span class="kw">catch</span> (AIUnavailable, Timeout):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> ruleBasedDetector<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span class="fn">evaluate</span>(expense)
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="warning-box">
+                    <span style="font-size:1.1rem;">&#9888;</span>
+                    <p>The fallback path gets called <strong>more than you expect.</strong> Design it well &mdash; it's a first-class feature, not a TODO comment.</p>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">25 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Principle 2 â€” Design the Fallback First.</strong></p>
+        <p>Many teams add the fallback as an afterthought â€” a TODO comment that never gets implemented. This slide establishes it as a first-class design decision.</p>
+        <p>The key question is: "What is the acceptable behavior when AI fails?" For fraud detection: auto-approve everything (bad â€” fraud gets through), block everything (bad â€” all employees can't submit), apply simple rules (acceptable â€” some fraud slips through but system stays functional).</p>
+        <p>The fallback must be specified before the AI is integrated, because it forces the team to answer: "What is this AI actually replacing?" If they can't answer that, they don't understand the system well enough to add AI yet.</p>
+        <p>The 2-second timeout in the pseudocode is deliberate â€” without a timeout, a slow AI response blocks the entire submission. The fallback path should be faster than the AI path.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economic Factors - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .factors-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            flex: 1;
+        }
+        .factor-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.4rem;
+            border-left: 5px solid var(--primary-color);
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            transition: transform 0.2s ease;
+        }
+        .factor-card:hover {
+            transform: translateY(-3px);
+        }
+        .factor-card:nth-child(1) { border-left-color: #2563eb; }
+        .factor-card:nth-child(2) { border-left-color: #7c3aed; }
+        .factor-card:nth-child(3) { border-left-color: #059669; }
+        .factor-card:nth-child(4) { border-left-color: #d97706; }
+        .factor-card:nth-child(5) { border-left-color: #dc2626; }
+
+        .factor-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .factor-card:nth-child(1) .factor-icon { background: #dbeafe; }
+        .factor-card:nth-child(2) .factor-icon { background: #ede9fe; }
+        .factor-card:nth-child(3) .factor-icon { background: #d1fae5; }
+        .factor-card:nth-child(4) .factor-icon { background: #fef3c7; }
+        .factor-card:nth-child(5) .factor-icon { background: #fee2e2; }
+
+        .factor-content h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.3rem;
+        }
+        .factor-card:nth-child(1) h3 { color: #2563eb; }
+        .factor-card:nth-child(2) h3 { color: #7c3aed; }
+        .factor-card:nth-child(3) h3 { color: #059669; }
+        .factor-card:nth-child(4) h3 { color: #d97706; }
+        .factor-card:nth-child(5) h3 { color: #dc2626; }
+
+        .factor-content p {
+            font-size: 1rem;
+            color: var(--text-color);
+            line-height: 1.5;
+            margin-bottom: 0.3rem;
+        }
+        .factor-detail {
+            font-size: 0.88rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+        .factor-card.full-width {
+            grid-column: 1 / -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Economic Factors</h2>
+        <div class="content-area">
+            <div class="factors-grid">
+                <div class="factor-card">
+                    <div class="factor-icon">&#128176;</div>
+                    <div class="factor-content">
+                        <h3>Development Costs</h3>
+                        <p>The price of constructing the software.</p>
+                        <div class="factor-detail">Affects project budget and profitability</div>
+                    </div>
+                </div>
+
+                <div class="factor-card">
+                    <div class="factor-icon">&#128295;</div>
+                    <div class="factor-content">
+                        <h3>Maintenance Costs</h3>
+                        <p>Ongoing costs that accumulate over time.</p>
+                        <div class="factor-detail">Can exceed initial development costs</div>
+                    </div>
+                </div>
+
+                <div class="factor-card">
+                    <div class="factor-icon">&#128200;</div>
+                    <div class="factor-content">
+                        <h3>Return on Investment (ROI)</h3>
+                        <p>The income produced vs. cost of creating and maintaining.</p>
+                        <div class="factor-detail">Key decision metric for stakeholders</div>
+                    </div>
+                </div>
+
+                <div class="factor-card">
+                    <div class="factor-icon">&#127981;</div>
+                    <div class="factor-content">
+                        <h3>Total Cost of Ownership (TCO)</h3>
+                        <p>Includes development, maintenance, training, hardware, infrastructure.</p>
+                        <div class="factor-detail">The full picture of what a system really costs</div>
+                    </div>
+                </div>
+
+                <div class="factor-card full-width">
+                    <div class="factor-icon">&#128218;</div>
+                    <div class="factor-content">
+                        <h3>Other Factors</h3>
+                        <p>Pricing model, target market, revenue streams, competitive advantage.</p>
+                        <div class="factor-detail">Business context that shapes architectural decisions</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">32 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Economic Factors in Software Architecture</strong></p>
+        <p>TCO is often 3-5x the initial development cost. Many projects fail because they only budget for development, not the full lifecycle.</p>
+        <ul>
+            <li><strong>Development Costs:</strong> Salaries, tools, licenses, training, infrastructure setup. Often the most visible cost but rarely the largest over the system lifetime.</li>
+            <li><strong>Maintenance Costs:</strong> Bug fixes, updates, security patches, feature enhancements. Studies show maintenance consumes 60-80% of total software costs.</li>
+            <li><strong>ROI:</strong> The ratio of net benefits to costs. A system that costs $500K but generates $2M in value has a 300% ROI.</li>
+            <li><strong>TCO:</strong> The complete cost picture. Includes hosting, monitoring, on-call support, documentation, training new developers, migration costs.</li>
+            <li><strong>Other Factors:</strong> Market timing can make or break a product. Competitive advantage from technical innovation can justify higher development costs.</li>
+        </ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

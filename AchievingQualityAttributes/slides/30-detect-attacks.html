@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detect Attacks Tactics - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Detect Attacks Tactics</h2>
+        <div class="content-area">
+            <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">Identify security incidents as they occur or shortly after</p>
+
+            <div class="two-columns">
+                <div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Intrusion Detection</h4>
+                        <ul style="font-size: 1rem;">
+                            <li><strong>Signature-based:</strong> Known attack patterns</li>
+                            <li><strong>Anomaly-based:</strong> Unusual behavior detection</li>
+                            <li><strong>Network IDS:</strong> Monitor network traffic</li>
+                            <li><strong>Host IDS:</strong> Monitor system calls</li>
+                        </ul>
+                    </div>
+                    <div class="card success" style="margin-bottom: 1rem;">
+                        <h4>Behavior Analysis</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>ML-based threat detection</li>
+                            <li>User behavior analytics (UEBA)</li>
+                            <li>Baseline normal activity</li>
+                            <li>Alert on deviations</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="card warning" style="margin-bottom: 1rem;">
+                        <h4>Audit Logging</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Record all security events</li>
+                            <li>Immutable log storage</li>
+                            <li>Centralized log aggregation</li>
+                            <li>Real-time alerting</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>SIEM Systems</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Splunk, Elastic Security, Sentinel</li>
+                            <li>Correlate events across sources</li>
+                            <li>Automated threat intelligence</li>
+                            <li>Incident timeline reconstruction</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <p><strong>Key Metrics to Monitor:</strong>
+                Failed login attempts | Unusual access patterns | Privilege escalation |
+                Data exfiltration indicators | Geographic anomalies | After-hours activity</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Points:</strong></p>
+        <ul>
+            <li>Detection is critical because no system is 100% secure</li>
+            <li>Average time to detect a breach: 200+ days (IBM Security Report)</li>
+            <li>Earlier detection = less damage</li>
+        </ul>
+        <p><strong>SIEM vs. SOAR:</strong></p>
+        <ul>
+            <li>SIEM = Security Information and Event Management (detect)</li>
+            <li>SOAR = Security Orchestration, Automation, Response (respond)</li>
+        </ul>
+        <p><strong>Discussion:</strong> What events would you monitor for a banking application?</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

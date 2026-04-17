@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototyping - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .prototype-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            flex: 1;
+            align-items: stretch;
+        }
+        .prototype-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+        .prototype-card:hover {
+            transform: translateY(-4px);
+        }
+        .prototype-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+        }
+        .prototype-card.low::before {
+            background: #bfdbfe;
+        }
+        .prototype-card.medium::before {
+            background: #60a5fa;
+        }
+        .prototype-card.high::before {
+            background: #1e40af;
+        }
+        .prototype-card .fidelity-indicator {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 1rem;
+        }
+        .prototype-card .fidelity-indicator .bar {
+            width: 24px;
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+        }
+        .prototype-card.low .fidelity-indicator .bar:nth-child(1) {
+            background: #bfdbfe;
+        }
+        .prototype-card.medium .fidelity-indicator .bar:nth-child(1),
+        .prototype-card.medium .fidelity-indicator .bar:nth-child(2) {
+            background: #60a5fa;
+        }
+        .prototype-card.high .fidelity-indicator .bar:nth-child(1),
+        .prototype-card.high .fidelity-indicator .bar:nth-child(2),
+        .prototype-card.high .fidelity-indicator .bar:nth-child(3) {
+            background: #1e40af;
+        }
+        .prototype-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        .prototype-card .type-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+        }
+        .prototype-card.low .type-label { color: #3b82f6; }
+        .prototype-card.medium .type-label { color: #2563eb; }
+        .prototype-card.high .type-label { color: #1e40af; }
+        .prototype-card p {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: var(--text-color);
+            margin-bottom: 0.6rem;
+        }
+        .prototype-card .good-for {
+            margin-top: auto;
+            padding-top: 0.8rem;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+        .prototype-card .good-for strong {
+            color: var(--success-color);
+        }
+        .progression-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
+        }
+        .progression-arrow .bar-segment {
+            height: 6px;
+            flex: 1;
+            border-radius: 3px;
+        }
+        .progression-arrow .label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            white-space: nowrap;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Prototyping</h2>
+        <div class="content-area">
+            <div class="prototype-grid">
+                <div class="prototype-card low">
+                    <div class="fidelity-indicator">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                    <span class="type-label">Low Fidelity</span>
+                    <h3>Paper Prototype</h3>
+                    <p>Quick sketches on paper, very cheap and fast to create.</p>
+                    <p>Minimal investment required to explore ideas.</p>
+                    <div class="good-for"><strong>Good for:</strong> Early concept validation</div>
+                </div>
+                <div class="prototype-card medium">
+                    <div class="fidelity-indicator">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                    <span class="type-label">Medium Fidelity</span>
+                    <h3>Low-Fidelity Prototype</h3>
+                    <p>Wireframes and basic interactive mockups.</p>
+                    <p>Tests layout and flow without visual polish.</p>
+                    <div class="good-for"><strong>Good for:</strong> Layout and navigation testing</div>
+                </div>
+                <div class="prototype-card high">
+                    <div class="fidelity-indicator">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                    <span class="type-label">High Fidelity</span>
+                    <h3>High-Fidelity Prototype</h3>
+                    <p>Detailed, polished mockup close to final product.</p>
+                    <p>Tests detailed interactions and visual design.</p>
+                    <div class="good-for"><strong>Good for:</strong> Detailed interaction and visual testing</div>
+                </div>
+            </div>
+            <div class="progression-arrow">
+                <span class="label">Simple</span>
+                <div class="bar-segment" style="background: linear-gradient(90deg, #bfdbfe, #60a5fa);"></div>
+                <div class="bar-segment" style="background: linear-gradient(90deg, #60a5fa, #2563eb);"></div>
+                <div class="bar-segment" style="background: linear-gradient(90deg, #2563eb, #1e40af);"></div>
+                <span class="label">Complex</span>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">08 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Prototyping Approaches:</strong></p>
+        <ul>
+            <li>Start with paper prototypes - they're free and fast. Only move to higher fidelity when you need to test specific interactions.</li>
+            <li><strong>Paper prototypes:</strong> Can be done in minutes. Use them in meetings to quickly explore ideas. Don't worry about quality - the messier the better, as it encourages feedback.</li>
+            <li><strong>Low-fidelity prototypes:</strong> Tools like Balsamiq or simple HTML wireframes. Focus on structure and flow, not aesthetics.</li>
+            <li><strong>High-fidelity prototypes:</strong> Tools like Figma, Sketch, or coded prototypes. Use these when you need stakeholder buy-in or need to test fine details.</li>
+        </ul>
+        <p>The key principle: <em>don't invest more in the prototype than the question you're trying to answer requires.</em></p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Exercise: Redesign SmartExpense - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .final-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .part-block {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.65rem 0.85rem;
+        }
+        .part-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #475569;
+            margin-bottom: 0.45rem;
+        }
+        .part-question {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 0.45rem;
+        }
+        /* Part 1: pattern buttons */
+        .pattern-row {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .pattern-btn {
+            background: white;
+            border: 2px solid #cbd5e1;
+            border-radius: 20px;
+            padding: 0.35rem 0.7rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #334155;
+            font-family: inherit;
+            min-height: 44px;
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .pattern-btn:hover   { background: #eff6ff; border-color: #3b82f6; color: #1e40af; }
+        .pattern-btn.active  { background: #eff6ff; border-color: #3b82f6; color: #1e40af; }
+        /* Part 2: checklist */
+        .checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 44px;
+        }
+        .check-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            flex-shrink: 0;
+        }
+        .check-item label {
+            font-size: 0.82rem;
+            color: #334155;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+        /* Part 3: textarea */
+        .design-textarea {
+            width: 100%;
+            min-height: 80px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 0.5rem 0.65rem;
+            font-size: 0.8rem;
+            font-family: 'Courier New', monospace;
+            color: #1e293b;
+            resize: vertical;
+            box-sizing: border-box;
+            line-height: 1.5;
+        }
+        .design-textarea:focus { outline: none; border-color: #6366f1; }
+        /* Part 4: reveal */
+        .reveal-btn {
+            padding: 0.55rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .reveal-btn:hover, .reveal-btn:active { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(99,102,241,0.3); }
+        .code-reveal {
+            display: none;
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 0.65rem 0.85rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.72rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+            margin-top: 0.4rem;
+        }
+        .code-reveal.show { display: block; }
+        .ck  { color: #93c5fd; }
+        .fn  { color: #fde68a; }
+        .str { color: #86efac; }
+        .cmt { color: #64748b; font-style: italic; }
+        .note-reveal {
+            display: none;
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+            border-radius: 6px;
+            padding: 0.45rem 0.65rem;
+            font-size: 0.78rem;
+            color: #166534;
+            margin-top: 0.3rem;
+        }
+        .note-reveal.show { display: block; }
+        @media (max-width: 768px) {
+            .pattern-row { gap: 0.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Final Exercise: Redesign SmartExpense</h2>
+        <div class="content-area">
+
+            <div class="final-layout">
+
+                <!-- Part 1 -->
+                <div class="part-block">
+                    <div class="part-title">Part 1 â€” Pattern Selection</div>
+                    <div class="part-question">Which architecture pattern(s) would you use? (select multiple)</div>
+                    <div class="pattern-row">
+                        <button class="pattern-btn" onclick="togglePattern(this)">AI-as-a-Service</button>
+                        <button class="pattern-btn" onclick="togglePattern(this)">Embedded Model</button>
+                        <button class="pattern-btn" onclick="togglePattern(this)">Model Pipeline</button>
+                        <button class="pattern-btn" onclick="togglePattern(this)">Human-in-the-Loop</button>
+                        <button class="pattern-btn" onclick="togglePattern(this)">RAG</button>
+                    </div>
+                    <div id="patternNote" class="note-reveal" style="margin-top:0.35rem;"></div>
+                    <button class="reveal-btn" onclick="revealPattern()" style="margin-top:0.4rem; font-size:0.78rem; padding:0.35rem 0.7rem; min-height:36px;">See recommendation</button>
+                </div>
+
+                <!-- Part 2 -->
+                <div class="part-block">
+                    <div class="part-title">Part 2 â€” Principle Checklist</div>
+                    <div class="part-question">Check each principle addressed in your design:</div>
+                    <div class="checklist">
+                        <div class="check-item">
+                            <input type="checkbox" id="c1"><label for="c1">Principle 1: FraudDetector interface defined</label>
+                        </div>
+                        <div class="check-item">
+                            <input type="checkbox" id="c2"><label for="c2">Principle 2: Fallback to rule-based detector implemented</label>
+                        </div>
+                        <div class="check-item">
+                            <input type="checkbox" id="c3"><label for="c3">Principle 3: InferenceLogger captures all required fields</label>
+                        </div>
+                        <div class="check-item">
+                            <input type="checkbox" id="c4"><label for="c4">Principle 4: FeatureValidator validates expense schema</label>
+                        </div>
+                        <div class="check-item">
+                            <input type="checkbox" id="c5"><label for="c5">Principle 5: Model version tracked and logged</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 3 -->
+                <div class="part-block">
+                    <div class="part-title">Part 3 â€” Architecture Sketch</div>
+                    <div class="part-question">Describe how ExpenseProcessor connects to the fraud detection subsystem:</div>
+                    <textarea class="design-textarea" id="archSketch" rows="4"
+                        inputmode="text"
+                        placeholder="Include: interface, implementation, fallback, and logger..."></textarea>
+                </div>
+
+                <!-- Part 4 -->
+                <div class="part-block">
+                    <div class="part-title">Part 4 â€” Sample Wiring</div>
+                    <button class="reveal-btn" onclick="revealWiring()">Reveal Sample Answer</button>
+                    <div id="wiringReveal" class="code-reveal"><span class="cmt">// Wiring in application startup</span><br>
+<span class="ck">var</span> logger = <span class="ck">new</span> InferenceLogger(logStore);<br>
+<span class="ck">var</span> aiDetector = <span class="ck">new</span> AIFraudDetector(openAIClient, modelRegistry);<br>
+<span class="ck">var</span> ruleDetector = <span class="ck">new</span> RuleBasedDetector(ruleEngine);<br>
+<span class="ck">var</span> fraudDetector = <span class="ck">new</span> LoggingFraudDetector(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">new</span> FallbackFraudDetector(aiDetector, ruleDetector, timeout=<span class="str">2s</span>),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;logger<br>
+);<br>
+<span class="ck">var</span> processor = <span class="ck">new</span> ExpenseProcessor(fraudDetector, validator);</div>
+                    <div id="wiringNote" class="note-reveal">LoggingFraudDetector wraps FallbackFraudDetector wraps AIFraudDetector: this is the <strong>Decorator pattern</strong> â€” elegant composition. Each wrapper adds one responsibility.</div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">42 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Final Exercise: Redesign SmartExpense â€” 8-10 minutes.</strong></p>
+        <p>Part 1: recommend Model Pipeline + Human-in-the-Loop for production. Pure AI-as-a-Service is fine for MVP. RAG is not applicable here (fraud detection doesn't need retrieval from a document store).</p>
+        <p>Part 2: if any checkbox is unchecked, the student has a design gap. The checklist is also a self-assessment â€” students can honestly evaluate whether they've addressed all principles.</p>
+        <p>Part 3: look for constructor injection pattern (not new inside constructor). Common mistake: putting the wiring inside the constructor instead of passing it in.</p>
+        <p>Part 4: the LoggingFraudDetector wrapping FallbackFraudDetector wrapping AIFraudDetector is the decorator pattern â€” elegant composition. Ask: "Where would you add caching? Another wrapper: CachedFraudDetector." The pattern scales infinitely.</p>
+    </script>
+
+    <script>
+        function togglePattern(btn) {
+            btn.classList.toggle('active');
+        }
+
+        function revealPattern() {
+            var note = document.getElementById('patternNote');
+            note.textContent = 'Recommendation: Model Pipeline + Human-in-the-Loop for production. AI-as-a-Service for MVP. RAG is not applicable â€” fraud detection does not need document retrieval.';
+            note.classList.add('show');
+        }
+
+        function revealWiring() {
+            document.getElementById('wiringReveal').classList.add('show');
+            document.getElementById('wiringNote').classList.add('show');
+        }
+
+        // iOS keyboard scroll fix
+        document.getElementById('archSketch').addEventListener('focus', function() {
+            var el = this;
+            setTimeout(function() { el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 400);
+        });
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

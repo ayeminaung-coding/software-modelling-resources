@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Scaling</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Database Scaling Strategies</h2>
+        <div class="content-area">
+            <div class="three-columns">
+                <div class="card">
+                    <div class="icon" style="font-size: 2rem;">📖</div>
+                    <h4>Read Replicas</h4>
+                    <p style="font-size: 1rem;">Copy data to read-only replicas to distribute read load</p>
+                    <ul style="font-size: 0.95rem; margin-top: 0.5rem;">
+                        <li>Async replication</li>
+                        <li>Eventual consistency</li>
+                        <li>Easy to implement</li>
+                    </ul>
+                </div>
+                <div class="card success">
+                    <div class="icon" style="font-size: 2rem;">🔀</div>
+                    <h4>Sharding</h4>
+                    <p style="font-size: 1rem;">Partition data across multiple database instances</p>
+                    <ul style="font-size: 0.95rem; margin-top: 0.5rem;">
+                        <li>Horizontal partitioning</li>
+                        <li>Shard key selection</li>
+                        <li>Complex queries</li>
+                    </ul>
+                </div>
+                <div class="card warning">
+                    <div class="icon" style="font-size: 2rem;">📊</div>
+                    <h4>Partitioning</h4>
+                    <p style="font-size: 1rem;">Split tables within single DB by range or list</p>
+                    <ul style="font-size: 0.95rem; margin-top: 0.5rem;">
+                        <li>Date-based splits</li>
+                        <li>Single instance</li>
+                        <li>Easier management</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 2rem;">Scaling Progression</h3>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Optimize<br>Queries</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Add<br>Caching</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Read<br>Replicas</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Shard</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-label">Distributed<br>DB</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">16 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Database Scaling Strategy:</strong></p>
+<p>Follow the progression shown - do not skip steps!</p>
+<ol>
+<li>Query optimization often gives 10x improvement</li>
+<li>Caching can reduce database load by 90%</li>
+<li>Read replicas handle read scaling</li>
+<li>Sharding is for write scaling</li>
+</ol>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

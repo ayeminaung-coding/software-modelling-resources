@@ -1,0 +1,498 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Cost-Benefit Analysis - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .scenario-box {
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            border-left: 5px solid #6366f1;
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+        .scenario-box p {
+            font-size: 1.05rem;
+            margin: 0;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+        .option-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border-top: 5px solid #2563eb;
+            transition: transform 0.2s;
+        }
+        .option-card:hover { transform: translateY(-2px); }
+        .option-card.option-b { border-top-color: #7c3aed; }
+        .option-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+        }
+        .option-card:first-child h3 { color: #2563eb; }
+        .option-card.option-b h3 { color: #7c3aed; }
+        .option-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .option-card li {
+            padding: 0.3rem 0;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .option-card li .tag {
+            display: inline-block;
+            padding: 0.1rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .tag-pro { background: #dcfce7; color: #166534; }
+        .tag-con { background: #fee2e2; color: #991b1b; }
+
+        /* Interactive Form */
+        .exercise-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .form-group {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Radio / choice buttons */
+        .choice-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .choice-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: #fff;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-color);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .choice-btn:hover {
+            border-color: var(--primary-color);
+            background: #eef2ff;
+        }
+        .choice-btn.selected {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Textarea */
+        .form-textarea {
+            width: 100%;
+            min-height: 60px;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* Growth radio styled */
+        .growth-options {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .growth-btn {
+            flex: 1;
+            padding: 0.5rem 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: #fff;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .growth-btn:hover { border-color: var(--warning-color); background: #fffbeb; }
+        .growth-btn.selected { border-color: var(--warning-color); background: var(--warning-color); color: white; }
+        .growth-btn .growth-label { font-weight: 600; display: block; }
+        .growth-btn .growth-detail { font-size: 0.75rem; opacity: 0.85; }
+
+        /* Buttons */
+        .control-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .btn {
+            padding: 0.7rem 1.75rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .btn-secondary:hover { background: #cbd5e1; }
+
+        /* Analysis Result */
+        .analysis-panel {
+            display: none;
+            background: #f0fdf4;
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .analysis-panel.visible { display: block; }
+        .analysis-panel h4 {
+            color: #059669;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+        .analysis-insights {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .insight-item {
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        .insight-item.low { background: #dbeafe; border-left: 3px solid #2563eb; }
+        .insight-item.high { background: #ede9fe; border-left: 3px solid #7c3aed; }
+        .insight-item.hybrid { background: #fef3c7; border-left: 3px solid #d97706; }
+
+        /* Cost Graph */
+        .cost-graph {
+            display: none;
+            margin-top: 0.75rem;
+        }
+        .cost-graph.visible { display: block; }
+        .cost-graph h4 {
+            color: var(--text-color);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            text-align: center;
+        }
+        .graph-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .graph-row {
+            display: grid;
+            grid-template-columns: 70px 1fr;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .graph-row .year-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            text-align: right;
+        }
+        .bar-pair {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .bar-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .bar {
+            height: 20px;
+            border-radius: 4px;
+            transition: width 0.8s ease;
+            min-width: 2px;
+        }
+        .bar.monolith { background: linear-gradient(90deg, #3b82f6, #2563eb); }
+        .bar.microservices { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
+        .bar-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-light);
+            white-space: nowrap;
+        }
+        .graph-legend {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .legend-swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+        }
+        .legend-swatch.mono { background: #2563eb; }
+        .legend-swatch.micro { background: #7c3aed; }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Cost-Benefit Analysis</h2>
+        <div class="content-area">
+            <div class="scenario-box">
+                <p><strong>Scenario:</strong> Your company is deciding between two architectural approaches for a new e-commerce platform.</p>
+            </div>
+
+            <div class="options-grid">
+                <div class="option-card">
+                    <h3>Option A: Monolithic Architecture</h3>
+                    <ul>
+                        <li><span class="tag tag-pro">PRO</span> Lower development cost (~$200K)</li>
+                        <li><span class="tag tag-pro">PRO</span> Faster time-to-market (3 months)</li>
+                        <li><span class="tag tag-con">CON</span> Higher maintenance cost over time</li>
+                        <li><span class="tag tag-con">CON</span> Harder to scale</li>
+                    </ul>
+                </div>
+                <div class="option-card option-b">
+                    <h3>Option B: Microservices Architecture</h3>
+                    <ul>
+                        <li><span class="tag tag-con">CON</span> Higher development cost (~$400K)</li>
+                        <li><span class="tag tag-con">CON</span> Slower time-to-market (6 months)</li>
+                        <li><span class="tag tag-pro">PRO</span> Lower maintenance cost over time</li>
+                        <li><span class="tag tag-pro">PRO</span> Easier to scale</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="exercise-form">
+                <div class="form-group">
+                    <label>1. Which option would you recommend for a startup with limited budget?</label>
+                    <div class="choice-group" id="recommendGroup">
+                        <button class="choice-btn" data-value="A" onclick="selectChoice('recommendGroup', this)">A - Monolith</button>
+                        <button class="choice-btn" data-value="B" onclick="selectChoice('recommendGroup', this)">B - Microservices</button>
+                        <button class="choice-btn" data-value="Hybrid" onclick="selectChoice('recommendGroup', this)">Hybrid Approach</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>3. Expected user growth in year 1:</label>
+                    <div class="growth-options" id="growthGroup">
+                        <button class="growth-btn" data-value="low" onclick="selectGrowth(this)">
+                            <span class="growth-label">Low</span>
+                            <span class="growth-detail">&lt; 1K users</span>
+                        </button>
+                        <button class="growth-btn" data-value="medium" onclick="selectGrowth(this)">
+                            <span class="growth-label">Medium</span>
+                            <span class="growth-detail">1K - 100K users</span>
+                        </button>
+                        <button class="growth-btn" data-value="high" onclick="selectGrowth(this)">
+                            <span class="growth-label">High</span>
+                            <span class="growth-detail">&gt; 100K users</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>2. Justify your decision considering economic factors:</label>
+                    <textarea class="form-textarea" id="justification" placeholder="Consider development costs, maintenance, ROI, TCO, and time-to-market..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>4. Does your recommendation change with high growth?</label>
+                    <div class="choice-group" id="changeGroup">
+                        <button class="choice-btn" data-value="yes" onclick="selectChoice('changeGroup', this)">Yes</button>
+                        <button class="choice-btn" data-value="no" onclick="selectChoice('changeGroup', this)">No</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-buttons">
+                <button class="btn btn-primary" onclick="showAnalysis()">Show Analysis</button>
+                <button class="btn btn-secondary" onclick="resetExercise()">Reset</button>
+            </div>
+
+            <div class="analysis-panel" id="analysisPanel">
+                <h4>Analysis Summary</h4>
+                <div class="analysis-insights">
+                    <div class="insight-item low">
+                        <strong>Low growth startup:</strong> Monolith is likely better &mdash; lower cost, faster to market. Get revenue flowing first.
+                    </div>
+                    <div class="insight-item high">
+                        <strong>High growth startup:</strong> Microservices may be better &mdash; scalability pays off. The higher upfront cost is an investment in growth.
+                    </div>
+                    <div class="insight-item hybrid">
+                        <strong>Hybrid approach:</strong> Start monolith, plan migration path. Best of both worlds for many cases. Ship fast, refactor strategically.
+                    </div>
+                </div>
+            </div>
+
+            <div class="cost-graph" id="costGraph">
+                <h4>Cumulative Cost Over Time</h4>
+                <div class="graph-rows">
+                    <div class="graph-row">
+                        <span class="year-label">Year 1</span>
+                        <div class="bar-pair">
+                            <div class="bar-wrapper">
+                                <div class="bar monolith" style="width: 20%;"></div>
+                                <span class="bar-label">$200K</span>
+                            </div>
+                            <div class="bar-wrapper">
+                                <div class="bar microservices" style="width: 40%;"></div>
+                                <span class="bar-label">$400K</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="graph-row">
+                        <span class="year-label">Year 2</span>
+                        <div class="bar-pair">
+                            <div class="bar-wrapper">
+                                <div class="bar monolith" style="width: 35%;"></div>
+                                <span class="bar-label">$350K</span>
+                            </div>
+                            <div class="bar-wrapper">
+                                <div class="bar microservices" style="width: 50%;"></div>
+                                <span class="bar-label">$500K</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="graph-row">
+                        <span class="year-label">Year 3</span>
+                        <div class="bar-pair">
+                            <div class="bar-wrapper">
+                                <div class="bar monolith" style="width: 55%;"></div>
+                                <span class="bar-label">$550K</span>
+                            </div>
+                            <div class="bar-wrapper">
+                                <div class="bar microservices" style="width: 58%;"></div>
+                                <span class="bar-label">$580K</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="graph-row">
+                        <span class="year-label">Year 5</span>
+                        <div class="bar-pair">
+                            <div class="bar-wrapper">
+                                <div class="bar monolith" style="width: 100%;"></div>
+                                <span class="bar-label">$1M</span>
+                            </div>
+                            <div class="bar-wrapper">
+                                <div class="bar microservices" style="width: 70%;"></div>
+                                <span class="bar-label">$700K</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="graph-legend">
+                    <div class="legend-item">
+                        <div class="legend-swatch mono"></div>
+                        <span>Monolith</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-swatch micro"></div>
+                        <span>Microservices</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">33 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise - Cost-Benefit Analysis (5-7 minutes)</strong></p>
+        <p>This exercise demonstrates that the cheapest option upfront isn't always the most cost-effective. Consider the full lifecycle cost. The "right" answer depends on business context.</p>
+        <ul>
+            <li>There is no single correct answer - the goal is to think through the trade-offs</li>
+            <li>For a startup with limited budget and uncertain growth, the monolith is often the pragmatic choice</li>
+            <li>The cost-over-time graph shows the crossover point where monolith maintenance starts to exceed microservices</li>
+            <li>The hybrid approach (start monolith, plan for migration) is often the most practical real-world answer</li>
+            <li>Encourage students to consider: What if the startup fails? The cheaper option means less wasted investment</li>
+            <li>Key insight: Architecture decisions are business decisions. Technical elegance must be balanced with business reality</li>
+        </ul>
+    </script>
+
+    <script>
+        function selectChoice(groupId, btn) {
+            document.querySelectorAll('#' + groupId + ' .choice-btn').forEach(function(b) {
+                b.classList.remove('selected');
+            });
+            btn.classList.add('selected');
+        }
+
+        function selectGrowth(btn) {
+            document.querySelectorAll('#growthGroup .growth-btn').forEach(function(b) {
+                b.classList.remove('selected');
+            });
+            btn.classList.add('selected');
+        }
+
+        function showAnalysis() {
+            document.getElementById('analysisPanel').classList.add('visible');
+            document.getElementById('costGraph').classList.add('visible');
+        }
+
+        function resetExercise() {
+            // Reset all selections
+            document.querySelectorAll('.choice-btn, .growth-btn').forEach(function(btn) {
+                btn.classList.remove('selected');
+            });
+            document.getElementById('justification').value = '';
+            document.getElementById('analysisPanel').classList.remove('visible');
+            document.getElementById('costGraph').classList.remove('visible');
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

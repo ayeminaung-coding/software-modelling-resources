@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertical Scaling Deep Dive</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Vertical Scaling (Scale Up)</h2>
+        <div class="content-area">
+            <div class="two-columns">
+                <div>
+                    <h3>How It Works</h3>
+                    <ul>
+                        <li>Upgrade existing hardware</li>
+                        <li>Add more CPU cores</li>
+                        <li>Increase RAM capacity</li>
+                        <li>Use faster storage (SSD/NVMe)</li>
+                        <li>Upgrade network bandwidth</li>
+                    </ul>
+
+                    <div class="highlight-box" style="margin-top: 1.5rem;">
+                        <h4>Best For:</h4>
+                        <p>Databases, legacy applications, quick fixes</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>Advantages</h4>
+                            <ul>
+                                <li>Simple implementation</li>
+                                <li>No code changes</li>
+                                <li>No distributed complexity</li>
+                                <li>Lower initial cost</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>Disadvantages</h4>
+                            <ul>
+                                <li>Hardware limits</li>
+                                <li>Single point of failure</li>
+                                <li>Downtime for upgrades</li>
+                                <li>Expensive at scale</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box warning" style="margin-top: 1.5rem;">
+                <strong>Limitation:</strong> There's always a ceiling - the most powerful single machine has finite resources.
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">6 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Vertical Scaling Details:</strong></p>
+<ul>
+<li>Simplest approach - just upgrade hardware</li>
+<li>No code changes required initially</li>
+<li>Best for databases that are hard to distribute</li>
+</ul>
+<p><strong>The ceiling problem:</strong> Even the most powerful server has limits. AWS largest instance has 448 vCPUs and 24TB RAM - what happens when you need more?</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

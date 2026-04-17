@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Debt - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .debt-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            flex: 1;
+        }
+        .debt-card {
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .debt-card h4 {
+            font-size: 1.15rem;
+            margin-bottom: 0.3rem;
+        }
+        .debt-card p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        .debt-card.metaphor {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border-left: 5px solid #f97316;
+        }
+        .debt-card.metaphor h4 { color: #ea580c; }
+        .debt-card.consequence {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-left: 5px solid #64748b;
+        }
+        .debt-card.consequence h4 { color: #475569; }
+        .debt-card.interest {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-left: 5px solid #eab308;
+        }
+        .debt-card.interest h4 { color: #ca8a04; }
+        .debt-card.plan {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-left: 5px solid #3b82f6;
+        }
+        .debt-card.plan h4 { color: #2563eb; }
+        .card-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Technical Debt</h2>
+        <div class="content-area">
+            <div class="debt-cards">
+                <div class="debt-card metaphor">
+                    <div class="card-icon">&#9888;</div>
+                    <h4>The Metaphor</h4>
+                    <p>Sometimes you know you've broken the design, but do it anyway due to schedule pressure. You've deferred work to the future.</p>
+                </div>
+                <div class="debt-card consequence">
+                    <div class="card-icon">&#9881;</div>
+                    <h4>The Consequence</h4>
+                    <p>Code passes tests but violates design principles that enable extensibility and maintainability.</p>
+                </div>
+                <div class="debt-card interest">
+                    <div class="card-icon">&#128200;</div>
+                    <h4>The Interest</h4>
+                    <p>Like financial debt, technical debt accumulates interest. Changes get progressively more expensive over time.</p>
+                </div>
+                <div class="debt-card plan">
+                    <div class="card-icon">&#128736;</div>
+                    <h4>The Plan</h4>
+                    <p>Need a plan to pay down debt. Schedule refactoring work to make code consistent with design again.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">22 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Technical debt</strong> is a strategic choice - sometimes it's worth taking on debt to ship faster.</p>
+        <p>But unmanaged debt compounds and can eventually make the codebase unmaintainable. The key is to be deliberate about it: know when you're incurring debt, document it, and plan to pay it back.</p>
+        <p>Ask students: "Have you ever taken a shortcut in code that you knew you'd regret later?"</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

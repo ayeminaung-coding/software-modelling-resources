@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROI Calculation Example - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .roi-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 1.5rem;
+            flex: 1;
+        }
+        .decision-box {
+            background: linear-gradient(135deg, #fefce8, #fef9c3);
+            border: 2px solid #eab308;
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        .decision-box h3 {
+            color: #a16207;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+        .decision-box p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        .cost-benefit-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .cb-card {
+            border-radius: 10px;
+            padding: 0.85rem;
+        }
+        .cb-card h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .cb-card.costs {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+        }
+        .cb-card.costs h4 { color: #b91c1c; }
+        .cb-card.benefits {
+            background: #dcfce7;
+            border: 1px solid #86efac;
+        }
+        .cb-card.benefits h4 { color: #166534; }
+        .cb-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            padding: 0.25rem 0;
+            color: var(--text-color);
+        }
+        .cb-item .amount {
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+        .cb-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding-top: 0.4rem;
+            margin-top: 0.4rem;
+            border-top: 2px solid;
+        }
+        .cb-card.costs .cb-total { border-top-color: #fca5a5; color: #b91c1c; }
+        .cb-card.benefits .cb-total { border-top-color: #86efac; color: #166534; }
+        .chart-panel h3 {
+            font-size: 1.1rem;
+            color: var(--dark-color);
+            margin-bottom: 0.75rem;
+        }
+        .timeline-chart {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .chart-bar-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.6rem;
+        }
+        .chart-label {
+            width: 65px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .chart-bars {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .bar {
+            height: 18px;
+            border-radius: 4px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding-left: 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+            min-width: 2px;
+        }
+        .bar.cost { background: linear-gradient(90deg, #ef4444, #f87171); }
+        .bar.benefit { background: linear-gradient(90deg, #10b981, #34d399); }
+        .bar .bar-value {
+            position: absolute;
+            right: 0.5rem;
+            font-size: 0.7rem;
+        }
+        .roi-result {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-top: 0.75rem;
+            color: white;
+        }
+        .roi-result h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+        .roi-formula {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.15);
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        .roi-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-align: center;
+        }
+        .breakeven-note {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            text-align: center;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>ROI Calculation Example</h2>
+        <div class="content-area">
+            <div class="roi-layout">
+                <div>
+                    <div class="decision-box">
+                        <h3>&#128161; Decision: Add a Caching Layer</h3>
+                        <p>An e-commerce platform considers adding Redis caching to reduce database load and improve response times.</p>
+                    </div>
+                    <div class="cost-benefit-grid">
+                        <div class="cb-card costs">
+                            <h4>&#128308; Costs (Year 1)</h4>
+                            <div class="cb-item"><span>Redis infrastructure</span><span class="amount">$18,000</span></div>
+                            <div class="cb-item"><span>Development (3 weeks)</span><span class="amount">$15,000</span></div>
+                            <div class="cb-item"><span>Testing &amp; migration</span><span class="amount">$5,000</span></div>
+                            <div class="cb-item"><span>Ongoing maintenance/yr</span><span class="amount">$6,000</span></div>
+                            <div class="cb-total"><span>Total Year 1</span><span>$44,000</span></div>
+                        </div>
+                        <div class="cb-card benefits">
+                            <h4>&#128994; Benefits (Per Year)</h4>
+                            <div class="cb-item"><span>Reduced DB costs</span><span class="amount">$24,000</span></div>
+                            <div class="cb-item"><span>Faster response (+conv.)</span><span class="amount">$36,000</span></div>
+                            <div class="cb-item"><span>Fewer DB incidents</span><span class="amount">$8,000</span></div>
+                            <div class="cb-item"><span>&nbsp;</span><span>&nbsp;</span></div>
+                            <div class="cb-total"><span>Total Per Year</span><span>$68,000</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-panel">
+                    <h3>Cumulative Costs vs Benefits Over Time</h3>
+                    <div class="timeline-chart">
+                        <div class="chart-bar-group">
+                            <span class="chart-label">Month 3</span>
+                            <div class="chart-bars">
+                                <div class="bar cost" style="width: 86%"><span class="bar-value">$38K</span></div>
+                                <div class="bar benefit" style="width: 0%; min-width: 30px"><span class="bar-value">$0</span></div>
+                            </div>
+                        </div>
+                        <div class="chart-bar-group">
+                            <span class="chart-label">Month 6</span>
+                            <div class="chart-bars">
+                                <div class="bar cost" style="width: 90%"><span class="bar-value">$41K</span></div>
+                                <div class="bar benefit" style="width: 30%"><span class="bar-value">$17K</span></div>
+                            </div>
+                        </div>
+                        <div class="chart-bar-group">
+                            <span class="chart-label">Month 9</span>
+                            <div class="chart-bars">
+                                <div class="bar cost" style="width: 95%"><span class="bar-value">$42.5K</span></div>
+                                <div class="bar benefit" style="width: 60%"><span class="bar-value">$34K</span></div>
+                            </div>
+                        </div>
+                        <div class="chart-bar-group">
+                            <span class="chart-label">Month 12</span>
+                            <div class="chart-bars">
+                                <div class="bar cost" style="width: 100%"><span class="bar-value">$44K</span></div>
+                                <div class="bar benefit" style="width: 100%"><span class="bar-value">$68K</span></div>
+                            </div>
+                        </div>
+                        <div class="chart-bar-group">
+                            <span class="chart-label">Year 2</span>
+                            <div class="chart-bars">
+                                <div class="bar cost" style="width: 72%"><span class="bar-value">$50K</span></div>
+                                <div class="bar benefit" style="width: 100%"><span class="bar-value">$136K</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="roi-result">
+                        <h4>3-Year ROI Calculation</h4>
+                        <div class="roi-formula">ROI = (Benefits - Costs) / Costs = ($204K - $56K) / $56K</div>
+                        <div class="roi-value">ROI = 264%</div>
+                        <div class="breakeven-note">Break-even at ~8 months</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">34 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>ROI Calculation for Architecture Decisions:</strong></p>
+        <ul>
+            <li>This example shows how to quantify the value of an architecture decision. Many teams make decisions based on intuition; ROI analysis makes the case concrete.</li>
+            <li><strong>Costs include:</strong> Infrastructure (hardware/cloud), development time, testing/migration effort, and ongoing maintenance. Don't forget opportunity cost - what else could the team be building?</li>
+            <li><strong>Benefits include:</strong> Direct cost savings (reduced DB load), revenue impact (faster pages = higher conversion), and avoided costs (fewer incidents).</li>
+            <li><strong>The $36K "faster response" benefit</strong> comes from industry data: Amazon found that every 100ms of latency costs 1% of sales. A 200ms improvement on $18M revenue = $36K.</li>
+            <li><strong>Break-even at ~8 months</strong> means the investment pays for itself relatively quickly. This makes it easier to justify to stakeholders.</li>
+            <li><strong>Year 2+</strong> costs drop significantly since initial development is done - only maintenance and infrastructure remain ($6K/year).</li>
+            <li>Important: These are estimates. Sensitivity analysis (what if benefits are only 50%?) helps account for uncertainty.</li>
+        </ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattern 1: AI-as-a-Service - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .pattern-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            align-items: start;
+            flex: 1;
+        }
+        .diagram-panel {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.75rem;
+        }
+        .diag-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .pros-cons-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .pros-card, .cons-card {
+            border-radius: 10px;
+            padding: 0.7rem 0.9rem;
+        }
+        .pros-card {
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+        }
+        .cons-card {
+            background: #fff1f2;
+            border: 2px solid #fca5a5;
+        }
+        .card-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.4rem;
+        }
+        .pros-card .card-title { color: #166534; }
+        .cons-card .card-title { color: #991b1b; }
+        .card-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .card-list li {
+            font-size: 0.88rem;
+            color: var(--dark-color);
+            line-height: 1.4;
+        }
+        .app-box {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #22c55e;
+            border-radius: 10px;
+            padding: 0.65rem 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .app-box-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #166534;
+            margin-bottom: 0.2rem;
+        }
+        .app-box p {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #14532d;
+            margin: 0;
+            line-height: 1.4;
+        }
+        @media (max-width: 768px) {
+            .pattern-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Pattern 1: AI-as-a-Service</h2>
+        <div class="content-area">
+
+            <div class="pattern-layout">
+
+                <!-- LEFT: Architecture Diagram -->
+                <div class="diagram-panel">
+                    <div class="diag-title">Architecture Diagram</div>
+                    <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
+                        <defs>
+                            <linearGradient id="blueGrad15" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#1e40af"/>
+                                <stop offset="100%" stop-color="#3b82f6"/>
+                            </linearGradient>
+                            <linearGradient id="purpleGrad15" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#6d28d9"/>
+                                <stop offset="100%" stop-color="#8b5cf6"/>
+                            </linearGradient>
+                            <marker id="arr15r" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#3b82f6"/>
+                            </marker>
+                            <marker id="arr15l" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#6d28d9"/>
+                            </marker>
+                        </defs>
+
+                        <!-- YourSystem box -->
+                        <rect x="10" y="70" width="100" height="40" rx="8" fill="url(#blueGrad15)" stroke="#1e40af" stroke-width="1.5"/>
+                        <text x="60" y="87" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="white">Your System</text>
+
+                        <!-- API Call arrow right -->
+                        <line x1="110" y1="87" x2="178" y2="87" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr15r)"/>
+                        <text x="144" y="83" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#475569">API Call</text>
+
+                        <!-- AI Provider box -->
+                        <rect x="180" y="70" width="108" height="40" rx="8" fill="url(#purpleGrad15)" stroke="#6d28d9" stroke-width="1.5"/>
+                        <text x="234" y="85" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="white">AI Provider</text>
+                        <text x="234" y="97" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#e9d5ff">(OpenAI/Gemini)</text>
+
+                        <!-- Response arrow left -->
+                        <line x1="180" y1="97" x2="112" y2="97" stroke="#6d28d9" stroke-width="1.5" marker-end="url(#arr15l)"/>
+                        <text x="146" y="110" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#475569">JSON Response</text>
+
+                        <!-- Small box: Expense Processor below YourSystem -->
+                        <rect x="5" y="130" width="110" height="30" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+                        <text x="60" y="148" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="600" fill="#1e40af">Expense Processor</text>
+
+                        <!-- Connector: ExpenseProcessor to YourSystem -->
+                        <line x1="60" y1="130" x2="60" y2="110" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,2"/>
+
+                        <!-- Small box: FraudDetector Interface beside YourSystem -->
+                        <rect x="5" y="28" width="110" height="30" rx="6" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="5,2"/>
+                        <text x="60" y="42" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" font-weight="600" fill="#5b21b6">FraudDetector</text>
+                        <text x="60" y="52" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#7c3aed">Interface</text>
+
+                        <!-- Connector: Interface to YourSystem -->
+                        <line x1="60" y1="58" x2="60" y2="70" stroke="#8b5cf6" stroke-width="1" stroke-dasharray="4,2"/>
+                    </svg>
+                </div>
+
+                <!-- RIGHT: Pros / Cons -->
+                <div class="pros-cons-panel">
+                    <div class="pros-card">
+                        <div class="card-title">&#10003; Pros</div>
+                        <ul class="card-list">
+                            <li>&#9989; No model management</li>
+                            <li>&#9989; Easy to start â€” days not weeks</li>
+                            <li>&#9989; Always latest model version</li>
+                            <li>&#9989; No GPU infrastructure needed</li>
+                        </ul>
+                    </div>
+                    <div class="cons-card">
+                        <div class="card-title">&#10005; Cons</div>
+                        <ul class="card-list">
+                            <li>&#10060; Vendor dependency</li>
+                            <li>&#10060; API costs at scale</li>
+                            <li>&#10060; Latency (network round-trip)</li>
+                            <li>&#10060; Data privacy concerns</li>
+                            <li>&#10060; Rate limits can throttle you</li>
+                        </ul>
+                    </div>
+
+                    <div class="app-box">
+                        <div class="app-box-label">SmartExpense Application</div>
+                        <p>Call OpenAI to analyze expense descriptions for anomalies â€” no ML infrastructure required.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">15 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Pattern 1 â€” AI-as-a-Service.</strong></p>
+        <p>This is the most common starting pattern. Students building MVPs or with small teams should start here.</p>
+        <p>The critical design decision: wrap the API call behind an interface (FraudDetector) so you can switch vendors without touching ExpenseProcessor. We'll see how to do this in Section 3.</p>
+        <p>Ask: "What happens if OpenAI raises prices 10x?" â€” the answer changes depending on whether you've isolated the dependency behind an interface.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

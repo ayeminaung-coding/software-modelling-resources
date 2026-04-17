@@ -1,0 +1,325 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Identify the Change Strategy - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .scenario-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .scenario-card {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            border-left: 4px solid var(--primary-color);
+            transition: border-color 0.3s;
+        }
+        .scenario-card.correct {
+            border-left-color: var(--success-color);
+            background: #ecfdf5;
+        }
+        .scenario-card.incorrect {
+            border-left-color: var(--danger-color);
+            background: #fef2f2;
+        }
+        .scenario-card h4 {
+            font-size: 0.95rem;
+            color: var(--primary-color);
+            margin-bottom: 0.4rem;
+        }
+        .scenario-card .scenario-text {
+            font-size: 1rem;
+            color: var(--dark-color);
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+        }
+        .options-group {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            min-height: 44px;
+            min-width: 44px;
+        }
+        .option-label:hover,
+        .option-label:active {
+            border-color: var(--accent-color);
+            background: #eff6ff;
+        }
+        .option-label input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+        .option-label.selected {
+            border-color: var(--primary-color);
+            background: #eff6ff;
+        }
+        .option-label.answer-correct {
+            border-color: var(--success-color);
+            background: #dcfce7;
+        }
+        .option-label.answer-incorrect {
+            border-color: var(--danger-color);
+            background: #fee2e2;
+        }
+        .scenario-feedback {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .scenario-feedback.show {
+            display: block;
+        }
+        .scenario-feedback.correct-fb {
+            color: var(--success-color);
+        }
+        .scenario-feedback.incorrect-fb {
+            color: var(--danger-color);
+        }
+        .control-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .btn {
+            padding: 0.7rem 1.4rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-check {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .btn-check:hover,
+        .btn-check:active { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-reveal {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        .btn-reveal:hover,
+        .btn-reveal:active { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+        .btn-reset {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .btn-reset:hover,
+        .btn-reset:active { background: #cbd5e1; }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Identify the Change Strategy</h2>
+        <div class="content-area">
+            <div class="scenario-list">
+                <!-- Scenario 1 -->
+                <div class="scenario-card" id="scenario1">
+                    <h4>Scenario 1</h4>
+                    <p class="scenario-text">A payment gateway API frequently changes its response format.</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="A"> A) Direct integration
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="B"> B) Adapter pattern
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="C"> C) Ignore the changes
+                        </label>
+                    </div>
+                    <div class="scenario-feedback" id="fb1"></div>
+                </div>
+
+                <!-- Scenario 2 -->
+                <div class="scenario-card" id="scenario2">
+                    <h4>Scenario 2</h4>
+                    <p class="scenario-text">Multiple teams need to access user data from a shared database.</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="A"> A) Direct DB access
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="B"> B) Service interface (API)
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="C"> C) Copy the database
+                        </label>
+                    </div>
+                    <div class="scenario-feedback" id="fb2"></div>
+                </div>
+
+                <!-- Scenario 3 -->
+                <div class="scenario-card" id="scenario3">
+                    <h4>Scenario 3</h4>
+                    <p class="scenario-text">Your system needs to support multiple notification channels (email, SMS, push).</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="q3" value="A"> A) Hardcode each channel
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q3" value="B"> B) Notification interface with channel adapters
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q3" value="C"> C) Only support email
+                        </label>
+                    </div>
+                    <div class="scenario-feedback" id="fb3"></div>
+                </div>
+
+                <!-- Scenario 4 -->
+                <div class="scenario-card" id="scenario4">
+                    <h4>Scenario 4</h4>
+                    <p class="scenario-text">An external vendor may be replaced in 6 months.</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="q4" value="A"> A) Tight coupling to vendor
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q4" value="B"> B) Vendor-specific adapter behind interface
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q4" value="C"> C) Wait and see
+                        </label>
+                    </div>
+                    <div class="scenario-feedback" id="fb4"></div>
+                </div>
+            </div>
+
+            <div class="control-buttons">
+                <button class="btn btn-check" onclick="checkAnswers()">Check Answers</button>
+                <button class="btn btn-reveal" onclick="revealAnswers()">Reveal Answers</button>
+                <button class="btn btn-reset" onclick="resetExercise()">Reset</button>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">20 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise - Give students 2-3 minutes</strong></p>
+        <p>All answers use interfaces/adapters (option B) - this reinforces that information hiding is the universal strategy for isolating change.</p>
+        <ul>
+            <li><strong>Scenario 1:</strong> Adapter pattern shields your system from frequent API changes.</li>
+            <li><strong>Scenario 2:</strong> A service interface decouples teams from the database schema.</li>
+            <li><strong>Scenario 3:</strong> Channel adapters let you add new channels without modifying existing code.</li>
+            <li><strong>Scenario 4:</strong> An adapter behind an interface means swapping the vendor only requires a new adapter.</li>
+        </ul>
+    </script>
+
+    <script>
+        var correctAnswers = { q1: 'B', q2: 'B', q3: 'B', q4: 'B' };
+        var explanations = {
+            q1: 'An adapter isolates your system from the payment gateway\'s frequent changes.',
+            q2: 'A service interface decouples teams from the database schema.',
+            q3: 'Channel adapters allow adding new channels without changing existing code.',
+            q4: 'An adapter behind an interface lets you swap the vendor with minimal impact.'
+        };
+
+        // Highlight selected option
+        document.querySelectorAll('.option-label input[type="radio"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                var group = this.closest('.options-group');
+                group.querySelectorAll('.option-label').forEach(function(lbl) {
+                    lbl.classList.remove('selected');
+                });
+                this.closest('.option-label').classList.add('selected');
+            });
+        });
+
+        function checkAnswers() {
+            for (var i = 1; i <= 4; i++) {
+                var key = 'q' + i;
+                var selected = document.querySelector('input[name="' + key + '"]:checked');
+                var card = document.getElementById('scenario' + i);
+                var fb = document.getElementById('fb' + i);
+
+                // Reset styles
+                card.classList.remove('correct', 'incorrect');
+                card.querySelectorAll('.option-label').forEach(function(lbl) {
+                    lbl.classList.remove('answer-correct', 'answer-incorrect');
+                });
+
+                if (!selected) {
+                    fb.textContent = 'Please select an answer.';
+                    fb.className = 'scenario-feedback show incorrect-fb';
+                    continue;
+                }
+
+                var labels = card.querySelectorAll('.option-label');
+                if (selected.value === correctAnswers[key]) {
+                    card.classList.add('correct');
+                    selected.closest('.option-label').classList.add('answer-correct');
+                    fb.textContent = 'Correct! ' + explanations[key];
+                    fb.className = 'scenario-feedback show correct-fb';
+                } else {
+                    card.classList.add('incorrect');
+                    selected.closest('.option-label').classList.add('answer-incorrect');
+                    fb.textContent = 'Not quite. The best answer is B. ' + explanations[key];
+                    fb.className = 'scenario-feedback show incorrect-fb';
+                }
+            }
+        }
+
+        function revealAnswers() {
+            resetExercise();
+            for (var i = 1; i <= 4; i++) {
+                var key = 'q' + i;
+                var card = document.getElementById('scenario' + i);
+                var fb = document.getElementById('fb' + i);
+
+                var correctRadio = document.querySelector('input[name="' + key + '"][value="' + correctAnswers[key] + '"]');
+                correctRadio.checked = true;
+                correctRadio.closest('.option-label').classList.add('selected', 'answer-correct');
+                card.classList.add('correct');
+
+                fb.textContent = explanations[key];
+                fb.className = 'scenario-feedback show correct-fb';
+            }
+        }
+
+        function resetExercise() {
+            for (var i = 1; i <= 4; i++) {
+                var key = 'q' + i;
+                var card = document.getElementById('scenario' + i);
+                var fb = document.getElementById('fb' + i);
+
+                card.classList.remove('correct', 'incorrect');
+                card.querySelectorAll('.option-label').forEach(function(lbl) {
+                    lbl.classList.remove('selected', 'answer-correct', 'answer-incorrect');
+                });
+                document.querySelectorAll('input[name="' + key + '"]').forEach(function(r) {
+                    r.checked = false;
+                });
+                fb.className = 'scenario-feedback';
+                fb.textContent = '';
+            }
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

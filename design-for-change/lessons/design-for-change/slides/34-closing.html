@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Takeaway - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .closing-slide {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 40%, #1e3a5f 100%);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .closing-slide h2 {
+            color: rgba(255, 255, 255, 0.5);
+            border-bottom: none;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 3rem;
+        }
+        .hero-quote {
+            font-size: 3rem;
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 0.75rem;
+            max-width: 800px;
+            color: #e2e8f0;
+        }
+        .hero-quote-author {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            font-style: normal;
+            margin-bottom: 3rem;
+        }
+        .practical-summary {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #60a5fa;
+            margin-bottom: 3rem;
+            max-width: 700px;
+        }
+        .action-items {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 900px;
+        }
+        .action-item {
+            flex: 1;
+            min-width: 220px;
+            max-width: 280px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s ease;
+        }
+        .action-item:hover {
+            transform: translateY(-4px);
+        }
+        .action-number {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #3b82f6, #7c3aed);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            margin: 0 auto 1rem;
+        }
+        .action-text {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: #cbd5e1;
+        }
+        .closing-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 0.5rem;
+            padding-top: 1rem;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .closing-footer .slide-number {
+            color: #60a5fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide closing-slide">
+        <h2>Key Takeaway</h2>
+        <div class="hero-quote">
+            &ldquo;The only thing that is constant is change&rdquo;
+        </div>
+        <div class="hero-quote-author">&mdash; Heraclitus</div>
+
+        <div class="practical-summary">
+            Design your systems to embrace change, not fight it.
+        </div>
+
+        <div class="action-items">
+            <div class="action-item">
+                <div class="action-number">1</div>
+                <div class="action-text">Map dependencies with DSM before making changes</div>
+            </div>
+            <div class="action-item">
+                <div class="action-number">2</div>
+                <div class="action-text">Use interfaces and adapters to isolate external dependencies</div>
+            </div>
+            <div class="action-item">
+                <div class="action-number">3</div>
+                <div class="action-text">Pay down technical debt before it accumulates interest</div>
+            </div>
+        </div>
+
+        <div class="closing-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">34 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p>Final thought &mdash; encourage students to always ask &ldquo;What if this changes?&rdquo; when making design decisions. The answer will guide them toward better architecture.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Danger of the Black Box - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .blackbox-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+        .timeline-wrapper {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+        }
+        .timeline-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.65rem;
+        }
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 38px;
+            top: 20px;
+            bottom: 20px;
+            width: 2px;
+            background: linear-gradient(to bottom, #fca5a5, #ef4444, #b91c1c);
+        }
+        .timeline-event {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.45rem 0;
+            position: relative;
+        }
+        .event-day {
+            width: 76px;
+            flex-shrink: 0;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #94a3b8;
+            padding-top: 0.1rem;
+            text-align: right;
+        }
+        .event-dot {
+            width: 20px;
+            height: 20px;
+            background: #ef4444;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: white;
+            position: relative;
+            z-index: 1;
+            margin-top: 0.05rem;
+        }
+        .event-content {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 0.45rem 0.7rem;
+            border: 1px solid #fca5a5;
+            font-size: 0.85rem;
+            line-height: 1.35;
+        }
+        .event-content strong { color: #b91c1c; }
+        .event-content span   { color: #64748b; }
+        .danger-principle {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border: 2px solid #ef4444;
+            border-radius: 10px;
+            padding: 0.8rem 1.1rem;
+            text-align: center;
+        }
+        .danger-principle p {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #991b1b;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>The Danger of the Black Box</h2>
+        <div class="content-area">
+            <div class="blackbox-layout">
+
+                <div class="timeline-wrapper">
+                    <div class="timeline-title">&#128197; What happens when AI is wired in directly</div>
+                    <div class="timeline">
+
+                        <div class="timeline-event">
+                            <div class="event-day">Day 1</div>
+                            <div class="event-dot">&#9679;</div>
+                            <div class="event-content">
+                                <strong>AI model deployed</strong> <span>â€” directly called from ExpenseProcessor. Everything seems fine.</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-event">
+                            <div class="event-day">Day 14</div>
+                            <div class="event-dot">&#9888;</div>
+                            <div class="event-content">
+                                <strong>Model provider updates API</strong> <span>â€” ExpenseProcessor crashes. All expense submissions fail until manual patch deployed.</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-event">
+                            <div class="event-day">Day 28</div>
+                            <div class="event-dot">&#9888;</div>
+                            <div class="event-content">
+                                <strong>Model returns null for certain expense types</strong> <span>â€” silent wrong approvals. No one notices for 2 weeks.</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-event">
+                            <div class="event-day">Day 45</div>
+                            <div class="event-dot">&#9888;</div>
+                            <div class="event-content">
+                                <strong>Model latency spikes to 8 seconds</strong> <span>â€” all expense submissions time out. Users flood support tickets.</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-event">
+                            <div class="event-day">Day 60</div>
+                            <div class="event-dot">&#9888;</div>
+                            <div class="event-content">
+                                <strong>Team decides to switch AI vendors</strong> <span>â€” must rewrite ExpenseProcessor from scratch. Months of work.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="danger-principle">
+                    <p>When AI is wired in directly, every AI problem becomes a system-wide problem.</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">11 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>The Danger of the Black Box:</strong></p>
+        <p>Each event on the timeline maps to one of the 5 risks from slide 8:</p>
+        <ul>
+            <li>Day 14 = Latency variability (API change breaks interface)</li>
+            <li>Day 28 = Non-determinism / data issue (null output, no fallback)</li>
+            <li>Day 45 = Latency variability (spike blocks pipeline)</li>
+            <li>Day 60 = No isolation (vendor lock-in, full rewrite)</li>
+        </ul>
+        <p>This is the "before" picture. Section 3 will show how proper design prevents each event.</p>
+        <p>Ask: "Which of these incidents could have been prevented with better architecture?"  Answer: all of them.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

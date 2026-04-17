@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattern 4: Human-in-the-Loop - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .hitl-layout {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 1rem;
+            align-items: start;
+            flex: 1;
+        }
+        .flowchart-panel {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.75rem;
+        }
+        .diag-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .when-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .when-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #475569;
+        }
+        .when-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.55rem 0.7rem;
+        }
+        .when-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+            margin-top: 0.05rem;
+        }
+        .when-item p {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--dark-color);
+            margin: 0;
+            line-height: 1.4;
+        }
+        @media (max-width: 768px) {
+            .hitl-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Pattern 4: Human-in-the-Loop</h2>
+        <div class="content-area">
+
+            <div class="hitl-layout">
+
+                <!-- LEFT: Flowchart SVG -->
+                <div class="flowchart-panel">
+                    <div class="diag-title">Confidence-Based Routing</div>
+                    <svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
+                        <defs>
+                            <marker id="ag18" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#22c55e"/>
+                            </marker>
+                            <marker id="aa18" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#f59e0b"/>
+                            </marker>
+                            <marker id="agr18" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#94a3b8"/>
+                            </marker>
+                            <linearGradient id="blueGrad18" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#1e40af"/>
+                                <stop offset="100%" stop-color="#3b82f6"/>
+                            </linearGradient>
+                        </defs>
+
+                        <!-- Expense Submitted -->
+                        <rect x="85" y="5" width="130" height="30" rx="8" fill="url(#blueGrad18)"/>
+                        <text x="150" y="18" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9.5" font-weight="700" fill="white">Expense Submitted</text>
+                        <text x="150" y="30" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" fill="#bfdbfe">&#8595; AI Evaluates</text>
+
+                        <!-- Arrow down to diamond -->
+                        <line x1="150" y1="35" x2="150" y2="57" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#ag18)"/>
+
+                        <!-- Confidence diamond -->
+                        <polygon points="150,58 195,83 150,108 105,83" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+                        <text x="150" y="79" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" font-weight="700" fill="#92400e">Confidence</text>
+                        <text x="150" y="91" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#92400e">Check</text>
+
+                        <!-- High confidence path (green, right) -->
+                        <line x1="195" y1="83" x2="250" y2="83" stroke="#22c55e" stroke-width="2" marker-end="url(#ag18)"/>
+                        <text x="220" y="77" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#166534">&#8805; 0.85</text>
+                        <rect x="250" y="65" width="44" height="36" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+                        <text x="272" y="80" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="#166534">Auto</text>
+                        <text x="272" y="91" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#166534">approve/</text>
+                        <text x="272" y="100" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#166534">reject</text>
+
+                        <!-- Low confidence path (amber, down) -->
+                        <line x1="150" y1="108" x2="150" y2="138" stroke="#f59e0b" stroke-width="2" marker-end="url(#aa18)"/>
+                        <text x="165" y="126" font-family="system-ui,sans-serif" font-size="7.5" fill="#92400e">0.4â€“0.85</text>
+
+                        <rect x="75" y="138" width="150" height="38" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+                        <text x="150" y="153" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#92400e">Human Review Queue</text>
+                        <text x="150" y="167" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#78350f">Reviewer decides</text>
+
+                        <!-- Very low path (gray, left) -->
+                        <line x1="105" y1="83" x2="55" y2="83" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#agr18)"/>
+                        <text x="78" y="77" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#64748b">&lt; 0.4</text>
+                        <rect x="5" y="65" width="50" height="36" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+                        <text x="30" y="79" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="#475569">Rule-</text>
+                        <text x="30" y="90" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="#475569">based</text>
+                        <text x="30" y="101" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#64748b">fallback</text>
+
+                        <!-- Legend -->
+                        <rect x="10" y="210" width="12" height="8" rx="2" fill="#22c55e"/>
+                        <text x="26" y="218" font-family="system-ui,sans-serif" font-size="8" fill="#475569">Auto path</text>
+                        <rect x="90" y="210" width="12" height="8" rx="2" fill="#f59e0b"/>
+                        <text x="106" y="218" font-family="system-ui,sans-serif" font-size="8" fill="#475569">Human path</text>
+                        <rect x="180" y="210" width="12" height="8" rx="2" fill="#94a3b8"/>
+                        <text x="196" y="218" font-family="system-ui,sans-serif" font-size="8" fill="#475569">Fallback path</text>
+                    </svg>
+                </div>
+
+                <!-- RIGHT: When to use -->
+                <div class="when-panel">
+                    <div class="when-title">When to Use Human-in-the-Loop</div>
+
+                    <div class="when-item">
+                        <div class="when-icon">&#9878;</div>
+                        <p><strong>High-stakes decisions</strong> â€” legal, financial, or medical outcomes</p>
+                    </div>
+                    <div class="when-item">
+                        <div class="when-icon">&#128200;</div>
+                        <p><strong>Low model confidence</strong> â€” when the AI isn't sure, a human should decide</p>
+                    </div>
+                    <div class="when-item">
+                        <div class="when-icon">&#128203;</div>
+                        <p><strong>Regulated industries</strong> requiring full audit trail and accountability</p>
+                    </div>
+                    <div class="when-item">
+                        <div class="when-icon">&#127775;</div>
+                        <p><strong>Training data collection</strong> â€” human decisions become future training examples</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">18 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Pattern 4 â€” Human-in-the-Loop.</strong></p>
+        <p>Human-in-the-Loop is not a cop-out â€” it's an architecture decision. The confidence thresholds (0.4, 0.85) should be calibrated based on the cost of error: how bad is a false positive (approved fraud) vs a false negative (rejected valid expense)?</p>
+        <p>The human review data also feeds back into model improvement â€” every human decision is a labeled training example. This creates a flywheel: more human reviews â†’ better training data â†’ higher model confidence â†’ fewer reviews needed.</p>
+        <p>Key question: "What are the consequences of automating this wrongly?" If the answer is "serious", Human-in-the-Loop is the right choice.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

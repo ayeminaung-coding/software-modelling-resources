@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principle 4: Treat Data as a Contract - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .data-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .contract-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.75rem;
+        }
+        .contract-card {
+            border-radius: 10px;
+            padding: 0.75rem 0.85rem;
+        }
+        .contract-card.blue   { background: #eff6ff; border: 2px solid #3b82f6; }
+        .contract-card.amber  { background: #fffbeb; border: 2px solid #f59e0b; }
+        .contract-card.green  { background: #f0fdf4; border: 2px solid #22c55e; }
+        .contract-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        .blue .contract-title  { color: #1e40af; }
+        .amber .contract-title { color: #92400e; }
+        .green .contract-title { color: #166534; }
+        .code-mini {
+            background: #0f172a;
+            border-radius: 6px;
+            padding: 0.5rem 0.65rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.72rem;
+            line-height: 1.55;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+        }
+        .ck { color: #93c5fd; }
+        .cv { color: #fde68a; }
+        .cn { color: #f9a8d4; }
+        .contract-note {
+            font-size: 0.8rem;
+            color: #475569;
+            font-style: italic;
+            line-height: 1.4;
+        }
+        .check-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .check-list li {
+            font-size: 0.82rem;
+            color: #1e293b;
+            line-height: 1.4;
+        }
+        .callout-bad {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border: 2px solid #f97316;
+            border-radius: 10px;
+            padding: 0.55rem 0.9rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #c2410c;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .contract-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Principle 4: Treat Data as a Contract</h2>
+        <div class="content-area">
+
+            <div class="data-layout">
+
+                <div class="highlight-box" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: #3b82f6; padding: 0.6rem 1rem;">
+                    <p style="font-size: 0.95rem; font-weight: 700; color: #1e3a8a; margin: 0; line-height: 1.5;">
+                        &#128203; The model expects specific input format and distribution. Define it as a contract. Validate at the boundary.
+                    </p>
+                </div>
+
+                <div class="contract-grid">
+
+                    <div class="contract-card blue">
+                        <div class="contract-title">A â€” Schema Contract</div>
+                        <div class="code-mini"><span class="ck">ExpenseFeatures</span> &#123;<br>
+&nbsp;&nbsp;<span class="cv">amount</span>: Float (0.01â€“99999.99)<br>
+&nbsp;&nbsp;<span class="cv">merchantCategory</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Enum(HOTEL|FLIGHT|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MEAL|OTHER)<br>
+&nbsp;&nbsp;<span class="cv">dayOfWeek</span>: Int (0â€“6)<br>
+&nbsp;&nbsp;<span class="cv">isWeekend</span>: Boolean<br>
+&nbsp;&nbsp;<span class="cv">submitterRiskScore</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Float (0.0â€“1.0)<br>
+&#125;</div>
+                        <div class="contract-note">&#8594; Validate BEFORE calling the model. Return error if invalid.</div>
+                    </div>
+
+                    <div class="contract-card amber">
+                        <div class="contract-title">B â€” Distribution Contract</div>
+                        <p style="font-size:0.82rem; color:#78350f; margin:0 0 0.4rem 0; font-style:italic;">"The model was trained on:"</p>
+                        <ul class="check-list">
+                            <li>&#128181; Expenses: $10â€“$5,000 avg</li>
+                            <li>&#127869; Meals: 40% &nbsp;&#9992; Travel: 30%</li>
+                            <li>&#127968; Hotel: 20% &nbsp;&#10067; Other: 10%</li>
+                            <li>&#128197; 85% submitted Monâ€“Fri</li>
+                        </ul>
+                        <div class="contract-note" style="margin-top:0.45rem;">&#8594; Monitor for drift. Alert when production distribution shifts &gt;15%.</div>
+                    </div>
+
+                    <div class="contract-card green">
+                        <div class="contract-title">C â€” Quality Gate</div>
+                        <p style="font-size:0.82rem; color:#166534; margin:0 0 0.4rem 0;">Before each model call:</p>
+                        <ul class="check-list">
+                            <li>&#9989; All required fields present</li>
+                            <li>&#9989; Values within expected ranges</li>
+                            <li>&#9989; No null / NaN in numeric fields</li>
+                            <li>&#9989; Enum values are valid</li>
+                        </ul>
+                        <div class="contract-note" style="margin-top:0.45rem;">Reject early â€” don't let bad data reach the model.</div>
+                    </div>
+
+                </div>
+
+                <div class="callout-bad">
+                    Bad data + good model = bad predictions. Validate, don&rsquo;t assume.
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">29 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Principle 4 â€” Treat Data as a Contract.</strong></p>
+        <p>Data contracts prevent one of the most insidious AI bugs: garbage-in-garbage-out with no error message. Without schema validation, a null merchant category silently passes to the model, which produces a garbage score, which passes to the decision layer â€” with no error anywhere in the chain.</p>
+        <p>The distribution contract is more advanced â€” if 60% of your expenses are suddenly categorized as "OTHER" (due to an upstream change in a form field), your model's performance will silently degrade. Monitoring for distribution shifts catches this before it becomes a production incident.</p>
+        <p>Ask: "Who owns the data contract?" â€” both the model team (they know what the model needs) and the application team (they know what data is available). It must be explicit and shared, not assumed.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk-Adjusted Analysis - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .risk-intro {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 1.25rem;
+        }
+        .risk-layout {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 1.5rem;
+        }
+        .matrix-container h3 {
+            font-size: 1.1rem;
+            color: var(--dark-color);
+            margin-bottom: 0.75rem;
+        }
+        .risk-matrix {
+            display: grid;
+            grid-template-columns: auto repeat(3, 1fr);
+            grid-template-rows: auto repeat(3, 1fr);
+            gap: 3px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .matrix-corner {
+            background: #f8fafc;
+            padding: 0.4rem;
+        }
+        .matrix-header {
+            background: #334155;
+            color: white;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 0.6rem 0.4rem;
+        }
+        .matrix-row-header {
+            background: #334155;
+            color: white;
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 0.6rem 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        .matrix-cell {
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.2rem;
+        }
+        .matrix-cell .risk-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .cell-low { background: #dcfce7; color: #166534; }
+        .cell-medium { background: #fef9c3; color: #854d0e; }
+        .cell-high { background: #fed7aa; color: #9a3412; }
+        .cell-critical { background: #fecaca; color: #991b1b; }
+        .formula-section h3 {
+            font-size: 1.1rem;
+            color: var(--dark-color);
+            margin-bottom: 0.75rem;
+        }
+        .formula-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 0.75rem;
+        }
+        .formula-card h4 {
+            font-size: 0.95rem;
+            color: #6366f1;
+            margin-bottom: 0.5rem;
+        }
+        .formula-text {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            background: #f1f5f9;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+        .example-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            padding: 0.25rem 0;
+            color: var(--text-color);
+        }
+        .example-row .val {
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+        .adjusted-result {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 10px;
+            padding: 0.85rem 1rem;
+            color: white;
+        }
+        .adjusted-result h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+        }
+        .adjusted-result .result-line {
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            padding: 0.2rem 0;
+        }
+        .adjusted-result .result-line .label { opacity: 0.9; }
+        .adjusted-result .result-line .val { font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Risk-Adjusted Analysis</h2>
+        <div class="content-area">
+            <p class="risk-intro">
+                Standard CBA assumes estimates are accurate. <strong>Risk-adjusted analysis</strong> accounts for uncertainty by weighting costs and benefits by their probability and potential impact.
+            </p>
+
+            <div class="risk-layout">
+                <div class="matrix-container">
+                    <h3>Risk Severity Matrix</h3>
+                    <div class="risk-matrix">
+                        <div class="matrix-corner"></div>
+                        <div class="matrix-header">Low Impact</div>
+                        <div class="matrix-header">Medium Impact</div>
+                        <div class="matrix-header">High Impact</div>
+
+                        <div class="matrix-row-header">High Prob.</div>
+                        <div class="matrix-cell cell-medium"><span>Medium</span><span class="risk-label">Monitor</span></div>
+                        <div class="matrix-cell cell-high"><span>High</span><span class="risk-label">Mitigate</span></div>
+                        <div class="matrix-cell cell-critical"><span>Critical</span><span class="risk-label">Avoid/Transfer</span></div>
+
+                        <div class="matrix-row-header">Med. Prob.</div>
+                        <div class="matrix-cell cell-low"><span>Low</span><span class="risk-label">Accept</span></div>
+                        <div class="matrix-cell cell-medium"><span>Medium</span><span class="risk-label">Monitor</span></div>
+                        <div class="matrix-cell cell-high"><span>High</span><span class="risk-label">Mitigate</span></div>
+
+                        <div class="matrix-row-header">Low Prob.</div>
+                        <div class="matrix-cell cell-low"><span>Low</span><span class="risk-label">Accept</span></div>
+                        <div class="matrix-cell cell-low"><span>Low</span><span class="risk-label">Accept</span></div>
+                        <div class="matrix-cell cell-medium"><span>Medium</span><span class="risk-label">Monitor</span></div>
+                    </div>
+                </div>
+
+                <div class="formula-section">
+                    <h3>Risk-Adjusted Calculation</h3>
+                    <div class="formula-card">
+                        <h4>Expected Monetary Value (EMV)</h4>
+                        <div class="formula-text">EMV = Probability x Impact</div>
+                        <div class="example-row"><span>Risk: Integration failure</span></div>
+                        <div class="example-row"><span>Probability</span><span class="val">30%</span></div>
+                        <div class="example-row"><span>Impact (rework cost)</span><span class="val">$80,000</span></div>
+                        <div class="example-row"><span>EMV (risk reserve)</span><span class="val">$24,000</span></div>
+                    </div>
+                    <div class="adjusted-result">
+                        <h4>Adjusted Project Estimate</h4>
+                        <div class="result-line"><span class="label">Base estimate</span><span class="val">$200,000</span></div>
+                        <div class="result-line"><span class="label">+ Integration risk EMV</span><span class="val">$24,000</span></div>
+                        <div class="result-line"><span class="label">+ Skill gap risk EMV</span><span class="val">$15,000</span></div>
+                        <div class="result-line"><span class="label">+ Vendor lock-in EMV</span><span class="val">$10,000</span></div>
+                        <div class="result-line" style="border-top: 1px solid rgba(255,255,255,0.3); padding-top: 0.4rem; margin-top: 0.3rem;">
+                            <span class="label">Risk-adjusted total</span><span class="val">$249,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">36 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Risk-Adjusted Analysis:</strong></p>
+        <ul>
+            <li>The key idea is that cost/benefit estimates are not certainties. By identifying risks and quantifying them, we get more realistic projections.</li>
+            <li><strong>Risk Severity Matrix:</strong> A classic project management tool applied to architecture decisions. Plot each risk by probability and impact to determine the response strategy.</li>
+            <li><strong>Response strategies:</strong>
+                <ul>
+                    <li><em>Accept:</em> Low-severity risks where the cost of mitigation exceeds the expected loss.</li>
+                    <li><em>Monitor:</em> Medium risks with triggers/indicators to watch.</li>
+                    <li><em>Mitigate:</em> High risks where proactive action reduces probability or impact.</li>
+                    <li><em>Avoid/Transfer:</em> Critical risks where you change the approach entirely or transfer risk (insurance, SLAs).</li>
+                </ul>
+            </li>
+            <li><strong>Expected Monetary Value (EMV):</strong> Multiply probability by impact. This gives you a "risk reserve" to add to your base estimate.</li>
+            <li><strong>In the example:</strong> The base project costs $200K, but when we account for identified risks, the realistic budget should be $249K (24.5% higher). This is why projects often go over budget - they didn't account for risk.</li>
+            <li><strong>Tip:</strong> Do this analysis for both options in a decision. The "cheaper" option might become more expensive when risk-adjusted.</li>
+        </ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hide Information Diagram - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Hide Information</h2>
+        <div class="content-area">
+            <p style="font-size: 1.2rem; color: var(--text-light); margin-bottom: 1.5rem; text-align: center;">
+                Expose functionality only through well-defined interfaces
+            </p>
+
+            <div class="diagram" style="padding: 2rem;">
+                <div class="flow-horizontal" style="gap: 3rem; align-items: flex-start;">
+                    <div style="text-align: center;">
+                        <div class="diagram-box secondary" style="padding: 1.5rem 2rem;">
+                            <strong>Component A</strong>
+                            <p style="font-size: 0.85rem; margin: 0.5rem 0 0 0; opacity: 0.9;">Consumer</p>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">Only knows the interface</p>
+                    </div>
+
+                    <div style="display: flex; align-items: center; padding-top: 1rem;">
+                        <span class="arrow" style="font-size: 3rem;">&#8594;</span>
+                    </div>
+
+                    <div style="text-align: center; background: var(--light-color); padding: 1.5rem; border-radius: 12px; border: 2px solid var(--accent-color);">
+                        <div class="diagram-box" style="padding: 1rem 1.5rem; margin-bottom: 1rem;">
+                            <strong>Interface</strong>
+                            <p style="font-size: 0.85rem; margin: 0.3rem 0 0 0; opacity: 0.9;">Public Contract</p>
+                        </div>
+                        <div style="font-size: 1.2rem; color: var(--text-light); margin: 0.5rem 0;">&#8595;</div>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <div class="diagram-box success" style="padding: 0.8rem 1rem; font-size: 0.9rem;">
+                                Service B1<br><span style="font-size: 0.75rem; opacity: 0.8;">Public</span>
+                            </div>
+                            <div class="diagram-box outline" style="padding: 0.8rem 1rem; font-size: 0.9rem; opacity: 0.6;">
+                                Service B2<br><span style="font-size: 0.75rem;">Private</span>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 1rem;"><strong>Component B</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-columns" style="margin-top: 1.5rem; gap: 2rem;">
+                <div class="card success">
+                    <h4>What This Achieves</h4>
+                    <ul style="font-size: 1rem;">
+                        <li>Component A doesn't know about B2</li>
+                        <li>B can change B2 without affecting A</li>
+                        <li>B can add B3, B4... internally</li>
+                        <li>Interface provides stability</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Modern Examples</h4>
+                    <ul style="font-size: 1rem;">
+                        <li>REST APIs hide database structure</li>
+                        <li>GraphQL hides backend services</li>
+                        <li>Microservices hide implementation</li>
+                        <li>SDKs hide API complexity</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">21 / 22</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Information Hiding in Action:</strong></p>
+        <p>This diagram shows how Component B hides its internal structure from A.</p>
+        <ul>
+            <li>Component A only sees the public interface</li>
+            <li>Service B1 is exposed through the interface</li>
+            <li>Service B2 is internal/private - A doesn't know it exists</li>
+        </ul>
+        <p><strong>Why this matters:</strong></p>
+        <ul>
+            <li>If B2 changes, A doesn't need to change</li>
+            <li>If B wants to split B1 into multiple services, A doesn't care</li>
+            <li>The interface is the contract - implementation is free to evolve</li>
+        </ul>
+        <p><strong>Real example:</strong></p>
+        <ul>
+            <li>Amazon's retail website doesn't know how the recommendation engine works internally</li>
+            <li>It just calls an API and gets recommendations back</li>
+            <li>Amazon can completely rewrite the recommendation engine without touching the website</li>
+        </ul>
+        <p>This is the foundation of loose coupling and is essential for microservices.</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Match Metrics to Quality Attributes - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .exercise-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 1.5rem;
+            margin-top: 0.75rem;
+        }
+        .metrics-pool {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .metrics-pool h4 {
+            font-size: 1rem;
+            color: var(--dark-color);
+            margin-bottom: 0.25rem;
+        }
+        .metric-badge {
+            padding: 0.6rem 1rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            user-select: none;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+        .metric-badge:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        .metric-badge.selected {
+            outline: 3px solid #fbbf24;
+            outline-offset: 2px;
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+        }
+        .metric-badge .assigned-badge {
+            display: none;
+            padding: 0.15rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .metric-badge.assigned .assigned-badge {
+            display: inline-block;
+        }
+        .metric-badge.assigned {
+            opacity: 0.85;
+        }
+        .assigned-badge.availability { background: #fbbf24; color: #78350f; }
+        .assigned-badge.performance { background: #3b82f6; color: white; }
+        .assigned-badge.security { background: #ef4444; color: white; }
+        .assigned-badge.modifiability { background: #10b981; color: white; }
+        .assigned-badge.usability { background: #8b5cf6; color: white; }
+        .qa-zones {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .qa-zones h4 {
+            font-size: 1rem;
+            color: var(--dark-color);
+            margin-bottom: 0.25rem;
+        }
+        .qa-zone {
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 42px;
+        }
+        .qa-zone:hover {
+            transform: scale(1.01);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .qa-zone.active-target {
+            box-shadow: 0 0 0 3px #fbbf24;
+        }
+        .qa-zone h5 {
+            font-size: 0.95rem;
+            margin: 0;
+            white-space: nowrap;
+        }
+        .qa-zone .zone-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            justify-content: flex-end;
+        }
+        .zone-item {
+            padding: 0.2rem 0.5rem;
+            background: rgba(255,255,255,0.7);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .zone-item:hover {
+            background: rgba(255,255,255,0.9);
+            text-decoration: line-through;
+        }
+        .qa-zone.availability {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border: 2px solid #f59e0b;
+        }
+        .qa-zone.availability h5 { color: #b45309; }
+        .qa-zone.performance {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid #3b82f6;
+        }
+        .qa-zone.performance h5 { color: #1d4ed8; }
+        .qa-zone.security {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border: 2px solid #ef4444;
+        }
+        .qa-zone.security h5 { color: #b91c1c; }
+        .qa-zone.modifiability {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 2px solid #10b981;
+        }
+        .qa-zone.modifiability h5 { color: #047857; }
+        .qa-zone.usability {
+            background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+            border: 2px solid #8b5cf6;
+        }
+        .qa-zone.usability h5 { color: #6d28d9; }
+        .control-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .btn {
+            padding: 0.6rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-check {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .btn-check:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-reveal {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        .btn-reveal:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+        .btn-reset {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .btn-reset:hover { background: #cbd5e1; }
+        .feedback {
+            text-align: center;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-top: 0.75rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: none;
+        }
+        .feedback.correct {
+            background: #dcfce7;
+            color: #166534;
+            display: block;
+        }
+        .feedback.incorrect {
+            background: #fef2f2;
+            color: #991b1b;
+            display: block;
+        }
+        .feedback.info {
+            background: #e0e7ff;
+            color: #3730a3;
+            display: block;
+        }
+        .metric-badge.correct-answer {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        .metric-badge.wrong-answer {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Match Metrics to Quality Attributes</h2>
+        <div class="content-area">
+            <div class="highlight-box" style="padding: 0.75rem 1rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #e0e7ff, #c7d2fe); border-color: #6366f1;">
+                <p style="font-size: 0.95rem; margin: 0;"><strong>Instructions:</strong> Tap a metric, then tap the quality attribute it belongs to. Tap an assigned metric in a zone to unassign it.</p>
+            </div>
+
+            <div class="exercise-layout">
+                <div>
+                    <h4>Metrics:</h4>
+                    <div class="metrics-pool" id="metricsPool">
+                        <div class="metric-badge" data-metric="A" data-answer="performance">
+                            <span>A. Response Time</span>
+                            <span class="assigned-badge"></span>
+                        </div>
+                        <div class="metric-badge" data-metric="B" data-answer="security">
+                            <span>B. Threat Detection Rate</span>
+                            <span class="assigned-badge"></span>
+                        </div>
+                        <div class="metric-badge" data-metric="C" data-answer="modifiability">
+                            <span>C. Changeability Index</span>
+                            <span class="assigned-badge"></span>
+                        </div>
+                        <div class="metric-badge" data-metric="D" data-answer="usability">
+                            <span>D. Task Completion Time</span>
+                            <span class="assigned-badge"></span>
+                        </div>
+                        <div class="metric-badge" data-metric="E" data-answer="availability">
+                            <span>E. MBF / MTR Formula</span>
+                            <span class="assigned-badge"></span>
+                        </div>
+                        <div class="metric-badge" data-metric="F" data-answer="performance">
+                            <span>F. Error Rate (requests)</span>
+                            <span class="assigned-badge"></span>
+                        </div>
+                        <div class="metric-badge" data-metric="G" data-answer="modifiability">
+                            <span>G. Mean Time to Repair</span>
+                            <span class="assigned-badge"></span>
+                        </div>
+                        <div class="metric-badge" data-metric="H" data-answer="usability">
+                            <span>H. Learnability</span>
+                            <span class="assigned-badge"></span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4>Quality Attributes:</h4>
+                    <div class="qa-zones" id="qaZones">
+                        <div class="qa-zone availability" data-qa="availability">
+                            <h5>1. Availability</h5>
+                            <div class="zone-items"></div>
+                        </div>
+                        <div class="qa-zone performance" data-qa="performance">
+                            <h5>2. Performance</h5>
+                            <div class="zone-items"></div>
+                        </div>
+                        <div class="qa-zone security" data-qa="security">
+                            <h5>3. Security</h5>
+                            <div class="zone-items"></div>
+                        </div>
+                        <div class="qa-zone modifiability" data-qa="modifiability">
+                            <h5>4. Modifiability</h5>
+                            <div class="zone-items"></div>
+                        </div>
+                        <div class="qa-zone usability" data-qa="usability">
+                            <h5>5. Usability</h5>
+                            <div class="zone-items"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-buttons">
+                <button class="btn btn-check" onclick="checkAnswers()">Check Answers</button>
+                <button class="btn btn-reveal" onclick="revealAnswers()">Reveal Answers</button>
+                <button class="btn btn-reset" onclick="resetExercise()">Reset</button>
+            </div>
+
+            <div id="feedback" class="feedback"></div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">23 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise - 3-4 minutes</strong></p>
+        <p>Give students time to work through this individually or in pairs.</p>
+        <p><strong>Correct Answers:</strong></p>
+        <ul>
+            <li><em>Availability:</em> E (MBF / MTR Formula)</li>
+            <li><em>Performance:</em> A (Response Time), F (Error Rate for requests)</li>
+            <li><em>Security:</em> B (Threat Detection Rate)</li>
+            <li><em>Modifiability:</em> C (Changeability Index), G (Mean Time to Repair)</li>
+            <li><em>Usability:</em> D (Task Completion Time), H (Learnability)</li>
+        </ul>
+        <p><strong>Discussion points:</strong></p>
+        <ul>
+            <li>Some metrics could arguably belong to multiple categories - focus on the primary association</li>
+            <li>Mean Time to Repair could relate to availability too, but here it measures how easy the code is to fix (modifiability)</li>
+            <li>Error Rate (requests) is a performance metric, not a usability error rate</li>
+        </ul>
+    </script>
+
+    <script>
+        let selectedMetric = null;
+        const assignments = {};
+
+        // Metric click handler - select/deselect
+        document.querySelectorAll('.metric-badge').forEach(badge => {
+            badge.addEventListener('click', function() {
+                if (selectedMetric === this) {
+                    this.classList.remove('selected');
+                    selectedMetric = null;
+                } else {
+                    if (selectedMetric) selectedMetric.classList.remove('selected');
+                    selectedMetric = this;
+                    this.classList.add('selected');
+                }
+            });
+        });
+
+        // QA zone click handler - assign selected metric
+        document.querySelectorAll('.qa-zone').forEach(zone => {
+            zone.addEventListener('click', function() {
+                if (!selectedMetric) return;
+
+                const metricId = selectedMetric.dataset.metric;
+                const qaName = this.dataset.qa;
+
+                // Remove from previous assignment if any
+                if (assignments[metricId]) {
+                    removeFromZone(metricId, assignments[metricId]);
+                }
+
+                // Assign to this zone
+                assignments[metricId] = qaName;
+                const zoneItems = this.querySelector('.zone-items');
+                const item = document.createElement('span');
+                item.className = 'zone-item';
+                item.textContent = metricId + '. ' + selectedMetric.querySelector('span').textContent.split('. ')[1];
+                item.dataset.metric = metricId;
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    unassignMetric(metricId);
+                });
+                zoneItems.appendChild(item);
+
+                // Update badge appearance
+                const assignedBadge = selectedMetric.querySelector('.assigned-badge');
+                assignedBadge.textContent = qaName.substring(0, 4);
+                assignedBadge.className = 'assigned-badge ' + qaName;
+                selectedMetric.classList.add('assigned');
+
+                // Deselect
+                selectedMetric.classList.remove('selected');
+                selectedMetric = null;
+
+                // Hide feedback
+                document.getElementById('feedback').className = 'feedback';
+            });
+        });
+
+        function removeFromZone(metricId, qaName) {
+            const zone = document.querySelector(`.qa-zone[data-qa="${qaName}"]`);
+            const item = zone.querySelector(`.zone-item[data-metric="${metricId}"]`);
+            if (item) item.remove();
+        }
+
+        function unassignMetric(metricId) {
+            if (assignments[metricId]) {
+                removeFromZone(metricId, assignments[metricId]);
+                delete assignments[metricId];
+            }
+            const badge = document.querySelector(`.metric-badge[data-metric="${metricId}"]`);
+            badge.classList.remove('assigned', 'correct-answer', 'wrong-answer');
+            badge.querySelector('.assigned-badge').className = 'assigned-badge';
+
+            document.getElementById('feedback').className = 'feedback';
+        }
+
+        function checkAnswers() {
+            let correct = 0;
+            let total = 8;
+            let assigned = Object.keys(assignments).length;
+
+            document.querySelectorAll('.metric-badge').forEach(badge => {
+                badge.classList.remove('correct-answer', 'wrong-answer');
+                const metricId = badge.dataset.metric;
+                const correctAnswer = badge.dataset.answer;
+
+                if (assignments[metricId]) {
+                    if (assignments[metricId] === correctAnswer) {
+                        badge.classList.add('correct-answer');
+                        correct++;
+                    } else {
+                        badge.classList.add('wrong-answer');
+                    }
+                }
+            });
+
+            const feedback = document.getElementById('feedback');
+            if (assigned < total) {
+                feedback.textContent = `Please assign all metrics first! (${total - assigned} remaining)`;
+                feedback.className = 'feedback incorrect';
+            } else if (correct === total) {
+                feedback.textContent = `Perfect! All ${correct} metrics correctly matched!`;
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = `${correct} of ${total} correct. Green = correct, red = wrong. Tap wrong items in zones to reassign.`;
+                feedback.className = 'feedback incorrect';
+            }
+        }
+
+        function revealAnswers() {
+            resetExercise();
+
+            const answers = {
+                'E': 'availability',
+                'A': 'performance',
+                'F': 'performance',
+                'B': 'security',
+                'C': 'modifiability',
+                'G': 'modifiability',
+                'D': 'usability',
+                'H': 'usability'
+            };
+
+            for (const [metricId, qaName] of Object.entries(answers)) {
+                const badge = document.querySelector(`.metric-badge[data-metric="${metricId}"]`);
+                const zone = document.querySelector(`.qa-zone[data-qa="${qaName}"]`);
+                const zoneItems = zone.querySelector('.zone-items');
+
+                assignments[metricId] = qaName;
+
+                const item = document.createElement('span');
+                item.className = 'zone-item';
+                item.textContent = metricId + '. ' + badge.querySelector('span').textContent.split('. ')[1];
+                item.dataset.metric = metricId;
+                zoneItems.appendChild(item);
+
+                const assignedBadge = badge.querySelector('.assigned-badge');
+                assignedBadge.textContent = qaName.substring(0, 4);
+                assignedBadge.className = 'assigned-badge ' + qaName;
+                badge.classList.add('assigned', 'correct-answer');
+            }
+
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = 'Answers revealed! Availability: E | Performance: A, F | Security: B | Modifiability: C, G | Usability: D, H';
+            feedback.className = 'feedback info';
+        }
+
+        function resetExercise() {
+            // Clear all assignments
+            for (const metricId of Object.keys(assignments)) {
+                delete assignments[metricId];
+            }
+
+            // Clear zone items
+            document.querySelectorAll('.zone-items').forEach(z => z.innerHTML = '');
+
+            // Reset badges
+            document.querySelectorAll('.metric-badge').forEach(badge => {
+                badge.classList.remove('assigned', 'selected', 'correct-answer', 'wrong-answer');
+                badge.querySelector('.assigned-badge').className = 'assigned-badge';
+            });
+
+            selectedMetric = null;
+            document.getElementById('feedback').className = 'feedback';
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CQRS Consistency Patterns</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>CQRS: Handling Eventual Consistency</h2>
+        <div class="content-area">
+            <div class="two-columns">
+                <div>
+                    <h3>Consistency Challenges</h3>
+                    <div class="card danger" style="margin-bottom: 1rem;">
+                        <h4>The Problem</h4>
+                        <p style="font-size: 0.95rem;">User creates order → immediately views orders → new order not visible yet!</p>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">Sync delay: 10ms - 2s typical</p>
+                    </div>
+
+                    <h3>Solutions</h3>
+                    <div class="card success" style="margin-bottom: 0.8rem;">
+                        <h4>1. Optimistic UI Updates</h4>
+                        <p style="font-size: 0.9rem;">Update UI immediately, sync in background</p>
+                    </div>
+                    <div class="card" style="margin-bottom: 0.8rem;">
+                        <h4>2. Read-Your-Writes</h4>
+                        <p style="font-size: 0.9rem;">Query write DB for recent user changes</p>
+                    </div>
+                    <div class="card" style="margin-bottom: 0.8rem;">
+                        <h4>3. Polling/WebSocket</h4>
+                        <p style="font-size: 0.9rem;">Wait for read model to update</p>
+                    </div>
+                    <div class="card warning">
+                        <h4>4. Version Vectors</h4>
+                        <p style="font-size: 0.9rem;">Track expected version, retry if stale</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Implementation Example</h3>
+                    <pre style="font-size: 0.75rem;"><code><span class="comment">// Projector Example (Node.js)</span>
+<span class="keyword">class</span> <span class="class">OrderProjector</span> {
+  <span class="keyword">async</span> <span class="function">handle</span>(event) {
+    <span class="keyword">switch</span>(event.type) {
+      <span class="keyword">case</span> <span class="string">'OrderCreated'</span>:
+        <span class="keyword">await</span> <span class="keyword">this</span>.readDb.insert({
+          id: event.orderId,
+          customer: event.customerName,
+          total: event.total,
+          status: <span class="string">'pending'</span>,
+          createdAt: event.timestamp
+        });
+        <span class="keyword">break</span>;
+
+      <span class="keyword">case</span> <span class="string">'OrderShipped'</span>:
+        <span class="keyword">await</span> <span class="keyword">this</span>.readDb.update(
+          { id: event.orderId },
+          { status: <span class="string">'shipped'</span>,
+            trackingNo: event.trackingNo }
+        );
+        <span class="keyword">break</span>;
+    }
+  }
+}</code></pre>
+
+                    <div class="highlight-box" style="margin-top: 1rem;">
+                        <strong>Idempotency:</strong> Projectors must handle duplicate events! Use event ID to detect replays.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">28c / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Eventual Consistency is the main challenge with CQRS!</strong></p>
+        <ul>
+            <li><em>Optimistic UI:</em> Best UX - show changes immediately, handle conflicts gracefully</li>
+            <li><em>Read-Your-Writes:</em> For critical flows, query write DB directly after mutation</li>
+            <li><em>Polling:</em> Simple but adds latency - use WebSocket for real-time needs</li>
+        </ul>
+        <p><strong>Critical:</strong> Projectors MUST be idempotent! Events may be delivered multiple times (at-least-once delivery).</p>
+        <p><strong>Pattern:</strong> Store last processed event ID and skip if already processed.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

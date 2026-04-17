@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Metrics - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .metric-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .metric-card:nth-child(2) {
+            border-left-color: var(--success-color);
+        }
+        .metric-card:nth-child(3) {
+            border-left-color: var(--danger-color);
+        }
+        .metric-card:nth-child(4) {
+            border-left-color: var(--warning-color);
+        }
+        .metric-card .metric-icon {
+            font-size: 2.2rem;
+            flex-shrink: 0;
+        }
+        .metric-card h4 {
+            margin-bottom: 0.4rem;
+            font-size: 1.2rem;
+        }
+        .metric-card:nth-child(1) h4 { color: var(--primary-color); }
+        .metric-card:nth-child(2) h4 { color: var(--success-color); }
+        .metric-card:nth-child(3) h4 { color: var(--danger-color); }
+        .metric-card:nth-child(4) h4 { color: var(--warning-color); }
+        .metric-card p {
+            font-size: 1rem;
+            color: var(--text-color);
+            line-height: 1.5;
+            margin-bottom: 0.3rem;
+        }
+        .metric-card .metric-detail {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .metric-card .metric-target {
+            display: inline-block;
+            margin-top: 0.4rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: #e0e7ff;
+            color: var(--primary-color);
+        }
+        .metric-card:nth-child(2) .metric-target {
+            background: #d1fae5;
+            color: #059669;
+        }
+        .metric-card:nth-child(3) .metric-target {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        .metric-card:nth-child(4) .metric-target {
+            background: #fef3c7;
+            color: #d97706;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Performance Metrics</h2>
+        <div class="content-area">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">&#9201;</div>
+                    <div>
+                        <h4>Response Time</h4>
+                        <p>Time from request to response</p>
+                        <div class="metric-detail">Measured in milliseconds</div>
+                        <span class="metric-target">Target: &lt; 200ms for web APIs</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">&#128200;</div>
+                    <div>
+                        <h4>Throughput</h4>
+                        <p>Number of requests processed per unit time</p>
+                        <div class="metric-detail">Measured in TPS / RPS</div>
+                        <span class="metric-target">Target depends on system capacity</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">&#9888;</div>
+                    <div>
+                        <h4>Error Rate</h4>
+                        <p>Percentage of failed requests</p>
+                        <div class="metric-detail">Ratio of errors to total requests</div>
+                        <span class="metric-target">Target: &lt; 0.1% under normal load</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">&#128268;</div>
+                    <div>
+                        <h4>Latency</h4>
+                        <p>Time for data to travel through the system</p>
+                        <div class="metric-detail">Measured in milliseconds</div>
+                        <span class="metric-target">Affected by network distance &amp; routing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">17 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Point:</strong> Always measure metrics under realistic load conditions.</p>
+        <ul>
+            <li>A system performing well with 10 users may fail at 1000</li>
+            <li><em>Response Time</em> is what users feel directly - keep it under 200ms for APIs</li>
+            <li><em>Throughput</em> tells you about capacity - how many concurrent requests can the system handle?</li>
+            <li><em>Error Rate</em> should be near zero under normal conditions - spikes indicate problems</li>
+            <li><em>Latency</em> is often confused with response time, but it specifically refers to the transport delay</li>
+        </ul>
+        <p>Pro tip: Measure at P95 and P99 percentiles, not just averages. Averages hide tail latency issues.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

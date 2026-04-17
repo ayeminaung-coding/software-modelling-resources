@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes for Scaling</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Kubernetes for Scaling</h2>
+        <div class="content-area">
+            <div class="two-columns">
+                <div>
+                    <h3>Scaling Mechanisms</h3>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Horizontal Pod Autoscaler (HPA)</h4>
+                        <p style="font-size: 0.95rem;">Scale pods based on CPU/memory metrics or custom metrics</p>
+                        <pre style="font-size: 0.8rem; margin-top: 0.5rem;"><code>spec:
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        averageUtilization: 70</code></pre>
+                    </div>
+                    <div class="card success" style="margin-bottom: 1rem;">
+                        <h4>Vertical Pod Autoscaler (VPA)</h4>
+                        <p style="font-size: 0.95rem;">Adjust CPU/memory requests automatically</p>
+                    </div>
+                    <div class="card warning">
+                        <h4>Cluster Autoscaler</h4>
+                        <p style="font-size: 0.95rem;">Add/remove nodes based on pod scheduling needs</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Key Features for Scale</h3>
+                    <ul>
+                        <li><strong>Service Discovery:</strong> Automatic DNS for services</li>
+                        <li><strong>Load Balancing:</strong> Distribute traffic across pods</li>
+                        <li><strong>Rolling Updates:</strong> Zero-downtime deployments</li>
+                        <li><strong>Self-Healing:</strong> Restart failed containers</li>
+                        <li><strong>Resource Limits:</strong> Prevent noisy neighbors</li>
+                    </ul>
+
+                    <div class="highlight-box" style="margin-top: 1rem;">
+                        <h4>KEDA</h4>
+                        <p style="font-size: 0.95rem;">Kubernetes Event-Driven Autoscaling. Scale based on external events (Kafka lag, queue depth, etc.)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">34 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Kubernetes Scaling:</strong></p>
+<ul>
+<li><em>HPA:</em> Scale based on CPU/memory or custom metrics</li>
+<li><em>VPA:</em> Adjust resource requests automatically</li>
+<li><em>Cluster Autoscaler:</em> Add/remove nodes as needed</li>
+</ul>
+<p><strong>KEDA:</strong> Event-driven autoscaling - scale based on queue depth, Kafka lag, etc.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

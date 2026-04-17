@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Demand Tactics - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Resource Demand Tactics</h2>
+        <div class="content-area">
+            <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">Reduce the resources required to respond to events</p>
+
+            <div class="two-columns">
+                <div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Increase Computational Efficiency</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Improve algorithm complexity (O(n) vs O(n^2))</li>
+                            <li>Optimize data structures</li>
+                            <li>Use efficient serialization formats</li>
+                        </ul>
+                    </div>
+                    <div class="card success" style="margin-bottom: 1rem;">
+                        <h4>Reduce Computational Overhead</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Minimize network round trips</li>
+                            <li>Reduce context switching</li>
+                            <li>Batch operations together</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="card warning" style="margin-bottom: 1rem;">
+                        <h4>Manage Event Rate</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Sampling - process subset of events</li>
+                            <li>Throttling - limit request rate</li>
+                            <li>Debouncing - consolidate rapid events</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Control Event Frequency</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Batch processing vs. real-time</li>
+                            <li>Queue-based load leveling</li>
+                            <li>Event aggregation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <p style="font-size: 1.1rem;"><strong>Modern Implementations:</strong>
+                Lazy loading, compression (gzip/Brotli), HTTP/2 multiplexing, gRPC, GraphQL query optimization</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Points:</strong></p>
+        <ul>
+            <li>Resource demand tactics focus on <em>reducing</em> the work required</li>
+            <li>Algorithm optimization: Big-O matters! Moving from O(n^2) to O(n log n) can be dramatic</li>
+            <li>Network overhead is often the biggest bottleneck in distributed systems</li>
+            <li>Throttling protects systems from overload but may impact user experience</li>
+        </ul>
+        <p><strong>Discussion prompt:</strong> What are the trade-offs between sampling and processing all events?</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usability Analysis &amp; Metrics - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .usability-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .usability-analysis {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 1px solid var(--success-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        .usability-analysis h3 {
+            color: #059669;
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+        .usability-analysis p {
+            font-size: 1.05rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        .methods-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+        .method-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: white;
+            color: #059669;
+            border: 1px solid #10b981;
+        }
+        .usability-metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+        .usability-metric-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            border-top: 3px solid var(--primary-color);
+        }
+        .usability-metric-card:nth-child(2) { border-top-color: var(--danger-color); }
+        .usability-metric-card:nth-child(3) { border-top-color: var(--success-color); }
+        .usability-metric-card:nth-child(4) { border-top-color: var(--warning-color); }
+        .usability-metric-card:nth-child(5) { border-top-color: #8b5cf6; }
+        .usability-metric-card .u-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+        }
+        .usability-metric-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+        .usability-metric-card:nth-child(1) h4 { color: var(--primary-color); }
+        .usability-metric-card:nth-child(2) h4 { color: var(--danger-color); }
+        .usability-metric-card:nth-child(3) h4 { color: var(--success-color); }
+        .usability-metric-card:nth-child(4) h4 { color: var(--warning-color); }
+        .usability-metric-card:nth-child(5) h4 { color: #8b5cf6; }
+        .usability-metric-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.3;
+        }
+        .usability-bottom-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Usability Analysis &amp; Metrics</h2>
+        <div class="content-area">
+            <div class="usability-layout">
+                <div class="usability-analysis">
+                    <h3>Usability Analysis</h3>
+                    <p>Collect and analyse data on user interface usage. Look at overall use cases, not just individual ones.</p>
+                    <div class="methods-row">
+                        <span class="method-badge">User Testing</span>
+                        <span class="method-badge">Usability Inspection</span>
+                        <span class="method-badge">Surveys</span>
+                        <span class="method-badge">Interviews</span>
+                    </div>
+                </div>
+
+                <h3>Usability Metrics</h3>
+                <div class="usability-metrics-grid">
+                    <div class="usability-metric-card">
+                        <div class="u-icon">&#9202;</div>
+                        <h4>Task Completion Time</h4>
+                        <p>How long it takes users to finish tasks</p>
+                    </div>
+                    <div class="usability-metric-card">
+                        <div class="u-icon">&#10060;</div>
+                        <h4>Error Rate</h4>
+                        <p>Percentage of mistakes in attempted tasks</p>
+                    </div>
+                    <div class="usability-metric-card">
+                        <div class="u-icon">&#11088;</div>
+                        <h4>Satisfaction Level</h4>
+                        <p>Survey and interview scores from users</p>
+                    </div>
+                </div>
+                <div class="usability-bottom-row">
+                    <div class="usability-metric-card">
+                        <div class="u-icon">&#128218;</div>
+                        <h4>Learnability</h4>
+                        <p>How quickly users become proficient with the system</p>
+                    </div>
+                    <div class="usability-metric-card">
+                        <div class="u-icon">&#129504;</div>
+                        <h4>Memorability</h4>
+                        <p>How well users recall the system after a period of inactivity</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">22 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Point:</strong> Usability testing should involve real users from the target audience. Expert reviews can supplement but not replace user testing.</p>
+        <ul>
+            <li><em>Task Completion Time:</em> Measure with real users doing real tasks - not developers who know the system</li>
+            <li><em>Error Rate:</em> High error rates indicate confusing UI design or unclear workflows</li>
+            <li><em>Satisfaction:</em> Use standardized questionnaires like SUS (System Usability Scale) for comparable results</li>
+            <li><em>Learnability:</em> Compare first-time vs. experienced user performance</li>
+            <li><em>Memorability:</em> Test users who haven't used the system for weeks - can they still complete tasks?</li>
+        </ul>
+        <p>These 5 metrics come from Jakob Nielsen's usability framework - they cover the full spectrum of usability concerns.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

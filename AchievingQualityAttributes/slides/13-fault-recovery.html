@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fault Recovery Tactics - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Fault Recovery Tactics</h2>
+        <div class="content-area">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tactic</th>
+                        <th>Description</th>
+                        <th>Typical Downtime</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Active Redundancy (Hot)</strong></td>
+                        <td>All replicas process in parallel</td>
+                        <td style="color: var(--success-color);"><strong>Near zero</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Passive Redundancy (Warm)</strong></td>
+                        <td>Standby syncs periodically</td>
+                        <td style="color: var(--warning-color);">State sync + switch time</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cold Spare</strong></td>
+                        <td>Backup activated on failure</td>
+                        <td style="color: var(--danger-color);">Boot + state restore time</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Checkpoint/Rollback</strong></td>
+                        <td>Periodic state snapshots</td>
+                        <td>Restore to checkpoint time</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box" style="margin-top: 1.5rem;">
+                <h4 style="margin-bottom: 0.5rem;">Trade-off: Cost vs. Recovery Time</h4>
+                <div class="flow-horizontal" style="justify-content: space-around; padding: 1rem 0;">
+                    <div style="text-align: center;">
+                        <span class="badge success">Hot</span>
+                        <p style="font-size: 0.9rem; margin: 0.5rem 0 0 0;">Fastest recovery</p>
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin: 0;">Highest cost</p>
+                    </div>
+                    <span style="font-size: 1.5rem; color: var(--text-light);">&#8594;</span>
+                    <div style="text-align: center;">
+                        <span class="badge warning">Warm</span>
+                        <p style="font-size: 0.9rem; margin: 0.5rem 0 0 0;">Moderate recovery</p>
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin: 0;">Moderate cost</p>
+                    </div>
+                    <span style="font-size: 1.5rem; color: var(--text-light);">&#8594;</span>
+                    <div style="text-align: center;">
+                        <span class="badge danger">Cold</span>
+                        <p style="font-size: 0.9rem; margin: 0.5rem 0 0 0;">Slowest recovery</p>
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin: 0;">Lowest cost</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">13 / 22</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Recovery Strategies Explained:</strong></p>
+        <ul>
+            <li><em>Active/Hot:</em> All copies are running and processing. If one fails, others continue seamlessly. Used for mission-critical systems (banking, healthcare).</li>
+            <li><em>Passive/Warm:</em> Standby receives updates but doesn't process. On failure, promoted to primary. Common for databases.</li>
+            <li><em>Cold:</em> Backup exists but isn't running. Must be started and state restored. Cheapest option for disaster recovery.</li>
+            <li><em>Checkpoint:</em> Take periodic snapshots. Can only recover to last checkpoint.</li>
+        </ul>
+        <p><strong>Modern implementations:</strong></p>
+        <ul>
+            <li>Kubernetes ReplicaSets provide active redundancy for pods</li>
+            <li>Cloud databases offer multi-region active-active replication</li>
+            <li>Snapshots can be stored in cheap object storage (S3, GCS)</li>
+        </ul>
+        <p><strong>Key question:</strong> What's your acceptable downtime? That determines which tactic to use.</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

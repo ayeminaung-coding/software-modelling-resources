@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Four Ways to Choose Elements - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .approach-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+        }
+        .approach-card .approach-number {
+            background: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        .approach-card.focus {
+            border-left: 6px solid var(--warning-color);
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+        .approach-card.focus .approach-number {
+            background: var(--warning-color);
+        }
+        .focus-badge {
+            display: inline-block;
+            background: var(--warning-color);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Four Ways to Choose Elements</h2>
+        <div class="content-area">
+            <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+                <div class="approach-card">
+                    <div class="approach-number">1</div>
+                    <div>
+                        <h4 style="margin-bottom: 0.3rem;">Domain Modeling</h4>
+                        <p style="font-size: 1.15rem;">Choose elements that correspond to domain concepts (entities, aggregates)</p>
+                    </div>
+                </div>
+
+                <div class="approach-card">
+                    <div class="approach-number">2</div>
+                    <div>
+                        <h4 style="margin-bottom: 0.3rem;">Design for Abstraction</h4>
+                        <p style="font-size: 1.15rem;">Choose elements that hide irrelevant details and make writing code easy</p>
+                    </div>
+                </div>
+
+                <div class="approach-card">
+                    <div class="approach-number">3</div>
+                    <div>
+                        <h4 style="margin-bottom: 0.3rem;">Architectural Styles / Tactics</h4>
+                        <p style="font-size: 1.15rem;">Choose elements that respect constraints and enable quality attributes</p>
+                    </div>
+                </div>
+
+                <div class="approach-card focus">
+                    <div class="approach-number">4</div>
+                    <div>
+                        <h4 style="margin-bottom: 0.3rem;">Design for Change <span class="focus-badge">Today's Focus</span></h4>
+                        <p style="font-size: 1.15rem;">Choose elements that make likely-to-change decisions easier to modify</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">4 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Four Lenses for Decomposition:</strong></p>
+        <p>We've covered the first three approaches in previous chapters. Today we add a fourth lens: organizing elements specifically to support change.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Availability Tactic Categories - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Availability Tactic Categories</h2>
+        <div class="content-area">
+            <p style="font-size: 1.3rem; color: var(--text-light); margin-bottom: 2rem; text-align: center;">
+                <strong>Goal:</strong> Achieve high availability through fault handling
+            </p>
+
+            <div class="diagram" style="padding: 2rem;">
+                <div style="margin-bottom: 2rem;">
+                    <div class="diagram-box" style="font-size: 1.3rem; padding: 1rem 3rem;">Availability Tactics</div>
+                </div>
+                <div style="font-size: 2rem; color: var(--text-light);">&#8595;</div>
+                <div class="flow-horizontal" style="margin-top: 1.5rem; gap: 2rem;">
+                    <div style="text-align: center;">
+                        <div class="diagram-box secondary" style="padding: 1.5rem 2rem; min-width: 180px;">
+                            <strong>Fault Detection</strong>
+                        </div>
+                        <p style="font-size: 1rem; color: var(--text-light); margin-top: 0.8rem;">Know when something is wrong</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="diagram-box success" style="padding: 1.5rem 2rem; min-width: 180px;">
+                            <strong>Fault Recovery</strong>
+                        </div>
+                        <p style="font-size: 1rem; color: var(--text-light); margin-top: 0.8rem;">Fix or work around the fault</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="diagram-box" style="background: var(--gradient-dark); padding: 1.5rem 2rem; min-width: 180px;">
+                            <strong>Fault Prevention</strong>
+                        </div>
+                        <p style="font-size: 1rem; color: var(--text-light); margin-top: 0.8rem;">Stop faults before they happen</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1.5rem;">
+                <p style="font-size: 1.1rem; margin: 0;"><strong>Remember:</strong> You can't prevent all faults. Good availability comes from combining all three categories: <em>detect</em> faults quickly, <em>recover</em> gracefully, and <em>prevent</em> what you can.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">11 / 22</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Three-Pronged Approach to Availability:</strong></p>
+        <ul>
+            <li><em>Detection:</em> Can't fix what you don't know is broken. Fast detection = faster recovery.</li>
+            <li><em>Recovery:</em> When faults happen (and they will), how quickly can we restore service?</li>
+            <li><em>Prevention:</em> Better to prevent failures than to recover from them.</li>
+        </ul>
+        <p><strong>Real-world example (Netflix):</strong></p>
+        <ul>
+            <li>Detection: Extensive monitoring, health checks every few seconds</li>
+            <li>Recovery: Automatic failover to other regions/zones</li>
+            <li>Prevention: Chaos Monkey proactively finds weaknesses</li>
+        </ul>
+        <p>We'll explore specific tactics in each category next.</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

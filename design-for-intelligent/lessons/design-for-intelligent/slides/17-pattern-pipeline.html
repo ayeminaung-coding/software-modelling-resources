@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattern 3: Model Pipeline - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .pipeline-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .pipeline-diagram {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.85rem 1rem;
+        }
+        .diag-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            margin-bottom: 0.75rem;
+        }
+        .pipeline-stages {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            overflow-x: auto;
+        }
+        .stage-wrap {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            min-width: 0;
+        }
+        .stage-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            padding: 0.6rem 0.4rem;
+            text-align: center;
+            flex: 1;
+            min-height: 80px;
+        }
+        .stage-name {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+            margin-bottom: 0.25rem;
+        }
+        .stage-desc {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.3;
+        }
+        .stage-arrow {
+            color: #94a3b8;
+            font-size: 1.3rem;
+            padding: 0 0.2rem;
+            flex-shrink: 0;
+        }
+        .stage-gray    { background: #64748b; }
+        .stage-blue    { background: linear-gradient(135deg, #1e40af, #3b82f6); }
+        .stage-indigo  { background: linear-gradient(135deg, #3730a3, #6366f1); }
+        .stage-purple  { background: linear-gradient(135deg, #5b21b6, #8b5cf6); }
+        .stage-green   { background: linear-gradient(135deg, #065f46, #10b981); }
+        .stage-output  { background: linear-gradient(135deg, #0f172a, #1e293b); }
+
+        .key-point-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid #3b82f6;
+            border-radius: 10px;
+            padding: 0.7rem 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+        }
+        .key-point-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            margin-top: 0.05rem;
+        }
+        .key-point-box p {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin: 0;
+            line-height: 1.5;
+        }
+        @media (max-width: 768px) {
+            .pipeline-stages { flex-direction: column; }
+            .stage-arrow { transform: rotate(90deg); align-self: center; }
+            .stage-wrap { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Pattern 3: Model Pipeline</h2>
+        <div class="content-area">
+
+            <div class="pipeline-layout">
+
+                <div class="pipeline-diagram">
+                    <div class="diag-title">End-to-End Fraud Detection Pipeline</div>
+                    <div class="pipeline-stages">
+
+                        <div class="stage-wrap">
+                            <div class="stage-box stage-gray">
+                                <div class="stage-name">Raw Input</div>
+                                <div class="stage-desc">Expense<br>submission<br>JSON</div>
+                            </div>
+                        </div>
+
+                        <div class="stage-arrow">&#8594;</div>
+
+                        <div class="stage-wrap">
+                            <div class="stage-box stage-blue">
+                                <div class="stage-name">Pre-processor</div>
+                                <div class="stage-desc">Normalize<br>currency<br>Standardize<br>dates</div>
+                            </div>
+                        </div>
+
+                        <div class="stage-arrow">&#8594;</div>
+
+                        <div class="stage-wrap">
+                            <div class="stage-box stage-indigo">
+                                <div class="stage-name">Feature<br>Extractor</div>
+                                <div class="stage-desc">Amount ratio<br>Merchant cat.<br>Time pattern</div>
+                            </div>
+                        </div>
+
+                        <div class="stage-arrow">&#8594;</div>
+
+                        <div class="stage-wrap">
+                            <div class="stage-box stage-purple">
+                                <div class="stage-name">Model</div>
+                                <div class="stage-desc">XGBoost<br>Fraud<br>Classifier</div>
+                            </div>
+                        </div>
+
+                        <div class="stage-arrow">&#8594;</div>
+
+                        <div class="stage-wrap">
+                            <div class="stage-box stage-green">
+                                <div class="stage-name">Post-<br>processor</div>
+                                <div class="stage-desc">Threshold<br>application<br>Explanation<br>generation</div>
+                            </div>
+                        </div>
+
+                        <div class="stage-arrow">&#8594;</div>
+
+                        <div class="stage-wrap">
+                            <div class="stage-box stage-output">
+                                <div class="stage-name">Output</div>
+                                <div class="stage-desc">FLAGGED /<br>APPROVED<br>+ confidence<br>+ reason</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="key-point-box">
+                    <div class="key-point-icon">&#128279;</div>
+                    <p>Each stage is a <strong>seam</strong> &mdash; independently testable, replaceable, and monitorable. The post-processor is where you apply business rules on top of model output.</p>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">17 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Pattern 3 â€” Model Pipeline.</strong></p>
+        <p>The pipeline pattern solves the black-box problem. By making each stage explicit, you can:</p>
+        <ol>
+            <li>Test each component independently with unit tests</li>
+            <li>Monitor inputs/outputs at each seam â€” if pre-processor output looks wrong, you catch it before it reaches the model</li>
+            <li>Replace the model without touching pre/post processing</li>
+        </ol>
+        <p>The post-processor is where you apply business rules on top of model output â€” e.g., "if confidence &lt; 0.7 â†’ human review queue". This keeps business logic out of the model itself.</p>
+        <p>Key insight: the arrows between stages are where you add logging and monitoring. Each arrow is an observability point.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Build the Fallback Ladder - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .exercise-intro {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid #3b82f6;
+            border-radius: 10px;
+            padding: 0.6rem 1rem;
+            margin-bottom: 0.75rem;
+        }
+        .exercise-intro p {
+            margin: 0;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        .steps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .step-card {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: white;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 0.6rem 0.75rem;
+            transition: border-color 0.2s, background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            cursor: default;
+        }
+        .step-card.correct {
+            background: #f0fdf4;
+            border-color: #22c55e;
+        }
+        .step-card.incorrect {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        .step-position {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #475569;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step-card.correct .step-position {
+            background: #22c55e;
+            color: white;
+        }
+        .step-card.incorrect .step-position {
+            background: #ef4444;
+            color: white;
+        }
+        .step-text {
+            flex: 1;
+            font-size: 0.88rem;
+            color: #1e293b;
+            line-height: 1.4;
+        }
+        .step-arrows {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            flex-shrink: 0;
+        }
+        .up-btn, .down-btn {
+            background: #f1f5f9;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            min-height: 44px;
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            transition: background 0.15s, border-color 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .up-btn:hover, .down-btn:hover {
+            background: #dbeafe;
+            border-color: #3b82f6;
+            color: #1e40af;
+        }
+        .up-btn:active, .down-btn:active {
+            transform: scale(0.93);
+        }
+        .up-btn:disabled, .down-btn:disabled {
+            opacity: 0.35;
+            cursor: default;
+        }
+        .control-buttons {
+            display: flex;
+            gap: 0.65rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
+        }
+        .btn {
+            padding: 0.6rem 1.1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-check  { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .btn-answer { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+        .btn-reset  { background: #e2e8f0; color: #475569; }
+        .btn-check:hover,  .btn-check:active  { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+        .btn-answer:hover, .btn-answer:active { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99,102,241,0.3); }
+        .btn-reset:hover,  .btn-reset:active  { background: #cbd5e1; }
+        .feedback {
+            text-align: center;
+            padding: 0.55rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            display: none;
+        }
+        .feedback.show    { display: block; }
+        .feedback.correct { background: #dcfce7; color: #166534; }
+        .feedback.partial { background: #fef3c7; color: #92400e; }
+        @media (max-width: 768px) {
+            .step-text { font-size: 0.82rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Build the Fallback Ladder</h2>
+        <div class="content-area">
+
+            <div class="exercise-intro">
+                <p>&#128101; Arrange the 5 fallback steps in the correct order (1 = first check, 5 = last resort). Use &#9650; / &#9660; to move each card.</p>
+            </div>
+
+            <div class="steps-list" id="stepsList"></div>
+
+            <div class="control-buttons">
+                <button class="btn btn-check"  onclick="checkOrder()">Check Order</button>
+                <button class="btn btn-answer" onclick="showAnswer()">Show Answer</button>
+                <button class="btn btn-reset"  onclick="resetOrder()">Reset</button>
+            </div>
+            <div id="feedback" class="feedback"></div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">26 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise â€” 3â€“4 minutes.</strong> The key insight is that steps 3 and 4 (timeout and unavailability) are often swapped â€” students think unavailability is worse than timeout. In practice, timeout handling should come first because it's more common. Step 5 is the absolute last resort.</p>
+        <p>After checking, ask: "What would happen if we skipped step 3?" â€” a slow AI response with no timeout means a hanging request that blocks the entire submission pipeline. Timeout = full system impact at scale.</p>
+        <p>Correct order: (1) Confidence â‰¥ 0.8 â†’ use AI, (2) Confidence 0.4â€“0.8 â†’ human review, (3) Timeout > 2s â†’ rule-based, (4) AI unavailable â†’ simple rules, (5) All else fails â†’ manual review + supervisor.</p>
+    </script>
+
+    <script>
+        const steps = [
+            "Check AI model confidence score â€” if â‰¥ 0.8, use AI result",
+            "If confidence 0.4â€“0.8, place expense in human review queue",
+            "If AI call takes > 2 seconds, cancel and use rule-based detector",
+            "If AI service is unavailable (error), apply simple rules (amount thresholds)",
+            "If all else fails, flag for manual review and notify supervisor"
+        ];
+        // Correct order by index: 0,1,2,3,4 (1-indexed positions match array indices)
+        // Initial scrambled order: steps[2], steps[4], steps[0], steps[3], steps[1]
+        let currentOrder = [2, 4, 0, 3, 1];
+
+        function renderSteps() {
+            const list = document.getElementById('stepsList');
+            list.innerHTML = '';
+            currentOrder.forEach(function(stepIdx, position) {
+                const card = document.createElement('div');
+                card.className = 'step-card';
+                card.dataset.stepIdx = stepIdx;
+
+                const posEl = document.createElement('div');
+                posEl.className = 'step-position';
+                posEl.textContent = position + 1;
+
+                const textEl = document.createElement('div');
+                textEl.className = 'step-text';
+                textEl.textContent = steps[stepIdx];
+
+                const arrows = document.createElement('div');
+                arrows.className = 'step-arrows';
+
+                const upBtn = document.createElement('button');
+                upBtn.className = 'up-btn';
+                upBtn.innerHTML = '&#9650;';
+                upBtn.title = 'Move Up';
+                upBtn.setAttribute('aria-label', 'Move step up');
+                if (position === 0) upBtn.disabled = true;
+                upBtn.addEventListener('click', function() { moveStep(position, -1); });
+
+                const downBtn = document.createElement('button');
+                downBtn.className = 'down-btn';
+                downBtn.innerHTML = '&#9660;';
+                downBtn.title = 'Move Down';
+                downBtn.setAttribute('aria-label', 'Move step down');
+                if (position === currentOrder.length - 1) downBtn.disabled = true;
+                downBtn.addEventListener('click', function() { moveStep(position, 1); });
+
+                arrows.appendChild(upBtn);
+                arrows.appendChild(downBtn);
+                card.appendChild(posEl);
+                card.appendChild(textEl);
+                card.appendChild(arrows);
+                list.appendChild(card);
+            });
+            clearFeedbackColors();
+        }
+
+        function moveStep(pos, dir) {
+            var newPos = pos + dir;
+            if (newPos < 0 || newPos >= currentOrder.length) return;
+            var tmp = currentOrder[pos];
+            currentOrder[pos] = currentOrder[newPos];
+            currentOrder[newPos] = tmp;
+            renderSteps();
+            document.getElementById('feedback').classList.remove('show');
+        }
+
+        function clearFeedbackColors() {
+            document.querySelectorAll('.step-card').forEach(function(card) {
+                card.classList.remove('correct', 'incorrect');
+            });
+        }
+
+        function checkOrder() {
+            var correct = 0;
+            var cards = document.querySelectorAll('.step-card');
+            cards.forEach(function(card, position) {
+                card.classList.remove('correct', 'incorrect');
+                var stepIdx = parseInt(card.dataset.stepIdx);
+                if (stepIdx === position) {
+                    card.classList.add('correct');
+                    correct++;
+                } else {
+                    card.classList.add('incorrect');
+                }
+            });
+            var fb = document.getElementById('feedback');
+            fb.classList.add('show');
+            if (correct === 5) {
+                fb.textContent = 'Perfect! All 5 steps in the correct order!';
+                fb.className = 'feedback show correct';
+            } else {
+                fb.textContent = correct + ' of 5 steps in correct position. Green = correct, Red = wrong position.';
+                fb.className = 'feedback show partial';
+            }
+        }
+
+        function showAnswer() {
+            currentOrder = [0, 1, 2, 3, 4];
+            renderSteps();
+            document.querySelectorAll('.step-card').forEach(function(card) {
+                card.classList.add('correct');
+            });
+            var fb = document.getElementById('feedback');
+            fb.textContent = 'Correct order revealed! Step 3 (timeout) comes before step 4 (unavailable) â€” timeouts are more common.';
+            fb.className = 'feedback show correct';
+        }
+
+        function resetOrder() {
+            currentOrder = [2, 4, 0, 3, 1];
+            renderSteps();
+            var fb = document.getElementById('feedback');
+            fb.className = 'feedback';
+            fb.textContent = '';
+        }
+
+        renderSteps();
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

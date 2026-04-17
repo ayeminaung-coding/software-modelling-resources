@@ -1,0 +1,367 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Healthcare App Security - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+    <style>
+        .exercise-header {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        .exercise-header h3 { margin: 0 0 0.5rem 0; }
+        .context-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .context-card {
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .context-card.requirements {
+            background: #eef2ff;
+            border-left: 4px solid #6366f1;
+        }
+        .context-card.compliance {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+        }
+        .context-card h4 {
+            margin: 0 0 0.75rem 0;
+        }
+        .context-card ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+        .context-card li {
+            margin: 0.25rem 0;
+        }
+        .design-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .design-section {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+        .design-section.filled {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+        .design-section h4 {
+            margin: 0 0 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: white;
+        }
+        .design-section:nth-child(1) .section-icon { background: #6366f1; }
+        .design-section:nth-child(2) .section-icon { background: #10b981; }
+        .design-section:nth-child(3) .section-icon { background: #f59e0b; }
+        .design-section:nth-child(4) .section-icon { background: #ef4444; }
+        .design-section textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            resize: vertical;
+        }
+        .design-section textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        .design-section textarea::placeholder {
+            color: #9ca3af;
+        }
+        .design-section .hint {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+        .control-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .btn {
+            padding: 0.6rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-check {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .btn-check:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-reset {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .btn-reset:hover { background: #cbd5e1; }
+        .btn-example {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        .btn-example:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+        .feedback {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+        .feedback.show { display: block; }
+        .feedback.correct { background: #dcfce7; color: #166534; }
+        .feedback.partial { background: #fef3c7; color: #92400e; }
+        .feedback.info { background: #e0e7ff; color: #3730a3; }
+        .keyword-badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-left: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Design Security for Healthcare App</h2>
+        <div class="content-area">
+            <div class="exercise-header">
+                <h3>Security Architecture Design</h3>
+                <p style="margin: 0;">Design security tactics for a HIPAA-compliant healthcare application</p>
+            </div>
+
+            <div class="context-grid">
+                <div class="context-card requirements">
+                    <h4>System Requirements</h4>
+                    <ul>
+                        <li>Doctors access patient records</li>
+                        <li>Patients view their own records</li>
+                        <li>Nurses update vital signs</li>
+                        <li>Admins manage user accounts</li>
+                        <li>External lab systems submit results</li>
+                    </ul>
+                </div>
+                <div class="context-card compliance">
+                    <h4>HIPAA Compliance</h4>
+                    <ul>
+                        <li>All access must be logged</li>
+                        <li>Data encrypted at rest and in transit</li>
+                        <li>Minimum necessary access principle</li>
+                        <li>Breach notification within 72 hours</li>
+                        <li>Regular security audits</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="design-form">
+                <div class="design-section" data-section="authentication">
+                    <h4><span class="section-icon">1</span> Authentication Tactics</h4>
+                    <textarea id="auth" placeholder="What authentication methods would you use? (MFA, SSO, etc.)" oninput="checkFilled(this)"></textarea>
+                    <p class="hint">Consider: staff vs patient access, external systems</p>
+                </div>
+
+                <div class="design-section" data-section="authorization">
+                    <h4><span class="section-icon">2</span> Authorization Model</h4>
+                    <textarea id="authz" placeholder="What authorization approach? (RBAC, ABAC, etc.)" oninput="checkFilled(this)"></textarea>
+                    <p class="hint">Consider: role-based needs, emergency access scenarios</p>
+                </div>
+
+                <div class="design-section" data-section="detection">
+                    <h4><span class="section-icon">3</span> Detection Mechanisms</h4>
+                    <textarea id="detect" placeholder="How would you detect security incidents?" oninput="checkFilled(this)"></textarea>
+                    <p class="hint">Consider: logging, monitoring, alerting</p>
+                </div>
+
+                <div class="design-section" data-section="confidentiality">
+                    <h4><span class="section-icon">4</span> Confidentiality Controls</h4>
+                    <textarea id="confid" placeholder="How would you ensure data confidentiality?" oninput="checkFilled(this)"></textarea>
+                    <p class="hint">Consider: encryption types, data classification</p>
+                </div>
+            </div>
+
+            <div class="control-buttons">
+                <button class="btn btn-check" onclick="evaluateDesign()">Evaluate Design</button>
+                <button class="btn btn-example" onclick="showExample()">Show Example</button>
+                <button class="btn btn-reset" onclick="resetForm()">Reset</button>
+            </div>
+
+            <div id="feedback" class="feedback"></div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">32 / 45</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise Facilitation:</strong></p>
+        <ul>
+            <li>Give students 5 minutes to discuss in pairs</li>
+            <li>Walk around and prompt with questions</li>
+            <li>Collect 2-3 groups to share their approach</li>
+        </ul>
+        <p><strong>Expected Answers:</strong></p>
+        <ul>
+            <li><em>Authentication:</em> MFA required, SSO for staff, patient portal with email verification</li>
+            <li><em>Authorization:</em> RBAC with fine-grained ABAC for patient consent, break-glass for emergencies</li>
+            <li><em>Detection:</em> Log all record access, alert on bulk downloads, monitor after-hours access</li>
+            <li><em>Confidentiality:</em> TLS 1.3, AES-256 for data at rest, field-level encryption for SSN</li>
+        </ul>
+        <p><strong>Bonus discussion:</strong> What about emergency access when a doctor needs immediate access?</p>
+    </script>
+
+    <script>
+        const keywords = {
+            authentication: ['mfa', 'multi-factor', '2fa', 'sso', 'single sign-on', 'oauth', 'saml', 'biometric', 'password', 'certificate', 'token'],
+            authorization: ['rbac', 'abac', 'role-based', 'attribute-based', 'least privilege', 'break-glass', 'emergency', 'consent', 'permission'],
+            detection: ['log', 'audit', 'monitor', 'alert', 'ids', 'siem', 'anomaly', 'suspicious', 'track', 'record access'],
+            confidentiality: ['encrypt', 'tls', 'ssl', 'aes', 'rsa', 'at rest', 'in transit', 'field-level', 'hash', 'mask']
+        };
+
+        const exampleAnswers = {
+            authentication: 'MFA required for all staff access (password + authenticator app). SSO integration with hospital Active Directory. Patient portal uses email verification + password with optional MFA. External lab systems authenticate via mutual TLS certificates with API keys.',
+            authorization: 'RBAC for base permissions (Doctor, Nurse, Admin roles). ABAC layer for patient-specific consent rules. Break-glass emergency access with mandatory justification and post-access review. Minimum necessary access enforced by default.',
+            detection: 'Comprehensive audit logging of all PHI access. Real-time alerts for: bulk downloads (>10 records), after-hours access patterns, failed login attempts (>3). SIEM integration for correlation. Weekly review of access logs by compliance team.',
+            confidentiality: 'TLS 1.3 for all data in transit. AES-256 encryption for data at rest. Field-level encryption for highly sensitive fields (SSN, diagnoses). Database column encryption with key rotation every 90 days.'
+        };
+
+        function checkFilled(textarea) {
+            const section = textarea.closest('.design-section');
+            if (textarea.value.trim().length > 20) {
+                section.classList.add('filled');
+            } else {
+                section.classList.remove('filled');
+            }
+            document.getElementById('feedback').classList.remove('show');
+        }
+
+        function evaluateDesign() {
+            const sections = ['auth', 'authz', 'detect', 'confid'];
+            const sectionNames = ['authentication', 'authorization', 'detection', 'confidentiality'];
+            const results = [];
+            let filledCount = 0;
+
+            sections.forEach((id, index) => {
+                const textarea = document.getElementById(id);
+                const value = textarea.value.toLowerCase();
+                const sectionKeywords = keywords[sectionNames[index]];
+                const foundKeywords = [];
+
+                if (value.trim().length > 10) {
+                    filledCount++;
+
+                    sectionKeywords.forEach(keyword => {
+                        if (value.includes(keyword)) {
+                            foundKeywords.push(keyword);
+                        }
+                    });
+                }
+
+                results.push({
+                    name: sectionNames[index],
+                    filled: value.trim().length > 10,
+                    keywordsFound: foundKeywords.length,
+                    keywords: foundKeywords
+                });
+            });
+
+            const feedback = document.getElementById('feedback');
+
+            if (filledCount < 4) {
+                feedback.innerHTML = `<strong>Please complete all sections.</strong> You've filled ${filledCount}/4 sections. Each section should describe specific tactics.`;
+                feedback.className = 'feedback partial show';
+                return;
+            }
+
+            const totalKeywords = results.reduce((sum, r) => sum + r.keywordsFound, 0);
+            const weakSections = results.filter(r => r.keywordsFound < 2);
+
+            if (totalKeywords >= 8 && weakSections.length === 0) {
+                feedback.innerHTML = `<strong>Comprehensive design!</strong> You've covered key security tactics across all areas:<br>
+                    ${results.map(r => `<strong>${r.name}:</strong> ${r.keywords.map(k => `<span class="keyword-badge">${k}</span>`).join(' ')}`).join('<br>')}`;
+                feedback.className = 'feedback correct show';
+            } else if (totalKeywords >= 4) {
+                const suggestions = weakSections.map(s => {
+                    if (s.name === 'authentication') return 'Authentication: Consider MFA, SSO, or certificate-based auth';
+                    if (s.name === 'authorization') return 'Authorization: Consider RBAC, ABAC, or break-glass procedures';
+                    if (s.name === 'detection') return 'Detection: Consider audit logging, SIEM, or anomaly detection';
+                    if (s.name === 'confidentiality') return 'Confidentiality: Consider TLS, AES encryption, or field-level encryption';
+                    return '';
+                }).filter(Boolean);
+
+                feedback.innerHTML = `<strong>Good start!</strong> Your design covers ${totalKeywords} key concepts. To strengthen it:<br>
+                    ${suggestions.join('<br>')}`;
+                feedback.className = 'feedback partial show';
+            } else {
+                feedback.innerHTML = `<strong>Add more specific tactics.</strong> Healthcare security requires:<br>
+                    - <strong>Authentication:</strong> MFA, SSO, certificate auth<br>
+                    - <strong>Authorization:</strong> RBAC/ABAC, break-glass, least privilege<br>
+                    - <strong>Detection:</strong> Audit logs, SIEM, anomaly alerts<br>
+                    - <strong>Confidentiality:</strong> TLS 1.3, AES-256, field-level encryption`;
+                feedback.className = 'feedback info show';
+            }
+        }
+
+        function showExample() {
+            document.getElementById('auth').value = exampleAnswers.authentication;
+            document.getElementById('authz').value = exampleAnswers.authorization;
+            document.getElementById('detect').value = exampleAnswers.detection;
+            document.getElementById('confid').value = exampleAnswers.confidentiality;
+
+            document.querySelectorAll('.design-section').forEach(section => {
+                section.classList.add('filled');
+            });
+
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = '<strong>Example design shown.</strong> This covers HIPAA requirements with: MFA + SSO for authentication, RBAC + ABAC with break-glass for authorization, comprehensive logging with SIEM for detection, and TLS + AES encryption for confidentiality.';
+            feedback.className = 'feedback info show';
+        }
+
+        function resetForm() {
+            document.getElementById('auth').value = '';
+            document.getElementById('authz').value = '';
+            document.getElementById('detect').value = '';
+            document.getElementById('confid').value = '';
+
+            document.querySelectorAll('.design-section').forEach(section => {
+                section.classList.remove('filled');
+            });
+
+            document.getElementById('feedback').classList.remove('show');
+        }
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

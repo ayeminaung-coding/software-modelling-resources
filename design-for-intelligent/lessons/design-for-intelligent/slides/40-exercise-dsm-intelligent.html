@@ -1,0 +1,401 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: DSM â€” Intelligent System - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .exercise-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 1.1rem;
+            align-items: start;
+            flex: 1;
+        }
+        .info-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .arch-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.75rem;
+        }
+        .arch-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #475569;
+            margin-bottom: 0.5rem;
+        }
+        .comp-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+        .comp-row {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.78rem;
+            color: #334155;
+        }
+        .comp-num {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dsm-col { display: flex; flex-direction: column; }
+        .dsm-grid {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.82rem;
+        }
+        .dsm-grid th, .dsm-grid td {
+            min-width: 44px;
+            min-height: 44px;
+            height: 46px;
+            text-align: center;
+            vertical-align: middle;
+            border: 2px solid #cbd5e1;
+            padding: 0.3rem;
+        }
+        .dsm-grid th {
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 600;
+            max-width: 70px;
+            padding: 0.3rem 0.3rem;
+            line-height: 1.2;
+        }
+        .dsm-grid .row-header {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            font-size: 0.65rem;
+            text-align: left;
+            padding: 0.3rem 0.45rem;
+            white-space: nowrap;
+        }
+        .dsm-grid .cell {
+            cursor: pointer;
+            background: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            transition: background 0.15s, transform 0.1s;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .dsm-grid .cell:hover, .dsm-grid .cell:active { background: #eff6ff; }
+        .dsm-grid .cell:active { transform: scale(0.95); }
+        .dsm-grid .cell.marked   { background: linear-gradient(135deg, #3b82f6, #6366f1); color: white; }
+        .dsm-grid .cell.correct  { background: linear-gradient(135deg, #10b981, #059669) !important; color: white !important; }
+        .dsm-grid .cell.incorrect { background: linear-gradient(135deg, #ef4444, #dc2626) !important; color: white !important; }
+        .dsm-grid .cell.missing  { background: #fef3c7 !important; color: #d97706 !important; border: 2px dashed #f59e0b !important; }
+        .dsm-grid .diagonal      { background: #e2e8f0; color: #94a3b8; cursor: default; }
+        .control-buttons {
+            display: flex;
+            gap: 0.6rem;
+            justify-content: center;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-check  { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .btn-reveal { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+        .btn-reset  { background: #e2e8f0; color: #475569; }
+        .btn-check:hover,  .btn-check:active  { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+        .btn-reveal:hover, .btn-reveal:active { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99,102,241,0.3); }
+        .btn-reset:hover,  .btn-reset:active  { background: #cbd5e1; }
+        .feedback {
+            text-align: center;
+            padding: 0.55rem;
+            border-radius: 8px;
+            margin-top: 0.55rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: none;
+        }
+        .feedback.show    { display: block; }
+        .feedback.correct { background: #dcfce7; color: #166534; }
+        .feedback.partial { background: #fef2f2; color: #991b1b; }
+        .callout {
+            margin-top: 0.6rem;
+            padding: 0.5rem 0.75rem;
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border-left: 4px solid #f59e0b;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.82rem;
+        }
+        .callout strong { color: #d97706; }
+        @media (max-width: 860px) { .exercise-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: DSM â€” Intelligent System</h2>
+        <div class="content-area">
+
+            <div class="exercise-layout">
+
+                <!-- LEFT: Component info -->
+                <div class="info-col">
+                    <div class="arch-box">
+                        <div class="arch-title">&#128301; SmartExpense + AI Components</div>
+                        <div class="comp-legend">
+                            <div class="comp-row"><span class="comp-num">0</span><span>Employee WebApp</span></div>
+                            <div class="comp-row"><span class="comp-num">1</span><span>Approver Mobile</span></div>
+                            <div class="comp-row"><span class="comp-num">2</span><span>Expense Processor</span></div>
+                            <div class="comp-row"><span class="comp-num">3</span><span>FraudDetector (Interface)</span></div>
+                            <div class="comp-row"><span class="comp-num">4</span><span>AIFraudDetector (AI impl.)</span></div>
+                            <div class="comp-row"><span class="comp-num">5</span><span>Booking.com API</span></div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box" style="padding:0.55rem 0.75rem;">
+                        <p style="font-size:0.82rem; margin:0;">
+                            <strong>Task:</strong> Mark which component <em>depends on</em> which (Row depends on Column).
+                        </p>
+                    </div>
+
+                    <svg viewBox="0 0 230 200" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block; max-width:230px;">
+                        <defs>
+                            <marker id="arr40b" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,6 2.5,0 5" fill="#3b82f6"/>
+                            </marker>
+                            <marker id="arr40g" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,6 2.5,0 5" fill="#6366f1"/>
+                            </marker>
+                            <marker id="arr40s" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,6 2.5,0 5" fill="#94a3b8"/>
+                            </marker>
+                            <marker id="arr40o" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,6 2.5,0 5" fill="#f97316"/>
+                            </marker>
+                        </defs>
+                        <!-- Employee WebApp -->
+                        <rect x="5"   y="5"  width="68" height="28" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+                        <text x="39" y="15" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" font-weight="700" fill="#1e40af">Employee</text>
+                        <text x="39" y="26" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" font-weight="700" fill="#1e40af">WebApp</text>
+                        <!-- Approver Mobile -->
+                        <rect x="160" y="5"  width="66" height="28" rx="6" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="1.5"/>
+                        <text x="193" y="15" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" font-weight="700" fill="#5b21b6">Approver</text>
+                        <text x="193" y="26" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" font-weight="700" fill="#5b21b6">Mobile</text>
+                        <!-- Expense Processor -->
+                        <rect x="70"  y="82" width="88" height="28" rx="6" fill="#3b82f6"/>
+                        <text x="114" y="93" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" font-weight="700" fill="white">Expense</text>
+                        <text x="114" y="104" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" font-weight="700" fill="white">Processor</text>
+                        <!-- FraudDetector interface -->
+                        <rect x="5"   y="152" width="88" height="28" rx="6" fill="#eff6ff" stroke="#6366f1" stroke-width="2" stroke-dasharray="4,2"/>
+                        <text x="49" y="162" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#5b21b6">&lt;&lt;interface&gt;&gt;</text>
+                        <text x="49" y="173" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" font-weight="700" fill="#5b21b6">FraudDetector</text>
+                        <!-- AIFraudDetector -->
+                        <rect x="145" y="152" width="80" height="28" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+                        <text x="185" y="162" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" font-weight="700" fill="#1e40af">AIFraud</text>
+                        <text x="185" y="173" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#1e40af">Detector</text>
+                        <!-- Booking.com -->
+                        <rect x="70"  y="5"  width="82" height="28" rx="6" fill="#fff7ed" stroke="#f97316" stroke-width="1.5"/>
+                        <text x="111" y="15" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" font-weight="700" fill="#c2410c">Booking.com</text>
+                        <text x="111" y="26" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" fill="#9a3412">API (external)</text>
+                        <!-- Arrows -->
+                        <line x1="39"  y1="33" x2="95"  y2="80" stroke="#3b82f6" stroke-width="1.2" marker-end="url(#arr40b)"/>
+                        <line x1="185" y1="33" x2="140" y2="80" stroke="#3b82f6" stroke-width="1.2" marker-end="url(#arr40b)"/>
+                        <line x1="100" y1="110" x2="60"  y2="150" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#arr40g)"/>
+                        <line x1="130" y1="110" x2="120" y2="3" stroke="#f97316" stroke-width="1.2" marker-end="url(#arr40o)"/>
+                        <line x1="175" y1="163" x2="97"  y2="163" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#arr40g)"/>
+                    </svg>
+                </div>
+
+                <!-- RIGHT: DSM grid -->
+                <div class="dsm-col">
+                    <table class="dsm-grid" id="dsmGrid">
+                        <thead>
+                            <tr>
+                                <th style="width:80px;"></th>
+                                <th>0<br>Employee<br>WebApp</th>
+                                <th>1<br>Approver<br>Mobile</th>
+                                <th>2<br>Expense<br>Processor</th>
+                                <th>3<br>Fraud<br>Detector</th>
+                                <th>4<br>AIFraud<br>Detector</th>
+                                <th>5<br>Booking<br>.com</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="row-header">0 Employee WebApp</td>
+                                <td class="diagonal">.</td>
+                                <td class="cell" data-row="0" data-col="1"></td>
+                                <td class="cell" data-row="0" data-col="2"></td>
+                                <td class="cell" data-row="0" data-col="3"></td>
+                                <td class="cell" data-row="0" data-col="4"></td>
+                                <td class="cell" data-row="0" data-col="5"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">1 Approver Mobile</td>
+                                <td class="cell" data-row="1" data-col="0"></td>
+                                <td class="diagonal">.</td>
+                                <td class="cell" data-row="1" data-col="2"></td>
+                                <td class="cell" data-row="1" data-col="3"></td>
+                                <td class="cell" data-row="1" data-col="4"></td>
+                                <td class="cell" data-row="1" data-col="5"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">2 Expense Processor</td>
+                                <td class="cell" data-row="2" data-col="0"></td>
+                                <td class="cell" data-row="2" data-col="1"></td>
+                                <td class="diagonal">.</td>
+                                <td class="cell" data-row="2" data-col="3"></td>
+                                <td class="cell" data-row="2" data-col="4"></td>
+                                <td class="cell" data-row="2" data-col="5"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">3 FraudDetector</td>
+                                <td class="cell" data-row="3" data-col="0"></td>
+                                <td class="cell" data-row="3" data-col="1"></td>
+                                <td class="cell" data-row="3" data-col="2"></td>
+                                <td class="diagonal">.</td>
+                                <td class="cell" data-row="3" data-col="4"></td>
+                                <td class="cell" data-row="3" data-col="5"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">4 AIFraudDetector</td>
+                                <td class="cell" data-row="4" data-col="0"></td>
+                                <td class="cell" data-row="4" data-col="1"></td>
+                                <td class="cell" data-row="4" data-col="2"></td>
+                                <td class="cell" data-row="4" data-col="3"></td>
+                                <td class="diagonal">.</td>
+                                <td class="cell" data-row="4" data-col="5"></td>
+                            </tr>
+                            <tr>
+                                <td class="row-header">5 Booking.com</td>
+                                <td class="cell" data-row="5" data-col="0"></td>
+                                <td class="cell" data-row="5" data-col="1"></td>
+                                <td class="cell" data-row="5" data-col="2"></td>
+                                <td class="cell" data-row="5" data-col="3"></td>
+                                <td class="cell" data-row="5" data-col="4"></td>
+                                <td class="diagonal">.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="control-buttons">
+                        <button class="btn btn-check"  onclick="checkAnswers()">Check Answers</button>
+                        <button class="btn btn-reveal" onclick="showAnswer()">Show Answer</button>
+                        <button class="btn btn-reset"  onclick="resetGrid()">Reset</button>
+                    </div>
+                    <div id="feedback" class="feedback"></div>
+
+                    <div class="callout">
+                        <strong>Notice:</strong> Expense Processor depends on the <em>Interface</em> (3), not AIFraudDetector (4). This is the isolation principle in the DSM.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">40 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise: DSM â€” Intelligent System.</strong></p>
+        <p>The key insight: FraudDetector (interface) appears as a row (it has no dependencies â€” it IS the dependency), while AIFraudDetector depends on the interface, not the other way. Students often want to mark [3,4] (interface depends on implementation) â€” this is backward and violates dependency inversion.</p>
+        <p>Correct answers: Employee WebApp (0) depends on Expense Processor (2); Approver Mobile (1) depends on Expense Processor (2); Expense Processor (2) depends on FraudDetector interface (3) and Booking.com (5); FraudDetector interface (3) has NO dependencies; AIFraudDetector (4) depends on FraudDetector interface (3); Booking.com (5) has NO dependencies.</p>
+        <p>"Who depends on whom?" is the core DSM question. The interface is what others depend ON â€” it has no dependencies of its own by design.</p>
+    </script>
+
+    <script>
+        const correctAnswers = {
+            '0-2': true,
+            '1-2': true,
+            '2-3': true, '2-5': true,
+            '4-3': true
+        };
+
+        document.querySelectorAll('.dsm-grid .cell').forEach(function(cell) {
+            cell.addEventListener('click', function() {
+                this.classList.toggle('marked');
+                this.textContent = this.classList.contains('marked') ? 'X' : '';
+                this.classList.remove('correct', 'incorrect', 'missing');
+                document.getElementById('feedback').classList.remove('show');
+            });
+        });
+
+        function checkAnswers() {
+            var correctCount = 0;
+            var totalCorrect = Object.keys(correctAnswers).length;
+            var errors = 0;
+            document.querySelectorAll('.dsm-grid .cell').forEach(function(cell) {
+                var key = cell.dataset.row + '-' + cell.dataset.col;
+                var isMarked  = cell.classList.contains('marked');
+                var shouldBe  = correctAnswers[key] === true;
+                cell.classList.remove('correct', 'incorrect', 'missing');
+                if (isMarked && shouldBe)        { cell.classList.add('correct');   correctCount++; }
+                else if (isMarked && !shouldBe)  { cell.classList.add('incorrect'); errors++; }
+                else if (!isMarked && shouldBe)  { cell.classList.add('missing'); }
+            });
+            var fb = document.getElementById('feedback');
+            fb.classList.add('show');
+            if (correctCount === totalCorrect && errors === 0) {
+                fb.textContent = 'Perfect! All ' + totalCorrect + ' dependencies correct. Notice: ExpenseProcessor â†’ FraudDetector (interface), not AIFraudDetector.';
+                fb.className = 'feedback show correct';
+            } else {
+                fb.textContent = correctCount + ' of ' + totalCorrect + ' correct. Green = correct, Red = wrong, Yellow = missing.';
+                fb.className = 'feedback show partial';
+            }
+        }
+
+        function showAnswer() {
+            resetGrid();
+            document.querySelectorAll('.dsm-grid .cell').forEach(function(cell) {
+                if (correctAnswers[cell.dataset.row + '-' + cell.dataset.col]) {
+                    cell.classList.add('marked', 'correct');
+                    cell.textContent = 'X';
+                }
+            });
+            var fb = document.getElementById('feedback');
+            fb.textContent = 'Answer revealed: Expense Processor depends on the Interface (3), not the AI implementation (4). This is Dependency Inversion.';
+            fb.className = 'feedback show correct';
+        }
+
+        function resetGrid() {
+            document.querySelectorAll('.dsm-grid .cell').forEach(function(cell) {
+                cell.classList.remove('marked', 'correct', 'incorrect', 'missing');
+                cell.textContent = '';
+            });
+            var fb = document.getElementById('feedback');
+            fb.className = 'feedback';
+            fb.textContent = '';
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

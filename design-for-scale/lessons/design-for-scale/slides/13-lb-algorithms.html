@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Balancing Algorithms</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Load Balancing Algorithms</h2>
+        <div class="content-area">
+            <div class="two-columns">
+                <div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Round Robin</h4>
+                        <p>Requests distributed sequentially across servers</p>
+                        <span class="badge primary">Simple</span>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Weighted Round Robin</h4>
+                        <p>Servers assigned weights based on capacity</p>
+                        <span class="badge success">Flexible</span>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Least Connections</h4>
+                        <p>Route to server with fewest active connections</p>
+                        <span class="badge warning">Dynamic</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>IP Hash</h4>
+                        <p>Client IP determines server (session affinity)</p>
+                        <span class="badge primary">Sticky</span>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Least Response Time</h4>
+                        <p>Route to fastest responding server</p>
+                        <span class="badge success">Performance</span>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Random</h4>
+                        <p>Randomly select a healthy server</p>
+                        <span class="badge">Basic</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <strong>Pro Tip:</strong> For stateless applications, <em>Round Robin</em> or <em>Least Connections</em> are ideal.
+                Use <em>IP Hash</em> only when session affinity is required.
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">13 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Algorithm Selection Guide:</strong></p>
+<ul>
+<li><em>Round Robin:</em> Default choice, works well for stateless apps</li>
+<li><em>Least Connections:</em> Better when request times vary significantly</li>
+<li><em>IP Hash:</em> Use only when you need sticky sessions (try to avoid!)</li>
+</ul>
+<p>Modern load balancers can also route based on URL path, headers, or request content.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

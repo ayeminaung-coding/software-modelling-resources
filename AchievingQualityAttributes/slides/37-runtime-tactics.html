@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Runtime Usability Tactics - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Runtime Usability Tactics</h2>
+        <div class="content-area">
+            <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">Support users during system operation</p>
+
+            <div class="two-columns">
+                <div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>User Initiative Tactics</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">User controls the interaction</p>
+                        <ul style="font-size: 1rem;">
+                            <li><strong>Undo:</strong> Reverse previous actions</li>
+                            <li><strong>Cancel:</strong> Abort in-progress operations</li>
+                            <li><strong>Pause/Resume:</strong> Control long operations</li>
+                            <li><strong>Aggregate:</strong> Combine commands (macros)</li>
+                        </ul>
+                    </div>
+                    <div class="card success" style="margin-bottom: 1rem;">
+                        <h4>Modern Implementations</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Command pattern for undo/redo</li>
+                            <li>Event sourcing for full history</li>
+                            <li>Optimistic updates with rollback</li>
+                            <li>Cancelable async operations</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="card warning" style="margin-bottom: 1rem;">
+                        <h4>System Initiative Tactics</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">System guides the user</p>
+                        <ul style="font-size: 1rem;">
+                            <li><strong>Task Model:</strong> Track user workflow</li>
+                            <li><strong>User Model:</strong> Remember preferences</li>
+                            <li><strong>System Model:</strong> Show system status</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Feedback Mechanisms</h4>
+                        <ul style="font-size: 1rem;">
+                            <li>Progress indicators</li>
+                            <li>Loading skeletons</li>
+                            <li>Toast notifications</li>
+                            <li>Inline validation</li>
+                            <li>Contextual help</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <p><strong>Perceived Performance:</strong>
+                Users perceive systems as faster when they see immediate feedback.
+                Skeleton screens and optimistic updates improve <em>perceived</em> performance even if actual latency is unchanged.</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Points:</strong></p>
+        <ul>
+            <li>Users feel in control when they can undo, cancel, and pause</li>
+            <li>System initiative helps users by anticipating needs</li>
+            <li>Feedback is critical - never leave users wondering "did it work?"</li>
+        </ul>
+        <p><strong>Example:</strong> Gmail allows "undo send" for a few seconds after sending - this is a combination of undo tactic and delayed execution.</p>
+        <p><strong>Discussion:</strong> When is it appropriate for the system to take initiative vs. letting the user drive?</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

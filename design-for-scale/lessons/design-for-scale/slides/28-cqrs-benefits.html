@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CQRS Benefits for Scaling</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>CQRS Benefits for Scaling</h2>
+        <div class="content-area">
+            <div class="three-columns">
+                <div class="card success">
+                    <h4>Independent Scaling</h4>
+                    <p style="font-size: 1rem;">Scale read and write sides independently based on load</p>
+                    <div class="metric" style="margin-top: 1rem;">
+                        <div class="metric-value">100x</div>
+                        <div class="metric-label">Read vs Write ratio</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Optimized Models</h4>
+                    <p style="font-size: 1rem;">Use best-fit databases for each side</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>Write: PostgreSQL</li>
+                        <li>Read: Elasticsearch</li>
+                    </ul>
+                </div>
+                <div class="card warning">
+                    <h4>Performance</h4>
+                    <p style="font-size: 1rem;">Denormalized read models for fast queries</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>No JOINs needed</li>
+                        <li>Pre-computed views</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 2rem;">CQRS + Event Sourcing</h3>
+            <div class="diagram" style="padding: 1.5rem;">
+                <div class="flow-horizontal" style="flex-wrap: nowrap;">
+                    <div class="diagram-box">Command</div>
+                    <span class="arrow">→</span>
+                    <div class="diagram-box success">Aggregate</div>
+                    <span class="arrow">→</span>
+                    <div class="diagram-box secondary">Event Store</div>
+                    <span class="arrow">→</span>
+                    <div class="diagram-box warning">Projector</div>
+                    <span class="arrow">→</span>
+                    <div class="diagram-box outline">Read DB</div>
+                    <span class="arrow">→</span>
+                    <div class="diagram-box">Query</div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <strong>Eventual Consistency:</strong> Read models are updated asynchronously.
+                Design your UI to handle this (optimistic updates, loading states).
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">28 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>CQRS Benefits for Scale:</strong></p>
+<ul>
+<li>Scale reads and writes independently (often 100:1 ratio)</li>
+<li>Use specialized databases (Postgres for writes, Elasticsearch for reads)</li>
+<li>Simpler queries - no complex JOINs needed</li>
+</ul>
+<p><strong>Trade-off:</strong> Eventual consistency - read model may be slightly behind.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

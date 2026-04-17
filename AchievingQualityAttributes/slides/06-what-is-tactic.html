@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is a Tactic? - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>What is a Tactic?</h2>
+        <div class="content-area">
+            <div class="highlight-box" style="text-align: center; padding: 2rem; margin-bottom: 2rem;">
+                <p style="font-size: 1.5rem; margin: 0;"><strong>Tactic:</strong> A design decision that influences the achievement of a quality attribute response.</p>
+            </div>
+
+            <div class="two-columns">
+                <div>
+                    <h3>Key Characteristics</h3>
+                    <ul>
+                        <li><strong>Atomic:</strong> A single, focused design decision</li>
+                        <li><strong>Purposeful:</strong> Targets a specific quality attribute</li>
+                        <li><strong>Reusable:</strong> Can be applied across different systems</li>
+                        <li><strong>Composable:</strong> Can combine with other tactics</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Examples</h3>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Availability</h4>
+                        <p style="font-size: 1.1rem;">"Use redundancy" - deploy multiple instances</p>
+                    </div>
+                    <div class="card success" style="margin-bottom: 1rem;">
+                        <h4>Performance</h4>
+                        <p style="font-size: 1.1rem;">"Introduce caching" - store frequently accessed data</p>
+                    </div>
+                    <div class="card warning">
+                        <h4>Security</h4>
+                        <p style="font-size: 1.1rem;">"Encrypt data" - protect information in transit/at rest</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote" style="margin-top: 1.5rem;">
+                "Tactics are the building blocks from which design patterns are created."
+                <div class="quote-author">- Bass, Clements & Kazman</div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">6 / 22</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Definition Deep Dive:</strong></p>
+        <ul>
+            <li>A tactic is the <em>smallest</em> architectural decision that affects a quality attribute</li>
+            <li>Think of it as a "primitive" - you can't break it down further</li>
+            <li>Tactics are technology-agnostic - "use redundancy" applies whether you're using AWS, Azure, or on-prem</li>
+        </ul>
+        <p><strong>Examples in practice:</strong></p>
+        <ul>
+            <li>Netflix uses redundancy (multiple regions) for availability</li>
+            <li>Facebook uses caching (Memcached) for performance</li>
+            <li>Banks use encryption for security</li>
+        </ul>
+        <p>The key insight: patterns are <em>collections</em> of tactics working together.</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

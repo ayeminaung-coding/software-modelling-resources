@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scaling Comparison</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Vertical vs Horizontal: Comparison</h2>
+        <div class="content-area">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Vertical Scaling</th>
+                        <th>Horizontal Scaling</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Cost Model</strong></td>
+                        <td>High upfront, exponential</td>
+                        <td>Lower per unit, linear</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complexity</strong></td>
+                        <td>Simple</td>
+                        <td>Complex</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Downtime</strong></td>
+                        <td>Required for upgrades</td>
+                        <td>Zero-downtime possible</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Failure Impact</strong></td>
+                        <td>Total system failure</td>
+                        <td>Partial degradation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Limit</strong></td>
+                        <td>Hardware ceiling</td>
+                        <td>Theoretically unlimited</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Consistency</strong></td>
+                        <td>Simple (single node)</td>
+                        <td>Requires distributed solutions</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box" style="margin-top: 1.5rem;">
+                <strong>Modern Approach:</strong> Most systems use a <em>hybrid strategy</em> - scale up to a reasonable point, then scale out.
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">8 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Comparison Summary:</strong></p>
+<p>Use this table as a decision guide. Key takeaway: <em>start vertical, plan horizontal</em>.</p>
+<ul>
+<li>Vertical for quick wins and simpler systems</li>
+<li>Horizontal for long-term growth and high availability</li>
+<li>Hybrid approach is most common in production</li>
+</ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

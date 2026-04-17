@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Queues</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Message Queues</h2>
+        <div class="content-area">
+            <div class="diagram" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+                <div class="arch-container">
+                    <div class="arch-layer">
+                        <div class="diagram-box">Producer 1</div>
+                        <div class="diagram-box">Producer 2</div>
+                        <div class="diagram-box">Producer 3</div>
+                    </div>
+                    <div class="arrow-down">↓ ↓ ↓</div>
+                    <div class="arch-layer">
+                        <div class="diagram-box success" style="padding: 1rem 4rem;">Message Queue</div>
+                    </div>
+                    <div class="arrow-down">↓ ↓ ↓</div>
+                    <div class="arch-layer">
+                        <div class="diagram-box secondary">Consumer 1</div>
+                        <div class="diagram-box secondary">Consumer 2</div>
+                        <div class="diagram-box secondary">Consumer 3</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="three-columns">
+                <div class="card">
+                    <h4>Point-to-Point</h4>
+                    <p style="font-size: 1rem;">One message consumed by one consumer</p>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">Work distribution</p>
+                </div>
+                <div class="card success">
+                    <h4>Pub/Sub</h4>
+                    <p style="font-size: 1rem;">Message broadcast to all subscribers</p>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">Event notification</p>
+                </div>
+                <div class="card warning">
+                    <h4>Request/Reply</h4>
+                    <p style="font-size: 1rem;">Async request with response queue</p>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">RPC-style calls</p>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1.5rem;">
+                <strong>Key Benefits:</strong> Decoupling, buffering, load leveling, guaranteed delivery, retry handling
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">19 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Message Queue Patterns:</strong></p>
+<ul>
+<li><em>Point-to-Point:</em> Each message consumed once - task distribution</li>
+<li><em>Pub/Sub:</em> Messages broadcast to all subscribers - events</li>
+<li><em>Request/Reply:</em> Async RPC - use sparingly</li>
+</ul>
+<p><strong>Popular choices:</strong> RabbitMQ (flexible), Kafka (high throughput), SQS (managed).</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

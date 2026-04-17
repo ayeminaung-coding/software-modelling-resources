@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion: Recovery Strategies - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Discussion: Recovery Strategy Selection</h2>
+        <div class="content-area">
+            <div class="highlight-box warning" style="text-align: center; padding: 2rem; margin-bottom: 2rem;">
+                <h3 style="font-size: 1.8rem; color: var(--warning-color); margin-bottom: 1rem;">When would you use each recovery strategy?</h3>
+                <p style="font-size: 1.2rem; color: var(--text-color);">Consider: cost, recovery time, data consistency, and system criticality</p>
+            </div>
+
+            <div class="three-columns" style="margin-bottom: 2rem;">
+                <div class="card success">
+                    <h4>Scenario A: E-commerce Checkout</h4>
+                    <p style="font-size: 1rem;">Payment processing during Black Friday sale</p>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;"><strong>Requirements:</strong></p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Zero transaction loss</li>
+                        <li>Sub-second failover</li>
+                        <li>High traffic volume</li>
+                    </ul>
+                </div>
+                <div class="card warning">
+                    <h4>Scenario B: Analytics Database</h4>
+                    <p style="font-size: 1rem;">Business intelligence reporting system</p>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;"><strong>Requirements:</strong></p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Data from last hour OK to lose</li>
+                        <li>Few minutes downtime acceptable</li>
+                        <li>Cost-sensitive</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Scenario C: Archive Storage</h4>
+                    <p style="font-size: 1rem;">Historical document storage system</p>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;"><strong>Requirements:</strong></p>
+                    <ul style="font-size: 0.9rem;">
+                        <li>Rarely accessed</li>
+                        <li>Hours of downtime OK</li>
+                        <li>Minimize ongoing costs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="text-align: center;">
+                <p style="font-size: 1.2rem; margin: 0;"><strong>Discuss with your neighbor:</strong> Which recovery tactic (Hot/Warm/Cold/Checkpoint) for each scenario?</p>
+                <p style="font-size: 1rem; color: var(--text-light); margin: 0.5rem 0 0 0;">Be prepared to justify your choices (3-4 minutes)</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">16 / 22</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Discussion Guidelines (4-5 minutes):</strong></p>
+        <ul>
+            <li>Let students discuss in pairs for 2-3 minutes</li>
+            <li>Then share answers and reasoning</li>
+        </ul>
+        <p><strong>Expected Answers:</strong></p>
+        <ul>
+            <li><em>Scenario A (E-commerce):</em> Active/Hot redundancy. Zero downtime needed during peak sales. Cost is justified by revenue at stake.</li>
+            <li><em>Scenario B (Analytics):</em> Passive/Warm redundancy. Can tolerate brief downtime. Hourly checkpoints acceptable for data loss.</li>
+            <li><em>Scenario C (Archive):</em> Cold spare with checkpoints. Rarely accessed, hours of recovery OK. Daily backups to cheap storage.</li>
+        </ul>
+        <p><strong>Key teaching point:</strong> There's no "best" tactic - it depends on requirements. Over-engineering (hot for archives) wastes money. Under-engineering (cold for payments) loses revenue/customers.</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

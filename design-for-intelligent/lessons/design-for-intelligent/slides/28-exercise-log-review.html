@@ -1,0 +1,243 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: What's Missing from This Log? - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .log-review-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .code-block {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 0.7rem 0.9rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.65;
+            color: #e2e8f0;
+        }
+        .ck { color: #93c5fd; }
+        .cv { color: #fde68a; }
+        .cn { color: #f9a8d4; }
+        .task-label {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        .fields-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.55rem;
+        }
+        .field-btn {
+            background: white;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 0.55rem 0.5rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            line-height: 1.3;
+            min-height: 44px;
+            min-width: 44px;
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .field-btn:hover { background: #eff6ff; border-color: #3b82f6; color: #1e40af; }
+        .field-btn.selected { background: #eff6ff; border-color: #3b82f6; color: #1e40af; }
+        .field-btn.correct  { background: #dcfce7 !important; border-color: #22c55e !important; color: #166534 !important; }
+        .field-btn.incorrect { background: #fef2f2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
+        .field-btn.missed   { background: #fef3c7 !important; border-color: #f59e0b !important; color: #92400e !important; }
+        .control-buttons {
+            display: flex;
+            gap: 0.65rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.6rem 1.1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-check  { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .btn-reveal { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+        .btn-reset  { background: #e2e8f0; color: #475569; }
+        .btn-check:hover,  .btn-check:active  { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+        .btn-reveal:hover, .btn-reveal:active { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99,102,241,0.3); }
+        .btn-reset:hover,  .btn-reset:active  { background: #cbd5e1; }
+        .feedback {
+            text-align: center;
+            padding: 0.55rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            display: none;
+        }
+        .feedback.show    { display: block; }
+        .feedback.correct { background: #dcfce7; color: #166534; }
+        .feedback.partial { background: #fef3c7; color: #92400e; }
+        .score-display {
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #475569;
+        }
+        @media (max-width: 768px) {
+            .fields-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: What's Missing from This Log?</h2>
+        <div class="content-area">
+
+            <div class="log-review-layout">
+
+                <div>
+                    <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:#475569; margin-bottom:0.3rem;">Incomplete Inference Log</div>
+                    <div class="code-block">&#123;<br>
+&nbsp;&nbsp;<span class="ck">"expense_id"</span>: <span class="cv">"EXP-4821"</span>,<br>
+&nbsp;&nbsp;<span class="ck">"amount"</span>: <span class="cn">1250.00</span>,<br>
+&nbsp;&nbsp;<span class="ck">"merchant"</span>: <span class="cv">"Hilton Bangkok"</span>,<br>
+&nbsp;&nbsp;<span class="ck">"result"</span>: <span class="cv">"FLAGGED"</span>,<br>
+&nbsp;&nbsp;<span class="ck">"time"</span>: <span class="cv">"2025-03-20"</span><br>
+&#125;</div>
+                </div>
+
+                <div class="task-label">Select the 4 critical missing fields:</div>
+
+                <div class="fields-grid" id="fieldsGrid">
+                    <button class="field-btn" data-id="fraud_score" onclick="toggleField(this)">fraud_score /<br>confidence score</button>
+                    <button class="field-btn" data-id="model_version" onclick="toggleField(this)">model_version</button>
+                    <button class="field-btn" data-id="latency" onclick="toggleField(this)">inference_<br>latency_ms</button>
+                    <button class="field-btn" data-id="input_features" onclick="toggleField(this)">input_features<br>(category, type)</button>
+                    <button class="field-btn" data-id="employee_name" onclick="toggleField(this)">employee_name</button>
+                    <button class="field-btn" data-id="description" onclick="toggleField(this)">expense_<br>description</button>
+                    <button class="field-btn" data-id="approver_id" onclick="toggleField(this)">approver_id</button>
+                    <button class="field-btn" data-id="currency" onclick="toggleField(this)">currency</button>
+                </div>
+
+                <div class="score-display" id="scoreDisplay">0 / 4 critical fields selected</div>
+
+                <div class="control-buttons">
+                    <button class="btn btn-check"  onclick="checkSelection()">Check Selection</button>
+                    <button class="btn btn-reveal"  onclick="revealAnswers()">Reveal</button>
+                    <button class="btn btn-reset"   onclick="resetSelection()">Reset</button>
+                </div>
+                <div id="feedback" class="feedback"></div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">28 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise â€” 3 minutes.</strong></p>
+        <p>The most commonly missed: <strong>model_version</strong> (students think it's obvious from context â€” it's not when you have multiple model versions in production) and <strong>inference_latency_ms</strong> (students think logging is for correctness, not performance).</p>
+        <p>The distractor <strong>employee_name</strong> is a teaching moment: avoid PII in AI logs unless required â€” adds compliance burden without diagnostic value.</p>
+        <p>The 4 correct fields: fraud_score/confidence, model_version, inference_latency_ms, input_features. Each enables a different kind of diagnosis: score drift, deployment correlation, SLA monitoring, and data drift respectively.</p>
+    </script>
+
+    <script>
+        const correct = new Set(['fraud_score', 'model_version', 'latency', 'input_features']);
+        const explanations = {
+            fraud_score:    'Needed to analyze score distributions and tune confidence thresholds over time.',
+            model_version:  'Needed to correlate accuracy changes with specific model deployments and enable rollback decisions.',
+            latency:        'Needed for SLA monitoring and detecting performance degradation â€” correctness alone is not enough.',
+            input_features: 'Needed to detect data drift â€” are the inputs changing compared to training data distribution?',
+            employee_name:  'PII â€” not needed in AI logs. Adds compliance burden without diagnostic value.',
+            description:    'Implied by merchant field. Not an AI inference field.',
+            approver_id:    'Business workflow field, not relevant to AI inference quality.',
+            currency:       'Part of amount context but minor. Not a critical AI inference field.'
+        };
+        const selected = new Set();
+
+        function toggleField(btn) {
+            const id = btn.dataset.id;
+            if (btn.classList.contains('correct') || btn.classList.contains('incorrect') || btn.classList.contains('missed')) return;
+            if (selected.has(id)) {
+                selected.delete(id);
+                btn.classList.remove('selected');
+            } else {
+                selected.add(id);
+                btn.classList.add('selected');
+            }
+            updateScore();
+        }
+
+        function updateScore() {
+            const count = Array.from(selected).filter(id => correct.has(id)).length;
+            document.getElementById('scoreDisplay').textContent = count + ' / 4 critical fields selected';
+        }
+
+        function checkSelection() {
+            var correctCount = 0;
+            var incorrectCount = 0;
+            var missedCount = 0;
+            document.querySelectorAll('.field-btn').forEach(function(btn) {
+                const id = btn.dataset.id;
+                const isSelected = selected.has(id);
+                const isCorrect = correct.has(id);
+                btn.classList.remove('selected', 'correct', 'incorrect', 'missed');
+                if (isSelected && isCorrect)  { btn.classList.add('correct');   correctCount++; }
+                else if (isSelected && !isCorrect) { btn.classList.add('incorrect'); incorrectCount++; }
+                else if (!isSelected && isCorrect) { btn.classList.add('missed');    missedCount++; }
+            });
+            const fb = document.getElementById('feedback');
+            fb.classList.add('show');
+            if (correctCount === 4 && incorrectCount === 0) {
+                fb.textContent = '4 / 4 critical fields identified!';
+                fb.className = 'feedback show correct';
+            } else {
+                fb.textContent = correctCount + ' / 4 correct. Green = correct, Red = incorrect selection, Yellow = missed critical field.';
+                fb.className = 'feedback show partial';
+            }
+            document.getElementById('scoreDisplay').textContent = correctCount + ' / 4 critical fields identified';
+        }
+
+        function revealAnswers() {
+            document.querySelectorAll('.field-btn').forEach(function(btn) {
+                const id = btn.dataset.id;
+                btn.classList.remove('selected', 'correct', 'incorrect', 'missed');
+                if (correct.has(id)) btn.classList.add('correct');
+            });
+            const fb = document.getElementById('feedback');
+            fb.textContent = 'Missing: fraud_score (score distribution), model_version (deployment correlation), inference_latency_ms (SLA), input_features (drift detection).';
+            fb.className = 'feedback show correct';
+            document.getElementById('scoreDisplay').textContent = '4 / 4 critical fields identified';
+        }
+
+        function resetSelection() {
+            selected.clear();
+            document.querySelectorAll('.field-btn').forEach(function(btn) {
+                btn.classList.remove('selected', 'correct', 'incorrect', 'missed');
+            });
+            var fb = document.getElementById('feedback');
+            fb.className = 'feedback';
+            fb.textContent = '';
+            document.getElementById('scoreDisplay').textContent = '0 / 4 critical fields selected';
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

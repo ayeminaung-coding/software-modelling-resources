@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>References &amp; Questions - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .references-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        .reference-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: var(--light-color);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            font-size: 1.15rem;
+            line-height: 1.5;
+        }
+        .reference-item .ref-icon {
+            flex-shrink: 0;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-top: 0.1rem;
+        }
+        .reference-item .ref-author {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        .reference-item .ref-title {
+            font-style: italic;
+            color: var(--text-color);
+        }
+        .reference-item .ref-year {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        .questions-section {
+            margin-top: auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            border-radius: 16px;
+            text-align: center;
+            color: white;
+        }
+        .questions-section h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        .questions-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>References &amp; Questions</h2>
+        <div class="content-area">
+            <div class="references-list">
+                <div class="reference-item">
+                    <span class="ref-icon">&#x1F4D6;</span>
+                    <div>
+                        <span class="ref-author">Baldwin, C. &amp; Clark, K.</span> &mdash;
+                        <span class="ref-title">Design Rules: The Power of Modularity</span>
+                    </div>
+                </div>
+                <div class="reference-item">
+                    <span class="ref-icon">&#x1F4D6;</span>
+                    <div>
+                        <span class="ref-author">Parnas, D.</span> &mdash;
+                        <span class="ref-title">On the Criteria to Be Used in Decomposing Systems into Modules</span>
+                        <span class="ref-year">(1972)</span>
+                    </div>
+                </div>
+                <div class="reference-item">
+                    <span class="ref-icon">&#x1F4D6;</span>
+                    <div>
+                        <span class="ref-author">Conway, M.</span> &mdash;
+                        <span class="ref-title">How Do Committees Invent?</span>
+                        <span class="ref-year">(1968)</span>
+                    </div>
+                </div>
+                <div class="reference-item">
+                    <span class="ref-icon">&#x1F4D6;</span>
+                    <div>
+                        <span class="ref-author">Gamma, E. et al.</span> &mdash;
+                        <span class="ref-title">Design Patterns: Elements of Reusable Object-Oriented Software</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="questions-section">
+                <h3>Questions?</h3>
+                <p>Feel free to ask about any concept covered in this lesson.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">33 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p>Parnas's 1972 paper on information hiding is a classic &mdash; it laid the foundation for modern software design. Conway's Law is equally foundational.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

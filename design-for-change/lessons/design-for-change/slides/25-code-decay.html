@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Decay - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .decay-definition {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 1px solid #fca5a5;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .decay-definition p {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #991b1b;
+        }
+        .effects-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .effect-card {
+            background: var(--light-color);
+            border-radius: 8px;
+            padding: 0.8rem 1.2rem;
+            border-left: 4px solid var(--danger-color);
+        }
+        .effect-card p {
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+        .what-to-do h3 {
+            font-size: 1.15rem;
+            color: var(--primary-color);
+            margin-bottom: 0.6rem;
+        }
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+        .checklist li {
+            font-size: 1rem;
+            padding: 0.4rem 0.8rem;
+            background: var(--light-color);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0;
+        }
+        .checklist li .check-icon {
+            color: var(--success-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+            min-width: 20px;
+        }
+        .review-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+        }
+        .review-box h4 {
+            font-size: 1rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.6rem;
+            text-align: center;
+        }
+        .review-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            font-size: 0.9rem;
+        }
+        .review-step {
+            background: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            border: 1px solid #bfdbfe;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .review-arrow {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Code Decay</h2>
+        <div class="content-area">
+            <div class="decay-definition">
+                <p>Code Decay: When the code/implementation is not consistent with the design</p>
+            </div>
+
+            <div class="effects-row">
+                <div class="effect-card">
+                    <p>Makes code harder to change</p>
+                </div>
+                <div class="effect-card">
+                    <p>Can lead to defects</p>
+                </div>
+            </div>
+
+            <div class="what-to-do">
+                <h3>What to do about code decay?</h3>
+                <ul class="checklist">
+                    <li><span class="check-icon">&#10003;</span> <strong>Prevent code decay</strong> &mdash; communicate design to developers</li>
+                    <li><span class="check-icon">&#10003;</span> <strong>Check consistency</strong> &mdash; verify changes align with design</li>
+                    <li><span class="check-icon">&#10003;</span> <strong>Code reviews</strong> &mdash; quality gate before code is committed</li>
+                    <li><span class="check-icon">&#10003;</span> <strong>Fix code decay</strong> &mdash; refactor code to match design</li>
+                    <li><span class="check-icon">&#10003;</span> <strong>Refactoring sprints</strong> &mdash; dedicated time to improve consistency</li>
+                </ul>
+            </div>
+
+            <div class="review-box">
+                <h4>Code Review Process</h4>
+                <div class="review-flow">
+                    <span class="review-step">Developer makes change</span>
+                    <span class="review-arrow">&rarr;</span>
+                    <span class="review-step">Another developer reviews</span>
+                    <span class="review-arrow">&rarr;</span>
+                    <span class="review-step">Checks for defects AND design violations</span>
+                    <span class="review-arrow">&rarr;</span>
+                    <span class="review-step">Comments for fixes</span>
+                    <span class="review-arrow">&rarr;</span>
+                    <span class="review-step">Code committed after approval</span>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">25 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Code reviews</strong> are one of the most effective tools for preventing code decay. They catch both bugs and design violations before they enter the codebase.</p>
+        <p>Key point: code decay is different from technical debt. Debt is a conscious decision; decay is often unintentional - it happens when developers don't understand the design or when the design isn't communicated clearly.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resilience Patterns</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Resilience Patterns</h2>
+        <div class="content-area">
+            <div class="three-columns">
+                <div class="card">
+                    <h4>Circuit Breaker</h4>
+                    <div style="font-size: 2rem; text-align: center; margin: 0.5rem 0;">🔌</div>
+                    <p style="font-size: 0.95rem;">Stop calling failing services. States: Closed → Open → Half-Open</p>
+                    <pre style="font-size: 0.75rem; margin-top: 0.5rem;"><code>if (failures > threshold)
+  circuit.open()
+  return fallback</code></pre>
+                </div>
+                <div class="card success">
+                    <h4>Retry with Backoff</h4>
+                    <div style="font-size: 2rem; text-align: center; margin: 0.5rem 0;">🔄</div>
+                    <p style="font-size: 0.95rem;">Retry failed requests with exponential delay</p>
+                    <pre style="font-size: 0.75rem; margin-top: 0.5rem;"><code>delay = base * 2^attempt
+// 1s, 2s, 4s, 8s...</code></pre>
+                </div>
+                <div class="card warning">
+                    <h4>Bulkhead</h4>
+                    <div style="font-size: 2rem; text-align: center; margin: 0.5rem 0;">🚢</div>
+                    <p style="font-size: 0.95rem;">Isolate failures to prevent cascade. Limit concurrent calls per service.</p>
+                    <pre style="font-size: 0.75rem; margin-top: 0.5rem;"><code>pool.payments = 10
+pool.inventory = 20</code></pre>
+                </div>
+            </div>
+
+            <div class="two-columns" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <h4>Timeout</h4>
+                    <p style="font-size: 1rem;">Set maximum wait time for external calls. Fail fast rather than hang.</p>
+                    <span class="badge primary">Always set timeouts</span>
+                </div>
+                <div class="card danger">
+                    <h4>Fallback</h4>
+                    <p style="font-size: 1rem;">Provide degraded functionality when primary fails. Cache, default, or alternative.</p>
+                    <span class="badge warning">Graceful degradation</span>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <strong>Tools:</strong> Resilience4j (Java), Polly (.NET), Hystrix (legacy), Envoy proxy
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">30 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Resilience Patterns:</strong></p>
+<p>In distributed systems, failures are normal. Design for them!</p>
+<ul>
+<li><em>Circuit Breaker:</em> Stop calling failing services</li>
+<li><em>Retry with Backoff:</em> Prevent thundering herd</li>
+<li><em>Bulkhead:</em> Isolate failures to prevent cascade</li>
+</ul>
+<p><strong>Tools:</strong> Resilience4j (Java), Polly (.NET), or service mesh (Istio).</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

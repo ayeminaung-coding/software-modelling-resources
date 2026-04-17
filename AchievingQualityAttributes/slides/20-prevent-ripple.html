@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prevent Ripple Effects Tactics - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Prevent Ripple Effects Tactics</h2>
+        <div class="content-area">
+            <p style="font-size: 1.3rem; color: var(--text-light); margin-bottom: 2rem; text-align: center;">
+                <strong>Goal:</strong> Ensure changes in one module don't force changes in others
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tactic</th>
+                        <th>Description</th>
+                        <th>Implementation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Hide Information</strong></td>
+                        <td>Expose only through interfaces</td>
+                        <td>Encapsulation, private/public APIs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maintain Existing Interfaces</strong></td>
+                        <td>Add adapters for changes</td>
+                        <td>API versioning, deprecation policies</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Restrict Communication Paths</strong></td>
+                        <td>Minimize dependencies</td>
+                        <td>Layered architecture, API gateway</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Use Intermediaries</strong></td>
+                        <td>Decouple producers and consumers</td>
+                        <td>Message queues, event bus, facades</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box warning" style="margin-top: 1.5rem;">
+                <h4 style="margin-bottom: 0.5rem;">Types of Dependencies to Manage</h4>
+                <div class="flow-horizontal" style="justify-content: space-around; padding: 1rem 0;">
+                    <div style="text-align: center;">
+                        <span class="badge primary">Syntax</span>
+                        <p style="font-size: 0.9rem; margin: 0.5rem 0 0 0;">Data format dependencies</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <span class="badge warning">Semantic</span>
+                        <p style="font-size: 0.9rem; margin: 0.5rem 0 0 0;">Data meaning dependencies</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <span class="badge danger">Sequence</span>
+                        <p style="font-size: 0.9rem; margin: 0.5rem 0 0 0;">Order of operations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">20 / 22</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Preventing Ripple Effects:</strong></p>
+        <ul>
+            <li><em>Hide Information:</em> Modules only know what they need to know. Internal details are hidden behind interfaces.</li>
+            <li><em>Maintain Interfaces:</em> Don't break existing consumers. Add new versions instead of modifying.</li>
+            <li><em>Restrict Paths:</em> If A doesn't talk to C directly, changes in C won't affect A.</li>
+            <li><em>Intermediaries:</em> Put something in between that can absorb changes.</li>
+        </ul>
+        <p><strong>Dependency types explained:</strong></p>
+        <ul>
+            <li><em>Syntax:</em> "I expect JSON with field 'userId'" - if format changes, I break</li>
+            <li><em>Semantic:</em> "I expect 'status' to be 'active' or 'inactive'" - if meanings change, I break</li>
+            <li><em>Sequence:</em> "I call A before B" - if order requirements change, I break</li>
+        </ul>
+        <p><strong>Modern implementations:</strong></p>
+        <ul>
+            <li>GraphQL reduces syntax dependencies (ask for what you need)</li>
+            <li>Event-driven architecture reduces coupling (publish events, don't call directly)</li>
+            <li>Service mesh handles cross-cutting concerns (intermediary pattern)</li>
+        </ul>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

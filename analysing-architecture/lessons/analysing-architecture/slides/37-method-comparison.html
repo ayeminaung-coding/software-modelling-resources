@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Method Comparison - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .comparison-intro {
+            font-size: 1.05rem;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            font-size: 0.88rem;
+        }
+        .comparison-table thead th {
+            background: #1e293b;
+            color: white;
+            padding: 0.85rem 1rem;
+            font-weight: 700;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+        .comparison-table thead th:first-child {
+            width: 15%;
+        }
+        .comparison-table tbody td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+            line-height: 1.5;
+        }
+        .comparison-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .comparison-table tbody tr:nth-child(odd) {
+            background: #f8fafc;
+        }
+        .comparison-table tbody tr:nth-child(even) {
+            background: white;
+        }
+        .method-name {
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .method-name.use-case { color: #2563eb; }
+        .method-name.qa { color: #7c3aed; }
+        .method-name.tradeoff { color: #d97706; }
+        .method-name.cba { color: #059669; }
+        .effort-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .effort-low { background: #dcfce7; color: #166534; }
+        .effort-medium { background: #fef9c3; color: #854d0e; }
+        .effort-high { background: #fed7aa; color: #9a3412; }
+        .tip-box {
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            border: 2px solid #6366f1;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        .tip-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .tip-box p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #312e81;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Analysis Method Comparison</h2>
+        <div class="content-area">
+            <p class="comparison-intro">
+                Each analysis method serves a different purpose. Choose based on what questions you need to answer about your architecture.
+            </p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>When to Use</th>
+                        <th>Inputs</th>
+                        <th>Outputs</th>
+                        <th>Effort</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="method-name use-case">Use Case Analysis</span></td>
+                        <td>Early design phase; validating functional coverage and identifying architecture-relevant scenarios</td>
+                        <td>Use cases, user stories, domain model</td>
+                        <td>Architecture scenarios, prototypes, risk areas</td>
+                        <td><span class="effort-badge effort-low">Low</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-name qa">QA Analysis</span></td>
+                        <td>After initial design; verifying the architecture meets quality requirements</td>
+                        <td>QA scenarios, SLAs, architecture views</td>
+                        <td>Metrics, compliance reports, gap analysis</td>
+                        <td><span class="effort-badge effort-medium">Medium</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-name tradeoff">Trade-off Analysis</span></td>
+                        <td>When choosing between design alternatives that favor different quality attributes</td>
+                        <td>Design options, QA priorities, stakeholder concerns</td>
+                        <td>Decision records, ranked alternatives, rationale</td>
+                        <td><span class="effort-badge effort-medium">Medium</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-name cba">Cost-Benefit Analysis</span></td>
+                        <td>Before committing resources; justifying architecture investments to stakeholders</td>
+                        <td>Cost estimates, benefit projections, risk factors</td>
+                        <td>ROI, break-even point, risk-adjusted estimates</td>
+                        <td><span class="effort-badge effort-high">High</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <span class="tip-icon">&#128161;</span>
+                <p><strong>In practice:</strong> Start with Use Case Analysis to understand scope, use QA Analysis to validate design, apply Trade-off Analysis at decision points, and use CBA for major investment decisions. They complement each other across the architecture lifecycle.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">37 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Analysis Method Comparison - Key Takeaways:</strong></p>
+        <ul>
+            <li>This slide provides a reference for students to understand when to reach for each tool in their analysis toolkit.</li>
+            <li><strong>Use Case Analysis</strong> is the lowest-effort method and should be the starting point. It helps identify what the architecture needs to support and reveals scenarios that drive architectural decisions.</li>
+            <li><strong>QA Analysis</strong> is more structured - you need defined quality attribute scenarios and measurable criteria. Methods like ATAM (Architecture Tradeoff Analysis Method) formalize this.</li>
+            <li><strong>Trade-off Analysis</strong> is essential when there's no "perfect" option. Every architectural choice involves trade-offs, and this method makes them explicit rather than implicit.</li>
+            <li><strong>Cost-Benefit Analysis</strong> requires the most effort (financial data, projections, risk assessment) but is essential for major decisions. It speaks the language of business stakeholders.</li>
+            <li><strong>Practical advice:</strong> You don't always need all four methods. For small decisions, use case + trade-off analysis may suffice. For major investments (platform changes, new technology adoption), add CBA. The key is matching the analysis depth to the decision's impact.</li>
+            <li>These methods are not sequential - you may iterate between them as understanding deepens.</li>
+        </ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

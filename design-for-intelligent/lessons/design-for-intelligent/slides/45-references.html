@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Further Reading - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .refs-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .refs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.65rem;
+        }
+        .ref-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.7rem 0.85rem;
+            display: flex;
+            gap: 0.6rem;
+        }
+        .ref-icon {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            margin-top: 0.05rem;
+        }
+        .ref-content { flex: 1; }
+        .ref-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.2rem;
+        }
+        .ref-author {
+            font-size: 0.78rem;
+            color: #475569;
+            font-style: italic;
+            margin-bottom: 0.25rem;
+        }
+        .ref-desc {
+            font-size: 0.77rem;
+            color: #334155;
+            line-height: 1.45;
+        }
+        .ref-url {
+            font-size: 0.72rem;
+            color: #3b82f6;
+            margin-top: 0.2rem;
+            word-break: break-all;
+        }
+        .tools-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.65rem 0.85rem;
+        }
+        .tools-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #475569;
+            margin-bottom: 0.4rem;
+        }
+        .tools-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .tool-tag {
+            background: white;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #334155;
+        }
+        @media (max-width: 768px) {
+            .refs-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Further Reading</h2>
+        <div class="content-area">
+
+            <div class="refs-layout">
+
+                <div class="refs-grid">
+
+                    <div class="ref-card">
+                        <div class="ref-icon">&#128203;</div>
+                        <div class="ref-content">
+                            <div class="ref-title">Hidden Technical Debt in Machine Learning Systems</div>
+                            <div class="ref-author">Sculley et al. â€” Google, NIPS 2015</div>
+                            <div class="ref-desc">The foundational paper on ML technical debt. Identifies entanglement, correction cascades, undeclared consumers, and pipeline jungle. Short (9 pages) and extremely influential.</div>
+                            <div class="ref-url">papers.nips.cc</div>
+                        </div>
+                    </div>
+
+                    <div class="ref-card">
+                        <div class="ref-icon">&#128218;</div>
+                        <div class="ref-content">
+                            <div class="ref-title">Designing Machine Learning Systems</div>
+                            <div class="ref-author">Chip Huyen â€” O'Reilly, 2022</div>
+                            <div class="ref-desc">Comprehensive guide to production ML systems architecture. Covers data systems, training pipelines, deployment, and monitoring. Best end-to-end resource for going deeper.</div>
+                        </div>
+                    </div>
+
+                    <div class="ref-card">
+                        <div class="ref-icon">&#127760;</div>
+                        <div class="ref-content">
+                            <div class="ref-title">Patterns for Machine Learning</div>
+                            <div class="ref-author">Martin Fowler â€” martinfowler.com</div>
+                            <div class="ref-desc">Architectural patterns for integrating ML into software systems. Includes feature store, model-as-service, and strangler-fig patterns for ML migration.</div>
+                            <div class="ref-url">martinfowler.com</div>
+                        </div>
+                    </div>
+
+                    <div class="ref-card">
+                        <div class="ref-icon">&#128295;</div>
+                        <div class="ref-content">
+                            <div class="ref-title">Google MLOps Guides</div>
+                            <div class="ref-author">Google Cloud â€” cloud.google.com</div>
+                            <div class="ref-desc">Practical MLOps implementation: CI/CD for models, monitoring, deployment automation. Covers continuous training, model registry, and production monitoring pipelines.</div>
+                            <div class="ref-url">cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="tools-box">
+                    <div class="tools-title">Bonus Tools</div>
+                    <div class="tools-row">
+                        <span class="tool-tag">MLflow â€” experiment tracking + model registry</span>
+                        <span class="tool-tag">Evidently AI â€” data and model monitoring</span>
+                        <span class="tool-tag">BentoML â€” model serving framework</span>
+                        <span class="tool-tag">LangChain â€” RAG implementation</span>
+                        <span class="tool-tag">LlamaIndex â€” RAG implementation</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">45 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Further Reading.</strong></p>
+        <p>The Sculley et al. paper is a must-read â€” it's short (9 pages) and extremely influential. Assign it as reading if possible.</p>
+        <p>Chip Huyen's book is the best end-to-end resource for students who want to go deeper into production ML systems. It covers everything from data collection to monitoring in production.</p>
+        <p>For Thai university context: many of these are available on O'Reilly Learning if the university has a subscription. MLflow is free and open-source â€” students can try it immediately on their projects.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Objectives - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .objectives-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+        .objective-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: white;
+            border-radius: 10px;
+            padding: 0.85rem 1.1rem;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .objective-card:nth-child(2) { border-left-color: #6366f1; }
+        .objective-card:nth-child(3) { border-left-color: #8b5cf6; }
+        .objective-card:nth-child(4) { border-left-color: #ec4899; }
+        .objective-card:nth-child(5) { border-left-color: #ef4444; }
+        .verb-badge {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .objective-text {
+            font-size: 1.05rem;
+            line-height: 1.45;
+            color: var(--dark-color);
+        }
+        .objective-text strong {
+            color: var(--primary-color);
+        }
+        @media (max-width: 768px) {
+            .objective-card { flex-direction: column; gap: 0.5rem; }
+            .verb-badge { align-self: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Learning Objectives</h2>
+        <div class="content-area">
+            <div class="objectives-list">
+                <div class="objective-card">
+                    <span class="verb-badge">Identify</span>
+                    <p class="objective-text"><strong>Identify</strong> the unique risks of integrating AI components into software systems</p>
+                </div>
+                <div class="objective-card">
+                    <span class="verb-badge">Apply</span>
+                    <p class="objective-text"><strong>Apply</strong> architecture patterns for AI-integrated systems (AI-as-a-Service, Embedded Model, Pipeline, Human-in-the-Loop, RAG)</p>
+                </div>
+                <div class="objective-card">
+                    <span class="verb-badge">Design</span>
+                    <p class="objective-text"><strong>Design</strong> AI component isolation using stable interfaces and fallback strategies</p>
+                </div>
+                <div class="objective-card">
+                    <span class="verb-badge">Evaluate</span>
+                    <p class="objective-text"><strong>Evaluate</strong> observability and data contract requirements for AI systems</p>
+                </div>
+                <div class="objective-card">
+                    <span class="verb-badge">Detect</span>
+                    <p class="objective-text"><strong>Detect</strong> AI-specific technical debt patterns including model decay and hidden coupling</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">2 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Learning Objectives:</strong></p>
+        <p>These objectives follow Bloom's taxonomy â€” starting from identifying risks (knowledge) through to detecting debt (evaluation). By the end students should be able to make deliberate architectural decisions about AI integration, not just use AI as a black box.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

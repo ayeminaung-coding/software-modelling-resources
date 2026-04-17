@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Design the Isolation - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .isolation-ex-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .part-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #475569;
+            margin-bottom: 0.4rem;
+        }
+        .part-a-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.7rem 0.9rem;
+        }
+        .code-block {
+            background: #0f172a;
+            border-radius: 6px;
+            padding: 0.5rem 0.7rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.78rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+        }
+        .ck  { color: #93c5fd; }
+        .fn  { color: #fde68a; }
+        .cmt { color: #64748b; font-style: italic; }
+        .chips-row {
+            display: flex;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+            margin-top: 0.4rem;
+        }
+        .option-chip {
+            background: white;
+            border: 2px solid #cbd5e1;
+            border-radius: 20px;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #334155;
+            font-family: inherit;
+            min-height: 44px;
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .option-chip:hover   { background: #eff6ff; border-color: #3b82f6; color: #1e40af; }
+        .option-chip.selected { background: #eff6ff; border-color: #3b82f6; color: #1e40af; }
+        .option-chip.correct  { background: #dcfce7 !important; border-color: #22c55e !important; color: #166534 !important; }
+        .option-chip.incorrect { background: #fef2f2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
+        .answer-reveal {
+            display: none;
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
+            font-size: 0.83rem;
+            color: #1e293b;
+            line-height: 1.5;
+            margin-top: 0.4rem;
+        }
+        .answer-reveal.show { display: block; }
+        .part-b-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.7rem 0.9rem;
+        }
+        .textarea-hint {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-style: italic;
+            margin-bottom: 0.35rem;
+        }
+        .design-textarea {
+            width: 100%;
+            min-height: 90px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 0.5rem 0.65rem;
+            font-size: 0.82rem;
+            font-family: 'Courier New', monospace;
+            color: #1e293b;
+            resize: vertical;
+            box-sizing: border-box;
+            line-height: 1.5;
+        }
+        .design-textarea:focus { outline: none; border-color: #6366f1; }
+        .control-buttons {
+            display: flex;
+            gap: 0.55rem;
+            flex-wrap: wrap;
+            margin-top: 0.4rem;
+        }
+        .btn {
+            padding: 0.5rem 0.9rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-check  { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .btn-reveal { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+        .btn-check:hover,  .btn-check:active  { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(16,185,129,0.3); }
+        .btn-reveal:hover, .btn-reveal:active { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(99,102,241,0.3); }
+        @media (max-width: 768px) {
+            .chips-row { gap: 0.35rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Design the Isolation</h2>
+        <div class="content-area">
+
+            <div class="isolation-ex-layout">
+
+                <!-- Part A -->
+                <div class="part-a-box">
+                    <div class="part-label">Part A â€” Interface Design</div>
+                    <div class="code-block"><span class="ck">interface</span> FraudDetector &#123;<br>
+&nbsp;&nbsp;evaluate(expense: Expense): <span class="fn">???</span><br>
+&nbsp;&nbsp;<span class="cmt">// What should the return type contain?</span><br>
+&#125;</div>
+                    <p style="font-size:0.84rem; color:#334155; margin:0 0 0.25rem 0;">Select the best return type:</p>
+                    <div class="chips-row" id="chipsRow">
+                        <button class="option-chip" data-id="boolean"    onclick="selectChip(this)">boolean</button>
+                        <button class="option-chip" data-id="FraudResult" onclick="selectChip(this)">FraudResult</button>
+                        <button class="option-chip" data-id="float"      onclick="selectChip(this)">float</button>
+                        <button class="option-chip" data-id="void"       onclick="selectChip(this)">void</button>
+                        <button class="option-chip" data-id="String"     onclick="selectChip(this)">String</button>
+                    </div>
+                    <div class="control-buttons">
+                        <button class="btn btn-check"  onclick="checkChip()">Check</button>
+                        <button class="btn btn-reveal" onclick="revealChip()">Reveal Answer</button>
+                    </div>
+                    <div id="chipAnswer" class="answer-reveal">
+                        <strong>FraudResult</strong> is correct. A boolean alone doesn't carry: (1) confidence score â€” needed for Human-in-the-Loop routing, (2) reason â€” needed for audit and compliance, (3) modelVersion â€” needed for drift analysis.<br>
+                        <code style="font-size:0.78rem;">FraudResult { isFraud: bool, confidence: float, reason: String, modelVersion: String }</code>
+                    </div>
+                </div>
+
+                <!-- Part B -->
+                <div class="part-b-box">
+                    <div class="part-label">Part B â€” Architecture Sketch</div>
+                    <div class="textarea-hint">Describe how you would wire FraudDetector into ExpenseProcessor. Consider: constructor injection, factory, or service locator.</div>
+                    <textarea class="design-textarea" id="designTextarea" rows="6"
+                        inputmode="text"
+                        placeholder="e.g.: ExpenseProcessor receives FraudDetector via constructor. The calling code creates AIFraudDetector and passes it in..."></textarea>
+                    <div class="control-buttons">
+                        <button class="btn btn-reveal" onclick="revealSample()">Reveal Sample Answer</button>
+                    </div>
+                    <div id="sampleAnswer" class="answer-reveal">
+                        <strong>Constructor Injection (recommended):</strong>
+                        <div style="background:#0f172a; border-radius:5px; padding:0.5rem 0.65rem; margin-top:0.35rem; font-family:'Courier New',monospace; font-size:0.72rem; line-height:1.55; color:#e2e8f0;">
+                            <span style="color:#93c5fd;">class</span> ExpenseProcessor &#123;<br>
+                            &nbsp;&nbsp;<span style="color:#93c5fd;">constructor</span>(<span style="color:#93c5fd;">private</span> fraudDetector: FraudDetector) &#123;&#125;<br>
+                            <br>
+                            &nbsp;&nbsp;<span style="color:#fde68a;">submit</span>(expense: Expense): SubmissionResult &#123;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#93c5fd;">var</span> fraud = fraudDetector.<span style="color:#fde68a;">evaluate</span>(expense);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#93c5fd;">if</span> (fraud.isFraud &amp;&amp; fraud.confidence &gt; 0.8)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#fde68a;">reject</span>(expense);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#64748b; font-style:italic;">// ...</span><br>
+                            &nbsp;&nbsp;&#125;<br>
+                            &#125;
+                        </div>
+                        <p style="margin:0.4rem 0 0 0; font-size:0.8rem; color:#475569;">Constructor injection is testable: inject MockFraudDetector in tests. Factory and service locator are harder to test because dependencies are resolved at runtime.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">33 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise â€” Design the Isolation.</strong></p>
+        <p>Part A: most students say "boolean" â€” it's the simplest answer. Guide them to FraudResult: a boolean alone doesn't carry confidence (needed for Human-in-the-Loop) or reason (needed for audit). Ask: "What does the approver see when an expense is flagged?" â€” they need a reason, not just true/false.</p>
+        <p>Part B: constructor injection is the right answer for testability â€” you can inject MockFraudDetector in tests. Factory and service locator are harder to test because dependencies are resolved at runtime, making mocking difficult.</p>
+        <p>A common wrong answer: "new AIFraudDetector() inside the constructor" â€” this is back to the before state, just one level of indirection added.</p>
+    </script>
+
+    <script>
+        let selectedChip = null;
+
+        function selectChip(btn) {
+            document.querySelectorAll('.option-chip').forEach(function(c) {
+                c.classList.remove('selected', 'correct', 'incorrect');
+            });
+            btn.classList.add('selected');
+            selectedChip = btn.dataset.id;
+        }
+
+        function checkChip() {
+            if (!selectedChip) return;
+            document.querySelectorAll('.option-chip').forEach(function(c) {
+                c.classList.remove('selected', 'correct', 'incorrect');
+                if (c.dataset.id === 'FraudResult') {
+                    c.classList.add('correct');
+                } else if (c.dataset.id === selectedChip) {
+                    c.classList.add('incorrect');
+                }
+            });
+        }
+
+        function revealChip() {
+            document.querySelectorAll('.option-chip').forEach(function(c) {
+                c.classList.remove('selected', 'correct', 'incorrect');
+                if (c.dataset.id === 'FraudResult') c.classList.add('correct');
+            });
+            document.getElementById('chipAnswer').classList.add('show');
+        }
+
+        function revealSample() {
+            document.getElementById('sampleAnswer').classList.add('show');
+        }
+
+        // iOS keyboard scroll fix
+        document.getElementById('designTextarea').addEventListener('focus', function() {
+            var el = this;
+            setTimeout(function() { el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 400);
+        });
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

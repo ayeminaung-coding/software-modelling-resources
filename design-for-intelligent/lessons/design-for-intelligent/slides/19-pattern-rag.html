@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattern 5: RAG - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .rag-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+        .diagram-panel {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.75rem;
+        }
+        .diag-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .bottom-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem;
+        }
+        .use-case-box {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #22c55e;
+            border-radius: 10px;
+            padding: 0.65rem 0.9rem;
+        }
+        .use-case-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #166534;
+            margin-bottom: 0.25rem;
+        }
+        .use-case-box p {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: #14532d;
+            margin: 0;
+            line-height: 1.5;
+        }
+        .key-insight-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid #3b82f6;
+            border-radius: 10px;
+            padding: 0.65rem 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        .key-insight-box p {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin: 0;
+            line-height: 1.5;
+        }
+        @media (max-width: 768px) {
+            .bottom-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Pattern 5: RAG (Retrieval-Augmented Generation)</h2>
+        <div class="content-area">
+
+            <div class="rag-layout">
+
+                <div class="diagram-panel">
+                    <div class="diag-title">RAG Architecture Flow</div>
+                    <svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
+                        <defs>
+                            <linearGradient id="blueG19" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#1e40af"/>
+                                <stop offset="100%" stop-color="#3b82f6"/>
+                            </linearGradient>
+                            <linearGradient id="amberG19" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#92400e"/>
+                                <stop offset="100%" stop-color="#f59e0b"/>
+                            </linearGradient>
+                            <linearGradient id="purpleG19" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#5b21b6"/>
+                                <stop offset="100%" stop-color="#8b5cf6"/>
+                            </linearGradient>
+                            <linearGradient id="greenG19" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#065f46"/>
+                                <stop offset="100%" stop-color="#10b981"/>
+                            </linearGradient>
+                            <marker id="ab19" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#3b82f6"/>
+                            </marker>
+                            <marker id="ag19" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#10b981"/>
+                            </marker>
+                            <marker id="aa19" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#f59e0b"/>
+                            </marker>
+                            <marker id="ap19" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#8b5cf6"/>
+                            </marker>
+                        </defs>
+
+                        <!-- User Query box (blue, left) -->
+                        <rect x="5" y="80" width="90" height="50" rx="8" fill="url(#blueG19)"/>
+                        <text x="50" y="99" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" font-weight="700" fill="white">User Query</text>
+                        <text x="50" y="110" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#bfdbfe">"Is this hotel</text>
+                        <text x="50" y="121" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#bfdbfe">within policy?"</text>
+
+                        <!-- Arrow: Query â†’ Retriever -->
+                        <line x1="95" y1="105" x2="158" y2="105" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#ab19)"/>
+
+                        <!-- Retriever (green, center-left) -->
+                        <rect x="160" y="88" width="80" height="34" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+                        <text x="200" y="103" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#166534">Semantic</text>
+                        <text x="200" y="115" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#166534">Search</text>
+
+                        <!-- Arrow: Retriever â†’ Vector DB (up) -->
+                        <line x1="200" y1="88" x2="200" y2="62" stroke="#22c55e" stroke-width="1.5" marker-end="url(#ag19)"/>
+
+                        <!-- Vector DB (amber, top center) -->
+                        <rect x="140" y="20" width="120" height="42" rx="8" fill="url(#amberG19)"/>
+                        <text x="200" y="36" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="white">Policy Documents</text>
+                        <text x="200" y="48" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" fill="#fef3c7">(Vectorized)</text>
+                        <text x="200" y="58" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#fef3c7">Vector DB</text>
+
+                        <!-- Arrow: Vector DB â†’ LLM (relevant chunks) -->
+                        <line x1="260" y1="41" x2="316" y2="78" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#aa19)"/>
+                        <text x="296" y="60" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#92400e">Relevant</text>
+                        <text x="296" y="70" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#92400e">chunks</text>
+
+                        <!-- Arrow: Retriever â†’ LLM (with query) -->
+                        <line x1="240" y1="105" x2="313" y2="105" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#ap19)"/>
+                        <text x="276" y="100" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#6d28d9">+ query</text>
+
+                        <!-- LLM box (purple, center right) -->
+                        <rect x="315" y="78" width="80" height="54" rx="8" fill="url(#purpleG19)"/>
+                        <text x="355" y="97" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="white">Language</text>
+                        <text x="355" y="109" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="white">Model</text>
+                        <text x="355" y="122" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#e9d5ff">(LLM)</text>
+
+                        <!-- Arrow: LLM â†’ Response -->
+                        <line x1="395" y1="105" x2="393" y2="105" stroke="#10b981" stroke-width="1.5"/>
+                        <line x1="395" y1="105" x2="455" y2="105" stroke="#10b981" stroke-width="1.5" marker-end="url(#ag19)"/>
+
+                        <!-- Response box (green, right) -->
+                        <rect x="390" y="75" width="85" height="60" rx="8" fill="url(#greenG19)"/>
+                        <text x="432" y="94" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" font-weight="700" fill="white">Response</text>
+                        <text x="432" y="105" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#a7f3d0">"Yes, within</text>
+                        <text x="432" y="116" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#a7f3d0">$200/night</text>
+                        <text x="432" y="127" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#a7f3d0">(Policy Â§3.2)"</text>
+
+                        <!-- Step labels at bottom -->
+                        <text x="50"  y="190" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#64748b">â‘  Ask</text>
+                        <text x="200" y="190" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#64748b">â‘¡ Retrieve</text>
+                        <text x="355" y="190" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#64748b">â‘¢ Generate</text>
+                        <text x="432" y="190" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#64748b">â‘£ Ground</text>
+                    </svg>
+                </div>
+
+                <div class="bottom-row">
+                    <div class="use-case-box">
+                        <div class="use-case-label">SmartExpense Use Case</div>
+                        <p>Policy compliance chatbot &mdash; employee asks "Can I expense a team dinner?" &rarr; retrieves relevant policy sections &rarr; LLM generates grounded answer with citation.</p>
+                    </div>
+                    <div class="key-insight-box">
+                        <p>&#128161; <strong>RAG prevents LLM hallucination</strong> by grounding answers in your actual documents. The LLM can only reference what was retrieved. Key component: vector database (Pinecone, Weaviate, pgvector).</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">19 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Pattern 5 â€” RAG (Retrieval-Augmented Generation).</strong></p>
+        <p>RAG is increasingly important for enterprise AI â€” it allows you to use powerful LLMs while keeping answers factually grounded in company-specific documents.</p>
+        <p>For expense management: policy documents, company guidelines, past approved/rejected examples can all be vectorized. The key architectural component is the vector database (Pinecone, Weaviate, pgvector).</p>
+        <p>The "without RAG" failure: ask an LLM "what's our hotel expense policy?" â†’ it confidently answers with generic hotel policies, not your actual policy. With RAG, it retrieves your actual Â§3.2 and cites it.</p>
+        <p>Vector databases work by converting documents to numerical embeddings, then finding the most semantically similar chunks to the query â€” it's approximate similarity search, not keyword matching.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

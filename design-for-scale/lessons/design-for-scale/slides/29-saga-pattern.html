@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saga Pattern</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .intro-text {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .demo-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .mode-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary-color);
+            background: white;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mode-btn:hover {
+            background: #eff6ff;
+        }
+
+        .mode-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .fail-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            color: white;
+        }
+
+        .simulation-area {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 1rem;
+        }
+
+        .saga-flow {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            position: relative;
+        }
+
+        .orchestrator-box {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .orchestrator-box.active {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        }
+
+        .orchestrator-box.hidden {
+            display: none;
+        }
+
+        .services-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .service-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service-box {
+            flex: 1;
+            padding: 0.7rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: #e2e8f0;
+            color: var(--text-color);
+        }
+
+        .service-box.order { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; }
+        .service-box.payment { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; }
+        .service-box.inventory { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
+        .service-box.shipping { background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); color: white; }
+
+        .service-box.pending {
+            opacity: 0.5;
+        }
+
+        .service-box.processing {
+            animation: pulse 0.5s infinite;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+
+        .service-box.success {
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        .service-box.failed {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+        }
+
+        .service-box.compensating {
+            animation: shake 0.5s ease;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+        }
+
+        .service-box.compensated {
+            opacity: 0.4;
+            background: #94a3b8 !important;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .arrow-right {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .arrow-right.active {
+            color: var(--primary-color);
+        }
+
+        .arrow-right.event {
+            font-size: 0.8rem;
+            color: #f59e0b;
+        }
+
+        .event-label {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            text-align: center;
+            min-width: 50px;
+        }
+
+        .log-panel {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .panel-title {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .log-entry {
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 0.3rem;
+            font-size: 0.75rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .log-entry.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-left: 3px solid #3b82f6;
+        }
+
+        .log-entry.success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 3px solid #10b981;
+        }
+
+        .log-entry.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 3px solid #ef4444;
+        }
+
+        .log-entry.compensate {
+            background: #fef3c7;
+            color: #92400e;
+            border-left: 3px solid #f59e0b;
+        }
+
+        .log-entry.event {
+            background: #f3e8ff;
+            color: #6b21a8;
+            border-left: 3px solid #8b5cf6;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .compensate-note {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 0.6rem 0.8rem;
+            margin-top: 0.75rem;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            background: white;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #94a3b8;
+        }
+
+        .status-dot.running {
+            background: #f59e0b;
+            animation: pulse 1s infinite;
+        }
+
+        .status-dot.success {
+            background: #10b981;
+        }
+
+        .status-dot.failed {
+            background: #ef4444;
+        }
+
+        .mode-description {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Saga Pattern - Interactive Demo</h2>
+        <div class="content-area">
+            <div class="intro-text">
+                <strong>Saga</strong> manages distributed transactions across multiple services through
+                a sequence of local transactions with compensating actions for rollback.
+            </div>
+
+            <div class="demo-container">
+                <div class="controls-row">
+                    <div class="mode-selector">
+                        <button class="mode-btn active" data-mode="orchestration">Orchestration</button>
+                        <button class="mode-btn" data-mode="choreography">Choreography</button>
+                    </div>
+                    <button class="action-btn start-btn" id="startBtn" onclick="startSaga()">
+                        Start Order Saga
+                    </button>
+                    <button class="action-btn fail-btn" id="failBtn" onclick="triggerFailure()" disabled>
+                        Simulate Failure
+                    </button>
+                    <button class="action-btn reset-btn" onclick="resetDemo()">
+                        Reset
+                    </button>
+                    <div class="status-indicator">
+                        <div class="status-dot" id="statusDot"></div>
+                        <span id="statusText">Ready</span>
+                    </div>
+                </div>
+
+                <div class="mode-description" id="modeDescription">
+                    Central orchestrator coordinates all service calls
+                </div>
+
+                <div class="simulation-area">
+                    <div class="log-panel">
+                        <div class="panel-title">Saga Log</div>
+                        <div id="logEntries"></div>
+                    </div>
+
+                    <div class="saga-flow">
+                        <div class="orchestrator-box" id="orchestrator">
+                            Saga Orchestrator
+                        </div>
+
+                        <div class="services-container" id="servicesContainer">
+                            <div class="service-row">
+                                <div class="service-box order pending" id="orderService">
+                                    Order Service
+                                    <div style="font-size: 0.7rem; opacity: 0.8;">Create Order</div>
+                                </div>
+                                <div class="arrow-right" id="arrow1">→</div>
+                                <div class="event-label" id="event1"></div>
+                                <div class="arrow-right" id="arrow1b">→</div>
+                                <div class="service-box payment pending" id="paymentService">
+                                    Payment Service
+                                    <div style="font-size: 0.7rem; opacity: 0.8;">Process Payment</div>
+                                </div>
+                            </div>
+                            <div class="service-row">
+                                <div class="arrow-right" id="arrow2">→</div>
+                                <div class="event-label" id="event2"></div>
+                                <div class="arrow-right" id="arrow2b">→</div>
+                                <div class="service-box inventory pending" id="inventoryService">
+                                    Inventory Service
+                                    <div style="font-size: 0.7rem; opacity: 0.8;">Reserve Items</div>
+                                </div>
+                                <div class="arrow-right" id="arrow3">→</div>
+                                <div class="event-label" id="event3"></div>
+                                <div class="arrow-right" id="arrow3b">→</div>
+                                <div class="service-box shipping pending" id="shippingService">
+                                    Shipping Service
+                                    <div style="font-size: 0.7rem; opacity: 0.8;">Schedule Delivery</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="compensate-note">
+                    <strong>Compensating Transactions:</strong> Each step must have a rollback action.
+                    If payment fails → cancel order. If shipping fails → refund payment, restore inventory.
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">29 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Saga Pattern Interactive Demo:</strong></p>
+<p>Demonstrate both coordination styles:</p>
+<ul>
+<li><strong>Orchestration:</strong> Central coordinator manages the flow - easier to understand and debug</li>
+<li><strong>Choreography:</strong> Services react to events - more decoupled but harder to track</li>
+</ul>
+<p>Click "Simulate Failure" during execution to show compensating transactions!</p>
+<p><strong>Key concept:</strong> Every step must have a compensating action for rollback!</p>
+    </script>
+
+    <script>
+        let mode = 'orchestration';
+        let isRunning = false;
+        let shouldFail = false;
+        let currentStep = 0;
+
+        const services = ['orderService', 'paymentService', 'inventoryService', 'shippingService'];
+        const serviceNames = ['Order', 'Payment', 'Inventory', 'Shipping'];
+        const compensateActions = ['Cancel Order', 'Refund Payment', 'Release Inventory', 'Cancel Shipping'];
+
+        const STEP_DELAY = 1200;
+
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (isRunning) return;
+                mode = btn.dataset.mode;
+                document.querySelectorAll('.mode-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.mode === mode);
+                });
+                updateModeDescription();
+                resetDemo();
+            });
+        });
+
+        function updateModeDescription() {
+            const desc = document.getElementById('modeDescription');
+            const orch = document.getElementById('orchestrator');
+
+            if (mode === 'orchestration') {
+                desc.textContent = 'Central orchestrator coordinates all service calls';
+                orch.classList.remove('hidden');
+            } else {
+                desc.textContent = 'Services communicate via events - decentralized coordination';
+                orch.classList.add('hidden');
+            }
+        }
+
+        function resetDemo() {
+            isRunning = false;
+            shouldFail = false;
+            currentStep = 0;
+
+            services.forEach(id => {
+                const el = document.getElementById(id);
+                el.className = el.className.split(' ')[0] + ' ' + el.className.split(' ')[1] + ' pending';
+            });
+
+            document.getElementById('orchestrator').classList.remove('active');
+            document.getElementById('logEntries').innerHTML = '';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('failBtn').disabled = true;
+
+            // Clear arrows and events
+            ['arrow1', 'arrow1b', 'arrow2', 'arrow2b', 'arrow3', 'arrow3b'].forEach(id => {
+                document.getElementById(id).classList.remove('active');
+            });
+            ['event1', 'event2', 'event3'].forEach(id => {
+                document.getElementById(id).textContent = '';
+            });
+
+            updateStatus('ready', 'Ready');
+        }
+
+        function updateStatus(state, text) {
+            const dot = document.getElementById('statusDot');
+            dot.className = 'status-dot';
+            if (state !== 'ready') {
+                dot.classList.add(state);
+            }
+            document.getElementById('statusText').textContent = text;
+        }
+
+        async function startSaga() {
+            if (isRunning) return;
+            isRunning = true;
+            shouldFail = false;
+            currentStep = 0;
+
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('failBtn').disabled = false;
+
+            updateStatus('running', 'Running Saga...');
+
+            if (mode === 'orchestration') {
+                await runOrchestration();
+            } else {
+                await runChoreography();
+            }
+        }
+
+        async function runOrchestration() {
+            const orch = document.getElementById('orchestrator');
+            orch.classList.add('active');
+            addLog('info', 'Orchestrator: Starting order saga');
+
+            for (let i = 0; i < services.length; i++) {
+                if (shouldFail && i >= 2) {
+                    await handleFailure(i);
+                    return;
+                }
+
+                currentStep = i;
+                const service = document.getElementById(services[i]);
+
+                addLog('info', `Orchestrator → ${serviceNames[i]}: Execute`);
+                service.classList.remove('pending');
+                service.classList.add('processing');
+
+                await sleep(STEP_DELAY);
+
+                service.classList.remove('processing');
+                service.classList.add('success');
+                addLog('success', `${serviceNames[i]}: Completed successfully`);
+            }
+
+            orch.classList.remove('active');
+            addLog('success', 'Saga completed successfully!');
+            updateStatus('success', 'Saga Complete');
+            document.getElementById('failBtn').disabled = true;
+            isRunning = false;
+        }
+
+        async function runChoreography() {
+            addLog('event', 'OrderRequested event published');
+
+            for (let i = 0; i < services.length; i++) {
+                if (shouldFail && i >= 2) {
+                    await handleFailure(i);
+                    return;
+                }
+
+                currentStep = i;
+                const service = document.getElementById(services[i]);
+
+                // Show event flow
+                if (i > 0) {
+                    const eventLabel = document.getElementById('event' + i);
+                    const eventNames = ['', 'OrderCreated', 'PaymentCompleted', 'InventoryReserved'];
+                    eventLabel.textContent = eventNames[i];
+                    addLog('event', `${eventNames[i]} event received by ${serviceNames[i]}`);
+                }
+
+                service.classList.remove('pending');
+                service.classList.add('processing');
+
+                await sleep(STEP_DELAY);
+
+                service.classList.remove('processing');
+                service.classList.add('success');
+
+                const completedEvents = ['OrderCreated', 'PaymentCompleted', 'InventoryReserved', 'ShippingScheduled'];
+                addLog('success', `${serviceNames[i]}: ${completedEvents[i]} event published`);
+            }
+
+            addLog('success', 'Saga completed successfully!');
+            updateStatus('success', 'Saga Complete');
+            document.getElementById('failBtn').disabled = true;
+            isRunning = false;
+        }
+
+        function triggerFailure() {
+            if (!isRunning) return;
+            shouldFail = true;
+            document.getElementById('failBtn').disabled = true;
+        }
+
+        async function handleFailure(failedStep) {
+            const failedService = document.getElementById(services[failedStep]);
+            failedService.classList.remove('pending', 'processing');
+            failedService.classList.add('failed');
+
+            addLog('error', `${serviceNames[failedStep]}: FAILED!`);
+            updateStatus('failed', 'Rolling Back...');
+
+            await sleep(800);
+
+            if (mode === 'orchestration') {
+                addLog('compensate', 'Orchestrator: Initiating compensation');
+            } else {
+                addLog('event', `${serviceNames[failedStep]}Failed event published`);
+            }
+
+            // Compensate all completed steps in reverse
+            for (let i = failedStep - 1; i >= 0; i--) {
+                const service = document.getElementById(services[i]);
+
+                if (mode === 'orchestration') {
+                    addLog('compensate', `Orchestrator → ${serviceNames[i]}: ${compensateActions[i]}`);
+                } else {
+                    addLog('event', `${serviceNames[i]} received compensation event`);
+                }
+
+                service.classList.remove('success');
+                service.classList.add('compensating');
+
+                await sleep(STEP_DELAY);
+
+                service.classList.remove('compensating');
+                service.classList.add('compensated');
+                addLog('compensate', `${serviceNames[i]}: ${compensateActions[i]} completed`);
+            }
+
+            document.getElementById('orchestrator').classList.remove('active');
+            addLog('error', 'Saga rolled back - all compensations complete');
+            updateStatus('failed', 'Rollback Complete');
+            isRunning = false;
+        }
+
+        function addLog(type, message) {
+            const container = document.getElementById('logEntries');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = message;
+            container.insertBefore(entry, container.firstChild);
+
+            // Keep scrolled to top
+            container.scrollTop = 0;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Initialize
+        updateModeDescription();
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

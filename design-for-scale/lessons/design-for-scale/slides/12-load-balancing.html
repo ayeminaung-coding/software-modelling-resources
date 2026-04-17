@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Balancing</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Load Balancing</h2>
+        <div class="content-area">
+            <div class="highlight-box">
+                <p style="font-size: 1.3rem;">
+                    <strong>Load Balancing</strong> distributes incoming network traffic across multiple servers
+                    to ensure no single server becomes overwhelmed.
+                </p>
+            </div>
+
+            <div class="diagram" style="margin-top: 1.5rem; padding: 1.5rem;">
+                <div class="arch-container">
+                    <div class="arch-layer">
+                        <div class="diagram-box">Clients</div>
+                    </div>
+                    <div class="arrow-down">↓</div>
+                    <div class="arch-layer">
+                        <div class="diagram-box success" style="padding: 1rem 3rem;">Load Balancer</div>
+                    </div>
+                    <div class="arch-layer" style="margin-top: 0.5rem;">
+                        <span class="arrow" style="transform: rotate(45deg);">↓</span>
+                        <span class="arrow">↓</span>
+                        <span class="arrow" style="transform: rotate(-45deg);">↓</span>
+                    </div>
+                    <div class="arch-layer">
+                        <div class="diagram-box secondary">Server 1</div>
+                        <div class="diagram-box secondary">Server 2</div>
+                        <div class="diagram-box secondary">Server 3</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-columns" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <h4>Benefits</h4>
+                    <ul style="font-size: 1.1rem;">
+                        <li>Increased availability</li>
+                        <li>Better performance</li>
+                        <li>Easier maintenance</li>
+                    </ul>
+                </div>
+                <div class="card success">
+                    <h4>Common Tools</h4>
+                    <ul style="font-size: 1.1rem;">
+                        <li>NGINX, HAProxy</li>
+                        <li>AWS ELB/ALB</li>
+                        <li>Kubernetes Ingress</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">12 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Load Balancing Fundamentals:</strong></p>
+<ul>
+<li>The load balancer is often the first component after the user</li>
+<li>Acts as a reverse proxy - users never see individual servers</li>
+<li>Also handles SSL termination, health checks, and session affinity</li>
+</ul>
+<p><strong>Popular choices:</strong> NGINX (simple), HAProxy (powerful), cloud-native (AWS ALB).</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

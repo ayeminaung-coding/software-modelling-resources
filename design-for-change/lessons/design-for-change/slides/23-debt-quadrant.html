@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Debt Quadrant - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .quadrant-container {
+            display: grid;
+            grid-template-columns: auto 1fr 1fr;
+            grid-template-rows: auto 1fr 1fr;
+            gap: 0;
+            flex: 1;
+            max-width: 100%;
+        }
+        .axis-corner {
+            width: 2.5rem;
+        }
+        .axis-label-top {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            padding-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+        .axis-label-left {
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .quadrant {
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 0.3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .quadrant h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+        .quadrant p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        .quadrant .example {
+            font-size: 0.85rem;
+            font-style: italic;
+            color: inherit;
+            opacity: 0.8;
+            margin-top: auto;
+        }
+        .q-reckless-deliberate {
+            background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+            border: 2px solid #ef4444;
+        }
+        .q-reckless-deliberate h4 { color: #991b1b; }
+        .q-prudent-deliberate {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid #10b981;
+        }
+        .q-prudent-deliberate h4 { color: #065f46; }
+        .q-reckless-inadvertent {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border: 2px solid #f97316;
+        }
+        .q-reckless-inadvertent h4 { color: #9a3412; }
+        .q-prudent-inadvertent {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #3b82f6;
+        }
+        .q-prudent-inadvertent h4 { color: #1e40af; }
+        .attribution {
+            text-align: right;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Technical Debt Quadrant</h2>
+        <div class="content-area">
+            <div class="quadrant-container">
+                <div class="axis-corner"></div>
+                <div class="axis-label-top">Deliberate</div>
+                <div class="axis-label-top">Inadvertent</div>
+
+                <div class="axis-label-left">Reckless</div>
+                <div class="quadrant q-reckless-deliberate">
+                    <h4>Reckless &amp; Deliberate</h4>
+                    <p>"We don't have time for design"</p>
+                    <div class="example">Skipping architecture review to meet deadline</div>
+                </div>
+                <div class="quadrant q-reckless-inadvertent">
+                    <h4>Reckless &amp; Inadvertent</h4>
+                    <p>"What's layering?"</p>
+                    <div class="example">Junior dev creates tight coupling without knowing better</div>
+                </div>
+
+                <div class="axis-label-left">Prudent</div>
+                <div class="quadrant q-prudent-deliberate">
+                    <h4>Prudent &amp; Deliberate</h4>
+                    <p>"We must ship now and deal with consequences"</p>
+                    <div class="example">Hardcoding config to hit launch date, with refactor planned</div>
+                </div>
+                <div class="quadrant q-prudent-inadvertent">
+                    <h4>Prudent &amp; Inadvertent</h4>
+                    <p>"Now we know how we should have done it"</p>
+                    <div class="example">Discovering a better pattern after building the feature</div>
+                </div>
+            </div>
+            <div class="attribution">&mdash; Martin Fowler, Technical Debt Quadrant</div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">23 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Martin Fowler's Technical Debt Quadrant</strong> helps categorize the different ways teams accumulate debt.</p>
+        <p><strong>Reckless + Deliberate:</strong> The worst kind â€” you know you're cutting corners but don't care. Often leads to massive rework.</p>
+        <p><strong>Prudent + Deliberate:</strong> The strategic kind â€” you consciously take on debt with a plan to pay it back. This is sometimes the right business decision.</p>
+        <p><strong>Reckless + Inadvertent:</strong> Caused by lack of knowledge or experience. Training and code reviews help prevent this.</p>
+        <p><strong>Prudent + Inadvertent:</strong> Unavoidable â€” you only learn the better approach after building it. The key is to refactor when you gain this knowledge.</p>
+        <p>Ask students: "Which quadrant do you think is most common in real projects?"</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

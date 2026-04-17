@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion: Technical Debt Scenarios - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .discussion-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .discussion-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+            border-left: 5px solid var(--primary-color);
+        }
+        .discussion-card:nth-child(1) {
+            border-left-color: #f59e0b;
+        }
+        .discussion-card:nth-child(2) {
+            border-left-color: #8b5cf6;
+        }
+        .discussion-card:nth-child(3) {
+            border-left-color: #ef4444;
+        }
+        .discussion-number {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+        }
+        .discussion-card:nth-child(1) .discussion-number { background: #f59e0b; }
+        .discussion-card:nth-child(2) .discussion-number { background: #8b5cf6; }
+        .discussion-card:nth-child(3) .discussion-number { background: #ef4444; }
+        .discussion-card p {
+            font-size: 1.15rem;
+            line-height: 1.5;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        .tps-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+        }
+        .tps-box h4 {
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            text-align: center;
+        }
+        .tps-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .tps-step {
+            background: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid #bfdbfe;
+            font-size: 1.05rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        .tps-step strong {
+            color: var(--primary-color);
+        }
+        .tps-arrow {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Discussion: Technical Debt Scenarios</h2>
+        <div class="content-area">
+            <div class="discussion-cards">
+                <div class="discussion-card">
+                    <div class="discussion-number">1</div>
+                    <p>Your startup needs to ship an MVP in 2 weeks. Your lead suggests skipping the adapter pattern and directly integrating with the payment API. Do you agree?</p>
+                </div>
+                <div class="discussion-card">
+                    <div class="discussion-number">2</div>
+                    <p>A senior developer left the team. Their code works but nobody understands the design. Is this technical debt?</p>
+                </div>
+                <div class="discussion-card">
+                    <div class="discussion-number">3</div>
+                    <p>Management says "We'll refactor later" every sprint. What happens?</p>
+                </div>
+            </div>
+
+            <div class="tps-box">
+                <h4>Think &mdash; Pair &mdash; Share</h4>
+                <div class="tps-steps">
+                    <div class="tps-step"><strong>1.</strong> Pick one scenario (1 min)</div>
+                    <span class="tps-arrow">&rarr;</span>
+                    <div class="tps-step"><strong>2.</strong> Discuss with partner (2 min)</div>
+                    <span class="tps-arrow">&rarr;</span>
+                    <div class="tps-step"><strong>3.</strong> Share insights with class</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">26 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p>These scenarios highlight different types of technical debt: <strong>deliberate vs accidental, visible vs invisible.</strong></p>
+        <ul>
+            <li><strong>Scenario 1:</strong> This is deliberate technical debt. It may be acceptable for an MVP, but document it and plan to address it. The adapter pattern is not that much more effort and could save pain later.</li>
+            <li><strong>Scenario 2:</strong> Yes! This is accidental/invisible debt. The design knowledge was never documented or shared. This is sometimes called "knowledge debt."</li>
+            <li><strong>Scenario 3:</strong> Key insight: "We'll refactor later" is the most dangerous form of technical debt because "later" rarely comes. The debt compounds each sprint until the codebase becomes very expensive to change.</li>
+        </ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

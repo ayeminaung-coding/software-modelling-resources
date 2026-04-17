@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event-Driven Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Event-Driven Architecture</h2>
+        <div class="content-area">
+            <div class="highlight-box">
+                <p style="font-size: 1.3rem;">
+                    <strong>Event-Driven Architecture (EDA)</strong> uses events to trigger and communicate
+                    between decoupled services, enabling loose coupling and scalability.
+                </p>
+            </div>
+
+            <div class="diagram" style="padding: 1.5rem; margin-top: 1.5rem;">
+                <div class="arch-container">
+                    <div class="arch-layer">
+                        <div class="diagram-box">Order Service</div>
+                        <span style="margin: 0 1rem;">→ <em>OrderCreated</em> →</span>
+                        <div class="diagram-box success" style="padding: 1rem 2rem;">Event Bus</div>
+                    </div>
+                    <div class="arrow-down">↓</div>
+                    <div class="arch-layer">
+                        <div class="diagram-box secondary">Inventory</div>
+                        <div class="diagram-box secondary">Notification</div>
+                        <div class="diagram-box secondary">Analytics</div>
+                        <div class="diagram-box secondary">Shipping</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-columns" style="margin-top: 1.5rem;">
+                <div>
+                    <h3>Event Types</h3>
+                    <ul>
+                        <li><strong>Domain Events:</strong> OrderPlaced, UserRegistered</li>
+                        <li><strong>Integration Events:</strong> Cross-service communication</li>
+                        <li><strong>Command Events:</strong> SendEmail, ProcessPayment</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Benefits for Scale</h3>
+                    <ul>
+                        <li>Loose coupling between services</li>
+                        <li>Async processing by default</li>
+                        <li>Easy to add new consumers</li>
+                        <li>Natural load leveling</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">24 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Event-Driven Architecture:</strong></p>
+<ul>
+<li>Services communicate through events, not direct calls</li>
+<li>Publisher does not need to know about subscribers</li>
+<li>Easy to add new functionality without changing existing code</li>
+</ul>
+<p><strong>Key benefit for scaling:</strong> Natural decoupling and async processing built in.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

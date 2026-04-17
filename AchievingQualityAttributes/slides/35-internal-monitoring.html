@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internal Monitoring Tactics - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Internal Monitoring Tactics</h2>
+        <div class="content-area">
+            <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">Observe internal system state during testing and production</p>
+
+            <div class="three-columns">
+                <div class="card">
+                    <h4>Logging</h4>
+                    <ul style="font-size: 0.95rem;">
+                        <li>Structured JSON logs</li>
+                        <li>Correlation IDs across services</li>
+                        <li>Log levels (DEBUG, INFO, ERROR)</li>
+                        <li>Centralized aggregation</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-light);">
+                        Tools: ELK Stack, Loki, CloudWatch
+                    </p>
+                </div>
+                <div class="card success">
+                    <h4>Metrics</h4>
+                    <ul style="font-size: 0.95rem;">
+                        <li>Quantitative measurements</li>
+                        <li>RED method (Rate, Errors, Duration)</li>
+                        <li>USE method (Utilization, Saturation, Errors)</li>
+                        <li>Custom business metrics</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-light);">
+                        Tools: Prometheus, Datadog, Grafana
+                    </p>
+                </div>
+                <div class="card warning">
+                    <h4>Tracing</h4>
+                    <ul style="font-size: 0.95rem;">
+                        <li>Distributed request tracking</li>
+                        <li>Span-based timing</li>
+                        <li>Cross-service correlation</li>
+                        <li>Bottleneck identification</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-light);">
+                        Tools: Jaeger, Zipkin, OpenTelemetry
+                    </p>
+                </div>
+            </div>
+
+            <div class="diagram" style="margin-top: 1.5rem; padding: 1.5rem;">
+                <h4 style="margin-bottom: 1rem;">The Three Pillars of Observability</h4>
+                <div class="flow-horizontal">
+                    <div class="diagram-box">Logs</div>
+                    <span style="font-size: 1.5rem; margin: 0 1rem;">+</span>
+                    <div class="diagram-box success">Metrics</div>
+                    <span style="font-size: 1.5rem; margin: 0 1rem;">+</span>
+                    <div class="diagram-box secondary">Traces</div>
+                    <span style="font-size: 1.5rem; margin: 0 1rem;">=</span>
+                    <div class="diagram-box outline" style="font-weight: bold;">Observability</div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <p><strong>OpenTelemetry:</strong> Unified standard for observability data collection.
+                One SDK for logs, metrics, and traces - vendor neutral and widely adopted.</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Points:</strong></p>
+        <ul>
+            <li><em>Logs</em> = What happened (events)</li>
+            <li><em>Metrics</em> = How much/how fast (numbers)</li>
+            <li><em>Traces</em> = Request flow across services (journey)</li>
+        </ul>
+        <p><strong>Testing in Production:</strong></p>
+        <ul>
+            <li>Observability enables safe testing in production</li>
+            <li>Canary deployments with metric comparison</li>
+            <li>Feature flags with monitoring</li>
+        </ul>
+        <p><strong>Correlation IDs:</strong> Single ID that follows a request through all services - critical for debugging!</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

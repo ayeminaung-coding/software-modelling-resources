@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Before / After: AI Isolation in Detail - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .isolation-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .diagrams-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem;
+        }
+        .diag-card {
+            border-radius: 10px;
+            padding: 0.75rem 0.9rem;
+        }
+        .diag-card.before { background: #fff1f2; border: 2px solid #fca5a5; }
+        .diag-card.after  { background: #f0fdf4; border: 2px solid #86efac; }
+        .diag-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.45rem;
+        }
+        .before .diag-title { color: #991b1b; }
+        .after  .diag-title { color: #166534; }
+        .code-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem;
+        }
+        .code-block {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 0.6rem 0.75rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.72rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+        .ck  { color: #93c5fd; }
+        .fn  { color: #fde68a; }
+        .str { color: #86efac; }
+        .cmt { color: #ef4444; font-style: italic; }
+        .cmtg { color: #86efac; font-style: italic; }
+        .code-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #475569;
+            margin-bottom: 0.25rem;
+        }
+        @media (max-width: 768px) {
+            .diagrams-row { grid-template-columns: 1fr; }
+            .code-compare { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Before / After: AI Isolation in Detail</h2>
+        <div class="content-area">
+
+            <div class="isolation-layout">
+
+                <div class="diagrams-row">
+
+                    <div class="diag-card before">
+                        <div class="diag-title">&#10007; Before â€” Direct Coupling</div>
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
+                            <defs>
+                                <marker id="arr32r" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                    <polygon points="0 0,7 2.5,0 5" fill="#ef4444"/>
+                                </marker>
+                            </defs>
+                            <rect x="20" y="70" width="80" height="40" rx="8" fill="#3b82f6"/>
+                            <text x="60" y="87" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9.5" font-weight="700" fill="white">Expense</text>
+                            <text x="60" y="101" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9.5" font-weight="700" fill="white">Processor</text>
+                            <line x1="100" y1="90" x2="118" y2="90" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#arr32r)"/>
+                            <rect x="120" y="70" width="65" height="40" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                            <text x="152" y="87" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#991b1b">OpenAI</text>
+                            <text x="152" y="101" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" fill="#b91c1c">Client</text>
+                            <text x="109" y="82" text-anchor="middle" font-family="system-ui,sans-serif" font-size="6.5" fill="#ef4444">new OpenAI</text>
+                            <text x="109" y="75" text-anchor="middle" font-family="system-ui,sans-serif" font-size="6.5" fill="#ef4444">Client()</text>
+                            <text x="100" y="140" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#dc2626" font-weight="600" font-style="italic">Direct coupling</text>
+                        </svg>
+                    </div>
+
+                    <div class="diag-card after">
+                        <div class="diag-title">&#10003; After â€” Interface Isolated</div>
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
+                            <defs>
+                                <marker id="arr32g" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                    <polygon points="0 0,7 2.5,0 5" fill="#6366f1"/>
+                                </marker>
+                                <marker id="arr32s" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                    <polygon points="0 0,7 2.5,0 5" fill="#94a3b8"/>
+                                </marker>
+                            </defs>
+                            <!-- ExpenseProcessor -->
+                            <rect x="5" y="78" width="65" height="36" rx="7" fill="#3b82f6"/>
+                            <text x="37" y="93" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" font-weight="700" fill="white">Expense</text>
+                            <text x="37" y="106" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" font-weight="700" fill="white">Processor</text>
+                            <!-- arrow to interface -->
+                            <line x1="70" y1="96" x2="84" y2="96" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arr32g)"/>
+                            <!-- FraudDetector interface -->
+                            <rect x="86" y="76" width="66" height="40" rx="7" fill="#eff6ff" stroke="#6366f1" stroke-width="2" stroke-dasharray="5,2"/>
+                            <text x="119" y="91" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#5b21b6">&lt;&lt;interface&gt;&gt;</text>
+                            <text x="119" y="103" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8.5" font-weight="700" fill="#5b21b6">Fraud</text>
+                            <text x="119" y="114" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#7c3aed">Detector</text>
+                            <!-- AIFraudDetector -->
+                            <line x1="152" y1="88" x2="164" y2="65" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr32s)"/>
+                            <rect x="166" y="48" width="28" height="34" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2"/>
+                            <text x="180" y="62" text-anchor="middle" font-family="system-ui,sans-serif" font-size="6.5" font-weight="700" fill="#1e40af">AI Fraud</text>
+                            <text x="180" y="72" text-anchor="middle" font-family="system-ui,sans-serif" font-size="6.5" fill="#1e40af">Detector</text>
+                            <!-- RuleBased -->
+                            <line x1="152" y1="108" x2="164" y2="128" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr32s)"/>
+                            <rect x="166" y="110" width="28" height="34" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="1.2"/>
+                            <text x="180" y="124" text-anchor="middle" font-family="system-ui,sans-serif" font-size="6.5" font-weight="700" fill="#92400e">Rule</text>
+                            <text x="180" y="134" text-anchor="middle" font-family="system-ui,sans-serif" font-size="6.5" fill="#78350f">Based</text>
+                            <!-- OpenAIClient from AI -->
+                            <line x1="194" y1="65" x2="196" y2="65" stroke="#94a3b8" stroke-width="1" marker-end="url(#arr32s)"/>
+                            <text x="100" y="170" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="#166534" font-weight="600" font-style="italic">Depends on abstraction</text>
+                        </svg>
+                    </div>
+
+                </div>
+
+                <div class="code-compare">
+                    <div>
+                        <div class="code-label">&#10007; Before â€” ExpenseProcessor.java</div>
+                        <div class="code-block">
+<span class="ck">var</span> client = <span class="ck">new</span> OpenAIClient(apiKey);<br>
+<span class="ck">var</span> response = client<br>
+&nbsp;&nbsp;.chat(buildPrompt(expense));<br>
+<span class="ck">return</span> response.choices[<span class="fn">0</span>]<br>
+&nbsp;&nbsp;.message.content<br>
+&nbsp;&nbsp;.contains(<span class="str">"FRAUD"</span>);<br>
+<span class="cmt">// âŒ 3 problems visible here</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="code-label">&#10003; After â€” ExpenseProcessor.java</div>
+                        <div class="code-block">
+<span class="ck">var</span> result =<br>
+&nbsp;&nbsp;fraudDetector<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.evaluate(expense);<br>
+<span class="ck">return</span> result.isFraud();<br>
+<br>
+<span class="cmtg">// âœ… interface call â€” clean</span><br>
+<span class="cmtg">// all concerns are delegated</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">32 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Before/After â€” AI Isolation in Detail.</strong></p>
+        <p>The "before" code has 3 problems visible immediately: (1) API key in constructor â€” where does it come from? Is it hardcoded? (2) Parsing the AI response as a string containing "FRAUD" â€” what if the format changes? (3) No error handling â€” what if the chat call fails?</p>
+        <p>The "after" code has none of these â€” they're all the FraudDetector implementation's concern. This is the single responsibility principle applied to AI integration.</p>
+        <p>Ask: "What's the test for the 'before' version?" â€” you need a real OpenAI API key, a network connection, and a working endpoint. Every test is an integration test and costs money. The "after" version: inject MockFraudDetector, tests run in milliseconds.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

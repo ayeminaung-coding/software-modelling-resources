@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Analysis - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .security-approaches {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .security-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border-left: 4px solid var(--primary-color);
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+        .security-card:nth-child(2) { border-left-color: var(--success-color); }
+        .security-card:nth-child(3) { border-left-color: var(--warning-color); }
+        .security-card:nth-child(4) { border-left-color: var(--danger-color); }
+        .security-card .sec-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+        .security-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        .security-card:nth-child(1) h4 { color: var(--primary-color); }
+        .security-card:nth-child(2) h4 { color: var(--success-color); }
+        .security-card:nth-child(3) h4 { color: var(--warning-color); }
+        .security-card:nth-child(4) h4 { color: var(--danger-color); }
+        .security-card p {
+            font-size: 1rem;
+            color: var(--text-color);
+            line-height: 1.4;
+        }
+        .security-card .standards {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.3rem;
+        }
+        .process-flow {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 12px;
+        }
+        .process-flow h4 {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .flow-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .flow-step {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .flow-step:nth-child(3) { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .flow-step:nth-child(5) { background: linear-gradient(135deg, #10b981, #059669); }
+        .flow-step:nth-child(7) { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .flow-step:nth-child(9) { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .flow-arrow {
+            color: #64748b;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Security Analysis</h2>
+        <div class="content-area">
+            <div class="security-approaches">
+                <div class="security-card">
+                    <div class="sec-icon">&#128270;</div>
+                    <div>
+                        <h4>Risk Assessment</h4>
+                        <p>Identify and prioritize security threats based on likelihood and impact</p>
+                    </div>
+                </div>
+                <div class="security-card">
+                    <div class="sec-icon">&#128220;</div>
+                    <div>
+                        <h4>Security Standards</h4>
+                        <p>Apply industry standards and frameworks</p>
+                        <div class="standards">OWASP, ISO 27001, NIST</div>
+                    </div>
+                </div>
+                <div class="security-card">
+                    <div class="sec-icon">&#128296;</div>
+                    <div>
+                        <h4>Penetration Testing</h4>
+                        <p>Simulate attacks to find vulnerabilities before attackers do</p>
+                    </div>
+                </div>
+                <div class="security-card">
+                    <div class="sec-icon">&#128737;</div>
+                    <div>
+                        <h4>Threat Modeling</h4>
+                        <p>Systematic identification of potential threats and attack vectors</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="process-flow">
+                <h4>Security Analysis Process</h4>
+                <div class="flow-steps">
+                    <div class="flow-step">Identify Threats</div>
+                    <span class="flow-arrow">&#8594;</span>
+                    <div class="flow-step">Assess Risk</div>
+                    <span class="flow-arrow">&#8594;</span>
+                    <div class="flow-step">Apply Controls</div>
+                    <span class="flow-arrow">&#8594;</span>
+                    <div class="flow-step">Test</div>
+                    <span class="flow-arrow">&#8594;</span>
+                    <div class="flow-step">Monitor</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">19 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Point:</strong> Security analysis should be ongoing, not a one-time activity. The threat landscape constantly evolves.</p>
+        <ul>
+            <li><em>Risk Assessment:</em> Not all threats are equal - prioritize by likelihood and business impact</li>
+            <li><em>Standards:</em> OWASP Top 10 is a great starting point for web applications, ISO 27001 for organizational security</li>
+            <li><em>Penetration Testing:</em> Hire ethical hackers or use automated tools - think like an attacker</li>
+            <li><em>Threat Modeling:</em> Use techniques like STRIDE (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege)</li>
+        </ul>
+        <p>The process flow shows that security is cyclical - after monitoring, you go back to identifying new threats.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

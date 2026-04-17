@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Managing Technical Debt - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .strategies-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            flex: 1;
+        }
+        .strategy-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 0.9rem 1.2rem;
+            border-radius: 10px;
+            background: var(--light-color);
+        }
+        .strategy-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            font-weight: 700;
+        }
+        .strategy-content h4 {
+            font-size: 1.05rem;
+            margin-bottom: 0.2rem;
+        }
+        .strategy-content p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+        .strategy-item:nth-child(1) { border-left: 4px solid #3b82f6; }
+        .strategy-item:nth-child(1) .strategy-icon { background: #3b82f6; }
+        .strategy-item:nth-child(1) h4 { color: #1e40af; }
+        .strategy-item:nth-child(2) { border-left: 4px solid #8b5cf6; }
+        .strategy-item:nth-child(2) .strategy-icon { background: #8b5cf6; }
+        .strategy-item:nth-child(2) h4 { color: #6d28d9; }
+        .strategy-item:nth-child(3) { border-left: 4px solid #059669; }
+        .strategy-item:nth-child(3) .strategy-icon { background: #059669; }
+        .strategy-item:nth-child(3) h4 { color: #047857; }
+        .strategy-item:nth-child(4) { border-left: 4px solid #f97316; }
+        .strategy-item:nth-child(4) .strategy-icon { background: #f97316; }
+        .strategy-item:nth-child(4) h4 { color: #c2410c; }
+        .principle-callout {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            text-align: center;
+            margin-top: 0.8rem;
+        }
+        .principle-callout p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Managing Technical Debt</h2>
+        <div class="content-area">
+            <div class="strategies-list">
+                <div class="strategy-item">
+                    <div class="strategy-icon">&#128221;</div>
+                    <div class="strategy-content">
+                        <h4>Debt Register</h4>
+                        <p>Track all known debt items with location, impact, and estimated effort to fix. Make debt visible to the whole team.</p>
+                    </div>
+                </div>
+                <div class="strategy-item">
+                    <div class="strategy-icon">&#128202;</div>
+                    <div class="strategy-content">
+                        <h4>Prioritize: Impact x Effort</h4>
+                        <p>Focus on high-impact, low-effort debt first. Use a simple matrix to decide what to pay down next.</p>
+                    </div>
+                </div>
+                <div class="strategy-item">
+                    <div class="strategy-icon">&#9889;</div>
+                    <div class="strategy-content">
+                        <h4>Boy Scout Rule</h4>
+                        <p>"Leave the code better than you found it." Small improvements on every change prevent debt from accumulating.</p>
+                    </div>
+                </div>
+                <div class="strategy-item">
+                    <div class="strategy-icon">&#128736;</div>
+                    <div class="strategy-content">
+                        <h4>Dedicated Refactoring Sprints</h4>
+                        <p>Allocate regular time (e.g., 20% of each sprint) specifically for paying down larger debt items.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="principle-callout">
+                <p>The goal is not zero debt &mdash; it's managed, deliberate debt with a plan to pay it back</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">24 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Managing technical debt</strong> is a team discipline, not a one-time activity.</p>
+        <p><strong>Debt Register:</strong> Like a financial ledger. Use issues, wiki pages, or code comments (TODO with ticket numbers). The key is visibility â€” if debt is invisible, it never gets paid.</p>
+        <p><strong>Impact x Effort Matrix:</strong> A debt item that slows down every developer every day (high impact) and takes 2 hours to fix (low effort) should be addressed immediately. A minor style issue in rarely-touched code can wait.</p>
+        <p><strong>Boy Scout Rule:</strong> Attributed to Robert C. Martin. Don't plan massive refactoring projects â€” instead, improve a little with every commit. Over time, this compounds.</p>
+        <p><strong>Refactoring Sprints:</strong> Some debt is too large for incremental improvement. Reserve dedicated time. Many successful teams use a ratio like 80/20 (features/debt).</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

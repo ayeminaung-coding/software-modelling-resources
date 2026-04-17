@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality Attribute Analysis - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .goals-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .goal-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border-top: 4px solid;
+        }
+        .goal-card:nth-child(1) { border-top-color: #2563eb; }
+        .goal-card:nth-child(2) { border-top-color: #059669; }
+        .goal-card:nth-child(3) { border-top-color: #d97706; }
+        .goal-card .goal-number {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+        .goal-card:nth-child(1) .goal-number { background: #2563eb; }
+        .goal-card:nth-child(2) .goal-number { background: #059669; }
+        .goal-card:nth-child(3) .goal-number { background: #d97706; }
+        .goal-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.6rem;
+        }
+        .goal-card:nth-child(1) h3 { color: #2563eb; }
+        .goal-card:nth-child(2) h3 { color: #059669; }
+        .goal-card:nth-child(3) h3 { color: #d97706; }
+        .goal-card p {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--text-color);
+        }
+        .qa-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .qa-badge {
+            display: inline-block;
+            padding: 0.6rem 1.4rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            letter-spacing: 0.3px;
+        }
+        .qa-badge.availability { background: linear-gradient(135deg, #059669, #10b981); }
+        .qa-badge.performance { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+        .qa-badge.security { background: linear-gradient(135deg, #dc2626, #ef4444); }
+        .qa-badge.modifiability { background: linear-gradient(135deg, #7c3aed, #8b5cf6); }
+        .qa-badge.usability { background: linear-gradient(135deg, #d97706, #f59e0b); }
+        .qa-section-label {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Quality Attribute Analysis</h2>
+        <div class="content-area">
+            <div class="goals-grid">
+                <div class="goal-card">
+                    <div class="goal-number">1</div>
+                    <h3>Understand Characteristics</h3>
+                    <p>Analyze the system's quality properties and behaviors to establish a baseline understanding.</p>
+                </div>
+                <div class="goal-card">
+                    <div class="goal-number">2</div>
+                    <h3>Direct Design</h3>
+                    <p>Use analysis results to guide architectural decisions and inform design trade-offs.</p>
+                </div>
+                <div class="goal-card">
+                    <div class="goal-number">3</div>
+                    <h3>Discover Enhancements</h3>
+                    <p>Identify concrete steps to improve quality attributes and address weaknesses.</p>
+                </div>
+            </div>
+            <div class="qa-section-label">Quality Attributes We Analyze</div>
+            <div class="qa-badges">
+                <span class="qa-badge availability">Availability</span>
+                <span class="qa-badge performance">Performance</span>
+                <span class="qa-badge security">Security</span>
+                <span class="qa-badge modifiability">Modifiability</span>
+                <span class="qa-badge usability">Usability</span>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">14 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Goals of Quality Attribute Analysis:</strong></p>
+        <ul>
+            <li>Each quality attribute has specific metrics and analysis methods. We'll cover each one in detail.</li>
+            <li><strong>Understand Characteristics:</strong> Before you can improve something, you need to understand its current state. What are the quality properties? How does the system behave under various conditions?</li>
+            <li><strong>Direct Design:</strong> Analysis results shouldn't just be reports - they should directly influence architectural decisions. If analysis shows poor availability, the architecture must include redundancy tactics.</li>
+            <li><strong>Discover Enhancements:</strong> Analysis often reveals unexpected improvement opportunities. A performance analysis might reveal that a simple caching strategy could eliminate 80% of database calls.</li>
+        </ul>
+        <p>These three goals form a cycle: understand, design, improve, then re-analyze.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

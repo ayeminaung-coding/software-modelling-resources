@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deterministic vs. Probabilistic - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .comparison-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+        .two-col-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem;
+        }
+        .compare-col {
+            border-radius: 12px;
+            padding: 0.9rem 1rem;
+            border: 3px solid transparent;
+        }
+        .compare-col.traditional {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .compare-col.ai-comp {
+            background: #f5f3ff;
+            border-color: #8b5cf6;
+        }
+        .compare-col-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 0.65rem;
+            padding-bottom: 0.45rem;
+            border-bottom: 2px solid rgba(0,0,0,0.08);
+        }
+        .traditional .compare-col-title { color: #1d4ed8; }
+        .ai-comp .compare-col-title      { color: #7c3aed; }
+        .compare-col ul {
+            margin: 0;
+            padding-left: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+        .compare-col li {
+            font-size: 0.9rem;
+            color: #374151;
+            line-height: 1.4;
+        }
+        .insight-box {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            padding: 0.7rem 1rem;
+            text-align: center;
+        }
+        .insight-box p {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #78350f;
+            margin: 0;
+        }
+        .code-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.85rem;
+        }
+        .code-block {
+            border-radius: 10px;
+            overflow: hidden;
+            font-size: 0.82rem;
+        }
+        .code-header {
+            padding: 0.35rem 0.8rem;
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .code-block.det .code-header  { background: #1d4ed8; color: white; }
+        .code-block.prob .code-header { background: #7c3aed; color: white; }
+        .code-body {
+            background: #1e293b;
+            padding: 0.65rem 0.9rem;
+            color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.5;
+        }
+        .code-comment { color: #94a3b8; font-style: italic; }
+        .code-keyword { color: #93c5fd; }
+        .code-string  { color: #86efac; }
+        .code-number  { color: #fcd34d; }
+        .label-det  { color: #60a5fa; }
+        .label-prob { color: #c4b5fd; }
+        @media (max-width: 768px) {
+            .two-col-compare { grid-template-columns: 1fr; }
+            .code-compare    { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Deterministic vs. Probabilistic</h2>
+        <div class="content-area">
+            <div class="comparison-layout">
+
+                <div class="two-col-compare">
+                    <div class="compare-col traditional">
+                        <div class="compare-col-title">&#9654; Traditional Code</div>
+                        <ul>
+                            <li>Same input &#8594; always same output</li>
+                            <li>Can unit test with exact assertions</li>
+                            <li>Bugs are reproducible</li>
+                            <li>Behavior is fully specified</li>
+                        </ul>
+                    </div>
+                    <div class="compare-col ai-comp">
+                        <div class="compare-col-title">&#129302; AI Component</div>
+                        <ul>
+                            <li>Same input &#8594; probable output (not guaranteed)</li>
+                            <li>Tests verify distributions, not exact values</li>
+                            <li>Bugs may appear / disappear between runs</li>
+                            <li>Behavior emerges from training data</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <p>This one difference changes how you design, test, deploy, and monitor the component.</p>
+                </div>
+
+                <div class="code-compare">
+                    <div class="code-block det">
+                        <div class="code-header">Deterministic</div>
+                        <div class="code-body">
+                            <span class="code-keyword">if</span> (amount &gt; <span class="code-number">500</span>)<br>
+                            &nbsp;&nbsp;<span class="code-keyword">return</span> <span class="label-det">FLAGGED</span>;<br>
+                            <span class="code-comment">// always the same</span>
+                        </div>
+                    </div>
+                    <div class="code-block prob">
+                        <div class="code-header">Probabilistic</div>
+                        <div class="code-body">
+                            <span class="code-keyword">return</span> model.predict(features);<br>
+                            <span class="code-comment">// returns 0.73 (confidence)</span><br>
+                            <span class="code-comment">// or 0.71 next time</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">7 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Deterministic vs. Probabilistic â€” the core conceptual shift.</strong></p>
+        <p>Students trained on deterministic systems instinctively write assertEqual tests and expect reproducibility. AI systems break both assumptions.</p>
+        <p>The architectural implication: you cannot trust the AI component to always be right â€” you must design for its failures.</p>
+        <p>Ask: "How do you write a unit test for a function that returns 0.73 sometimes and 0.71 other times?" Answer: you test the threshold behavior (is it above 0.5?), not the exact value. This changes your testing philosophy.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

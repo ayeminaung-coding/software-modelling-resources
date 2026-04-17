@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Do We Analyse? - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .reason-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            flex: 1;
+            align-items: start;
+        }
+        .reason-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            border-top: 4px solid var(--primary-color);
+            transition: transform 0.2s ease;
+        }
+        .reason-card:hover {
+            transform: translateY(-4px);
+        }
+        .reason-card:nth-child(2) {
+            border-top-color: var(--success-color);
+        }
+        .reason-card:nth-child(3) {
+            border-top-color: var(--warning-color);
+        }
+        .reason-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        .reason-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+        .reason-card:nth-child(2) h3 {
+            color: var(--success-color);
+        }
+        .reason-card:nth-child(3) h3 {
+            color: var(--warning-color);
+        }
+        .reason-card p {
+            font-size: 1.15rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Why Do We Analyse?</h2>
+        <div class="content-area">
+            <div class="reason-cards">
+                <div class="reason-card">
+                    <div class="reason-icon">&#9989;</div>
+                    <h3>Verify Requirements</h3>
+                    <p>Ensure architecture meets functional and non-functional requirements</p>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">&#128736;</div>
+                    <h3>Improve Design</h3>
+                    <p>Identify weaknesses and areas for improvement before implementation</p>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">&#128270;</div>
+                    <h3>Pinpoint Errors</h3>
+                    <p>Discover architectural issues early when they are cheaper to fix</p>
+                </div>
+            </div>
+
+            <div class="highlight-box warning" style="margin-top: 2rem; text-align: center;">
+                <p style="font-size: 1.3rem; margin: 0;">
+                    <strong>Key Insight:</strong> Fixing architectural problems after implementation is
+                    <span style="color: var(--danger-color); font-weight: 700;">10-100x more expensive</span>
+                    than fixing them during design.
+                </p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">4 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Three Key Reasons for Architecture Analysis:</strong></p>
+        <ul>
+            <li><em>Verify Requirements:</em> We need to confirm our architecture actually satisfies what stakeholders need - both functional and non-functional</li>
+            <li><em>Improve Design:</em> Analysis reveals weaknesses we can address before writing a single line of code</li>
+            <li><em>Pinpoint Errors:</em> Early detection of architectural flaws saves enormous cost later</li>
+        </ul>
+        <p>Analysis is critical because fixing architectural problems after implementation is 10-100x more expensive. This is supported by research from Barry Boehm and others on the cost of defect removal at different stages.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

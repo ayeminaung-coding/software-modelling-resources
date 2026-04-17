@@ -1,0 +1,382 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Apply Modifiability Tactics - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+    <style>
+        .exercise-header {
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        .exercise-header h3 { margin: 0 0 0.5rem 0; }
+        .scenario-box {
+            background: var(--light-color);
+            padding: 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #f59e0b;
+        }
+        .problems-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .problem-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            display: grid;
+            grid-template-columns: 40px 1fr 220px;
+            gap: 1rem;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .problem-card.correct {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+        .problem-card.incorrect {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+        .problem-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .problem-text {
+            font-size: 0.95rem;
+        }
+        .tactic-select {
+            padding: 0.6rem 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .tactic-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        .problem-card.correct .tactic-select {
+            border-color: #10b981;
+        }
+        .problem-card.incorrect .tactic-select {
+            border-color: #ef4444;
+        }
+        .tactics-reference {
+            background: #ecfdf5;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .tactics-reference h4 {
+            margin: 0 0 0.75rem 0;
+            color: #059669;
+        }
+        .tactics-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .tactics-list span {
+            background: white;
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            border-left: 3px solid #10b981;
+        }
+        .control-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .btn {
+            padding: 0.6rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-check {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .btn-check:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-reset {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .btn-reset:hover { background: #cbd5e1; }
+        .btn-reveal {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        .btn-reveal:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+        .feedback {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+        .feedback.show { display: block; }
+        .feedback.correct { background: #dcfce7; color: #166534; }
+        .feedback.partial { background: #fef3c7; color: #92400e; }
+        .feedback.info { background: #e0e7ff; color: #3730a3; }
+        .explanation {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .problem-card.show-explanation .explanation {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Apply Modifiability Tactics</h2>
+        <div class="content-area">
+            <div class="exercise-header">
+                <h3>Scenario: Legacy Monolith Refactoring</h3>
+                <p style="margin: 0;">Match each problem to the most appropriate modifiability tactic</p>
+            </div>
+
+            <div class="scenario-box">
+                <p style="margin: 0; font-size: 0.95rem;">
+                    Your company has a <strong>monolithic e-commerce application</strong>. Every feature change requires modifying multiple parts of the codebase and a full redeployment. The team wants to improve modifiability.
+                </p>
+            </div>
+
+            <div class="tactics-reference">
+                <h4>Available Tactics</h4>
+                <div class="tactics-list">
+                    <span>Maintain Semantic Coherence</span>
+                    <span>Abstract Common Services</span>
+                    <span>Hide Information</span>
+                    <span>Generalize Modules</span>
+                    <span>Use Intermediaries</span>
+                </div>
+            </div>
+
+            <div class="problems-container">
+                <div class="problem-card" data-problem="1" data-answer="coherence">
+                    <span class="problem-number">1</span>
+                    <div>
+                        <div class="problem-text">Payment logic is scattered across 5 different modules</div>
+                        <div class="explanation"><strong>Why:</strong> Consolidate all payment code into a Payment Service/Module to maintain semantic coherence.</div>
+                    </div>
+                    <select class="tactic-select" onchange="clearFeedback()">
+                        <option value="">Select a tactic...</option>
+                        <option value="coherence">Maintain Semantic Coherence</option>
+                        <option value="abstract">Abstract Common Services</option>
+                        <option value="hide">Hide Information</option>
+                        <option value="generalize">Generalize Modules</option>
+                        <option value="intermediary">Use Intermediaries</option>
+                    </select>
+                </div>
+
+                <div class="problem-card" data-problem="2" data-answer="hide">
+                    <span class="problem-number">2</span>
+                    <div>
+                        <div class="problem-text">All modules directly access the same database tables</div>
+                        <div class="explanation"><strong>Why:</strong> Create domain services that own their data and access only through APIs - hiding the database implementation details.</div>
+                    </div>
+                    <select class="tactic-select" onchange="clearFeedback()">
+                        <option value="">Select a tactic...</option>
+                        <option value="coherence">Maintain Semantic Coherence</option>
+                        <option value="abstract">Abstract Common Services</option>
+                        <option value="hide">Hide Information</option>
+                        <option value="generalize">Generalize Modules</option>
+                        <option value="intermediary">Use Intermediaries</option>
+                    </select>
+                </div>
+
+                <div class="problem-card" data-problem="3" data-answer="abstract">
+                    <span class="problem-number">3</span>
+                    <div>
+                        <div class="problem-text">Email templates are hardcoded in 12 different places</div>
+                        <div class="explanation"><strong>Why:</strong> Create a centralized Notification/Template Service - abstracting the common email functionality.</div>
+                    </div>
+                    <select class="tactic-select" onchange="clearFeedback()">
+                        <option value="">Select a tactic...</option>
+                        <option value="coherence">Maintain Semantic Coherence</option>
+                        <option value="abstract">Abstract Common Services</option>
+                        <option value="hide">Hide Information</option>
+                        <option value="generalize">Generalize Modules</option>
+                        <option value="intermediary">Use Intermediaries</option>
+                    </select>
+                </div>
+
+                <div class="problem-card" data-problem="4" data-answer="generalize">
+                    <span class="problem-number">4</span>
+                    <div>
+                        <div class="problem-text">Business rules change frequently but require code changes</div>
+                        <div class="explanation"><strong>Why:</strong> Use a rules engine or configuration to externalize business rules - generalizing the module to handle rule changes without code changes.</div>
+                    </div>
+                    <select class="tactic-select" onchange="clearFeedback()">
+                        <option value="">Select a tactic...</option>
+                        <option value="coherence">Maintain Semantic Coherence</option>
+                        <option value="abstract">Abstract Common Services</option>
+                        <option value="hide">Hide Information</option>
+                        <option value="generalize">Generalize Modules</option>
+                        <option value="intermediary">Use Intermediaries</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-buttons">
+                <button class="btn btn-check" onclick="checkAnswers()">Check Answers</button>
+                <button class="btn btn-reveal" onclick="revealAnswers()">Reveal Answers</button>
+                <button class="btn btn-reset" onclick="resetExercise()">Reset</button>
+            </div>
+
+            <div id="feedback" class="feedback"></div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">22 / 45</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise Instructions (7-8 minutes total):</strong></p>
+        <ul>
+            <li>Let students work in pairs for 5 minutes</li>
+            <li>Then discuss solutions as a class (2-3 minutes)</li>
+        </ul>
+        <p><strong>Expected Answers:</strong></p>
+        <ul>
+            <li><em>Problem 1 (Scattered payment logic):</em> <strong>Maintain Semantic Coherence</strong> - Consolidate all payment code into a Payment Service/Module</li>
+            <li><em>Problem 2 (Direct database access):</em> <strong>Hide Information</strong> - Create domain services that own their data, access only through APIs</li>
+            <li><em>Problem 3 (Hardcoded templates):</em> <strong>Abstract Common Services</strong> - Create a centralized Notification/Template Service</li>
+            <li><em>Problem 4 (Frequent rule changes):</em> <strong>Generalize Modules</strong> - Use a rules engine or configuration to externalize business rules</li>
+        </ul>
+        <p><strong>Discussion points:</strong></p>
+        <ul>
+            <li>These are the first steps toward microservices</li>
+            <li>You don't have to go all the way to microservices - even these improvements help</li>
+            <li>Start with the biggest pain points (most frequent changes)</li>
+        </ul>
+    </script>
+
+    <script>
+        const correctAnswers = {
+            '1': 'coherence',
+            '2': 'hide',
+            '3': 'abstract',
+            '4': 'generalize'
+        };
+
+        const tacticNames = {
+            'coherence': 'Maintain Semantic Coherence',
+            'abstract': 'Abstract Common Services',
+            'hide': 'Hide Information',
+            'generalize': 'Generalize Modules',
+            'intermediary': 'Use Intermediaries'
+        };
+
+        function clearFeedback() {
+            document.getElementById('feedback').classList.remove('show');
+            document.querySelectorAll('.problem-card').forEach(card => {
+                card.classList.remove('correct', 'incorrect', 'show-explanation');
+            });
+        }
+
+        function checkAnswers() {
+            let correct = 0;
+            let answered = 0;
+
+            document.querySelectorAll('.problem-card').forEach(card => {
+                const problem = card.dataset.problem;
+                const answer = card.dataset.answer;
+                const select = card.querySelector('.tactic-select');
+                const selected = select.value;
+
+                card.classList.remove('correct', 'incorrect', 'show-explanation');
+
+                if (selected) {
+                    answered++;
+                    if (selected === answer) {
+                        card.classList.add('correct');
+                        correct++;
+                    } else {
+                        card.classList.add('incorrect');
+                    }
+                }
+            });
+
+            const feedback = document.getElementById('feedback');
+
+            if (answered < 4) {
+                feedback.innerHTML = `<strong>Please answer all problems.</strong> You've selected ${answered}/4 tactics.`;
+                feedback.className = 'feedback partial show';
+                return;
+            }
+
+            if (correct === 4) {
+                feedback.innerHTML = '<strong>Excellent!</strong> All correct! These tactics represent the first steps toward microservices architecture, but even without going that far, they significantly improve modifiability.';
+                feedback.className = 'feedback correct show';
+
+                // Show explanations
+                document.querySelectorAll('.problem-card').forEach(card => {
+                    card.classList.add('show-explanation');
+                });
+            } else {
+                feedback.innerHTML = `<strong>${correct}/4 correct.</strong> Red cards have incorrect answers. Think about what each tactic specifically addresses.`;
+                feedback.className = 'feedback partial show';
+            }
+        }
+
+        function revealAnswers() {
+            resetExercise();
+
+            document.querySelectorAll('.problem-card').forEach(card => {
+                const problem = card.dataset.problem;
+                const answer = card.dataset.answer;
+                const select = card.querySelector('.tactic-select');
+
+                select.value = answer;
+                card.classList.add('correct', 'show-explanation');
+            });
+
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = `<strong>Answers:</strong><br>
+                1. Scattered payment logic → <strong>Maintain Semantic Coherence</strong> (consolidate related code)<br>
+                2. Direct DB access → <strong>Hide Information</strong> (encapsulate data access)<br>
+                3. Hardcoded templates → <strong>Abstract Common Services</strong> (centralize common functionality)<br>
+                4. Frequent rule changes → <strong>Generalize Modules</strong> (externalize rules to config)`;
+            feedback.className = 'feedback correct show';
+        }
+
+        function resetExercise() {
+            document.querySelectorAll('.problem-card').forEach(card => {
+                card.classList.remove('correct', 'incorrect', 'show-explanation');
+                card.querySelector('.tactic-select').value = '';
+            });
+            document.getElementById('feedback').classList.remove('show');
+        }
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

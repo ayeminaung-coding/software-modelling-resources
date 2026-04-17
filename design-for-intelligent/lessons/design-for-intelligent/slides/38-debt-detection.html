@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detecting and Monitoring AI Debt - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .monitor-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.65rem;
+        }
+        .metric-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.65rem 0.8rem;
+        }
+        .metric-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .metric-alert {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #dc2626;
+            margin-top: 0.3rem;
+            padding: 0.2rem 0.4rem;
+            background: #fef2f2;
+            border-radius: 4px;
+        }
+        .metric-value {
+            font-size: 0.78rem;
+            color: #475569;
+            margin-top: 0.25rem;
+        }
+        .retrain-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.6rem 0.85rem;
+        }
+        .retrain-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.4rem;
+        }
+        .retrain-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.25rem;
+        }
+        .retrain-item {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.8rem;
+            color: #334155;
+        }
+        /* Gauge-like display for fallback rate */
+        .gauge-display {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 0.35rem;
+        }
+        .gauge-num {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #dc2626;
+        }
+        .gauge-label {
+            font-size: 0.72rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+        @media (max-width: 768px) {
+            .metrics-grid { grid-template-columns: 1fr; }
+            .retrain-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Detecting and Monitoring AI Debt</h2>
+        <div class="content-area">
+
+            <div class="monitor-layout">
+
+                <div class="metrics-grid">
+
+                    <!-- Accuracy Over Time -->
+                    <div class="metric-card">
+                        <div class="metric-title">&#128200; Accuracy Over Time</div>
+                        <svg viewBox="0 0 200 70" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
+                            <!-- Green zone >90% -->
+                            <rect x="30" y="5" width="165" height="18" fill="#dcfce7" opacity="0.6"/>
+                            <text x="28" y="14" text-anchor="end" font-family="system-ui,sans-serif" font-size="6.5" fill="#64748b">100%</text>
+                            <!-- Amber zone 80-90% -->
+                            <rect x="30" y="23" width="165" height="18" fill="#fef3c7" opacity="0.6"/>
+                            <text x="28" y="32" text-anchor="end" font-family="system-ui,sans-serif" font-size="6.5" fill="#64748b">90%</text>
+                            <!-- Red zone <80% -->
+                            <rect x="30" y="41" width="165" height="18" fill="#fee2e2" opacity="0.6"/>
+                            <text x="28" y="50" text-anchor="end" font-family="system-ui,sans-serif" font-size="6.5" fill="#64748b">80%</text>
+                            <text x="28" y="62" text-anchor="end" font-family="system-ui,sans-serif" font-size="6.5" fill="#64748b">70%</text>
+                            <!-- X axis -->
+                            <line x1="30" y1="59" x2="195" y2="59" stroke="#cbd5e1" stroke-width="1"/>
+                            <!-- Accuracy line starting high, dropping -->
+                            <polyline points="35,10 70,10 105,18 140,30 170,43 195,50"
+                                fill="none" stroke="#ef4444" stroke-width="2" stroke-linejoin="round"/>
+                            <!-- current dot -->
+                            <circle cx="195" cy="50" r="3.5" fill="#ef4444"/>
+                            <text x="197" y="50" font-family="system-ui,sans-serif" font-size="6.5" fill="#dc2626" font-weight="700">82%</text>
+                            <!-- Zone labels -->
+                            <text x="32" y="18" font-family="system-ui,sans-serif" font-size="6" fill="#15803d">Good</text>
+                            <text x="32" y="36" font-family="system-ui,sans-serif" font-size="6" fill="#b45309">Amber</text>
+                            <text x="32" y="54" font-family="system-ui,sans-serif" font-size="6" fill="#dc2626">Alert</text>
+                        </svg>
+                        <div class="metric-alert">&#9888; Accuracy 82% â€” below 85% threshold. Retrain recommended.</div>
+                    </div>
+
+                    <!-- Input Distribution Drift -->
+                    <div class="metric-card">
+                        <div class="metric-title">&#128202; Input Distribution Drift</div>
+                        <svg viewBox="0 0 200 70" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
+                            <!-- Bar chart: last month vs current for merchant categories -->
+                            <!-- Categories: Meal, Travel, Hotel, Other -->
+                            <text x="20" y="9"   font-family="system-ui,sans-serif" font-size="6" fill="#64748b">Meal</text>
+                            <rect x="38" y="3" width="48" height="9" fill="#3b82f6" opacity="0.7" rx="2"/>
+                            <rect x="38" y="3" width="32" height="9" fill="#f59e0b" opacity="0.8" rx="2"/>
+
+                            <text x="20" y="22" font-family="system-ui,sans-serif" font-size="6" fill="#64748b">Travel</text>
+                            <rect x="38" y="16" width="36" height="9" fill="#3b82f6" opacity="0.7" rx="2"/>
+                            <rect x="38" y="16" width="48" height="9" fill="#f59e0b" opacity="0.8" rx="2"/>
+
+                            <text x="20" y="35" font-family="system-ui,sans-serif" font-size="6" fill="#64748b">Hotel</text>
+                            <rect x="38" y="29" width="24" height="9" fill="#3b82f6" opacity="0.7" rx="2"/>
+                            <rect x="38" y="29" width="38" height="9" fill="#f59e0b" opacity="0.8" rx="2"/>
+
+                            <text x="20" y="48" font-family="system-ui,sans-serif" font-size="6" fill="#64748b">Other</text>
+                            <rect x="38" y="42" width="12" height="9" fill="#3b82f6" opacity="0.7" rx="2"/>
+                            <rect x="38" y="42" width="28" height="9" fill="#f59e0b" opacity="0.8" rx="2"/>
+
+                            <!-- Legend -->
+                            <rect x="38" y="57" width="8" height="6" fill="#3b82f6" opacity="0.7" rx="1"/>
+                            <text x="48" y="63" font-family="system-ui,sans-serif" font-size="5.5" fill="#64748b">Last month</text>
+                            <rect x="95" y="57" width="8" height="6" fill="#f59e0b" opacity="0.8" rx="1"/>
+                            <text x="105" y="63" font-family="system-ui,sans-serif" font-size="5.5" fill="#64748b">Current</text>
+                        </svg>
+                        <div class="metric-value">JS divergence: <strong style="color:#d97706;">0.23</strong> â€” significant drift detected</div>
+                    </div>
+
+                    <!-- Confidence Score Distribution -->
+                    <div class="metric-card">
+                        <div class="metric-title">&#128200; Confidence Score Distribution</div>
+                        <svg viewBox="0 0 200 70" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
+                            <!-- Healthy bimodal in gray -->
+                            <text x="5" y="10" font-family="system-ui,sans-serif" font-size="6" fill="#94a3b8">Healthy</text>
+                            <rect x="5"   y="14" width="15" height="30" fill="#22c55e" opacity="0.5" rx="2"/>
+                            <rect x="22"  y="30" width="15" height="14" fill="#22c55e" opacity="0.3" rx="2"/>
+                            <rect x="39"  y="35" width="15" height="9"  fill="#22c55e" opacity="0.3" rx="2"/>
+                            <rect x="56"  y="35" width="15" height="9"  fill="#22c55e" opacity="0.3" rx="2"/>
+                            <rect x="73"  y="30" width="15" height="14" fill="#22c55e" opacity="0.3" rx="2"/>
+                            <rect x="90"  y="14" width="15" height="30" fill="#22c55e" opacity="0.5" rx="2"/>
+                            <text x="5" y="50" font-family="system-ui,sans-serif" font-size="5.5" fill="#15803d">bimodal = good</text>
+
+                            <!-- Current flat distribution in red -->
+                            <text x="115" y="10" font-family="system-ui,sans-serif" font-size="6" fill="#dc2626">Current</text>
+                            <rect x="115" y="20" width="12" height="24" fill="#ef4444" opacity="0.6" rx="2"/>
+                            <rect x="129" y="22" width="12" height="22" fill="#ef4444" opacity="0.6" rx="2"/>
+                            <rect x="143" y="18" width="12" height="26" fill="#ef4444" opacity="0.6" rx="2"/>
+                            <rect x="157" y="20" width="12" height="24" fill="#ef4444" opacity="0.6" rx="2"/>
+                            <rect x="171" y="22" width="12" height="22" fill="#ef4444" opacity="0.6" rx="2"/>
+                            <text x="115" y="50" font-family="system-ui,sans-serif" font-size="5.5" fill="#dc2626">flat = drifted</text>
+
+                            <line x1="5" y1="54" x2="195" y2="54" stroke="#e2e8f0" stroke-width="1"/>
+                            <text x="20" y="62" text-anchor="middle" font-family="system-ui,sans-serif" font-size="5.5" fill="#94a3b8">LOW</text>
+                            <text x="60" y="62" text-anchor="middle" font-family="system-ui,sans-serif" font-size="5.5" fill="#94a3b8">MED</text>
+                            <text x="97" y="62" text-anchor="middle" font-family="system-ui,sans-serif" font-size="5.5" fill="#94a3b8">HIGH</text>
+                            <text x="150" y="62" text-anchor="middle" font-family="system-ui,sans-serif" font-size="5.5" fill="#94a3b8">current â†’</text>
+                        </svg>
+                        <div class="metric-alert">&#9888; Confidence distribution flattening â€” model uncertain about everything.</div>
+                    </div>
+
+                    <!-- Fallback Activation Rate -->
+                    <div class="metric-card">
+                        <div class="metric-title">&#9201; Fallback Activation Rate</div>
+                        <div class="gauge-display">
+                            <div class="gauge-num">8.3%</div>
+                            <div class="gauge-label">of requests handled by<br>rule-based fallback<br><strong style="color:#22c55e;">Normal: &lt;2%</strong></div>
+                        </div>
+                        <div class="metric-alert">&#9888; AI service is having issues â€” investigate immediately.</div>
+                    </div>
+
+                </div>
+
+                <div class="retrain-box">
+                    <div class="retrain-title">When to Retrain</div>
+                    <div class="retrain-list">
+                        <div class="retrain-item">&#9744; Accuracy drops below threshold (e.g., 85%)</div>
+                        <div class="retrain-item">&#9744; Input distribution drift exceeds threshold</div>
+                        <div class="retrain-item">&#9744; New fraud patterns from human review data</div>
+                        <div class="retrain-item">&#9744; Scheduled retraining (e.g., quarterly)</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">38 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Detecting and Monitoring AI Debt.</strong></p>
+        <p>Real monitoring platforms: MLflow (experiment tracking), Evidently AI (drift detection), WhyLabs (data monitoring).</p>
+        <p>The fallback activation rate is the simplest leading indicator â€” if it spikes, your AI is having problems before accuracy degrades. 8.3% vs normal 2% is a clear signal the AI service is struggling.</p>
+        <p>The confidence score flattening is subtle but important: a model that's confident about everything is usually overfitting; a model that's uncertain about everything (flat distribution) has drifted from its training distribution and is guessing.</p>
+        <p>JS divergence (Jensen-Shannon) is a measure of how different two probability distributions are. 0.23 is significant â€” 0.0 means identical distributions, 1.0 means completely different.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

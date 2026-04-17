@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost and Benefit Analysis - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .cba-points {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .cba-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: var(--light-color);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+            font-size: 1.15rem;
+            line-height: 1.5;
+        }
+        .cba-point:nth-child(2) { border-left-color: var(--success-color); }
+        .cba-point:nth-child(3) { border-left-color: var(--warning-color); }
+        .cba-point:nth-child(4) { border-left-color: #7c3aed; }
+        .cba-point .point-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        /* Balance Scale Visual */
+        .scale-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin-top: auto;
+            padding: 1rem 0 0.5rem;
+        }
+        .scale {
+            position: relative;
+            width: 400px;
+            height: 180px;
+        }
+        /* Fulcrum triangle */
+        .scale-fulcrum {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 40px solid var(--dark-color);
+        }
+        /* Beam */
+        .scale-beam {
+            position: absolute;
+            bottom: 38px;
+            left: 10%;
+            width: 80%;
+            height: 6px;
+            background: var(--dark-color);
+            border-radius: 3px;
+            transform-origin: center center;
+        }
+        /* Pans */
+        .scale-pan {
+            position: absolute;
+            bottom: 44px;
+            width: 120px;
+            text-align: center;
+        }
+        .scale-pan-left {
+            left: 5%;
+        }
+        .scale-pan-right {
+            right: 5%;
+        }
+        .pan-plate {
+            width: 120px;
+            height: 8px;
+            background: #475569;
+            border-radius: 4px;
+            margin: 0 auto;
+        }
+        .pan-strings {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15px;
+            height: 30px;
+        }
+        .pan-string {
+            width: 2px;
+            background: #64748b;
+        }
+        .pan-label {
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        .pan-label.costs {
+            background: #fee2e2;
+            color: var(--danger-color);
+        }
+        .pan-label.benefits {
+            background: #dcfce7;
+            color: #059669;
+        }
+        .pan-items {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Cost and Benefit Analysis</h2>
+        <div class="content-area">
+            <div class="cba-points">
+                <div class="cba-point">
+                    <span class="point-icon">&#9878;</span>
+                    <span>Compares the <strong>costs</strong> of implementing a software system with the <strong>expected benefits</strong></span>
+                </div>
+                <div class="cba-point">
+                    <span class="point-icon">&#9989;</span>
+                    <span>Determines whether the system is <strong>worth the investment</strong></span>
+                </div>
+                <div class="cba-point">
+                    <span class="point-icon">&#128161;</span>
+                    <span>Useful for informing <strong>technical alternatives</strong> and overall system design</span>
+                </div>
+                <div class="cba-point">
+                    <span class="point-icon">&#128269;</span>
+                    <span>Consider a range of factors: increased productivity, improved efficiency, new revenue streams</span>
+                </div>
+            </div>
+
+            <div class="scale-container">
+                <div class="scale">
+                    <div class="scale-pan scale-pan-left">
+                        <div class="pan-label costs">Costs</div>
+                        <div class="pan-items">Development<br>Maintenance<br>Infrastructure</div>
+                        <div class="pan-strings">
+                            <div class="pan-string"></div>
+                            <div class="pan-string"></div>
+                        </div>
+                        <div class="pan-plate"></div>
+                    </div>
+                    <div class="scale-pan scale-pan-right">
+                        <div class="pan-label benefits">Benefits</div>
+                        <div class="pan-items">Productivity<br>Efficiency<br>Revenue</div>
+                        <div class="pan-strings">
+                            <div class="pan-string"></div>
+                            <div class="pan-string"></div>
+                        </div>
+                        <div class="pan-plate"></div>
+                    </div>
+                    <div class="scale-beam"></div>
+                    <div class="scale-fulcrum"></div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">31 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Cost-Benefit Analysis (CBA)</strong></p>
+        <p>CBA is not just about money. Consider time-to-market, developer happiness, maintenance burden, and strategic value.</p>
+        <ul>
+            <li>It provides a structured framework for comparing the total expected costs against the total expected benefits of one or more actions</li>
+            <li>In software architecture, this helps us decide between competing design alternatives</li>
+            <li>The "balance scale" metaphor is key - we need to weigh all factors, not just the obvious financial ones</li>
+            <li>Intangible benefits (team morale, code quality, learning opportunities) are harder to quantify but still important</li>
+        </ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

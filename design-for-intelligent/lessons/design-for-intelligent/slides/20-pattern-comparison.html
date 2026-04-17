@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choosing the Right Pattern - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .comparison-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .comparison-table thead tr {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+        }
+        .comparison-table thead th {
+            padding: 0.6rem 0.75rem;
+            text-align: left;
+            font-size: 0.8rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .comparison-table tbody tr {
+            border-bottom: 1px solid #e2e8f0;
+            background: white;
+        }
+        .comparison-table tbody tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        .comparison-table tbody td {
+            padding: 0.5rem 0.75rem;
+            color: var(--dark-color);
+            vertical-align: top;
+            line-height: 1.4;
+        }
+        .pattern-name {
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .badge-warning {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            border-radius: 4px;
+            padding: 0.1rem 0.35rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+        .badge-ok {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 4px;
+            padding: 0.1rem 0.35rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+        .decision-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+        .decision-box {
+            border-radius: 10px;
+            padding: 0.65rem 0.9rem;
+        }
+        .decision-box.primary {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid #3b82f6;
+        }
+        .decision-box.secondary {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #22c55e;
+        }
+        .decision-box p {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0;
+            line-height: 1.5;
+        }
+        .decision-box.primary p { color: #1e3a8a; }
+        .decision-box.secondary p { color: #14532d; }
+        @media (max-width: 768px) {
+            .decision-row { grid-template-columns: 1fr; }
+            .comparison-table { font-size: 0.78rem; }
+            .comparison-table thead th,
+            .comparison-table tbody td { padding: 0.4rem 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Choosing the Right Pattern</h2>
+        <div class="content-area">
+
+            <div class="comparison-layout">
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Pattern</th>
+                            <th>Latency</th>
+                            <th>Data Privacy</th>
+                            <th>Ops Complexity</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="pattern-name">AI-as-a-Service</td>
+                            <td>Medium<br><span style="font-size:0.78rem;color:#64748b;">100â€“500ms</span></td>
+                            <td><span class="badge-warning">&#9888; Data leaves system</span></td>
+                            <td>Low</td>
+                            <td>Prototypes, low volume</td>
+                        </tr>
+                        <tr>
+                            <td class="pattern-name">Embedded Model</td>
+                            <td>Low<br><span style="font-size:0.78rem;color:#64748b;">&lt; 50ms</span></td>
+                            <td><span class="badge-ok">&#10003; Data stays local</span></td>
+                            <td>High</td>
+                            <td>High volume, latency-sensitive</td>
+                        </tr>
+                        <tr>
+                            <td class="pattern-name">Model Pipeline</td>
+                            <td>Medium</td>
+                            <td><span class="badge-ok">&#10003; Configurable</span></td>
+                            <td>Medium</td>
+                            <td>Structured predictions, auditability</td>
+                        </tr>
+                        <tr>
+                            <td class="pattern-name">Human-in-the-Loop</td>
+                            <td>High<br><span style="font-size:0.78rem;color:#64748b;">(human time)</span></td>
+                            <td><span class="badge-ok">&#10003; Configurable</span></td>
+                            <td>Medium</td>
+                            <td>High-stakes, regulated industries</td>
+                        </tr>
+                        <tr>
+                            <td class="pattern-name">RAG</td>
+                            <td>Medium</td>
+                            <td><span class="badge-warning">&#9888; Configurable</span></td>
+                            <td>Medium</td>
+                            <td>Document Q&amp;A, policy compliance</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="decision-row">
+                    <div class="decision-box primary">
+                        <p>&#128161; Start with <strong>AI-as-a-Service</strong> unless you have specific latency, privacy, or volume constraints.</p>
+                    </div>
+                    <div class="decision-box secondary">
+                        <p>&#9997; Combine patterns: use <strong>Pipeline + Human-in-the-Loop + fallback</strong> for production-grade AI.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">20 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Pattern Comparison &amp; Decision Guide.</strong></p>
+        <p>Most production systems combine multiple patterns. SmartExpense might use: Pipeline (for structured feature extraction) + AI-as-a-Service (for the model) + Human-in-the-Loop (for low-confidence cases).</p>
+        <p>The table helps students ask the right questions when choosing â€” don't just default to LLMs because they're trending.</p>
+        <p>The &#9888; on RAG's data privacy reflects that even if you run RAG on-premise, the LLM you pass chunks to may be an external API. It's "configurable" because you can use a local LLM.</p>
+        <p>Key decision driver: volume. At 1,000 requests/day, AI-as-a-Service is almost always right. At 10M requests/day, embedded model starts to make economic sense.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion: Shipping AI to Production - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .discussion-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+        .poll-section {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+        }
+        .poll-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #92400e;
+            margin-bottom: 0.55rem;
+        }
+        .poll-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .poll-pill {
+            padding: 0.55rem 0.9rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 999px;
+            background: white;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.18s;
+            font-family: inherit;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+            display: flex;
+            align-items: center;
+        }
+        .poll-pill:hover { border-color: #94a3b8; background: #f8fafc; }
+        .poll-pill:active { transform: scale(0.97); }
+        .poll-pill.selected {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-color: #d97706;
+            color: white;
+        }
+        .prompts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+        .prompt-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.85rem 0.9rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        .prompt-num {
+            width: 26px;
+            height: 26px;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.82rem;
+            margin-bottom: 0.5rem;
+            flex-shrink: 0;
+        }
+        .prompt-card p {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            line-height: 1.4;
+            margin: 0;
+        }
+        .footer-note {
+            text-align: center;
+            font-size: 0.82rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+        @media (max-width: 768px) {
+            .prompts-grid { grid-template-columns: 1fr; }
+            .poll-pills { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Discussion: Shipping AI to Production</h2>
+        <div class="content-area">
+            <div class="discussion-layout">
+
+                <div class="highlight-box" style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border-color: #d97706; padding: 0.8rem 1.1rem;">
+                    <p style="font-size: 1.05rem; font-weight: 700; color: #92400e; margin: 0; line-height: 1.5;">
+                        "Have you ever shipped an AI feature to production, or seen one in production? What happened?"
+                    </p>
+                </div>
+
+                <div class="poll-section">
+                    <div class="poll-label">Quick Poll â€” select one</div>
+                    <div class="poll-pills">
+                        <button class="poll-pill" onclick="selectPoll(this)">Yes, it worked perfectly</button>
+                        <button class="poll-pill" onclick="selectPoll(this)">Yes, there were unexpected issues</button>
+                        <button class="poll-pill" onclick="selectPoll(this)">No, but I've seen it in production</button>
+                        <button class="poll-pill" onclick="selectPoll(this)">No, first time thinking about this</button>
+                    </div>
+                </div>
+
+                <div class="prompts-grid">
+                    <div class="prompt-card">
+                        <div class="prompt-num">1</div>
+                        <p>What was the first thing that broke?</p>
+                    </div>
+                    <div class="prompt-card">
+                        <div class="prompt-num">2</div>
+                        <p>How did you know the AI was giving wrong answers?</p>
+                    </div>
+                    <div class="prompt-card">
+                        <div class="prompt-num">3</div>
+                        <p>What would you do differently?</p>
+                    </div>
+                </div>
+
+                <div class="footer-note">Share your experience with the class &middot; 3 minutes</div>
+
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">13 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Discussion â€” 3 minutes.</strong></p>
+        <p>This poll surfaces class experience levels. If most are in buckets 1â€“2, ask them to share war stories â€” real production failures are the best teaching material.</p>
+        <p>If mostly 3â€“4, use a provided story: "A team added sentiment analysis to a customer support router. It worked in testing (English text). Production had Thai and Chinese text â€” all routed to the 'negative' queue. System ran for 3 days before anyone noticed."</p>
+        <p>Key questions to draw out: How did they discover the problem? What was the business impact? What monitoring would have caught it earlier?</p>
+    </script>
+
+    <script>
+        function selectPoll(btn) {
+            document.querySelectorAll('.poll-pill').forEach(function(p) {
+                p.classList.remove('selected');
+            });
+            btn.classList.add('selected');
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

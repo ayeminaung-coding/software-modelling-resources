@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: Migration Decision - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .case-intro {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fefce8, #fef9c3);
+            border: 2px solid #eab308;
+            border-radius: 10px;
+            padding: 0.85rem 1.25rem;
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .option-card {
+            border-radius: 12px;
+            padding: 1.1rem;
+            border: 2px solid;
+        }
+        .option-card.stay {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #86efac;
+        }
+        .option-card.migrate {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-color: #93c5fd;
+        }
+        .option-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .option-card.stay h3 { color: #166534; }
+        .option-card.migrate h3 { color: #1e40af; }
+        .cost-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.3rem 0;
+            font-size: 0.88rem;
+            color: var(--text-color);
+        }
+        .cost-row .value {
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+        .cost-row.total {
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding-top: 0.5rem;
+            margin-top: 0.4rem;
+            border-top: 2px dashed;
+        }
+        .option-card.stay .cost-row.total { border-top-color: #86efac; color: #166534; }
+        .option-card.migrate .cost-row.total { border-top-color: #93c5fd; color: #1e40af; }
+        .subsection-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+        .verdict-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+        .verdict-card {
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+        }
+        .verdict-card.reject {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        .verdict-card.recommend {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .verdict-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+        }
+        .verdict-card p {
+            font-size: 0.88rem;
+            line-height: 1.5;
+            opacity: 0.95;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Case Study: Monolith to Microservices</h2>
+        <div class="content-area">
+            <div class="case-intro">
+                <strong>Scenario:</strong> A mid-size SaaS company (50 developers, 200K users) considers migrating their monolithic application to microservices. The monolith has growing deployment bottlenecks and team coordination issues. CBA over a <strong>3-year horizon</strong>:
+            </div>
+
+            <div class="comparison-grid">
+                <div class="option-card stay">
+                    <h3>&#127811; Option A: Improve the Monolith</h3>
+                    <div class="subsection-label">Investment Costs</div>
+                    <div class="cost-row"><span>Modularize codebase</span><span class="value">$120K</span></div>
+                    <div class="cost-row"><span>CI/CD improvements</span><span class="value">$40K</span></div>
+                    <div class="cost-row"><span>Database optimization</span><span class="value">$30K</span></div>
+                    <div class="subsection-label">Ongoing (Per Year)</div>
+                    <div class="cost-row"><span>Maintenance</span><span class="value">$80K</span></div>
+                    <div class="cost-row"><span>Feature velocity loss</span><span class="value">$50K</span></div>
+                    <div class="cost-row total"><span>3-Year Total</span><span class="value">$580K</span></div>
+                </div>
+                <div class="option-card migrate">
+                    <h3>&#9729; Option B: Migrate to Microservices</h3>
+                    <div class="subsection-label">Migration Costs</div>
+                    <div class="cost-row"><span>Architecture &amp; planning</span><span class="value">$150K</span></div>
+                    <div class="cost-row"><span>Migration (18 months)</span><span class="value">$600K</span></div>
+                    <div class="cost-row"><span>Infrastructure &amp; tooling</span><span class="value">$200K</span></div>
+                    <div class="subsection-label">Ongoing (Per Year)</div>
+                    <div class="cost-row"><span>Operations &amp; platform</span><span class="value">$180K</span></div>
+                    <div class="cost-row"><span>Feature velocity gain</span><span class="value" style="color: #166534;">-$100K</span></div>
+                    <div class="cost-row total"><span>3-Year Total</span><span class="value">$1.19M</span></div>
+                </div>
+            </div>
+
+            <div class="verdict-box">
+                <div class="verdict-card reject">
+                    <h4>&#10060; CBA Verdict: Don't Migrate Now</h4>
+                    <p>At current scale, the microservices option costs <strong>2x more</strong> over 3 years. The ROI only turns positive at ~Year 5 with continued growth.</p>
+                </div>
+                <div class="verdict-card recommend">
+                    <h4>&#9989; Better Approach: Strangler Fig</h4>
+                    <p>Extract 2-3 high-change services first. Re-evaluate after 12 months. This limits risk while testing the microservices approach.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">35 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Case Study Discussion (5-7 minutes):</strong></p>
+        <ul>
+            <li>This is a common real-world decision. Many teams jump to microservices without doing the cost-benefit math.</li>
+            <li><strong>Option A costs:</strong> $190K upfront + ($130K/year * 3 years - partial year 1) = ~$580K over 3 years. The monolith remains, but becomes more manageable.</li>
+            <li><strong>Option B costs:</strong> $950K upfront (over 18 months) + ongoing operations minus velocity gains. The feature velocity gain (-$100K/year) represents faster independent deployments, but only kicks in after migration completes.</li>
+            <li><strong>Key insight:</strong> The CBA clearly shows that a full migration doesn't make financial sense at this scale and timeline. But that doesn't mean "do nothing."</li>
+            <li><strong>Strangler Fig pattern:</strong> Named after strangler fig trees that grow around existing trees. Gradually extract services starting with the ones that change most frequently or have the most team contention.</li>
+            <li><strong>Discussion questions:</strong></li>
+            <li>At what user/team scale would Option B start to make sense?</li>
+            <li>What if the company expects 5x growth? Does that change the analysis?</li>
+            <li>What non-financial factors might influence this decision? (team morale, hiring, technical debt)</li>
+        </ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

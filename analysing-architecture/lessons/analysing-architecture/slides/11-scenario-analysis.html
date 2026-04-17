@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scenario-Based Analysis - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .scenario-intro {
+            font-size: 1.15rem;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        .scenario-types {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .scenario-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-top: 4px solid;
+        }
+        .scenario-card.normal { border-top-color: #10b981; }
+        .scenario-card.growth { border-top-color: #3b82f6; }
+        .scenario-card.failure { border-top-color: #ef4444; }
+        .scenario-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .scenario-card.normal h3 { color: #059669; }
+        .scenario-card.growth h3 { color: #2563eb; }
+        .scenario-card.failure h3 { color: #dc2626; }
+        .scenario-card p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+        .scenario-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .scenario-card li {
+            font-size: 0.9rem;
+            padding: 0.35rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+            color: var(--text-color);
+        }
+        .scenario-card li::before {
+            content: "\25B8";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        .scenario-card.normal li::before { color: #10b981; }
+        .scenario-card.growth li::before { color: #3b82f6; }
+        .scenario-card.failure li::before { color: #ef4444; }
+        .template-box {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid #0ea5e9;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+        }
+        .template-box h3 {
+            color: #0369a1;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+        .template-flow {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .template-step {
+            background: white;
+            border: 2px solid #0ea5e9;
+            border-radius: 8px;
+            padding: 0.5rem 0.85rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #0369a1;
+            white-space: nowrap;
+        }
+        .template-arrow {
+            color: #0ea5e9;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Scenario-Based Analysis</h2>
+        <div class="content-area">
+            <p class="scenario-intro">
+                Deriving architecture-relevant scenarios from use cases helps evaluate how well a design handles <strong>expected</strong>, <strong>evolving</strong>, and <strong>exceptional</strong> conditions.
+            </p>
+
+            <div class="scenario-types">
+                <div class="scenario-card normal">
+                    <h3>&#9889; Normal Scenarios</h3>
+                    <p>Expected system behavior under typical operating conditions.</p>
+                    <ul>
+                        <li>User logs in and views dashboard</li>
+                        <li>Process 100 orders per minute</li>
+                        <li>Daily backup completes in window</li>
+                    </ul>
+                </div>
+                <div class="scenario-card growth">
+                    <h3>&#128200; Growth Scenarios</h3>
+                    <p>Anticipated changes in load, features, or scale over time.</p>
+                    <ul>
+                        <li>User base grows 10x in 6 months</li>
+                        <li>Add new payment provider</li>
+                        <li>Expand to 3 new regions</li>
+                    </ul>
+                </div>
+                <div class="scenario-card failure">
+                    <h3>&#9888; Failure Scenarios</h3>
+                    <p>System behavior when components fail or limits are exceeded.</p>
+                    <ul>
+                        <li>Database node goes down</li>
+                        <li>Network partition between services</li>
+                        <li>Sudden 50x traffic spike</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="template-box">
+                <h3>Scenario Template</h3>
+                <div class="template-flow">
+                    <span class="template-step">Source</span>
+                    <span class="template-arrow">&#8594;</span>
+                    <span class="template-step">Stimulus</span>
+                    <span class="template-arrow">&#8594;</span>
+                    <span class="template-step">Artifact</span>
+                    <span class="template-arrow">&#8594;</span>
+                    <span class="template-step">Environment</span>
+                    <span class="template-arrow">&#8594;</span>
+                    <span class="template-step">Response</span>
+                    <span class="template-arrow">&#8594;</span>
+                    <span class="template-step">Measure</span>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">11 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Scenario-Based Analysis:</strong></p>
+        <ul>
+            <li>This technique bridges the gap between high-level use cases and concrete architecture evaluation.</li>
+            <li><strong>Normal scenarios</strong> validate the architecture handles day-to-day operations. These come directly from functional requirements and use cases.</li>
+            <li><strong>Growth scenarios</strong> test whether the architecture can evolve. These anticipate likely changes - new markets, increasing load, additional features.</li>
+            <li><strong>Failure scenarios</strong> are the most architecturally revealing. How does the system behave when things go wrong? These expose single points of failure and resilience gaps.</li>
+            <li>The <strong>scenario template</strong> comes from the SEI quality attribute scenario framework (Bass, Clements, Kazman). Each scenario should specify: who/what triggers it (source), what happens (stimulus), what part of the system is affected (artifact), under what conditions (environment), what should happen (response), and how we measure success (measure).</li>
+            <li>Example: "During peak hours (environment), when 10,000 concurrent users (stimulus) access the checkout service (artifact), the system (source: internal) should process requests (response) within 2 seconds (measure)."</li>
+        </ul>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

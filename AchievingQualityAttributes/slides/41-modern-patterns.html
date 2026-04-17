@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Patterns - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Modern Architectural Patterns and Tactics</h2>
+        <div class="content-area">
+            <div class="two-columns">
+                <div>
+                    <h3 style="margin-bottom: 1rem;">Cloud-Native Patterns</h3>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>Microservices</h4>
+                        <ul style="font-size: 0.95rem;">
+                            <li><strong>Tactics:</strong> Loose coupling, isolation</li>
+                            <li><strong>Supports:</strong> Modifiability, Availability</li>
+                            <li>Independent deployment and scaling</li>
+                        </ul>
+                    </div>
+                    <div class="card success" style="margin-bottom: 1rem;">
+                        <h4>Serverless</h4>
+                        <ul style="font-size: 0.95rem;">
+                            <li><strong>Tactics:</strong> Auto-scaling, pay-per-use</li>
+                            <li><strong>Supports:</strong> Performance, Cost</li>
+                            <li>No infrastructure management</li>
+                        </ul>
+                    </div>
+                    <div class="card warning" style="margin-bottom: 1rem;">
+                        <h4>Event Sourcing</h4>
+                        <ul style="font-size: 0.95rem;">
+                            <li><strong>Tactics:</strong> Record/playback, recovery</li>
+                            <li><strong>Supports:</strong> Availability, Testability</li>
+                            <li>Complete audit trail and replay</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 1rem;">DevOps Practices</h3>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h4>CI/CD Pipeline</h4>
+                        <ul style="font-size: 0.95rem;">
+                            <li><strong>Tactics:</strong> Automated testing, monitoring</li>
+                            <li><strong>Supports:</strong> Testability, Modifiability</li>
+                            <li>Fast, safe deployments</li>
+                        </ul>
+                    </div>
+                    <div class="card success" style="margin-bottom: 1rem;">
+                        <h4>Infrastructure as Code</h4>
+                        <ul style="font-size: 0.95rem;">
+                            <li><strong>Tactics:</strong> Version control, immutability</li>
+                            <li><strong>Supports:</strong> Modifiability, Availability</li>
+                            <li>Reproducible environments</li>
+                        </ul>
+                    </div>
+                    <div class="card warning" style="margin-bottom: 1rem;">
+                        <h4>Chaos Engineering</h4>
+                        <ul style="font-size: 0.95rem;">
+                            <li><strong>Tactics:</strong> Fault injection, monitoring</li>
+                            <li><strong>Supports:</strong> Availability, Testability</li>
+                            <li>Netflix Chaos Monkey approach</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <p><strong>Key Insight:</strong> Modern patterns combine multiple tactics to achieve several quality attributes simultaneously.
+                The cloud enables tactics (auto-scaling, global distribution) that were previously impractical.</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Points:</strong></p>
+        <ul>
+            <li>Modern patterns are combinations of proven tactics</li>
+            <li>Cloud platforms enable new tactics (global scaling, managed services)</li>
+            <li>DevOps practices embed quality tactics into the development process</li>
+        </ul>
+        <p><strong>Evolution:</strong></p>
+        <ul>
+            <li>Monolith: All tactics in one place</li>
+            <li>SOA: Tactics distributed across services</li>
+            <li>Microservices: Each service can choose its tactics</li>
+            <li>Serverless: Platform handles many tactics for you</li>
+        </ul>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

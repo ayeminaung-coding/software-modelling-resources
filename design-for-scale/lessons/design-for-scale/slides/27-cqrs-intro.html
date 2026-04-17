@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CQRS Pattern</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .demo-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+
+        .mode-btn {
+            padding: 0.6rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            background: white;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mode-btn:hover {
+            background: #eff6ff;
+        }
+
+        .mode-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .simulation-area {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .action-panel {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .panel-title {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 0.7rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .write-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .read-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+
+        .architecture-view {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .app-layer {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .model-layer {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .model-layer.single {
+            justify-content: center;
+        }
+
+        .model-box {
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .model-box.single-model {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            color: white;
+            max-width: 200px;
+        }
+
+        .model-box.write-model {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .model-box.read-model {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+
+        .model-box.active {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            transform: scale(1.05);
+        }
+
+        .db-layer {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .db-layer.single {
+            justify-content: center;
+        }
+
+        .db-box {
+            flex: 1;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .db-box.single-db {
+            max-width: 200px;
+        }
+
+        .db-box.active {
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+        }
+
+        .sync-indicator {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            padding: 0.3rem;
+        }
+
+        .sync-indicator.syncing {
+            color: #f59e0b;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .arrow-indicator {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            padding: 0.2rem;
+        }
+
+        .arrow-indicator.active {
+            color: var(--primary-color);
+        }
+
+        .result-panel {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 200px;
+        }
+
+        .log-entry {
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            margin-bottom: 0.4rem;
+            font-size: 0.8rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .log-entry.write {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 3px solid #10b981;
+        }
+
+        .log-entry.read {
+            background: #dbeafe;
+            color: #1e40af;
+            border-left: 3px solid #3b82f6;
+        }
+
+        .log-entry.sync {
+            background: #fef3c7;
+            color: #92400e;
+            border-left: 3px solid #f59e0b;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .data-packet {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .data-packet.write {
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981;
+        }
+
+        .data-packet.read {
+            background: #3b82f6;
+            box-shadow: 0 0 10px #3b82f6;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .description-cards {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .description-cards .card {
+            flex: 1;
+            padding: 0.8rem;
+        }
+
+        .description-cards h4 {
+            margin-bottom: 0.3rem;
+        }
+
+        .description-cards p {
+            font-size: 0.9rem;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>CQRS Pattern - Interactive Demo</h2>
+        <div class="content-area">
+            <div class="intro-text">
+                <strong>Command Query Responsibility Segregation (CQRS)</strong> separates read and write
+                operations into different models, allowing each to be optimized independently.
+            </div>
+
+            <div class="description-cards">
+                <div class="card success">
+                    <h4>Commands (Write)</h4>
+                    <p>Create, Update, Delete operations. Task-based, validated, business logic.</p>
+                </div>
+                <div class="card">
+                    <h4>Queries (Read)</h4>
+                    <p>Read operations. Optimized views, denormalized data, fast retrieval.</p>
+                </div>
+            </div>
+
+            <div class="demo-container">
+                <div class="mode-selector">
+                    <button class="mode-btn active" data-mode="crud">Traditional CRUD</button>
+                    <button class="mode-btn" data-mode="cqrs">CQRS</button>
+                </div>
+
+                <div class="simulation-area">
+                    <div class="action-panel">
+                        <div class="panel-title">Operations</div>
+                        <button class="action-btn write-btn" onclick="performWrite()">
+                            Create Order
+                        </button>
+                        <button class="action-btn write-btn" onclick="performWrite()">
+                            Update Status
+                        </button>
+                        <button class="action-btn read-btn" onclick="performRead()">
+                            Get Order
+                        </button>
+                        <button class="action-btn read-btn" onclick="performRead()">
+                            List Orders
+                        </button>
+                    </div>
+
+                    <div class="architecture-view" id="architectureView">
+                        <!-- Dynamically populated -->
+                    </div>
+
+                    <div class="result-panel">
+                        <div class="panel-title">Operation Log</div>
+                        <div id="logEntries"></div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-value" id="statWrites">0</div>
+                        <div class="stat-label">Writes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statReads">0</div>
+                        <div class="stat-label">Reads</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statWriteTime">0ms</div>
+                        <div class="stat-label">Avg Write</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statReadTime">0ms</div>
+                        <div class="stat-label">Avg Read</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">27 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>CQRS Interactive Demo:</strong></p>
+<p>Show the difference between Traditional CRUD and CQRS:</p>
+<ul>
+<li><strong>CRUD mode:</strong> Single model handles both reads and writes - same path, same optimization</li>
+<li><strong>CQRS mode:</strong> Separate models - writes go through validation, reads are optimized</li>
+</ul>
+<p>Point out the timing differences - reads are faster in CQRS because the read model is denormalized!</p>
+<p>Note the sync indicator - shows eventual consistency between write and read models.</p>
+    </script>
+
+    <script>
+        let mode = 'crud';
+        let isProcessing = false;
+        let stats = {
+            writes: 0,
+            reads: 0,
+            totalWriteTime: 0,
+            totalReadTime: 0
+        };
+
+        // Timing simulations
+        const CRUD_WRITE_TIME = 150;
+        const CRUD_READ_TIME = 120;
+        const CQRS_WRITE_TIME = 200;  // Slightly longer due to validation
+        const CQRS_READ_TIME = 50;    // Much faster due to denormalized data
+        const SYNC_TIME = 100;
+
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (isProcessing) return;
+                mode = btn.dataset.mode;
+                document.querySelectorAll('.mode-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.mode === mode);
+                });
+                renderArchitecture();
+                clearLog();
+            });
+        });
+
+        function renderArchitecture() {
+            const container = document.getElementById('architectureView');
+
+            if (mode === 'crud') {
+                container.innerHTML = `
+                    <div class="app-layer">Application</div>
+                    <div class="arrow-indicator" id="arrowDown">↕</div>
+                    <div class="model-layer single">
+                        <div class="model-box single-model" id="singleModel">
+                            Single Model
+                        </div>
+                    </div>
+                    <div class="arrow-indicator" id="arrowDb">↕</div>
+                    <div class="db-layer single">
+                        <div class="db-box single-db" id="singleDb">Database</div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="app-layer">Application</div>
+                    <div class="arrow-indicator">
+                        <span id="arrowWrite" style="margin-right: 2rem;">↓</span>
+                        <span id="arrowRead">↑</span>
+                    </div>
+                    <div class="model-layer">
+                        <div class="model-box write-model" id="writeModel">
+                            Write Model<br>
+                            <small style="opacity: 0.8;">Validation & Logic</small>
+                        </div>
+                        <div class="model-box read-model" id="readModel">
+                            Read Model<br>
+                            <small style="opacity: 0.8;">Denormalized</small>
+                        </div>
+                    </div>
+                    <div class="arrow-indicator">
+                        <span id="arrowWriteDb">↓</span>
+                        <span style="margin: 0 1rem;" id="syncIndicator">⟷</span>
+                        <span id="arrowReadDb">↑</span>
+                    </div>
+                    <div class="db-layer">
+                        <div class="db-box" id="writeDb">Write DB</div>
+                        <div class="db-box" id="readDb">Read DB</div>
+                    </div>
+                    <div class="sync-indicator" id="syncStatus">Read model synced</div>
+                `;
+            }
+        }
+
+        async function performWrite() {
+            if (isProcessing) return;
+            isProcessing = true;
+
+            const startTime = Date.now();
+            stats.writes++;
+
+            if (mode === 'crud') {
+                // Highlight single model path
+                document.getElementById('singleModel').classList.add('active');
+                document.getElementById('singleDb').classList.add('active');
+
+                addLog('write', 'Writing through single model...');
+                await sleep(CRUD_WRITE_TIME);
+
+                document.getElementById('singleModel').classList.remove('active');
+                document.getElementById('singleDb').classList.remove('active');
+
+                const elapsed = Date.now() - startTime;
+                stats.totalWriteTime += elapsed;
+                addLog('write', `Write complete (${elapsed}ms)`);
+            } else {
+                // CQRS write path
+                document.getElementById('writeModel').classList.add('active');
+                addLog('write', 'Validating command...');
+                await sleep(80);
+
+                addLog('write', 'Applying business logic...');
+                await sleep(70);
+
+                document.getElementById('writeDb').classList.add('active');
+                addLog('write', 'Persisting to write DB...');
+                await sleep(50);
+
+                document.getElementById('writeModel').classList.remove('active');
+                document.getElementById('writeDb').classList.remove('active');
+
+                const elapsed = Date.now() - startTime;
+                stats.totalWriteTime += elapsed;
+                addLog('write', `Write complete (${elapsed}ms)`);
+
+                // Sync to read model
+                document.getElementById('syncStatus').textContent = 'Syncing...';
+                document.getElementById('syncStatus').classList.add('syncing');
+                document.getElementById('syncIndicator').style.color = '#f59e0b';
+
+                addLog('sync', 'Syncing to read model...');
+                await sleep(SYNC_TIME);
+
+                document.getElementById('readDb').classList.add('active');
+                await sleep(50);
+                document.getElementById('readDb').classList.remove('active');
+
+                document.getElementById('syncStatus').textContent = 'Read model synced';
+                document.getElementById('syncStatus').classList.remove('syncing');
+                document.getElementById('syncIndicator').style.color = '';
+                addLog('sync', 'Read model updated');
+            }
+
+            updateStats();
+            isProcessing = false;
+        }
+
+        async function performRead() {
+            if (isProcessing) return;
+            isProcessing = true;
+
+            const startTime = Date.now();
+            stats.reads++;
+
+            if (mode === 'crud') {
+                document.getElementById('singleModel').classList.add('active');
+                document.getElementById('singleDb').classList.add('active');
+
+                addLog('read', 'Reading through single model...');
+                await sleep(CRUD_READ_TIME);
+
+                document.getElementById('singleModel').classList.remove('active');
+                document.getElementById('singleDb').classList.remove('active');
+
+                const elapsed = Date.now() - startTime;
+                stats.totalReadTime += elapsed;
+                addLog('read', `Read complete (${elapsed}ms)`);
+            } else {
+                // CQRS read path - much faster!
+                document.getElementById('readModel').classList.add('active');
+                document.getElementById('readDb').classList.add('active');
+
+                addLog('read', 'Reading from optimized view...');
+                await sleep(CQRS_READ_TIME);
+
+                document.getElementById('readModel').classList.remove('active');
+                document.getElementById('readDb').classList.remove('active');
+
+                const elapsed = Date.now() - startTime;
+                stats.totalReadTime += elapsed;
+                addLog('read', `Read complete (${elapsed}ms) - Denormalized!`);
+            }
+
+            updateStats();
+            isProcessing = false;
+        }
+
+        function addLog(type, message) {
+            const container = document.getElementById('logEntries');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = message;
+            container.insertBefore(entry, container.firstChild);
+
+            // Keep only last 8 entries
+            while (container.children.length > 8) {
+                container.removeChild(container.lastChild);
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('logEntries').innerHTML = '';
+            stats = { writes: 0, reads: 0, totalWriteTime: 0, totalReadTime: 0 };
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('statWrites').textContent = stats.writes;
+            document.getElementById('statReads').textContent = stats.reads;
+
+            const avgWrite = stats.writes > 0 ?
+                Math.round(stats.totalWriteTime / stats.writes) : 0;
+            const avgRead = stats.reads > 0 ?
+                Math.round(stats.totalReadTime / stats.reads) : 0;
+
+            document.getElementById('statWriteTime').textContent = avgWrite + 'ms';
+            document.getElementById('statReadTime').textContent = avgRead + 'ms';
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Initialize
+        renderArchitecture();
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

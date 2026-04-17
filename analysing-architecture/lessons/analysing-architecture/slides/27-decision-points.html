@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Points - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .decision-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .decision-card {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 0.9rem 1rem;
+            border-left: 4px solid var(--primary-color);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+        .decision-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .decision-card:nth-child(2) { border-left-color: var(--warning-color); }
+        .decision-card:nth-child(3) { border-left-color: var(--danger-color); }
+        .decision-card:nth-child(4) { border-left-color: var(--success-color); }
+        .decision-card:nth-child(5) { border-left-color: #8b5cf6; }
+        .decision-card .pair-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .decision-card .pair-title .toggle-icon {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            transition: transform 0.25s ease;
+        }
+        .decision-card.expanded .pair-title .toggle-icon {
+            transform: rotate(180deg);
+        }
+        .decision-card .pair-number {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.2rem;
+        }
+        .decision-card .detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding-top 0.35s ease;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-color);
+        }
+        .decision-card.expanded .detail {
+            max-height: 200px;
+            padding-top: 0.6rem;
+        }
+        .decision-card .detail p {
+            background: white;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            margin: 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Trade-off Tree */
+        .tradeoff-tree {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        .tree-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        .tree-node {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .tree-node.decision {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        .tree-connector {
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            width: 200px;
+            position: relative;
+            height: 30px;
+        }
+        .tree-connector::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 50%;
+            background: #94a3b8;
+        }
+        .tree-connector::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background: #94a3b8;
+        }
+        .tree-branches {
+            display: flex;
+            gap: 1.5rem;
+            position: relative;
+        }
+        .tree-branches::before,
+        .tree-branches::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            width: 2px;
+            height: 15px;
+            background: #94a3b8;
+        }
+        .tree-branches::before {
+            left: 25%;
+        }
+        .tree-branches::after {
+            right: 25%;
+        }
+        .tree-branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+        }
+        .tree-branch .branch-line {
+            width: 2px;
+            height: 12px;
+            background: #94a3b8;
+        }
+        .tree-node.positive {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+        .tree-node.negative {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        .tree-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tree-label.pos { color: var(--success-color); }
+        .tree-label.neg { color: var(--danger-color); }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 1.5rem;
+            flex: 1;
+        }
+        .decision-card:last-child {
+            grid-column: 1 / -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Decision Points</h2>
+        <div class="content-area">
+            <div class="main-layout">
+                <div class="decision-cards">
+                    <div class="decision-card" onclick="toggleCard(this)">
+                        <div class="pair-number">Pair 1</div>
+                        <div class="pair-title">
+                            Performance vs. Scalability
+                            <span class="toggle-icon">&#9660;</span>
+                        </div>
+                        <div class="detail">
+                            <p>Optimizing for high performance may use algorithms that don't scale. Designing for scalability may add overhead that reduces performance.</p>
+                        </div>
+                    </div>
+                    <div class="decision-card" onclick="toggleCard(this)">
+                        <div class="pair-number">Pair 2</div>
+                        <div class="pair-title">
+                            Security vs. Usability
+                            <span class="toggle-icon">&#9660;</span>
+                        </div>
+                        <div class="detail">
+                            <p>More security measures (MFA, encryption) add friction for users. Easy access increases vulnerability.</p>
+                        </div>
+                    </div>
+                    <div class="decision-card" onclick="toggleCard(this)">
+                        <div class="pair-number">Pair 3</div>
+                        <div class="pair-title">
+                            Interoperability vs. Security
+                            <span class="toggle-icon">&#9660;</span>
+                        </div>
+                        <div class="detail">
+                            <p>Open interfaces enable integration but increase attack surface. Locked-down systems are harder to integrate.</p>
+                        </div>
+                    </div>
+                    <div class="decision-card" onclick="toggleCard(this)">
+                        <div class="pair-number">Pair 4</div>
+                        <div class="pair-title">
+                            Customizability vs. Maintainability
+                            <span class="toggle-icon">&#9660;</span>
+                        </div>
+                        <div class="detail">
+                            <p>More customization options mean more code paths to maintain and test.</p>
+                        </div>
+                    </div>
+                    <div class="decision-card" onclick="toggleCard(this)">
+                        <div class="pair-number">Pair 5</div>
+                        <div class="pair-title">
+                            Reusability vs. Complexity
+                            <span class="toggle-icon">&#9660;</span>
+                        </div>
+                        <div class="detail">
+                            <p>Making components reusable adds abstraction layers and configuration complexity.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tradeoff-tree">
+                    <span class="tree-title">Trade-off Tree Example</span>
+                    <div class="tree-node decision">Decision: Backup Database</div>
+                    <div class="tree-connector"></div>
+                    <div class="tree-branches">
+                        <div class="tree-branch">
+                            <span class="tree-label pos">Positive</span>
+                            <div class="tree-node positive">Supports Availability</div>
+                        </div>
+                        <div class="tree-branch">
+                            <span class="tree-label neg">Negative</span>
+                            <div class="tree-node negative">Consumes Resources, Affects Performance</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">27 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Decision Points in Trade-off Analysis:</strong></p>
+        <p>Walk through the backup database example. Every architectural decision has positive and negative consequences.</p>
+        <ul>
+            <li><em>Performance vs. Scalability:</em> A highly optimized single-server solution may not scale horizontally</li>
+            <li><em>Security vs. Usability:</em> Adding MFA improves security but creates friction - how much friction is acceptable?</li>
+            <li><em>Interoperability vs. Security:</em> APIs enable integration but each endpoint is a potential vulnerability</li>
+            <li><em>Customizability vs. Maintainability:</em> Plugin architectures are flexible but complex to maintain</li>
+            <li><em>Reusability vs. Complexity:</em> Generic components require more design effort and can be harder to understand</li>
+        </ul>
+        <p>Click each card to reveal the details. The trade-off tree shows how a single decision (backup database) has both positive effects (availability) and negative effects (resource consumption, performance impact).</p>
+    </script>
+
+    <script>
+        function toggleCard(card) {
+            card.classList.toggle('expanded');
+        }
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

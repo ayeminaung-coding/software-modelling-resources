@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducing an Interface Component - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .arch-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 1.5rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            position: relative;
+        }
+        .arch-node {
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: center;
+            min-width: 130px;
+        }
+        .arch-node.external {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        .arch-node.integrator {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: white;
+        }
+        .arch-node.internal {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: white;
+        }
+        .arch-node.db {
+            background: linear-gradient(135deg, #d97706, #f59e0b);
+            color: white;
+            border-radius: 8px 8px 50% 50%;
+            padding: 0.8rem 1.5rem 1rem;
+        }
+        .arch-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            gap: 0.1rem;
+        }
+        .arch-arrow .arrow-line {
+            font-size: 1.6rem;
+            line-height: 1;
+        }
+        .arch-arrow .arrow-label {
+            font-style: italic;
+            font-size: 0.75rem;
+        }
+        .db-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: -0.5rem;
+        }
+        .db-connector .arch-arrow {
+            transform: rotate(90deg);
+            margin: 0.3rem 0;
+        }
+        .mini-dsm {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .dsm-card {
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        .dsm-card.before {
+            background: #fef2f2;
+            border: 2px solid #fca5a5;
+        }
+        .dsm-card.after {
+            background: #ecfdf5;
+            border: 2px solid #6ee7b7;
+        }
+        .dsm-card h4 {
+            margin-bottom: 0.6rem;
+            font-size: 1rem;
+        }
+        .dsm-card.before h4 { color: var(--danger-color); }
+        .dsm-card.after h4 { color: var(--success-color); }
+        .dsm-card ul {
+            padding-left: 1.2rem;
+        }
+        .dsm-card ul li {
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+        .diagram-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .diagram-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .vertical-arrow {
+            font-size: 1.4rem;
+            color: var(--text-light);
+            text-align: center;
+        }
+        .vertical-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+        @media (max-width: 760px) {
+            .arch-diagram { flex-direction: column; align-items: center; }
+            .mini-dsm { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Introducing an Interface Component</h2>
+        <div class="content-area">
+            <div class="arch-diagram">
+                <div class="diagram-section">
+                    <div class="diagram-row">
+                        <div class="arch-node external">Booking.com</div>
+                        <div class="arch-arrow">
+                            <span class="arrow-label">provide</span>
+                            <span class="arrow-line">&rarr;</span>
+                        </div>
+                        <div class="arch-node integrator">External Integrator</div>
+                        <div class="arch-arrow">
+                            <span class="arrow-label">fetch / forward</span>
+                            <span class="arrow-line">&rarr;</span>
+                        </div>
+                        <div class="arch-node internal">Expense Processor</div>
+                    </div>
+                    <div style="margin-left: 1rem;">
+                        <div class="vertical-arrow">&darr;</div>
+                        <div class="vertical-label">record</div>
+                        <div class="vertical-arrow">&darr;</div>
+                        <div class="arch-node db">Expense DB</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box success" style="margin-top: 1rem;">
+                <p style="font-size: 1.15rem; font-weight: 600; color: #065f46;">
+                    The Expense Processor now depends on External Integrator (which we control) instead of directly on Booking.com (which we don't control).
+                </p>
+            </div>
+
+            <div class="mini-dsm">
+                <div class="dsm-card before">
+                    <h4>Before</h4>
+                    <ul>
+                        <li>Expense Processor depends on Booking.com <span style="color: var(--danger-color); font-weight: 700;">&cross;</span></li>
+                    </ul>
+                </div>
+                <div class="dsm-card after">
+                    <h4>After</h4>
+                    <ul>
+                        <li>Expense Processor depends on External Integrator <span style="color: var(--success-color); font-weight: 700;">&check;</span></li>
+                        <li>External Integrator depends on Booking.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">17 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Point:</strong> By introducing an intermediary, we've localized the Booking.com dependency. If their API changes, only the External Integrator needs updating.</p>
+        <p>The Expense Processor is now shielded from external changes. We control the External Integrator's interface, so we can keep it stable even when the upstream source changes.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

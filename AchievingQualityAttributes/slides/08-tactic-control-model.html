@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tactic Control Model - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Tactic Control Model</h2>
+        <div class="content-area">
+            <p style="font-size: 1.3rem; color: var(--text-light); margin-bottom: 2rem; text-align: center;">
+                Tactics are intended to <strong>control responses</strong> to stimuli
+            </p>
+
+            <div class="diagram" style="padding: 3rem;">
+                <div class="flow-horizontal">
+                    <div style="text-align: center;">
+                        <div class="diagram-box secondary" style="padding: 1.5rem 2rem;">
+                            <strong>Stimulus</strong>
+                            <p style="font-size: 0.9rem; margin: 0.5rem 0 0 0; opacity: 0.9;">An event that triggers a response</p>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">e.g., Server crashes</p>
+                    </div>
+                    <span class="arrow" style="font-size: 3rem;">&#8594;</span>
+                    <div style="text-align: center;">
+                        <div class="diagram-box" style="padding: 1.5rem 2rem;">
+                            <strong>Tactic</strong>
+                            <p style="font-size: 0.9rem; margin: 0.5rem 0 0 0; opacity: 0.9;">Design decision applied</p>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">e.g., Use redundancy</p>
+                    </div>
+                    <span class="arrow" style="font-size: 3rem;">&#8594;</span>
+                    <div style="text-align: center;">
+                        <div class="diagram-box success" style="padding: 1.5rem 2rem;">
+                            <strong>Response</strong>
+                            <p style="font-size: 0.9rem; margin: 0.5rem 0 0 0; opacity: 0.9;">Controlled system behavior</p>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">e.g., Failover to backup</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box success" style="margin-top: 2rem;">
+                <h4 style="margin-bottom: 0.5rem;">The Goal</h4>
+                <p style="font-size: 1.2rem; margin: 0;">Tactics give architects <strong>control</strong> over how systems respond to events, ensuring quality attribute requirements are met.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">8 / 22</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>The Control Model:</strong></p>
+        <ul>
+            <li><em>Stimulus:</em> Something happens that could affect quality (a request, a failure, a change)</li>
+            <li><em>Tactic:</em> The architectural mechanism that handles it</li>
+            <li><em>Response:</em> The behavior we want to achieve</li>
+        </ul>
+        <p><strong>Concrete Example:</strong></p>
+        <ul>
+            <li><em>Stimulus:</em> Database server becomes unresponsive</li>
+            <li><em>Tactic:</em> Active redundancy (primary-replica setup)</li>
+            <li><em>Response:</em> Traffic automatically routes to replica, users experience no downtime</li>
+        </ul>
+        <p><strong>Key insight:</strong> Without the tactic, the stimulus would produce an uncontrolled (bad) response. The tactic gives us control.</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Technical Debt in AI Systems - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .hidden-debt-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .debt-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.7rem;
+        }
+        .debt-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.7rem 0.85rem;
+        }
+        .debt-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.35rem;
+        }
+        .debt-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            margin-top: 0.05rem;
+        }
+        .debt-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.3;
+        }
+        .debt-def {
+            font-size: 0.8rem;
+            color: #475569;
+            line-height: 1.4;
+            margin-bottom: 0.35rem;
+            font-style: italic;
+        }
+        .debt-example {
+            font-size: 0.78rem;
+            color: #334155;
+            background: #f8fafc;
+            border-radius: 5px;
+            padding: 0.3rem 0.5rem;
+            line-height: 1.45;
+            border-left: 3px solid #cbd5e1;
+        }
+        .paper-note {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border-left: 4px solid #f59e0b;
+            border-radius: 0 8px 8px 0;
+            padding: 0.5rem 0.85rem;
+            font-size: 0.85rem;
+            color: #78350f;
+        }
+        @media (max-width: 768px) {
+            .debt-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Hidden Technical Debt in AI Systems</h2>
+        <div class="content-area">
+
+            <div class="hidden-debt-layout">
+
+                <div class="paper-note">
+                    Based on Sculley et al. (Google, NIPS 2015) &mdash; "Hidden Technical Debt in Machine Learning Systems"
+                </div>
+
+                <div class="debt-grid">
+
+                    <div class="debt-card">
+                        <div class="debt-header">
+                            <span class="debt-icon">&#128376;</span>
+                            <span class="debt-name">Entanglement</span>
+                        </div>
+                        <div class="debt-def">Changing any input feature changes the behavior of all other features (CACE: Changing Anything Changes Everything).</div>
+                        <div class="debt-example">Adding "merchant_country" to the fraud model changes how "amount" is weighted. No safe way to add features without retraining and re-evaluating everything.</div>
+                    </div>
+
+                    <div class="debt-card">
+                        <div class="debt-header">
+                            <span class="debt-icon">&#128279;</span>
+                            <span class="debt-name">Correction Cascades</span>
+                        </div>
+                        <div class="debt-def">Model A feeds Model B. Error in A compounds in B.</div>
+                        <div class="debt-example">Category Classifier &rarr; Fraud Detector. If Category Classifier mislabels "hotel" as "other", Fraud Detector sees wrong features &rarr; cascades wrong fraud score.</div>
+                    </div>
+
+                    <div class="debt-card">
+                        <div class="debt-header">
+                            <span class="debt-icon">&#128100;</span>
+                            <span class="debt-name">Undeclared Consumers</span>
+                        </div>
+                        <div class="debt-def">Other systems start using your model's output without telling you.</div>
+                        <div class="debt-example">The fraud score starts being used by the approver workflow AND the reporting dashboard AND a compliance check â€” none of which the ML team knows about. Model update breaks all three.</div>
+                    </div>
+
+                    <div class="debt-card">
+                        <div class="debt-header">
+                            <span class="debt-icon">&#127807;</span>
+                            <span class="debt-name">Pipeline Jungle</span>
+                        </div>
+                        <div class="debt-def">Data preparation code grows organically: scripts calling scripts, no owner, no tests.</div>
+                        <div class="debt-example">Nobody knows where the feature engineering script came from. It runs in a cron job somewhere. If you touch it, the model breaks. "Dead code" feeds features no one uses anymore.</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">36 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Hidden Technical Debt in AI Systems.</strong></p>
+        <p>These patterns are from a real paper by Sculley et al. at Google (2015). It's short (9 pages) and extremely influential â€” consider assigning it as reading.</p>
+        <p>Ask students: "Which of these have you seen?" Undeclared consumers is very common â€” other teams start depending on your model's output because it's convenient. They don't file tickets or notify you â€” they just start calling your API.</p>
+        <p>Correction cascades are particularly dangerous because the errors are silent and hard to trace. The category classifier "works" â€” it just started making more mistakes, and those mistakes compound downstream.</p>
+        <p>Pipeline jungle is a cultural problem as much as a technical one. Data scientists often work in notebooks and scripts that evolved organically. The solution is treating pipelines as production software: version control, tests, ownership.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

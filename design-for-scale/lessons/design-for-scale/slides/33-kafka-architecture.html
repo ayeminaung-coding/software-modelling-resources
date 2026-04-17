@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apache Kafka Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Apache Kafka Architecture</h2>
+        <div class="content-area">
+            <div class="highlight-box">
+                <p style="font-size: 1.2rem;">
+                    <strong>Apache Kafka</strong> is a distributed event streaming platform capable of
+                    handling trillions of events per day.
+                </p>
+            </div>
+
+            <div class="diagram" style="padding: 1.5rem; margin-top: 1rem;">
+                <div class="arch-container">
+                    <div class="arch-layer">
+                        <div class="diagram-box">Producer</div>
+                        <div class="diagram-box">Producer</div>
+                        <div class="diagram-box">Producer</div>
+                    </div>
+                    <div class="arrow-down">↓ ↓ ↓</div>
+                    <div class="arch-layer">
+                        <div class="diagram-box success" style="padding: 0.8rem 1.5rem;">Kafka Cluster</div>
+                    </div>
+                    <div style="display: flex; justify-content: center; gap: 1rem; margin: 0.5rem 0;">
+                        <div class="diagram-box secondary" style="padding: 0.5rem;">Broker 1</div>
+                        <div class="diagram-box secondary" style="padding: 0.5rem;">Broker 2</div>
+                        <div class="diagram-box secondary" style="padding: 0.5rem;">Broker 3</div>
+                    </div>
+                    <div class="arrow-down">↓ ↓ ↓</div>
+                    <div class="arch-layer">
+                        <div class="diagram-box outline">Consumer Group A</div>
+                        <div class="diagram-box outline">Consumer Group B</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-columns" style="margin-top: 1rem;">
+                <div class="card">
+                    <h4>Key Concepts</h4>
+                    <ul style="font-size: 0.95rem;">
+                        <li><strong>Topics:</strong> Named feeds for messages</li>
+                        <li><strong>Partitions:</strong> Parallel processing units</li>
+                        <li><strong>Consumer Groups:</strong> Load balancing</li>
+                        <li><strong>Replication:</strong> Fault tolerance</li>
+                    </ul>
+                </div>
+                <div class="card success">
+                    <h4>Scale Characteristics</h4>
+                    <ul style="font-size: 0.95rem;">
+                        <li>Millions of messages/sec</li>
+                        <li>Horizontal scaling via partitions</li>
+                        <li>Persistent, replayable log</li>
+                        <li>Low latency (~2ms)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">33 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Kafka Deep Dive:</strong></p>
+<ul>
+<li>Designed for high throughput (millions of messages/second)</li>
+<li>Persistent log - messages can be replayed</li>
+<li>Partitions enable parallel processing</li>
+</ul>
+<p><strong>Key concept:</strong> Consumer groups allow multiple consumers to share work across partitions.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

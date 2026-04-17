@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tactics Summary Matrix - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Tactics Summary Matrix</h2>
+        <div class="content-area">
+            <table style="font-size: 0.9rem;">
+                <thead>
+                    <tr>
+                        <th>Quality Attribute</th>
+                        <th>Primary Tactics</th>
+                        <th>Key Trade-offs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Availability</strong></td>
+                        <td>Redundancy, fault detection, recovery, circuit breakers</td>
+                        <td>Cost, complexity, data consistency</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Modifiability</strong></td>
+                        <td>Encapsulation, loose coupling, cohesion, interfaces</td>
+                        <td>Performance overhead, initial complexity</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Performance</strong></td>
+                        <td>Caching, concurrency, scaling, load shedding</td>
+                        <td>Cost, complexity, consistency</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Security</strong></td>
+                        <td>Authentication, encryption, monitoring, least privilege</td>
+                        <td>Performance, usability, development time</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Testability</strong></td>
+                        <td>Dependency injection, observability, test doubles</td>
+                        <td>Development overhead, infrastructure cost</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Usability</strong></td>
+                        <td>UI separation, feedback, undo, design systems</td>
+                        <td>Development effort, maintenance</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="two-columns" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <h4>Common Tactic Combinations</h4>
+                    <ul style="font-size: 0.95rem;">
+                        <li>Caching + CDN = Performance + Availability</li>
+                        <li>mTLS + Zero Trust = Security + Modifiability</li>
+                        <li>Feature Flags + Monitoring = Testability + Availability</li>
+                        <li>Design System + i18n = Usability + Modifiability</li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <p><strong>Remember:</strong> Tactics are building blocks.
+                    Real architectures combine multiple tactics strategically.
+                    The art is in knowing which tactics to apply and when.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Takeaways:</strong></p>
+        <ul>
+            <li>Each quality attribute has a set of associated tactics</li>
+            <li>Tactics often involve trade-offs with other quality attributes</li>
+            <li>Experienced architects know which combinations work well together</li>
+        </ul>
+        <p><strong>Pattern vs. Tactic Reminder:</strong></p>
+        <ul>
+            <li>Tactic = single design decision (e.g., "use caching")</li>
+            <li>Pattern = collection of tactics (e.g., "CQRS pattern")</li>
+        </ul>
+        <p><strong>Advice:</strong> Start with the most important quality attributes for your context, then select tactics that support them while minimizing negative trade-offs.</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

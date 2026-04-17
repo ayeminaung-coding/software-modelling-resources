@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What If... External Integration? - Design for Change</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .scenario-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+        .scenario-box p {
+            font-size: 1.2rem;
+            margin-bottom: 0.4rem;
+        }
+        .integration-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.2rem 0;
+        }
+        .flow-box {
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        .flow-box.external {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid var(--warning-color);
+            color: var(--dark-color);
+        }
+        .flow-box.internal {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border: 2px solid var(--secondary-color);
+        }
+        .flow-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-light);
+        }
+        .flow-arrow .arrow-symbol {
+            font-size: 1.8rem;
+        }
+        .flow-arrow .arrow-label {
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+        .warning-box {
+            background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+            border: 1px solid var(--danger-color);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .warning-box h4 {
+            color: var(--danger-color);
+            margin-bottom: 0.6rem;
+            font-size: 1.15rem;
+        }
+        .warning-box ul {
+            padding-left: 1.5rem;
+        }
+        .warning-box li {
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+        }
+        .warning-box li strong {
+            color: var(--danger-color);
+        }
+        .callout-orange {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border: 2px solid #f97316;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+        }
+        .callout-orange p {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ea580c;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>What If... External Integration?</h2>
+        <div class="content-area">
+            <div class="scenario-box">
+                <p>Bookings can be done on websites like <strong>Agoda</strong>, <strong>Booking.com</strong>, <strong>Airbnb</strong></p>
+                <p>Can we integrate this data directly to avoid re-input?</p>
+            </div>
+
+            <div class="integration-flow">
+                <div class="flow-box external">3rd Party Bookings</div>
+                <div class="flow-arrow">
+                    <span class="arrow-label">provide</span>
+                    <span class="arrow-symbol">&rarr;</span>
+                </div>
+                <div class="flow-box internal">Expense Processor</div>
+                <div class="flow-arrow">
+                    <span class="arrow-label">fetch</span>
+                    <span class="arrow-symbol">&larr;</span>
+                </div>
+                <div class="flow-box external">3rd Party Bookings</div>
+            </div>
+
+            <div class="warning-box">
+                <h4>Ripple Effect Concerns</h4>
+                <ul>
+                    <li>Data structure may be <strong>different across providers</strong></li>
+                    <li>Data structure may <strong>change in the future</strong></li>
+                    <li><strong>Ripple Effect - 3S:</strong>
+                        <ul>
+                            <li><strong>Syntax</strong> &mdash; field names changed</li>
+                            <li><strong>Semantic</strong> &mdash; fields added or removed</li>
+                            <li><strong>Sequence</strong> &mdash; order of fields changed</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="callout-orange">
+                <p>Almost half of the system needs changes!</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">7 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Real-World Integration Scenario:</strong></p>
+        <p>This is a common real-world scenario. Adding a single integration point can ripple through the entire system if not designed for change.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

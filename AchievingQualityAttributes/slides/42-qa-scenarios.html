@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality Attribute Scenarios - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Quality Attribute Scenarios</h2>
+        <div class="content-area">
+            <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">A structured way to specify and measure quality requirements</p>
+
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h4>Scenario Template</h4>
+                <table style="font-size: 1rem;">
+                    <tr>
+                        <td style="width: 150px;"><strong>Source</strong></td>
+                        <td>Who or what generates the stimulus (user, external system, internal component)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stimulus</strong></td>
+                        <td>The event or condition that affects the system</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Artifact</strong></td>
+                        <td>What part of the system is affected</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Environment</strong></td>
+                        <td>The system state when the stimulus occurs (normal, peak, degraded)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Response</strong></td>
+                        <td>How the system should respond to the stimulus</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Response Measure</strong></td>
+                        <td>How to measure that the response was acceptable</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="highlight-box success">
+                <h4>Example: Availability Scenario</h4>
+                <table style="font-size: 0.95rem; margin-top: 0.5rem;">
+                    <tr>
+                        <td style="width: 150px;"><strong>Source:</strong></td>
+                        <td>Database server hardware</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stimulus:</strong></td>
+                        <td>Primary database server crashes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Artifact:</strong></td>
+                        <td>Order processing system</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Environment:</strong></td>
+                        <td>Normal operation, peak hours</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Response:</strong></td>
+                        <td>System fails over to replica database</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Response Measure:</strong></td>
+                        <td>Less than 30 seconds downtime, no data loss</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Key Points:</strong></p>
+        <ul>
+            <li>Scenarios make quality requirements testable and measurable</li>
+            <li>They force stakeholders to be specific about expectations</li>
+            <li>They can be used to validate architectural decisions</li>
+        </ul>
+        <p><strong>Why Scenarios Matter:</strong></p>
+        <ul>
+            <li>"The system should be fast" is not testable</li>
+            <li>"Page load under 2 seconds for 95% of users under peak load" is testable</li>
+        </ul>
+        <p><strong>Usage:</strong> Create scenarios during requirements gathering, use them to guide architecture decisions, and validate them during testing.</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

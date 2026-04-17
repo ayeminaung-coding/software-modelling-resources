@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion: Pre-Go-Live Testing - Analysing Software Architecture</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .discussion-prompt {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .discussion-prompt h3 {
+            font-size: 1.8rem;
+            color: #92400e;
+            margin-bottom: 0;
+        }
+        .test-categories {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .test-category {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            border-left: 4px solid var(--primary-color);
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: transform 0.2s;
+        }
+        .test-category:nth-child(1) { border-left-color: #3b82f6; }
+        .test-category:nth-child(2) { border-left-color: #10b981; }
+        .test-category:nth-child(3) { border-left-color: #ef4444; }
+        .test-category:nth-child(4) { border-left-color: #8b5cf6; }
+        .test-category:nth-child(5) { border-left-color: #f59e0b; }
+        .test-category:nth-child(6) { border-left-color: #ec4899; }
+        .test-category .cat-icon {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .tps-box {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+        }
+        .tps-box h4 {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .tps-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+        }
+        .tps-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        .tps-step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 0 auto 0.5rem;
+            color: white;
+        }
+        .tps-step:nth-child(1) .tps-step-number { background: #3b82f6; }
+        .tps-step:nth-child(2) .tps-step-number { background: #f59e0b; }
+        .tps-step:nth-child(3) .tps-step-number { background: #10b981; }
+        .tps-step-label {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .tps-step-time {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 0.15rem;
+        }
+        .tps-arrow {
+            color: #64748b;
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Discussion: Pre-Go-Live Testing</h2>
+        <div class="content-area">
+            <div class="discussion-prompt">
+                <h3>"What tests do we need to perform before go-live?"</h3>
+            </div>
+
+            <div class="test-categories">
+                <div class="test-category">
+                    <span class="cat-icon">&#9989;</span>
+                    Functional Tests
+                </div>
+                <div class="test-category">
+                    <span class="cat-icon">&#9889;</span>
+                    Performance Tests
+                </div>
+                <div class="test-category">
+                    <span class="cat-icon">&#128274;</span>
+                    Security Tests
+                </div>
+                <div class="test-category">
+                    <span class="cat-icon">&#128100;</span>
+                    Usability Tests
+                </div>
+                <div class="test-category">
+                    <span class="cat-icon">&#128279;</span>
+                    Integration Tests
+                </div>
+                <div class="test-category">
+                    <span class="cat-icon">&#128680;</span>
+                    Disaster Recovery Tests
+                </div>
+            </div>
+
+            <div class="tps-box">
+                <h4>Think - Pair - Share</h4>
+                <div class="tps-steps">
+                    <div class="tps-step">
+                        <div class="tps-step-number">1</div>
+                        <div class="tps-step-label">Think individually</div>
+                        <div class="tps-step-time">1 minute</div>
+                    </div>
+                    <div class="tps-arrow">&#8594;</div>
+                    <div class="tps-step">
+                        <div class="tps-step-number">2</div>
+                        <div class="tps-step-label">Discuss with partner</div>
+                        <div class="tps-step-time">2 minutes</div>
+                    </div>
+                    <div class="tps-arrow">&#8594;</div>
+                    <div class="tps-step">
+                        <div class="tps-step-number">3</div>
+                        <div class="tps-step-label">Share with class</div>
+                        <div class="tps-step-time">open discussion</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Analysing Software Architecture</span>
+            <span class="slide-number">24 / 39</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Discussion Activity (5-6 minutes total):</strong></p>
+        <p>This ties together all quality attribute analysis covered so far. The key insight: you need to test ALL quality attributes, not just functionality.</p>
+        <ul>
+            <li><em>Functional tests:</em> Does the system do what it's supposed to? Unit tests, integration tests, acceptance tests</li>
+            <li><em>Performance tests:</em> Load testing, stress testing, endurance testing - can it handle real-world usage?</li>
+            <li><em>Security tests:</em> Penetration testing, vulnerability scanning, compliance checks</li>
+            <li><em>Usability tests:</em> User acceptance testing, accessibility testing, cross-browser/device testing</li>
+            <li><em>Integration tests:</em> Do all components work together? API contracts, third-party integrations</li>
+            <li><em>Disaster recovery:</em> Backup/restore testing, failover testing, data recovery procedures</li>
+        </ul>
+        <p><strong>Common mistake:</strong> Teams focus only on functional testing and skip non-functional tests. This leads to systems that "work" but crash under load, have security holes, or are unusable.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

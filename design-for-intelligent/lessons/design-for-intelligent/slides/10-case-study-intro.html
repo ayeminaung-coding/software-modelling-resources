@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: SmartExpense + AI - Design for Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .case-study-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+        .diagram-wrapper {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.75rem;
+        }
+        .diagram-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .callout-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+        .callout-card {
+            border-radius: 10px;
+            padding: 0.75rem 0.9rem;
+        }
+        .callout-card.before {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+        }
+        .callout-card.after {
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+        }
+        .callout-card-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+        .before .callout-card-label { color: #b45309; }
+        .after  .callout-card-label { color: #166534; }
+        .callout-card p {
+            font-size: 0.88rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+        .before p { color: #78350f; }
+        .after  p { color: #14532d; }
+        @media (max-width: 768px) {
+            .callout-pair { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Case Study: SmartExpense + AI</h2>
+        <div class="content-area">
+            <div class="case-study-layout">
+
+                <div class="diagram-wrapper">
+                    <div class="diagram-title">&#128301; SmartExpense Architecture â€” Naive AI Integration</div>
+                    <svg viewBox="0 0 540 240" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
+                        <defs>
+                            <linearGradient id="procGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#1e40af"/>
+                                <stop offset="100%" stop-color="#1d4ed8"/>
+                            </linearGradient>
+                            <marker id="arr-blue" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#3b82f6"/>
+                            </marker>
+                            <marker id="arr-blue-s" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto-start-reverse" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#3b82f6"/>
+                            </marker>
+                            <marker id="arr-orange" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#f97316"/>
+                            </marker>
+                            <marker id="arr-amber" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#d97706"/>
+                            </marker>
+                            <marker id="arr-red" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0,7 2.5,0 5" fill="#ef4444"/>
+                            </marker>
+                        </defs>
+
+                        <!-- Employee WebApp -->
+                        <rect x="10" y="15" width="120" height="42" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+                        <text x="70" y="32" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#1e40af">Employee</text>
+                        <text x="70" y="46" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#1e40af">WebApp</text>
+
+                        <!-- Approver Mobile -->
+                        <rect x="10" y="95" width="120" height="42" rx="8" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="2"/>
+                        <text x="70" y="112" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#5b21b6">Approver</text>
+                        <text x="70" y="126" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#5b21b6">Mobile</text>
+
+                        <!-- Expense Processor (central) -->
+                        <rect x="185" y="80" width="150" height="52" rx="8" fill="url(#procGrad)" stroke="#1e40af" stroke-width="2"/>
+                        <text x="260" y="101" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">Expense</text>
+                        <text x="260" y="117" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="white">Processor</text>
+
+                        <!-- Booking.com -->
+                        <rect x="390" y="15" width="130" height="42" rx="8" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+                        <text x="455" y="32" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#c2410c">Booking.com</text>
+                        <text x="455" y="46" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#9a3412">(external)</text>
+
+                        <!-- Expense DB -->
+                        <!-- cylinder shape using ellipses + rect -->
+                        <rect x="195" y="185" width="130" height="38" rx="0" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+                        <ellipse cx="260" cy="185" rx="65" ry="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+                        <ellipse cx="260" cy="223" rx="65" ry="10" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+                        <text x="260" y="207" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#92400e">Expense DB</text>
+
+                        <!-- AI Fraud Detector (NEW â€” red dashed) -->
+                        <rect x="390" y="100" width="130" height="52" rx="8" fill="#fff1f2" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,3"/>
+                        <text x="455" y="119" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#991b1b">&#129302; AI Fraud</text>
+                        <text x="455" y="133" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#991b1b">Detector</text>
+                        <!-- NEW label -->
+                        <rect x="392" y="102" width="32" height="16" rx="4" fill="#ef4444"/>
+                        <text x="408" y="114" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="white">NEW</text>
+
+                        <!-- Connections -->
+                        <!-- WebApp â†” Expense Processor -->
+                        <line x1="130" y1="36" x2="183" y2="90" stroke="#3b82f6" stroke-width="1.5" marker-start="url(#arr-blue-s)" marker-end="url(#arr-blue)"/>
+                        <!-- Mobile â†” Expense Processor -->
+                        <line x1="130" y1="116" x2="183" y2="116" stroke="#3b82f6" stroke-width="1.5" marker-start="url(#arr-blue-s)" marker-end="url(#arr-blue)"/>
+                        <!-- Expense Processor â†’ Booking.com -->
+                        <line x1="335" y1="90" x2="388" y2="40" stroke="#f97316" stroke-width="1.5" marker-end="url(#arr-orange)"/>
+                        <!-- Expense Processor â†’ Expense DB -->
+                        <line x1="260" y1="132" x2="260" y2="172" stroke="#d97706" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+                        <!-- Expense Processor â†’ AI Fraud Detector (red dashed, direct call â€” no isolation) -->
+                        <line x1="335" y1="110" x2="388" y2="118" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arr-red)"/>
+                        <text x="362" y="107" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#ef4444" font-style="italic">direct call</text>
+                        <text x="362" y="117" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7.5" fill="#ef4444" font-style="italic">no isolation</text>
+                    </svg>
+                </div>
+
+                <div class="callout-pair">
+                    <div class="callout-card before">
+                        <div class="callout-card-label">&#9888; What we have</div>
+                        <p>AI added directly to Expense Processor â€” no interface, no fallback, no isolation.</p>
+                    </div>
+                    <div class="callout-card after">
+                        <div class="callout-card-label">&#10003; What we'll build</div>
+                        <p>Properly isolated AI with stable interface, fallback strategy, and observability.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Intelligence</span>
+            <span class="slide-number">10 / 46</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Case Study: SmartExpense + AI</strong></p>
+        <p>This is the naive integration â€” the developer just calls the AI model directly from ExpenseProcessor. This is the starting point for our design journey.</p>
+        <p>By the end of Section 3, we'll have a properly architected version. Ask students: "What problems do you already see with this design?"</p>
+        <p>Listen for: tight coupling, no fallback, latency risk, no audit trail. These map directly to the 4 flaws they'll find in the next exercise.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+

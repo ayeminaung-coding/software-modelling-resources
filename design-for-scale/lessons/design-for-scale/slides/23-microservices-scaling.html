@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microservices for Scaling</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Microservices for Scaling</h2>
+        <div class="content-area">
+            <h3>Independent Scaling</h3>
+            <div class="diagram" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+                <div class="arch-container">
+                    <div class="arch-layer">
+                        <div class="diagram-box success" style="padding: 0.8rem 2rem;">API Gateway</div>
+                    </div>
+                    <div class="arrow-down">↓</div>
+                    <div class="arch-layer" style="align-items: flex-end;">
+                        <div style="text-align: center;">
+                            <div style="display: flex; gap: 0.3rem;">
+                                <div class="diagram-box secondary" style="padding: 0.5rem;">U</div>
+                            </div>
+                            <small>1 instance</small>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="display: flex; gap: 0.3rem;">
+                                <div class="diagram-box secondary" style="padding: 0.5rem;">O</div>
+                                <div class="diagram-box secondary" style="padding: 0.5rem;">O</div>
+                                <div class="diagram-box secondary" style="padding: 0.5rem;">O</div>
+                                <div class="diagram-box secondary" style="padding: 0.5rem;">O</div>
+                            </div>
+                            <small>4 instances (high load)</small>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="display: flex; gap: 0.3rem;">
+                                <div class="diagram-box secondary" style="padding: 0.5rem;">P</div>
+                                <div class="diagram-box secondary" style="padding: 0.5rem;">P</div>
+                            </div>
+                            <small>2 instances</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-columns">
+                <div class="card">
+                    <h4>Scaling Benefits</h4>
+                    <ul style="font-size: 1.05rem;">
+                        <li>Scale only what's needed</li>
+                        <li>Cost-effective resource use</li>
+                        <li>Different scaling strategies per service</li>
+                        <li>Auto-scaling per service metrics</li>
+                    </ul>
+                </div>
+                <div class="card warning">
+                    <h4>Scaling Challenges</h4>
+                    <ul style="font-size: 1.05rem;">
+                        <li>Distributed system complexity</li>
+                        <li>Network latency overhead</li>
+                        <li>Data consistency across services</li>
+                        <li>Operational complexity</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <strong>Scale Cube:</strong> X-axis (horizontal cloning), Y-axis (functional decomposition), Z-axis (data partitioning)
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Scale</span>
+            <span class="slide-number">23 / 40</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Independent Scaling:</strong></p>
+<p>The key benefit: scale only what needs scaling!</p>
+<ul>
+<li>Order service getting hammered? Scale just that service</li>
+<li>User service rarely changes? Keep it small</li>
+<li>Each service can have its own scaling policy</li>
+</ul>
+<p><strong>Scale Cube:</strong> X (cloning), Y (functional split), Z (data partitioning).</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>

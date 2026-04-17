@@ -1,0 +1,508 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Write a QA Scenario - Achieving Tactics</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+    <style>
+        .exercise-header {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        .exercise-header h3 { margin: 0 0 0.5rem 0; }
+        .system-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .system-card {
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .system-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        .system-card.selected {
+            border-color: #10b981;
+            background: #f0fdf4;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+        .system-card h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        .system-card p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        .system-card.ecommerce { border-left: 4px solid #6366f1; }
+        .system-card.social { border-left: 4px solid #10b981; }
+        .system-card.iot { border-left: 4px solid #f59e0b; }
+        .system-card.selected.ecommerce { background: #eef2ff; }
+        .system-card.selected.social { background: #ecfdf5; }
+        .system-card.selected.iot { background: #fffbeb; }
+        .qa-selector {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .qa-selector label {
+            font-weight: 600;
+        }
+        .qa-selector select {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            background: white;
+            cursor: pointer;
+        }
+        .scenario-form {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 2px solid var(--primary-color);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 130px 1fr;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            align-items: center;
+        }
+        .form-row label {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+        .form-row input {
+            padding: 0.5rem 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+        .form-row input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        .form-row input::placeholder {
+            color: #9ca3af;
+        }
+        .form-row input.filled {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+        .control-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .btn {
+            padding: 0.6rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-check {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .btn-check:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-reset {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .btn-reset:hover { background: #cbd5e1; }
+        .btn-example {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        .btn-example:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+        .feedback {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+        .feedback.show { display: block; }
+        .feedback.correct { background: #dcfce7; color: #166534; }
+        .feedback.partial { background: #fef3c7; color: #92400e; }
+        .feedback.info { background: #e0e7ff; color: #3730a3; }
+        .hints {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            padding: 0.5rem 0.75rem;
+            background: #f8fafc;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Exercise: Write a Quality Attribute Scenario</h2>
+        <div class="content-area">
+            <div class="exercise-header">
+                <h3>Scenario Writing Exercise</h3>
+                <p style="margin: 0;">Choose a system, select a quality attribute, and write a complete scenario</p>
+            </div>
+
+            <p><strong>Step 1:</strong> Choose a system to write a scenario for:</p>
+
+            <div class="system-options">
+                <div class="system-card ecommerce" data-system="ecommerce" onclick="selectSystem(this)">
+                    <h4>E-Commerce Platform</h4>
+                    <p>Product catalog, cart, and checkout. Consider: Black Friday traffic, payment processing, inventory.</p>
+                </div>
+                <div class="system-card social" data-system="social" onclick="selectSystem(this)">
+                    <h4>Social Media Platform</h4>
+                    <p>Posts, comments, likes, and real-time notifications. Consider: Viral content, moderation, privacy.</p>
+                </div>
+                <div class="system-card iot" data-system="iot" onclick="selectSystem(this)">
+                    <h4>IoT Sensor Platform</h4>
+                    <p>Data from thousands of factory sensors. Consider: Data ingestion rate, offline handling, alerting.</p>
+                </div>
+            </div>
+
+            <div class="qa-selector">
+                <label>Step 2: Quality Attribute:</label>
+                <select id="qaType" onchange="updatePlaceholders()">
+                    <option value="performance">Performance</option>
+                    <option value="availability">Availability</option>
+                    <option value="security">Security</option>
+                    <option value="modifiability">Modifiability</option>
+                </select>
+            </div>
+
+            <div class="hints" id="hints">
+                Select a system and quality attribute to see context-specific hints.
+            </div>
+
+            <div class="scenario-form">
+                <h4 style="margin-top: 0; margin-bottom: 1rem;">Step 3: Complete the Scenario</h4>
+                <div class="form-row">
+                    <label>Source:</label>
+                    <input type="text" id="source" placeholder="Who/what initiates the stimulus?" oninput="checkFilled(this)">
+                </div>
+                <div class="form-row">
+                    <label>Stimulus:</label>
+                    <input type="text" id="stimulus" placeholder="What event or condition occurs?" oninput="checkFilled(this)">
+                </div>
+                <div class="form-row">
+                    <label>Artifact:</label>
+                    <input type="text" id="artifact" placeholder="What system component is affected?" oninput="checkFilled(this)">
+                </div>
+                <div class="form-row">
+                    <label>Environment:</label>
+                    <input type="text" id="environment" placeholder="What is the system state?" oninput="checkFilled(this)">
+                </div>
+                <div class="form-row">
+                    <label>Response:</label>
+                    <input type="text" id="response" placeholder="How should the system respond?" oninput="checkFilled(this)">
+                </div>
+                <div class="form-row">
+                    <label>Response Measure:</label>
+                    <input type="text" id="measure" placeholder="How is success measured? (Be specific with numbers!)" oninput="checkFilled(this)">
+                </div>
+            </div>
+
+            <div class="control-buttons">
+                <button class="btn btn-check" onclick="validateScenario()">Validate Scenario</button>
+                <button class="btn btn-example" onclick="showExample()">Show Example</button>
+                <button class="btn btn-reset" onclick="resetForm()">Reset</button>
+            </div>
+
+            <div id="feedback" class="feedback"></div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">43 / 45</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Exercise Facilitation:</strong></p>
+        <ul>
+            <li>Give students 5 minutes to write their scenario</li>
+            <li>Encourage them to be specific with numbers (latency, uptime, etc.)</li>
+            <li>Have 2-3 students share their scenarios</li>
+            <li>Discuss if the scenarios are testable and measurable</li>
+        </ul>
+        <p><strong>Common Mistakes to Watch For:</strong></p>
+        <ul>
+            <li>Vague response measures ("system should be fast")</li>
+            <li>Missing environment context</li>
+            <li>Unrealistic expectations (100% availability)</li>
+        </ul>
+        <p><strong>Example Good Scenario (E-Commerce, Performance):</strong></p>
+        <ul>
+            <li>Source: Customer</li>
+            <li>Stimulus: Adds item to cart</li>
+            <li>Artifact: Cart service</li>
+            <li>Environment: Black Friday, 10x normal traffic</li>
+            <li>Response: Cart updates and confirms</li>
+            <li>Measure: Response within 500ms for 99th percentile</li>
+        </ul>
+    </script>
+
+    <script>
+        let selectedSystem = null;
+
+        const examples = {
+            ecommerce: {
+                performance: {
+                    source: 'Customer on mobile device',
+                    stimulus: 'Adds item to shopping cart',
+                    artifact: 'Cart service and product database',
+                    environment: 'Black Friday sale, 10x normal traffic (50,000 concurrent users)',
+                    response: 'Cart updates and displays confirmation',
+                    measure: 'Response within 500ms for 99th percentile, no dropped requests'
+                },
+                availability: {
+                    source: 'System monitoring',
+                    stimulus: 'Primary payment gateway becomes unavailable',
+                    artifact: 'Checkout service',
+                    environment: 'Peak shopping hours',
+                    response: 'Automatically failover to backup payment processor',
+                    measure: 'Failover completes in < 10 seconds, 99.95% of transactions succeed'
+                },
+                security: {
+                    source: 'Malicious actor',
+                    stimulus: 'Attempts SQL injection on search endpoint',
+                    artifact: 'Product search API',
+                    environment: 'Normal operation',
+                    response: 'Block request, log attempt, alert security team',
+                    measure: '100% of injection attempts blocked, alert within 5 seconds'
+                },
+                modifiability: {
+                    source: 'Development team',
+                    stimulus: 'Add new payment method (cryptocurrency)',
+                    artifact: 'Payment processing module',
+                    environment: 'During development sprint',
+                    response: 'Integration without affecting existing payment methods',
+                    measure: 'Changes isolated to payment module, no regression in existing payments'
+                }
+            },
+            social: {
+                performance: {
+                    source: 'Viral content event',
+                    stimulus: '1 million users request same trending post',
+                    artifact: 'Content delivery and caching layer',
+                    environment: 'Viral event, 100x normal read traffic',
+                    response: 'Serve content from cache, scale read replicas',
+                    measure: 'Page load < 2 seconds for 95th percentile, zero cache misses for hot content'
+                },
+                availability: {
+                    source: 'Infrastructure failure',
+                    stimulus: 'Primary data center loses connectivity',
+                    artifact: 'Core platform services',
+                    environment: 'Normal operation with active users',
+                    response: 'Failover to secondary data center',
+                    measure: 'Service restored in < 60 seconds, no message loss'
+                },
+                security: {
+                    source: 'User',
+                    stimulus: 'Attempts to access another user\'s private messages',
+                    artifact: 'Messaging service and access control',
+                    environment: 'Normal operation',
+                    response: 'Deny access, log attempt, rate limit suspicious user',
+                    measure: '100% unauthorized access blocked, account flagged after 3 attempts'
+                },
+                modifiability: {
+                    source: 'Product team',
+                    stimulus: 'Add new reaction types beyond like/comment',
+                    artifact: 'Reaction system module',
+                    environment: 'Feature development',
+                    response: 'New reactions added without database migration',
+                    measure: 'New reaction type deployed in < 4 hours, backwards compatible'
+                }
+            },
+            iot: {
+                performance: {
+                    source: '10,000 factory sensors',
+                    stimulus: 'All sensors report data simultaneously (every 100ms)',
+                    artifact: 'Data ingestion pipeline',
+                    environment: 'Normal operation',
+                    response: 'Ingest, validate, and store all readings',
+                    measure: 'Process 100,000 events/second with < 50ms latency'
+                },
+                availability: {
+                    source: 'Network failure',
+                    stimulus: 'Factory loses internet connectivity for 30 minutes',
+                    artifact: 'Local edge gateway and sensors',
+                    environment: 'Network outage',
+                    response: 'Buffer data locally, sync when connection restored',
+                    measure: 'Zero data loss, sync completes within 5 minutes of reconnection'
+                },
+                security: {
+                    source: 'Compromised device',
+                    stimulus: 'Sensor sends anomalous command to actuator',
+                    artifact: 'Command validation service',
+                    environment: 'Normal operation with potential intrusion',
+                    response: 'Block command, isolate suspicious device, alert operators',
+                    measure: 'Malicious commands blocked in < 100ms, alert within 1 second'
+                },
+                modifiability: {
+                    source: 'Operations team',
+                    stimulus: 'Add new sensor type with different data format',
+                    artifact: 'Data ingestion and schema registry',
+                    environment: 'System expansion',
+                    response: 'Register new schema, ingest data without code changes',
+                    measure: 'New sensor type integrated in < 1 hour via configuration'
+                }
+            }
+        };
+
+        const hints = {
+            ecommerce: {
+                performance: 'Think about cart operations during Black Friday. What response times would customers tolerate?',
+                availability: 'What happens if the payment gateway fails during checkout? How fast should failover be?',
+                security: 'How do you protect against injection attacks or fraudulent transactions?',
+                modifiability: 'How easily can you add new payment methods or change pricing rules?'
+            },
+            social: {
+                performance: 'What happens when content goes viral? How do you handle millions of reads?',
+                availability: 'Users expect 24/7 access. What if a data center fails?',
+                security: 'How do you prevent unauthorized access to private content?',
+                modifiability: 'How easily can you add new features like reactions or story types?'
+            },
+            iot: {
+                performance: 'Thousands of sensors sending data every second. What\'s your ingestion capacity?',
+                availability: 'What happens when factory loses internet? How do you prevent data loss?',
+                security: 'How do you detect and isolate compromised devices?',
+                modifiability: 'How easily can you add new sensor types or change data formats?'
+            }
+        };
+
+        function selectSystem(card) {
+            document.querySelectorAll('.system-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedSystem = card.dataset.system;
+            updatePlaceholders();
+        }
+
+        function updatePlaceholders() {
+            const qa = document.getElementById('qaType').value;
+            const hintsEl = document.getElementById('hints');
+
+            if (selectedSystem && hints[selectedSystem] && hints[selectedSystem][qa]) {
+                hintsEl.innerHTML = `<strong>Hint:</strong> ${hints[selectedSystem][qa]}`;
+            } else {
+                hintsEl.innerHTML = 'Select a system to see context-specific hints.';
+            }
+        }
+
+        function checkFilled(input) {
+            if (input.value.trim().length > 5) {
+                input.classList.add('filled');
+            } else {
+                input.classList.remove('filled');
+            }
+            document.getElementById('feedback').classList.remove('show');
+        }
+
+        function validateScenario() {
+            const fields = ['source', 'stimulus', 'artifact', 'environment', 'response', 'measure'];
+            const values = {};
+            let emptyCount = 0;
+
+            fields.forEach(field => {
+                const value = document.getElementById(field).value.trim();
+                values[field] = value;
+                if (!value) emptyCount++;
+            });
+
+            const feedback = document.getElementById('feedback');
+
+            if (!selectedSystem) {
+                feedback.innerHTML = '<strong>Please select a system first!</strong> Choose E-Commerce, Social Media, or IoT Platform.';
+                feedback.className = 'feedback partial show';
+                return;
+            }
+
+            if (emptyCount > 0) {
+                feedback.innerHTML = `<strong>Incomplete scenario.</strong> Please fill in all ${emptyCount} remaining field(s).`;
+                feedback.className = 'feedback partial show';
+                return;
+            }
+
+            // Check for vague words
+            const vagueWords = ['fast', 'quick', 'secure', 'good', 'reliable', 'efficient'];
+            const measureLower = values.measure.toLowerCase();
+            for (const word of vagueWords) {
+                if (measureLower.includes(word)) {
+                    feedback.innerHTML = `<strong>Be more specific!</strong> Your measure contains "${word}". Replace with specific numbers like "< 500ms" or "99.9%".`;
+                    feedback.className = 'feedback partial show';
+                    return;
+                }
+            }
+
+            // Check for numbers in measure
+            if (!/\d/.test(values.measure)) {
+                feedback.innerHTML = '<strong>Add measurable metrics!</strong> Your Response Measure should include specific numbers (e.g., "< 200ms", "99.9%", "within 30 seconds").';
+                feedback.className = 'feedback partial show';
+                return;
+            }
+
+            feedback.innerHTML = `<strong>Well-formed scenario!</strong> Your ${document.getElementById('qaType').value} scenario for the ${selectedSystem} system is complete and measurable.<br>
+                <em>Source:</em> ${values.source}<br>
+                <em>Stimulus:</em> ${values.stimulus}<br>
+                <em>Measure:</em> ${values.measure}`;
+            feedback.className = 'feedback correct show';
+        }
+
+        function showExample() {
+            if (!selectedSystem) {
+                selectSystem(document.querySelector('.system-card.ecommerce'));
+            }
+
+            const qa = document.getElementById('qaType').value;
+            const example = examples[selectedSystem][qa];
+
+            document.getElementById('source').value = example.source;
+            document.getElementById('stimulus').value = example.stimulus;
+            document.getElementById('artifact').value = example.artifact;
+            document.getElementById('environment').value = example.environment;
+            document.getElementById('response').value = example.response;
+            document.getElementById('measure').value = example.measure;
+
+            const fields = ['source', 'stimulus', 'artifact', 'environment', 'response', 'measure'];
+            fields.forEach(field => {
+                document.getElementById(field).classList.add('filled');
+            });
+
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = `<strong>Example ${qa} scenario for ${selectedSystem} shown.</strong> Notice how the measure is specific and testable with concrete numbers.`;
+            feedback.className = 'feedback info show';
+        }
+
+        function resetForm() {
+            const fields = ['source', 'stimulus', 'artifact', 'environment', 'response', 'measure'];
+            fields.forEach(field => {
+                const input = document.getElementById(field);
+                input.value = '';
+                input.classList.remove('filled');
+            });
+            document.getElementById('feedback').classList.remove('show');
+        }
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

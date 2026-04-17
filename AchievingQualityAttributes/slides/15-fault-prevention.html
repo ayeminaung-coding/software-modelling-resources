@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fault Prevention Tactics - Achieving Quality Attributes</title>
+    <link rel="stylesheet" href="../shared/css/slides.css">
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Fault Prevention Tactics</h2>
+        <div class="content-area">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tactic</th>
+                        <th>Description</th>
+                        <th>Modern Implementation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Process Monitor</strong></td>
+                        <td>Restart failed processes automatically</td>
+                        <td>Kubernetes, systemd, supervisord</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Transaction</strong></td>
+                        <td>Atomic operations with rollback</td>
+                        <td>Saga pattern, distributed transactions</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Removal from Service</strong></td>
+                        <td>Maintenance without disruption</td>
+                        <td>Rolling deployments, node draining</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Predictive Maintenance</strong></td>
+                        <td>Prevent failures before they occur</td>
+                        <td>AIOps, ML-based prediction</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 2rem;">Modern Prevention Patterns</h3>
+            <div class="three-columns" style="gap: 1rem;">
+                <div class="card">
+                    <h4>Circuit Breaker</h4>
+                    <p style="font-size: 1rem;">Fail fast to prevent cascade failures</p>
+                    <p style="font-size: 0.9rem; color: var(--text-light);">Tools: Hystrix, Resilience4j</p>
+                </div>
+                <div class="card warning">
+                    <h4>Bulkhead</h4>
+                    <p style="font-size: 1rem;">Isolate failure domains</p>
+                    <p style="font-size: 0.9rem; color: var(--text-light);">Separate thread pools, services</p>
+                </div>
+                <div class="card danger">
+                    <h4>Rate Limiting</h4>
+                    <p style="font-size: 1rem;">Prevent system overload</p>
+                    <p style="font-size: 0.9rem; color: var(--text-light);">API gateways, token buckets</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Achieving Quality Attributes</span>
+            <span class="slide-number">15 / 22</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p><strong>Prevention Tactics:</strong></p>
+        <ul>
+            <li><em>Process Monitor:</em> If a process dies, restart it automatically. Kubernetes does this for containers.</li>
+            <li><em>Transaction:</em> If something fails mid-operation, rollback to consistent state.</li>
+            <li><em>Removal from Service:</em> Take components offline gracefully for maintenance.</li>
+            <li><em>Predictive:</em> Use metrics/ML to predict and prevent failures.</li>
+        </ul>
+        <p><strong>Modern patterns in detail:</strong></p>
+        <ul>
+            <li><em>Circuit Breaker:</em> Like an electrical circuit breaker - if too many failures, "open" the circuit and stop trying. Prevents one failing service from taking down others.</li>
+            <li><em>Bulkhead:</em> Named after ship compartments - isolate failures so they don't spread. Use separate thread pools for different services.</li>
+            <li><em>Rate Limiting:</em> Prevent overload by limiting requests. Protects against both attacks and traffic spikes.</li>
+        </ul>
+        <p><strong>Chaos Engineering:</strong> Netflix's Chaos Monkey randomly kills instances to ensure the system can handle failures - proactive prevention testing.</p>
+    </script>
+    <script src="../shared/js/navigation.js"></script>
+</body>
+</html>

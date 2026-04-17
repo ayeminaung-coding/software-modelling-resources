@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socio-Technical Consistency</title>
+    <link rel="stylesheet" href="../../shared/css/slides.css">
+    <style>
+        .outcome-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        .outcome-card {
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+        }
+        .outcome-card.poor-design {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border: 2px solid #f59e0b;
+        }
+        .outcome-card.defects {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border: 2px solid #ef4444;
+        }
+        .outcome-card .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .outcome-card h3 {
+            margin-bottom: 0.75rem;
+        }
+        .outcome-card.poor-design h3 {
+            color: #d97706;
+        }
+        .outcome-card.defects h3 {
+            color: #dc2626;
+        }
+        .outcome-card ul {
+            padding-left: 1.25rem;
+        }
+        .outcome-card li {
+            font-size: 1.1rem !important;
+            margin-bottom: 0.5rem !important;
+        }
+        .insight-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .insight-box p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .insight-box strong {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide content-slide">
+        <h2>Socio-Technical Consistency</h2>
+        <div class="content-area">
+            <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">What happens when required coordination <strong>doesn't happen</strong>?</p>
+
+            <div class="outcome-cards">
+                <div class="outcome-card poor-design">
+                    <div class="card-icon">&#x26A0;</div>
+                    <h3>Poor Design</h3>
+                    <ul>
+                        <li>System still works, but less well</li>
+                        <li>Performance degrades</li>
+                        <li>Features conflict</li>
+                        <li>Technical debt accumulates</li>
+                    </ul>
+                </div>
+                <div class="outcome-card defects">
+                    <div class="card-icon">&#x2718;</div>
+                    <h3>Defects</h3>
+                    <ul>
+                        <li>System breaks</li>
+                        <li>Changes from one team break another team's code</li>
+                        <li>Integration failures</li>
+                        <li>Production incidents</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <p>You can observe this empirically by comparing <strong>module dependencies</strong> (technical) against <strong>team communication patterns</strong> (social). Divergences correlate with defects.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Design for Change</span>
+            <span class="slide-number">14 / 34</span>
+        </div>
+    </div>
+
+    <script type="text/speaker-notes">
+        <p>Research has shown that when technical dependencies exist between modules owned by different teams, but those teams don't communicate, defects are significantly more likely.</p>
+    </script>
+    <script src="../../shared/js/navigation.js"></script>
+</body>
+</html>
+
