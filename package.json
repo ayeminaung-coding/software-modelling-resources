@@ -1,0 +1,17 @@
+{
+  "name": "software-modelling-lessons",
+  "private": true,
+  "version": "1.0.0",
+  "description": "PDF export tools for software modelling lesson slides",
+  "scripts": {
+    "export:analysing": "node scripts/export-lessons-pdf.js analysing-architecture",
+    "export:architecture": "node scripts/export-lessons-pdf.js analysing-architecture",
+    "export:change": "node scripts/export-lessons-pdf.js design-for-change",
+    "export:intelligent": "node scripts/export-lessons-pdf.js design-for-intelligent",
+    "export:scale": "node scripts/export-lessons-pdf.js design-for-scale",
+    "export:all": "node scripts/export-lessons-pdf.js all"
+  },
+  "dependencies": {
+    "puppeteer": "^24.8.2"
+  }
+}

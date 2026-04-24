@@ -28,35 +28,48 @@ function getSlideFiles() {
     .map((name) => path.join(SLIDES_DIR, name));
 }
 
+function loadCssText() {
+  return fs.readFileSync(SHARED_CSS, 'utf8');
+}
+
 async function collectSlides(page, slideFiles) {
   const slides = [];
 
   for (const filePath of slideFiles) {
     const fileUrl = pathToFileURL(filePath).href;
     await page.goto(fileUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    await page.waitForNetworkIdle({ idleTime: 150, timeout: 1500 }).catch(() => {});
+    await page.waitForFunction(() => document.readyState === 'complete', { timeout: 1500 }).catch(() => {});
 
-    const slideHtml = await page.evaluate(() => {
+    const slideData = await page.evaluate(() => {
       const slide = document.querySelector('.slide');
-      if (!slide) {
-        return null;
-      }
-      return slide.outerHTML;
+      const inlineStyleText = Array.from(document.querySelectorAll('head style'))
+        .map((styleEl) => styleEl.textContent || '')
+        .join('\n');
+
+      return {
+        slideHtml: slide ? slide.outerHTML : null,
+        inlineStyleText
+      };
     });
 
-    if (!slideHtml) {
+    if (!slideData || !slideData.slideHtml) {
       throw new Error(`No .slide element found in ${path.basename(filePath)}`);
     }
 
-    slides.push(slideHtml);
+    slides.push(slideData);
   }
 
   return slides;
 }
 
-function buildCombinedDocument(slides) {
-  const cssUrl = pathToFileURL(SHARED_CSS).href;
+function buildCombinedDocument(cssText, slides) {
   const pages = slides
-    .map((html) => `<section class=\"pdf-page\">${html}</section>`)
+    .map((slideData) => {
+      const localStyles = slideData.inlineStyleText || '';
+      const styleBlock = localStyles.trim() ? `<style>${localStyles}</style>` : '';
+      return `<section class=\"pdf-page\">${styleBlock}${slideData.slideHtml}</section>`;
+    })
     .join('\n');
 
   return `<!doctype html>
@@ -65,8 +78,9 @@ function buildCombinedDocument(slides) {
   <meta charset=\"utf-8\" />
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />
   <title>Achieving Quality Attributes - Combined PDF</title>
-  <link rel=\"stylesheet\" href=\"${cssUrl}\" />
   <style>
+    ${cssText}
+
     @page {
       size: 13.333in 7.5in;
       margin: 0;
@@ -123,6 +137,7 @@ async function run() {
   if (slideFiles.length === 0) {
     throw new Error(`No slide HTML files found in ${SLIDES_DIR}`);
   }
+  const cssText = loadCssText();
 
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
@@ -130,13 +145,25 @@ async function run() {
   try {
     const page = await browser.newPage();
     await page.setViewport({ width: 1366, height: 768 });
-    // Disable runtime slide navigation scripts to keep export deterministic.
-    await page.setJavaScriptEnabled(false);
+    await page.setJavaScriptEnabled(true);
+    await page.setRequestInterception(true);
+    page.on('request', (request) => {
+      const requestUrl = request.url();
+      const shouldBlockNavigationScript =
+        request.resourceType() === 'script' && /\/shared\/js\/navigation\.js$/i.test(requestUrl);
+
+      if (shouldBlockNavigationScript) {
+        request.abort();
+        return;
+      }
+
+      request.continue();
+    });
 
     const slides = await collectSlides(page, slideFiles);
-    const combinedHtml = buildCombinedDocument(slides);
+    const combinedHtml = buildCombinedDocument(cssText, slides);
 
-    await page.setContent(combinedHtml, { waitUntil: 'networkidle0' });
+    await page.setContent(combinedHtml, { waitUntil: 'domcontentloaded' });
     await page.pdf({
       path: OUTPUT_FILE,
       printBackground: true,
