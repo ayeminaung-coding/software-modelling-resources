@@ -1,0 +1,14 @@
+# Dependencies
+**/node_modules/
+
+# Generated exports
+**/exports/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini

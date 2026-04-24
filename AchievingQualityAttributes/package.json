@@ -1,0 +1,12 @@
+{
+  "name": "achieving-quality-attributes",
+  "private": true,
+  "version": "1.0.0",
+  "description": "PDF export utility for Achieving Quality Attributes slides",
+  "scripts": {
+    "export:pdf": "node scripts/export-combined-pdf.js"
+  },
+  "dependencies": {
+    "puppeteer": "^24.8.2"
+  }
+}
